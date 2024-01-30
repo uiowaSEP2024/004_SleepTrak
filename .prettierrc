@@ -1,12 +1,10 @@
 {
   "semi": true,
-  "indent_style": false,
   "useTabs": false,
   "printWidth": 80,
   "singleQuote": true,
   "trailingComma": "none",
   "jsxSingleQuote": false,
-  "trailingComma": "all",
   "bracketSpacing": true,
   "bracketSameLine": true,
   "arrowParens": "always",
