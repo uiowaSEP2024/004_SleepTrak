@@ -11,11 +11,13 @@ We are documenting our project/resources on our [Team Wiki](https://team4wiki.no
 We are tracking the issues and managing sprints using
 [Jira](https://septeam4.atlassian.net/jira/software/projects/T4/boards/2/backlog?epics=visible&atlOrigin=eyJpIjoiMjI5ZmI5NDY0NjFmNGI2NmE0MWZjMTM1YTM0ZjQ5N2YiLCJwIjoiaiJ9).
 
+## Style Guide
+Please adhere to our [style guideline](https://team4wiki.notion.site/Style-Guidelines-43809883442946549a1b78e789297544?pvs=4) if you are contributing to this project.
 
 
 ## Authors
 - Dylan Laurianti (dylan-laurianti@uiowa.edu)
-- Mingi Lee (mingi-lee@uiowa.ed~u)
+- Mingi Lee (mingi-lee@uiowa.edu)
 - Sergio Martelo (sergio-martelo@uiowa.edu)
 - Haruko Okada (haruko-okada@uiowa.edu)
 
