@@ -7,6 +7,51 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Test {
-  id Int @id @default(autoincrement())
+model User {
+  userId      String  @id @default(uuid()) @db.Uuid
+  coach       User?   @relation(name: "client_coach", fields: [coachId], references: [userId])
+  coachId     String? @db.Uuid
+  clients     User[]  @relation(name: "client_coach")
+  role        String
+  events      Event[]
+  coach_plans Plan[]  @relation(name: "coach_plan")
+  user_plans  Plan[]  @relation(name: "client_plan")
+  Babies      Baby[]  @relation(name: "baby_parent")
 }
+
+model Event {
+  eventId   String   @id @default(uuid()) @db.Uuid
+  owner     User     @relation(fields: [ownerId], references: [userId])
+  ownerId   String   @db.Uuid
+  startTime DateTime @db.Timestamptz()
+  endTime   DateTime @db.Timestamptz()
+  type      String
+}
+
+model Plan {
+  planId   String @id @default(uuid()) @db.Uuid
+  client   User   @relation(name: "client_plan", fields: [clientId], references: [userId])
+  clientId String @db.Uuid
+  coach    User   @relation(name: "coach_plan", fields: [coachId], references: [userId])
+  coachId  String @db.Uuid
+}
+
+model Reminder {
+  reminderId  String   @id @default(uuid()) @db.Uuid
+  description String
+  timestamp   DateTime @db.Timestamptz()
+}
+
+model Baby {
+  babyId   String   @id @default(uuid()) @db.Uuid
+  parent   User     @relation(name: "baby_parent", fields: [parentId], references: [userId])
+  parentId String   @db.Uuid
+  name     String
+  dob      DateTime @db.Date
+  weight   Float
+  // We can make a medicine table if needed later
+  medicine String
+}
+
+// Will do this one when we are actually building the chat out.
+// model Message {}
