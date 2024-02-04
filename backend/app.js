@@ -9,6 +9,7 @@ var usersRouter = require('./routes/users');
 var plansRouter = require('./routes/plans');
 var eventsRouter = require('./routes/events');
 var babiesRouter = require('./routes/babies');
+var remindersRouter = require('./routes/reminders');
 
 // Starts app
 var app = express();
@@ -26,5 +27,6 @@ app.use('/users', usersRouter);
 app.use('/plans', plansRouter);
 app.use('/events', eventsRouter);
 app.use('/babies', babiesRouter);
+app.use('/reminders', remindersRouter);
 
 module.exports = app;
