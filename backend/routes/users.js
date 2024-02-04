@@ -11,13 +11,20 @@ router.get('/all', async (req, res) => {
   res.json(users)
 });
 
+router.get('/search', async (req, res) => {
+  const users = await prisma.user.findMany({
+    where: req.body
+  })
+  res.json(users)
+});
+
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
 
   const user = await prisma.user
     .findUnique({
       where: {
-        userId: Number(id),
+        userId: id,
       },
     });
   res.json(user);
