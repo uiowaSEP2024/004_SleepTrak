@@ -1,9 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var { PrismaClient } = require("@prisma/client");
-const { where } = require('sequelize');
-
-const prisma = new PrismaClient();
+var { prisma } = require("../prisma/client");
 
 router.get('/all', async (req, res) => {
   const users = await prisma.event.findMany()
