@@ -30,6 +30,27 @@ router.get('/:id', async (req, res) => {
   res.json(user);
 })
 
+router.get('/:id/reminders', async (req, res) => {
+  const { id } = req.params;
+
+  const user = await prisma.reminder
+    .findMany({
+      where: {
+        planId: id,
+      },
+    });
+  res.json(user);
+})
+
+router.post('/:id/reminders/create', async (req, res) => {
+  const { id } = req.params;
+  req.body.planId = id
+
+  const user = await prisma.reminder
+    .create(req.body);
+  res.json(user);
+})
+
 router.post('/create', async (req, res) => {
   const planParams = req.body;
   const result = await prisma.plan.create(planParams);
