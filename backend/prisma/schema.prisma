@@ -7,8 +7,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//TODO: deal with passwords
 model User {
   userId      String  @id @default(uuid()) @db.Uuid
+  name        String
+  email       String
   coach       User?   @relation(name: "client_coach", fields: [coachId], references: [userId])
   coachId     String? @db.Uuid
   clients     User[]  @relation(name: "client_coach")
@@ -53,5 +56,5 @@ model Baby {
   medicine String
 }
 
-// Will do this one when we are actually building the chat out.
+// TODO: Will do this one when we are actually building the chat out.
 // model Message {}
