@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var { Prisma, PrismaClient } = require("@prisma/client");
+var { PrismaClient } = require("@prisma/client");
 const { where } = require('sequelize');
 
 const prisma = new PrismaClient();
