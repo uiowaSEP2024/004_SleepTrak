@@ -10,8 +10,9 @@ datasource db {
 //TODO: deal with passwords
 model User {
   userId      String  @id @default(uuid()) @db.Uuid
-  name        String
-  email       String
+  first_name  String
+  last_name   String
+  email       String  @unique
   coach       User?   @relation(name: "client_coach", fields: [coachId], references: [userId])
   coachId     String? @db.Uuid
   clients     User[]  @relation(name: "client_coach")
