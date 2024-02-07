@@ -1,6 +1,8 @@
 const { prismaMock } = require('./mock_client');
 const service = require('../src/services/users');
 
+// Testing services
+
 test('should create new user ', async () => {
   const user = {
     first_name: 'Test',
@@ -14,20 +16,4 @@ test('should create new user ', async () => {
   await expect(service.create(user)).resolves.toEqual(user);
 });
 
-// test('should update a users first name ', async () => {
-//   const user = {
-//     id: 1,
-//     name: 'Rich Haines',
-//     email: 'hello@prisma.io',
-//     acceptTermsAndConditions: true
-//   };
-
-//   prismaMock.user.update.mockResolvedValue(user);
-
-//   await expect(updateUsername(user)).resolves.toEqual({
-//     id: 1,
-//     name: 'Rich Haines',
-//     email: 'hello@prisma.io',
-//     acceptTermsAndConditions: true
-//   });
-// });
+// Testing Controllers
