@@ -5,7 +5,10 @@ jest.mock('../prisma/client', () => {
   const prismaMock = mockDeep();
   return {
     __esModule: true,
-    prisma: prismaMock
+    prisma: prismaMock,
+    user: {
+      findMany: jest.fn()
+    }
   };
 });
 
