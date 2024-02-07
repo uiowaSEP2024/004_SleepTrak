@@ -40,4 +40,15 @@ describe('Test /users/all route', () => {
     expect(response.body).toEqual(mockUsers);
     expect(prismaMock.user.findMany).toHaveBeenCalledWith();
   });
+  test('GET /users/:id returns user with id :id', async () => {
+    const tid = 3;
+    prismaMock.user.findUnique.mockReturnValue(mockUsers[tid]);
+    const response = await request(app).get('/users/{tid}');
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual(mockUsers[tid]);
+    expect(response.body.id);
+    expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
+      where: { userId: '{tid}' }
+    });
+  });
 });
