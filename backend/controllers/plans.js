@@ -1,10 +1,10 @@
-const service = require('../services/babies');
+const service = require('../services/plans');
 
 module.exports = {
   getAll: async (req, res) => {
     try {
-      const babies = await service.getAll();
-      res.json(babies);
+      const plans = await service.getAll();
+      res.json(plans);
     } catch (err) {
       res.status(500).send(err);
     }
@@ -12,8 +12,8 @@ module.exports = {
   get: async (req, res) => {
     try {
       const { id } = req.params;
-      const baby = await service.get(id);
-      res.json(baby);
+      const plan = await service.get(id);
+      res.json(plan);
     } catch (err) {
       res.status(500).send(err);
     }
@@ -21,8 +21,8 @@ module.exports = {
   search: async (req, res) => {
     try {
       const searchParams = req.body;
-      const babies = await service.search(searchParams);
-      res.json(babies);
+      const plans = await service.search(searchParams);
+      res.json(plans);
     } catch (err) {
       res.status(500).send(err);
     }
@@ -34,40 +34,38 @@ module.exports = {
         throw new Error('Empty body');
       }
 
-      let babyData = {
-        name: creationParams.name,
-        dob: new Date(creationParams.date),
-        weight: creationParams.weight,
-        medicine: creationParams.medicine,
-        parent: { connect: { parentId: creationParams.parentId } }
+      planData = {
+        client: { connect: { userId: creationParams.clientId } },
+        coach: { connect: { userId: creationParams.coachId } },
+        status: creationParams.status
       };
 
-      const baby = await service.create(babyData);
-      res.json(baby);
+      const plan = await service.create(planData);
+      res.json(plan);
     } catch (err) {
       res.status(500).send(err);
     }
   },
   update: async (req, res) => {
     try {
-      const { babyId } = req.params;
+      const { planId } = req.params;
       const updateParams = req.body;
       if (updateParams.length == 0) {
         throw new Error('Empty body');
       }
 
-      const baby = await service.update(babyId, updateParams);
-      res.json(baby);
+      const plan = await service.update(planId, updateParams);
+      res.json(plan);
     } catch (err) {
       res.status(500).send(err);
     }
   },
   destroy: async (req, res) => {
     try {
-      const { babyId } = req.params;
+      const { planId } = req.params;
 
-      const baby = await service.destroy(babyId);
-      res.json(baby);
+      const plan = await service.destroy(planId);
+      res.json(plan);
     } catch (err) {
       res.status(500).send(err);
     }
