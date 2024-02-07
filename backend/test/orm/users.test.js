@@ -1,7 +1,5 @@
-const { prismaMock } = require('./mock_client');
-const service = require('../src/services/users');
-
-// Testing services
+const { prismaMock } = require('../mock_client');
+const service = require('../../src/services/users');
 
 test('should create new user ', async () => {
   const user = {
@@ -15,5 +13,3 @@ test('should create new user ', async () => {
 
   await expect(service.create(user)).resolves.toEqual(user);
 });
-
-// Testing Controllers
