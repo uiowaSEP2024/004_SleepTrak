@@ -33,9 +33,11 @@ describe('Test /users/all route', () => {
       role: 'client'
     }
   ];
-  test('it should respond to GET method', async () => {
+  test('GET /users returns all users', async () => {
     prismaMock.user.findMany.mockReturnValue(mockUsers);
     const response = await request(app).get('/users/all');
     expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual(mockUsers);
+    expect(prismaMock.user.findMany).toHaveBeenCalledWith();
   });
 });
