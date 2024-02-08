@@ -16,7 +16,6 @@ import QuestionAnswerRoundedIcon from '@mui/icons-material/QuestionAnswerRounded
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import ChildCareIcon from '@mui/icons-material/ChildCare';
 import PersonIcon from '@mui/icons-material/Person';
-import LogoutIcon from '@mui/icons-material/Logout';
 import ColorSchemeToggle from '../util/ColorSchemeToggle';
 import { closeSidebar } from '../util/utils';
 import { Link } from 'react-router-dom';
@@ -152,22 +151,6 @@ export default function Sidebar() {
                 variant="solid">
                 4
               </Chip>
-            </ListItemButton>
-          </ListItem>
-        </List>
-
-        <List
-          size="sm"
-          sx={{
-            mt: 'auto',
-            flexGrow: 0,
-            '--ListItem-radius': (theme) => theme.vars.radius.sm,
-            '--List-gap': '4px'
-          }}>
-          <ListItem>
-            <ListItemButton>
-              <LogoutIcon />
-              Logout
             </ListItemButton>
           </ListItem>
         </List>
