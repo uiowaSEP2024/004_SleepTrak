@@ -24,9 +24,9 @@ jobs:
     - name: Install dependencies  
       run: |
         cd web
-        npm ci
+        npm install
     - name: Run tests
-      run: npm test-web
+      run: npm run test-web
     
   mobile-test:
     name: Mobile Test
@@ -44,5 +44,5 @@ jobs:
           cd mobile
           npm install
       - name: Run tests
-        run: npm test-mobile
+        run: npm run test-mobile
 
