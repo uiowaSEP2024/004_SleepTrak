@@ -1,5 +1,6 @@
 {
   "name": "SleepTrak",
+  "private": true,
   "workspaces": [
     "web",
     "mobile",
