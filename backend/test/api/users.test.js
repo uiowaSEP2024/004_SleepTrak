@@ -95,8 +95,28 @@ describe('test /users/create route', () => {
 describe('test /users/:id/update route', () => {
   test('PUT /users/:id/update calls update and returns user', async () => {
     prismaMock.user.update.mockReturnValue(user);
-    const response = await request(app).put('/users/4/update');
+    const response = await request(app)
+      .put('/users/4/update')
+      .send({ first_name: 'Update' });
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual(user);
+    expect(prismaMock.user.update).toHaveBeenCalledWith({
+      data: {
+        first_name: 'Update'
+      },
+      where: { userId: '4' }
+    });
+  });
+});
+
+describe('test /users/:id/delete route', () => {
+  test('PUT /users/:id/delete calls delete and returns delete info', async () => {
+    prismaMock.user.delete.mockReturnValue(user);
+    const response = await request(app).delete('/users/4/delete');
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual(user);
+    expect(prismaMock.user.delete).toHaveBeenCalledWith({
+      where: { userId: '4' }
+    });
   });
 });
