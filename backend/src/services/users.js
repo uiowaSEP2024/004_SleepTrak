@@ -11,7 +11,6 @@ module.exports = {
     }
   },
   get: async (userId) => {
-    console.log(userId);
     try {
       const result = await prisma.user.findUnique({
         where: {
