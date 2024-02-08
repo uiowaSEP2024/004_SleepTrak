@@ -1,24 +1,20 @@
-import './App.css';
-import { Link, Route, Routes } from 'react-router-dom';
-import DashboardPage from './pages/DashboardPage';
+import { CssVarsProvider } from '@mui/joy/styles';
+import CssBaseline from '@mui/joy/CssBaseline';
+import Box from '@mui/joy/Box';
+
+import Sidebar from './components/Sidebar';
+import Header from './components/Header';
 
 function App() {
   return (
-    <>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/dashboard">Dashboard</Link>
-          </li>
-        </ul>
-      </nav>
-      <Routes>
-        <Route
-          path="/dashboard"
-          element={<DashboardPage />}
-        />
-      </Routes>
-    </>
+    <CssVarsProvider disableTransitionOnChange>
+      <CssBaseline />
+      <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
+        <Header />
+        <Sidebar />
+        {/* <DashboardPage /> */}
+      </Box>
+    </CssVarsProvider>
   );
 }
 
