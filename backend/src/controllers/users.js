@@ -31,7 +31,7 @@ module.exports = {
   create: async (req, res) => {
     try {
       const creationParams = req.body;
-      if (creationParams.length == 0) {
+      if (creationParams.length === 0) {
         throw new Error('Empty body');
       }
 
@@ -55,13 +55,13 @@ module.exports = {
   },
   update: async (req, res) => {
     try {
-      const { userId } = req.params;
+      const { id } = req.params;
       const updateParams = req.body;
-      if (updateParams.length == 0) {
+      if (updateParams.length === 0) {
         throw new Error('Empty body');
       }
 
-      const user = await service.update(userId, updateParams);
+      const user = await service.update(id, updateParams);
       res.json(user);
     } catch (err) {
       res.status(500).send(err);
@@ -69,9 +69,9 @@ module.exports = {
   },
   destroy: async (req, res) => {
     try {
-      const { userId } = req.params;
+      const { id } = req.params;
 
-      const user = await service.destroy(userId);
+      const user = await service.destroy(id);
       res.json(user);
     } catch (err) {
       res.status(500).send(err);
