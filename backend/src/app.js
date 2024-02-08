@@ -1,7 +1,10 @@
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors');
+var dotenv = require('dotenv');
+
+dotenv.config();
 
 // Routes
 var indexRouter = require('./routes/index');
@@ -18,7 +21,6 @@ var app = express();
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Sets routes
@@ -28,5 +30,10 @@ app.use('/plans', plansRouter);
 app.use('/events', eventsRouter);
 app.use('/babies', babiesRouter);
 app.use('/reminders', remindersRouter);
-
+// Security configurations
+app.use(
+  cors({
+    origin: [process.env.CALLBACK_URL, 'http://localhost:3000'] // Replace with allowed origins
+  })
+);
 module.exports = app;
