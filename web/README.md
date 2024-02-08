@@ -1,30 +1,21 @@
-# React + TypeScript + Vite
+## Start Dev Server
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+To start a development server locally, run
 
-Currently, two official plugins are available:
+    npm run dev
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Project Structure
 
-## Expanding the ESLint configuration
+├── src
+│ ├── assets (directory for images etc)
+│ ├── components (directory for resuable react components)
+│ ├── pages (directory for rendering pages)
+│ ├── util (directory for util typescript files)
+│ ├── index.css
+│ ├── main.tsx
+│ ├── App.css (the main css file)
+│ ├── App.tsx (the entry point of the program. you define routes here)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Adding a New Page
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+To add a new page, create a new tsx file under pages directory. Then add a route in App.tsx as a child of the Root route. Your new page will be displayed next to the sidebar.
