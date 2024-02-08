@@ -1,7 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var controller = require('../controllers/events');
+var auth = require('../services/auth');
 
+// Protecting routes with auth0
+router.use(auth.requireAuth);
+
+// Routes
 router.get('/all', controller.getAll);
 router.get('/search', controller.search);
 router.get('/:id', controller.get);
