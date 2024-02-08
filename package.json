@@ -28,6 +28,7 @@
   },
   "scripts": {
     "lint": "eslint .",
+    "test": "cd web; npm test; cd ..",
     "lint:fix": "eslint --fix",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json' --confid ./.prettierrc"
   }
