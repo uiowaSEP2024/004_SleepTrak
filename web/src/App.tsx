@@ -1,21 +1,30 @@
-import { CssVarsProvider } from '@mui/joy/styles';
-import CssBaseline from '@mui/joy/CssBaseline';
-import Box from '@mui/joy/Box';
+import './App.css';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import ErrorPage from './pages/ErrorPage';
+import DashboardPage from './pages/DashboardPage';
+import Root from './components/Root';
+import ClientsPage from './pages/ClientsPage';
 
-import Sidebar from './components/Sidebar';
-import Header from './components/Header';
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Root />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: '/dashboard',
+        element: <DashboardPage />
+      },
+      {
+        path: '/clients',
+        element: <ClientsPage />
+      }
+    ]
+  }
+]);
 
 function App() {
-  return (
-    <CssVarsProvider disableTransitionOnChange>
-      <CssBaseline />
-      <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
-        <Header />
-        <Sidebar />
-        {/* <DashboardPage /> */}
-      </Box>
-    </CssVarsProvider>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
