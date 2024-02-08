@@ -31,9 +31,7 @@ jobs:
         cd web
         npm ci
     - name: Run tests
-      run: |
-        cd web
-        npm test
+      run: npm test-web
     
   mobile-test:
     name: Mobile Test
@@ -51,7 +49,5 @@ jobs:
           cd mobile
           npm install
       - name: Run tests
-        run: |
-          cd mobile
-          npm test
+        run: npm test-mobile
 
