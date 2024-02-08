@@ -1,4 +1,4 @@
-var { prisma } = require('../../prisma/client');
+const { prisma } = require('../../prisma/client');
 
 module.exports = {
   getAll: async (eventId) => {
@@ -11,11 +11,10 @@ module.exports = {
     }
   },
   get: async (eventId) => {
-    console.log(eventId);
     try {
       const result = await prisma.event.findUnique({
         where: {
-          eventId: eventId
+          eventId
         }
       });
 
@@ -46,9 +45,9 @@ module.exports = {
   },
   update: async (eventId, valuesToUpdate) => {
     try {
-      const result = await prisma.user.update({
+      const result = await prisma.event.update({
         where: {
-          eventId: eventId
+          eventId
         },
         data: valuesToUpdate
       });
@@ -62,7 +61,7 @@ module.exports = {
     try {
       const result = await prisma.event.delete({
         where: {
-          eventId: eventId
+          eventId
         }
       });
 
