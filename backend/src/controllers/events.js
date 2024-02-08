@@ -30,13 +30,13 @@ module.exports = {
   create: async (req, res) => {
     try {
       const creationParams = req.body;
-      if (creationParams.length == 0) {
+      if (creationParams.length === 0) {
         throw new Error('Empty body');
       }
 
-      eventData = {
+      const eventData = {
         owner: { connect: { userId: creationParams.userId } },
-        startTime: creationParams.startTimeßßß,
+        startTime: creationParams.startTime,
         endTime: creationParams.endTime,
         type: creationParams.type
       };
@@ -49,13 +49,13 @@ module.exports = {
   },
   update: async (req, res) => {
     try {
-      const { eventId } = req.params;
+      const { id } = req.params;
       const updateParams = req.body;
-      if (updateParams.length == 0) {
+      if (updateParams.length === 0) {
         throw new Error('Empty body');
       }
 
-      const event = await service.update(eventId, updateParams);
+      const event = await service.update(id, updateParams);
       res.json(event);
     } catch (err) {
       res.status(500).send(err);
@@ -63,9 +63,9 @@ module.exports = {
   },
   destroy: async (req, res) => {
     try {
-      const { eventId } = req.params;
+      const { id } = req.params;
 
-      const event = await service.destroy(eventId);
+      const event = await service.destroy(id);
       res.json(event);
     } catch (err) {
       res.status(500).send(err);
