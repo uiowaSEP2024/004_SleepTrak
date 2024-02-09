@@ -30,11 +30,11 @@ module.exports = {
   create: async (req, res) => {
     try {
       const creationParams = req.body;
-      if (creationParams.length == 0) {
+      if (creationParams.length === 0) {
         throw new Error('Empty body');
       }
 
-      let babyData = {
+      const babyData = {
         name: creationParams.name,
         dob: new Date(creationParams.date),
         weight: creationParams.weight,
@@ -50,13 +50,13 @@ module.exports = {
   },
   update: async (req, res) => {
     try {
-      const { babyId } = req.params;
+      const { id } = req.params;
       const updateParams = req.body;
-      if (updateParams.length == 0) {
+      if (updateParams.length === 0) {
         throw new Error('Empty body');
       }
 
-      const baby = await service.update(babyId, updateParams);
+      const baby = await service.update(id, updateParams);
       res.json(baby);
     } catch (err) {
       res.status(500).send(err);
@@ -64,9 +64,9 @@ module.exports = {
   },
   destroy: async (req, res) => {
     try {
-      const { babyId } = req.params;
+      const { id } = req.params;
 
-      const baby = await service.destroy(babyId);
+      const baby = await service.destroy(id);
       res.json(baby);
     } catch (err) {
       res.status(500).send(err);
