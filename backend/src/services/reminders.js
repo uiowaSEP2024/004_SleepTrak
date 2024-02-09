@@ -1,4 +1,4 @@
-var { prisma } = require('../../prisma/client');
+const { prisma } = require('../../prisma/client');
 
 module.exports = {
   getAll: async (reminderId) => {
@@ -15,7 +15,7 @@ module.exports = {
     try {
       const result = await prisma.reminder.findUnique({
         where: {
-          reminderId: reminderId
+          reminderId
         }
       });
 
@@ -46,9 +46,9 @@ module.exports = {
   },
   update: async (reminderId, valuesToUpdate) => {
     try {
-      const result = await prisma.user.update({
+      const result = await prisma.reminder.update({
         where: {
-          reminderId: reminderId
+          reminderId
         },
         data: valuesToUpdate
       });
@@ -62,7 +62,7 @@ module.exports = {
     try {
       const result = await prisma.reminder.delete({
         where: {
-          reminderId: reminderId
+          reminderId
         }
       });
 
