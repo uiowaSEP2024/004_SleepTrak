@@ -13,7 +13,6 @@ const plansRouter = require('./routes/plans');
 const eventsRouter = require('./routes/events');
 const babiesRouter = require('./routes/babies');
 const remindersRouter = require('./routes/reminders');
-const authRouter = require('./routes/auth');
 
 // Starts app
 const app = express();
@@ -38,6 +37,5 @@ app.use('/plans', plansRouter);
 app.use('/events', eventsRouter);
 app.use('/babies', babiesRouter);
 app.use('/reminders', remindersRouter);
-app.use('/auth', authRouter);
 
 module.exports = app;
