@@ -30,11 +30,11 @@ module.exports = {
   create: async (req, res) => {
     try {
       const creationParams = req.body;
-      if (creationParams.length == 0) {
+      if (creationParams.length === 0) {
         throw new Error('Empty body');
       }
 
-      reminderData = {
+      const reminderData = {
         plan: { connect: { planId: creationParams.planId } },
         timestamp: creationParams.timestamp,
         description: creationParams.description
@@ -48,13 +48,13 @@ module.exports = {
   },
   update: async (req, res) => {
     try {
-      const { reminderId } = req.params;
+      const { id } = req.params;
       const updateParams = req.body;
-      if (updateParams.length == 0) {
+      if (updateParams.length === 0) {
         throw new Error('Empty body');
       }
 
-      const reminder = await service.update(reminderId, updateParams);
+      const reminder = await service.update(id, updateParams);
       res.json(reminder);
     } catch (err) {
       res.status(500).send(err);
@@ -62,9 +62,9 @@ module.exports = {
   },
   destroy: async (req, res) => {
     try {
-      const { reminderId } = req.params;
+      const { id } = req.params;
 
-      const reminder = await service.destroy(reminderId);
+      const reminder = await service.destroy(id);
       res.json(reminder);
     } catch (err) {
       res.status(500).send(err);
