@@ -1,5 +1,6 @@
 {
   "name": "SleepTrak",
+  "private": true,
   "workspaces": [
     "web",
     "mobile",
@@ -28,7 +29,9 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "test": "cd web; npm test; cd ..",
+    "test-web": "cd web && npm test",
+    "test-mobile": "cd mobile && npm test",
+    "test": "npm run test-web && npm run test-mobile",
     "lint:fix": "eslint --fix",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json' --confid ./.prettierrc"
   }
