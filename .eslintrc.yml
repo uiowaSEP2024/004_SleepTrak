@@ -19,6 +19,7 @@ rules:
   react/react-in-jsx-scope: [off]
   '@typescript-eslint/no-var-requires': off
   '@typescript-eslint/strict-boolean-expressions': off
+  '@typescript-eslint/no-unsafe-argument': off
 settings:
   react:
     version: 'detect'
