@@ -11,7 +11,6 @@ module.exports = {
     }
   },
   get: async (babyId) => {
-    console.log(babyId);
     try {
       const result = await prisma.baby.findUnique({
         where: {

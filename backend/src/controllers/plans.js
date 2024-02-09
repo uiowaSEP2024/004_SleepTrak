@@ -30,11 +30,11 @@ module.exports = {
   create: async (req, res) => {
     try {
       const creationParams = req.body;
-      if (creationParams.length == 0) {
+      if (creationParams.length === 0) {
         throw new Error('Empty body');
       }
 
-      planData = {
+      const planData = {
         client: { connect: { userId: creationParams.clientId } },
         coach: { connect: { userId: creationParams.coachId } },
         status: creationParams.status
@@ -48,13 +48,13 @@ module.exports = {
   },
   update: async (req, res) => {
     try {
-      const { planId } = req.params;
+      const { id } = req.params;
       const updateParams = req.body;
-      if (updateParams.length == 0) {
+      if (updateParams.length === 0) {
         throw new Error('Empty body');
       }
 
-      const plan = await service.update(planId, updateParams);
+      const plan = await service.update(id, updateParams);
       res.json(plan);
     } catch (err) {
       res.status(500).send(err);
@@ -62,9 +62,9 @@ module.exports = {
   },
   destroy: async (req, res) => {
     try {
-      const { planId } = req.params;
+      const { id } = req.params;
 
-      const plan = await service.destroy(planId);
+      const plan = await service.destroy(id);
       res.json(plan);
     } catch (err) {
       res.status(500).send(err);
