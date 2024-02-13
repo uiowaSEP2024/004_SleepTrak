@@ -37,7 +37,8 @@ export default function Header() {
         onClick={() => toggleSidebar()}
         variant="outlined"
         color="neutral"
-        size="sm">
+        size="sm"
+        data-testid="toggle-sidebar-button">
         <MenuIcon />
       </IconButton>
     </Sheet>
