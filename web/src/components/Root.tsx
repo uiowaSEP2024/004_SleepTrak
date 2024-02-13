@@ -1,4 +1,3 @@
-import { CssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
 import Sidebar from './Sidebar';
@@ -7,7 +6,7 @@ import { Outlet } from 'react-router-dom';
 
 export default function Root() {
   return (
-    <CssVarsProvider disableTransitionOnChange>
+    <>
       <CssBaseline />
       <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
         <Sidebar />
@@ -33,6 +32,6 @@ export default function Root() {
           <Outlet />
         </Box>
       </Box>
-    </CssVarsProvider>
+    </>
   );
 }
