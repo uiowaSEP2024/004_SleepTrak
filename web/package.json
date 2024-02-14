@@ -9,7 +9,7 @@
     "test": "jest",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "coverage": "yarn test --coverage --watchAll --collectCoverageFrom=src/components/**/*.{ts,tsx}"
+    "coverage": "yarn test --coverage --watchAll --coverageReporters=cobertura --collectCoverageFrom=src/components/**/*.{ts,tsx}"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
