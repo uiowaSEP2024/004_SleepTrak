@@ -6,7 +6,8 @@
     "build": "tsc && vite build",
     "test": "jest",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "coverage": "yarn test --coverage --watchAll --collectCoverageFrom=src/components/**/*.{ts,tsx}"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
