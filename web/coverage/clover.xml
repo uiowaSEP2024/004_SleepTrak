@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1707889771924" clover="3.2.0">
+  <project timestamp="1707889771924" name="All files">
+    <metrics statements="42" coveredstatements="41" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="7" elements="50" coveredelements="48" complexity="0" loc="42" ncloc="42" packages="1" files="3" classes="3"/>
+    <file name="Header.tsx" path="/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/web/src/components/Header.tsx">
+      <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
+      <line num="1" count="2" type="stmt"/>
+      <line num="2" count="2" type="stmt"/>
+      <line num="3" count="2" type="stmt"/>
+      <line num="4" count="2" type="stmt"/>
+      <line num="6" count="2" type="stmt"/>
+      <line num="8" count="2" type="stmt"/>
+      <line num="9" count="4" type="stmt"/>
+      <line num="27" count="4" type="stmt"/>
+      <line num="37" count="1" type="stmt"/>
+    </file>
+    <file name="Root.tsx" path="/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/web/src/components/Root.tsx">
+      <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <line num="1" count="1" type="stmt"/>
+      <line num="2" count="1" type="stmt"/>
+      <line num="3" count="1" type="stmt"/>
+      <line num="4" count="1" type="stmt"/>
+      <line num="5" count="1" type="stmt"/>
+      <line num="7" count="1" type="stmt"/>
+      <line num="8" count="1" type="stmt"/>
+    </file>
+    <file name="Sidebar.tsx" path="/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/web/src/components/Sidebar.tsx">
+      <metrics statements="26" coveredstatements="25" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="3"/>
+      <line num="1" count="2" type="stmt"/>
+      <line num="2" count="2" type="stmt"/>
+      <line num="3" count="2" type="stmt"/>
+      <line num="4" count="2" type="stmt"/>
+      <line num="5" count="2" type="stmt"/>
+      <line num="6" count="2" type="stmt"/>
+      <line num="7" count="2" type="stmt"/>
+      <line num="8" count="2" type="stmt"/>
+      <line num="9" count="2" type="stmt"/>
+      <line num="10" count="2" type="stmt"/>
+      <line num="11" count="2" type="stmt"/>
+      <line num="12" count="2" type="stmt"/>
+      <line num="13" count="2" type="stmt"/>
+      <line num="14" count="2" type="stmt"/>
+      <line num="15" count="2" type="stmt"/>
+      <line num="16" count="2" type="stmt"/>
+      <line num="17" count="2" type="stmt"/>
+      <line num="18" count="2" type="stmt"/>
+      <line num="19" count="2" type="stmt"/>
+      <line num="20" count="2" type="stmt"/>
+      <line num="21" count="2" type="stmt"/>
+      <line num="25" count="2" type="stmt"/>
+      <line num="26" count="14" type="stmt"/>
+      <line num="50" count="14" type="stmt"/>
+      <line num="76" count="0" type="stmt"/>
+      <line num="105" count="14" type="stmt"/>
+    </file>
+  </project>
+</coverage>
