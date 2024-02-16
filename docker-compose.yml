@@ -1,0 +1,10 @@
+services:
+  web:
+    build:
+      context: ./backend
+    volumes:
+      - ./:/backend
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development
