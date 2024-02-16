@@ -1,10 +1,12 @@
 services:
-  web:
+  backend:
     build:
       context: ./backend
     volumes:
       - ./:/backend
     ports:
       - '3000:3000'
+    env_file:
+      - ./backend/.env
     environment:
       - NODE_ENV=development
