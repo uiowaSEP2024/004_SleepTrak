@@ -1,10 +1,14 @@
 import React from 'react';
-import { Text, StyleSheet, SafeAreaView } from 'react-native';
+import { StyleSheet, SafeAreaView } from 'react-native';
+import NavigationButton from '../components/buttons/NavigationButton';
 
 function Home() {
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Home!</Text>
+      <NavigationButton
+        onPress={() => console.log('Pressed')}
+        title="Log Sleep"
+      />
     </SafeAreaView>
   );
 }
