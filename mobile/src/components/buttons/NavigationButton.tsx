@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { TouchableRipple, Text } from 'react-native-paper';
 
 interface Props {
@@ -19,7 +19,13 @@ const NavigationButton: React.FC<Props> = ({ onPress, title }) => {
 
 const styles = StyleSheet.create({
   buttonLayout: {
-    padding: 10
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: 'gray',
+    width: Dimensions.get('window').width * 0.8,
+    height: 100,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 
