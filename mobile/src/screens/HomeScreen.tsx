@@ -2,11 +2,11 @@ import React from 'react';
 import { StyleSheet, SafeAreaView } from 'react-native';
 import NavigationButton from '../components/buttons/NavigationButton';
 
-function Home() {
+function Home({ navigation }: { navigation: any }) {
   return (
     <SafeAreaView style={styles.container}>
       <NavigationButton
-        onPress={() => console.log('Pressed')}
+        onPress={() => navigation.navigate('SleepTimer')}
         title="Log Sleep"
       />
     </SafeAreaView>
