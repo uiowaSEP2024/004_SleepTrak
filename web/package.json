@@ -2,13 +2,14 @@
   "name": "web",
   "version": "1.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 3000",
     "build": "tsc && vite build",
     "test": "jest",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^2.2.4",
     "@babel/core": "^7.23.9",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
