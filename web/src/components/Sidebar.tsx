@@ -3,7 +3,6 @@ import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/joy/Box';
 import Chip from '@mui/joy/Chip';
 import Divider from '@mui/joy/Divider';
-import IconButton from '@mui/joy/IconButton';
 import List from '@mui/joy/List';
 import ListItem from '@mui/joy/ListItem';
 import ListItemButton, { listItemButtonClasses } from '@mui/joy/ListItemButton';
@@ -12,13 +11,13 @@ import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import QuestionAnswerRoundedIcon from '@mui/icons-material/QuestionAnswerRounded';
-import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import ChildCareIcon from '@mui/icons-material/ChildCare';
 import PersonIcon from '@mui/icons-material/Person';
 import ColorSchemeToggle from '../util/ColorSchemeToggle';
 import { closeSidebar } from '../util/utils';
 import { Link } from 'react-router-dom';
 import { CssVarsProvider } from '@mui/joy/styles';
+import { LogoutButton } from './auth';
 
 // This sidebar uses a template from MUI (https://mui.com/joy-ui/getting-started/templates/)
 
@@ -169,13 +168,7 @@ export default function Sidebar() {
           <Box sx={{ minWidth: 0, flex: 1 }}>
             <Typography level="title-sm">Mingi Lee</Typography>
           </Box>
-          <IconButton
-            size="sm"
-            variant="plain"
-            color="neutral"
-            data-testid="logout-button">
-            <LogoutRoundedIcon />
-          </IconButton>
+          <LogoutButton />
         </Box>
       </Sheet>
     </CssVarsProvider>
