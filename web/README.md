@@ -2,19 +2,19 @@
 
 To start a development server locally, run
 
-    npm run dev
+    yarn run dev
 
 ## Project Structure
 
-├── src
-│ ├── assets (directory for images etc)
-│ ├── components (directory for resuable react components)
-│ ├── pages (directory for rendering pages)
-│ ├── util (directory for util typescript files)
-│ ├── index.css
-│ ├── main.tsx
-│ ├── App.css (the main css file)
-│ ├── App.tsx (the entry point of the program. you define routes here)
+- src
+  - assets (directory for images etc)
+  - components (directory for reusable React components)
+  - pages (directory for rendering pages)
+  - util (directory for utility TypeScript files)
+  - index.css
+  - main.tsx
+  - App.css (the main CSS file)
+  - App.tsx (the entry point of the program where you define routes)
 
 ## Adding a New Page
 
