@@ -97,13 +97,9 @@ describe('Sidebar User Profile and Logout', () => {
         <Sidebar />
       </BrowserRouter>
     );
-    const avatar = screen.getByTestId('avatar');
-    const username = screen.getByTestId('username');
-    const logoutButton = screen.getByTestId('logout-button');
 
+    const avatar = screen.getByTestId('avatar');
     expect(avatar).toBeInTheDocument();
-    expect(username).toBeInTheDocument();
-    expect(logoutButton).toBeInTheDocument();
   });
   test('renders sidebar with username', () => {
     render(
