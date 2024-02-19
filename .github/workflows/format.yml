@@ -1,0 +1,25 @@
+name: Autoformat & Linting
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: yarn install
+      - name: Run Prettier
+        run: yarn format
+      - name: Fail if formatting issues found
+
+        run: |
+          git diff --cached | grep prettier && exit 1
