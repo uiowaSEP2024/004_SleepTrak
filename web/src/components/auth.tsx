@@ -82,6 +82,9 @@ export const GetUserInfo = () => {
 };
 
 /**
+EXAMPLE USAGE:
+
+//// Getting token from Auth0 for API in a component
 function ComponentThatUsesToken() {
   const [token, setToken] = useState("");
   const { getAccessTokenSilently} = useAuth0();
@@ -100,5 +103,27 @@ function ComponentThatUsesToken() {
   }, [getAccessTokenSilently]);
 
   return <h1>token: {token ? token : "No token"}</h1>;
+}
+
+//// Making API call with token in a component
+function ComponentThatMakesApiCall() {
+  const [apiData, setApiData] = useState("");
+  const { getAccessTokenSilently} = useAuth0();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = await getAccessTokenSilently();
+      const response = await fetch("https://api.example.com/data", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      setApiData(data);
+    };
+    fetchData();
+  }, [getAccessTokenSilently]);
+
+  return <h1>api data: {apiData ? apiData : "No data"}</h1>;
 }
 */
