@@ -20,6 +20,5 @@ jobs:
       - name: Run Prettier
         run: yarn format
       - name: Fail if formatting issues found
-
         run: |
           git diff --cached | grep prettier && exit 1
