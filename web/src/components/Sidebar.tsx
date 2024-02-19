@@ -17,11 +17,12 @@ import ColorSchemeToggle from '../util/ColorSchemeToggle';
 import { closeSidebar } from '../util/utils';
 import { Link } from 'react-router-dom';
 import { CssVarsProvider } from '@mui/joy/styles';
-import { LogoutButton } from './auth';
+import { LogoutButton, GetUserInfo } from './auth';
 
 // This sidebar uses a template from MUI (https://mui.com/joy-ui/getting-started/templates/)
 
 export default function Sidebar() {
+  const userInfo = GetUserInfo();
   return (
     <CssVarsProvider disableTransitionOnChange>
       <Sheet
@@ -166,7 +167,9 @@ export default function Sidebar() {
             data-testid="avatar"
           />
           <Box sx={{ minWidth: 0, flex: 1 }}>
-            <Typography level="title-sm">Mingi Lee</Typography>
+            <Typography level="title-sm">
+              {userInfo?.email?.split('@')[0]}
+            </Typography>
           </Box>
           <LogoutButton />
         </Box>
