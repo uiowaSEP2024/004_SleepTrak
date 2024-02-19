@@ -6,7 +6,6 @@ import Root from './components/Root';
 import ClientsPage from './pages/ClientsPage';
 import BabiesPage from './pages/Babies';
 import MessagesPage from './pages/Messages';
-import LoginPage from './pages/Login';
 import {
   Auth0ProviderWithRedirectCallback,
   ProtectedRoute
@@ -24,13 +23,10 @@ function App() {
         redirectUri={window.location.origin}>
         <Routes>
           <Route
-            path="/login"
-            element={<LoginPage />}
-          />
-          <Route
             path="*"
             element={<ErrorPage />}
           />
+          {/* if you need a route that is not auth protected, then make a <route></route> element outside of this one. */}
           <Route
             path="/"
             element={<ProtectedRoute component={Root} />}>

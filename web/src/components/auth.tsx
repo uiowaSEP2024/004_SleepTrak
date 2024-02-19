@@ -5,10 +5,11 @@ import {
   useAuth0,
   withAuthenticationRequired
 } from '@auth0/auth0-react';
-import { IconButton, Button } from '@mui/joy';
+import { IconButton } from '@mui/joy';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { useNavigate } from 'react-router-dom';
 import { ReactNode } from 'react';
+
 interface Auth0ProviderProps {
   children: ReactNode;
   domain: string;
@@ -17,6 +18,9 @@ interface Auth0ProviderProps {
 }
 interface AppState {
   returnTo?: string;
+}
+interface ProtectedRouteProps extends WithAuthenticationRequiredOptions {
+  component: React.ComponentType;
 }
 
 export const LogoutButton: React.FC = () => {
@@ -39,16 +43,6 @@ export const LogoutButton: React.FC = () => {
     </IconButton>
   );
 };
-
-export const LoginButton: React.FC = () => {
-  const { loginWithRedirect } = useAuth0();
-
-  return <Button onClick={() => loginWithRedirect()}>Log In</Button>;
-};
-
-interface ProtectedRouteProps extends WithAuthenticationRequiredOptions {
-  component: React.ComponentType;
-}
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   component,
