@@ -8,6 +8,28 @@ import '@testing-library/jest-dom';
 import { BrowserRouter } from 'react-router-dom';
 import '../../util/setupDomTests';
 import Sidebar from '../../components/Sidebar';
+import { useAuth0 } from '@auth0/auth0-react';
+
+jest.mock('@auth0/auth0-react');
+
+// Mock user
+const user = {
+  email: 'johndoe@example.com',
+  sub: 'auth0|1234567890'
+};
+
+let logoutMock: jest.Mock;
+
+beforeEach(() => {
+  logoutMock = jest.fn();
+
+  // Mock the useAuth0 hook before each test
+  (useAuth0 as jest.Mock).mockReturnValue({
+    user,
+    logout: logoutMock
+    // Add any other functions or properties that your component uses from useAuth0
+  });
+});
 
 describe('Sidebar Title and Night Mode Toggle Button', () => {
   test('renders sidebar with correct title', () => {
@@ -76,7 +98,7 @@ describe('Sidebar User Profile and Logout', () => {
       </BrowserRouter>
     );
     const avatar = screen.getByTestId('avatar');
-    const username = screen.getByText(/mingi lee/i);
+    const username = screen.getByTestId('username');
     const logoutButton = screen.getByTestId('logout-button');
 
     expect(avatar).toBeInTheDocument();
@@ -90,7 +112,7 @@ describe('Sidebar User Profile and Logout', () => {
       </BrowserRouter>
     );
 
-    const username = screen.getByText(/mingi lee/i);
+    const username = screen.getByTestId('username');
     expect(username).toBeInTheDocument();
   });
   test('renders sidebar with log-out button', () => {
@@ -102,5 +124,17 @@ describe('Sidebar User Profile and Logout', () => {
 
     const logoutButton = screen.getByTestId('logout-button');
     expect(logoutButton).toBeInTheDocument();
+  });
+  test('pressing log-out button calls auth0 logout function', () => {
+    render(
+      <BrowserRouter>
+        <Sidebar />
+      </BrowserRouter>
+    );
+
+    const logoutButton = screen.getByTestId('logout-button');
+    logoutButton.click();
+
+    expect(logoutMock).toHaveBeenCalled();
   });
 });

@@ -167,7 +167,9 @@ export default function Sidebar() {
             data-testid="avatar"
           />
           <Box sx={{ minWidth: 0, flex: 1 }}>
-            <Typography level="title-sm">
+            <Typography
+              level="title-sm"
+              data-testid="username">
               {userInfo?.email?.split('@')[0]}
             </Typography>
           </Box>
