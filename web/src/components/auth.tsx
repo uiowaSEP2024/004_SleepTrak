@@ -14,7 +14,7 @@ interface Auth0ProviderProps {
   children: ReactNode;
   domain: string;
   clientId: string;
-  redirectUri?: string;
+  authorizationParams?: object;
 }
 interface AppState {
   returnTo?: string;
@@ -67,3 +67,38 @@ export const Auth0ProviderWithRedirectCallback: React.FC<
     </Auth0Provider>
   );
 };
+
+/**
+ * Gets user object for the currently authenticated user from Auth0.
+ *
+ * @returns {object} An object representing the currently authenticated user.
+ *
+ * @example
+ * const user =  GetUserInfo();
+ */
+export const GetUserInfo = () => {
+  const { user } = useAuth0();
+  return user;
+};
+
+/**
+function ComponentThatUsesToken() {
+  const [token, setToken] = useState("");
+  const { getAccessTokenSilently} = useAuth0();
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      const fetchedToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: import.meta.env.VITE_AUTH0_API_AUDIENCE!,
+          scope: "do:all",
+        }
+      });
+      setToken(fetchedToken);
+    };
+    fetchToken();
+  }, [getAccessTokenSilently]);
+
+  return <h1>token: {token ? token : "No token"}</h1>;
+}
+*/
