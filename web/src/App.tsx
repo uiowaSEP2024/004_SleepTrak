@@ -20,7 +20,10 @@ function App() {
       <Auth0ProviderWithRedirectCallback
         domain={domain}
         clientId={clientId}
-        redirectUri={window.location.origin}>
+        authorizationParams={{
+          redirect_uri: window.location.origin,
+          audience: import.meta.env.VITE_AUTH0_API_AUDIENCE
+        }}>
         <Routes>
           <Route
             path="*"
