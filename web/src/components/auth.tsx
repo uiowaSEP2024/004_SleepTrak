@@ -20,25 +20,23 @@ interface AppState {
 }
 
 export const LogoutButton: React.FC = () => {
-  const { isAuthenticated, logout } = useAuth0();
+  const { logout } = useAuth0();
 
   return (
-    isAuthenticated && (
-      <IconButton
-        size="sm"
-        variant="plain"
-        color="neutral"
-        data-testid="logout-button"
-        onClick={() => {
-          logout({
-            logoutParams: {
-              returnTo: window.location.origin
-            }
-          });
-        }}>
-        <LogoutRoundedIcon />
-      </IconButton>
-    )
+    <IconButton
+      size="sm"
+      variant="plain"
+      color="neutral"
+      data-testid="logout-button"
+      onClick={() => {
+        logout({
+          logoutParams: {
+            returnTo: window.location.origin
+          }
+        });
+      }}>
+      <LogoutRoundedIcon />
+    </IconButton>
   );
 };
 
