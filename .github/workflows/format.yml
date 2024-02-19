@@ -19,6 +19,8 @@ jobs:
         run: yarn install
       - name: Run Prettier
         run: yarn format
-      - name: Fail if formatting issues found
-        run: |
-          git diff --cached | grep prettier && exit 1
+      - name: Check for modified files
+        run: echo "modified=$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)" >> $GITHUB_OUTPUT
+      - name: Fail if changes
+        if: steps.git-check.outputs.modified == 'true'
+        run: exit 1
