@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button } from 'react-native-paper';
+import { Button } from 'react-native';
 
 interface TimerButtonProps {
   onStart: () => void;
@@ -20,11 +20,9 @@ const TimerButton: React.FC<TimerButtonProps> = ({ onStart, onStop }) => {
 
   return (
     <Button
-      icon={isTimerRunning ? 'stop' : 'play'}
-      mode="contained"
-      onPress={handlePress}>
-      {isTimerRunning ? 'Stop' : 'Start'}
-    </Button>
+      title={isTimerRunning ? 'Stop' : 'Start'}
+      onPress={handlePress}
+    />
   );
 };
 
