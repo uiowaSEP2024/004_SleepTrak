@@ -4,7 +4,6 @@ import ErrorPage from './pages/ErrorPage';
 import DashboardPage from './pages/DashboardPage';
 import Root from './components/Root';
 import ClientsPage from './pages/ClientsPage';
-import BabiesPage from './pages/Babies';
 import MessagesPage from './pages/Messages';
 import {
   Auth0ProviderWithRedirectCallback,
@@ -40,10 +39,6 @@ function App() {
             <Route
               path="clients"
               element={<ClientsPage />}
-            />
-            <Route
-              path="babies"
-              element={<BabiesPage />}
             />
             <Route
               path="messages"
