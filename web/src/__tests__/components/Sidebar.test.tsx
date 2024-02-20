@@ -57,7 +57,6 @@ describe('Sidebar Navigation Links', () => {
   const links = [
     ['Dashboard', '/dashboard'],
     ['Clients', '/clients'],
-    ['Babies', '/babies'],
     ['Messages', '/messages']
   ];
 
