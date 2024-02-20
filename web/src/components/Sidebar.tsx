@@ -11,7 +11,6 @@ import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import QuestionAnswerRoundedIcon from '@mui/icons-material/QuestionAnswerRounded';
-import ChildCareIcon from '@mui/icons-material/ChildCare';
 import PersonIcon from '@mui/icons-material/Person';
 import ColorSchemeToggle from '../util/ColorSchemeToggle';
 import { closeSidebar } from '../util/utils';
@@ -124,18 +123,6 @@ export default function Sidebar() {
                 <PersonIcon />
                 <ListItemContent>
                   <Typography level="title-sm">Clients</Typography>
-                </ListItemContent>
-              </ListItemButton>
-            </ListItem>
-
-            <ListItem>
-              <ListItemButton
-                role="menuitem"
-                component={Link}
-                to="/babies">
-                <ChildCareIcon />
-                <ListItemContent>
-                  <Typography level="title-sm">Babies</Typography>
                 </ListItemContent>
               </ListItemButton>
             </ListItem>
