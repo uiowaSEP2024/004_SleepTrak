@@ -1,3 +1,9 @@
+/**
+ * TimerButton
+ *
+ * A button that starts and stops the timer.
+ */
+
 import React, { useState } from 'react';
 import { Button } from 'react-native-paper';
 
@@ -6,6 +12,12 @@ interface TimerButtonProps {
   onStop: () => void;
 }
 
+/**
+ * TimerButton component.
+ *
+ * @param {function} props.onStart - The function to call when the timer starts.
+ * @param {function} props.onStop - The function to call when the timer stops.
+ */
 const TimerButton: React.FC<TimerButtonProps> = ({ onStart, onStop }) => {
   const [isTimerRunning, setIsTimerRunning] = useState(false);
 
