@@ -1,3 +1,9 @@
+/**
+ * SleepTimerScreen
+ *
+ * This screen is the main screen for logging the sleep time using a stop watch.
+ */
+
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import TimerButton from '../components/buttons/TimerButton';

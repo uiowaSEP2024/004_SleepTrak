@@ -1,3 +1,9 @@
+/**
+ * TimerDisplay
+ *
+ * This component is a simple display for showing the start and stop times of the sleep timer.
+ */
+
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
@@ -8,6 +14,12 @@ interface TimerDisplayProps {
   time: string;
 }
 
+/**
+ * TimerDisplay component.
+ *
+ * @param {string} props.title - The title of the display.
+ * @param {string} props.time - The time to display.
+ */
 const TimerDisplay: React.FC<TimerDisplayProps> = ({
   title = '',
   time = ''
