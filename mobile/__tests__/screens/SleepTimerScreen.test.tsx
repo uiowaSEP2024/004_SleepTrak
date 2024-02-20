@@ -71,4 +71,27 @@ describe('SleepTimerScreen', () => {
     const stopTimeDisplay = await findByText(/10:30:0[0-1] AM/);
     expect(stopTimeDisplay).toBeDefined();
   });
+
+  test('Elapsed time is correctly displayed when the timer is stopped', async () => {
+    const { getByText, findByText } = render(<SleepTimer />);
+    let startButton = getByText('Start');
+
+    // Press start button
+    await act(async () => {
+      fireEvent.press(startButton);
+      jest.runOnlyPendingTimers();
+    });
+    const stopButton = await findByText('Stop');
+
+    // Advance the mocked time by 30 minutes and press stop button
+    await act(async () => {
+      jest.advanceTimersByTime(30 * 60 * 1000);
+      fireEvent.press(stopButton);
+      jest.runOnlyPendingTimers();
+    });
+    startButton = await findByText('Start');
+    expect(startButton).toBeDefined();
+    const elapsedTimeDisplay = await findByText(/Elapsed Time: 00:30:0[0-1]/);
+    expect(elapsedTimeDisplay).toBeDefined();
+  });
 });
