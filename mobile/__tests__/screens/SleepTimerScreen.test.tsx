@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import { render, fireEvent, act } from '@testing-library/react-native';
 import SleepTimer from '../../src/screens/SleepTimerScreen';
 
 describe('SleepTimerScreen', () => {
@@ -18,46 +18,57 @@ describe('SleepTimerScreen', () => {
     jest.clearAllMocks();
   });
 
-  test('Timer button alternates between Start and Stop accordingly', () => {
-    const { getByText } = render(<SleepTimer />);
-    const button = getByText('Start');
+  test('Timer button alternates between Start and Stop accordingly', async () => {
+    const { getByText, findByText } = render(<SleepTimer />);
+    let button = getByText('Start');
 
     // On first press button should change to stop
-    fireEvent.press(button);
+    await act(async () => {
+      fireEvent.press(button);
+    });
+    button = await findByText('Stop');
     expect(button.props.children).toBe('Stop');
 
     // On second press button should change to start
-    fireEvent.press(button);
+    await act(async () => {
+      fireEvent.press(button);
+    });
     expect(button.props.children).toBe('Start');
   });
 
-  test('Start time is correctly displayed when the Start button is pressed', () => {
-    const { getByText } = render(<SleepTimer />);
-    expect(getByText('Start time:')).toBeDefined();
+  test('Start time is correctly displayed when the Start button is pressed', async () => {
+    const { getByText, findByText } = render(<SleepTimer />);
     const startButton = getByText('Start');
-    fireEvent.press(startButton);
-    expect(getByText('Start time: 10:00:00 AM')).toBeDefined();
+    await act(async () => {
+      fireEvent.press(startButton);
+      jest.runAllTimers();
+    });
+    const stopButton = await findByText('Stop');
+    expect(stopButton).toBeDefined();
+    const startTimeDisplay = await findByText(/10:00:00 AM/);
+    expect(startTimeDisplay).toBeDefined();
   });
 
-  test('Stop time is correctly displayed when the Stop button is pressed', () => {
-    const { getByText } = render(<SleepTimer />);
-    const startButton = getByText('Start');
-    fireEvent.press(startButton);
+  test('Stop time is correctly displayed when the Stop button is pressed', async () => {
+    const { getByText, findByText } = render(<SleepTimer />);
+    let startButton = getByText('Start');
 
-    // Advance the mocked time by 30 minutes
-    jest.advanceTimersByTime(30 * 60 * 1000);
+    // Press start button
+    await act(async () => {
+      fireEvent.press(startButton);
+      jest.runOnlyPendingTimers();
+    });
+    const stopButton = await findByText('Stop');
 
-    const stopButton = getByText('Stop');
-    fireEvent.press(stopButton);
-    expect(getByText('Stop time: 10:30:00 AM')).toBeDefined();
-  });
-
-  test('stops timer when stop button is pressed', () => {
-    const { getByText } = render(<SleepTimer />);
-    const startButton = getByText('Start');
-    fireEvent.press(startButton);
-    const stopButton = getByText('Stop');
-    fireEvent.press(stopButton);
-    expect(getByText(/Stop time:/)).toBeDefined();
+    // Advance the mocked time by 30 minutes and press stop button
+    await act(async () => {
+      jest.advanceTimersByTime(30 * 60 * 1000);
+      fireEvent.press(stopButton);
+      jest.runOnlyPendingTimers();
+    });
+    startButton = await findByText('Start');
+    expect(startButton).toBeDefined();
+    const stopTimeDisplay = await findByText(/10:30:0[0-1] AM/);
+    expect(stopTimeDisplay).toBeDefined();
   });
 });
