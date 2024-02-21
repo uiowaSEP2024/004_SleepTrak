@@ -7,7 +7,7 @@ on:
     branches: ['main']
 
 jobs:
-  prettier:
+  format:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -19,6 +19,13 @@ jobs:
         run: yarn install
       - name: Run Prettier
         run: yarn format
+      - name: Check for modified files
+        run: echo "modified=$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)" >> $GITHUB_OUTPUT
+      - name: Fail if changes
+        if: steps.git-check.outputs.modified == 'true'
+        run: exit 1
+      - name: Run ESLint
+        run: yarn lint:fix
       - name: Check for modified files
         run: echo "modified=$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)" >> $GITHUB_OUTPUT
       - name: Fail if changes
