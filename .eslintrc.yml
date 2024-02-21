@@ -20,11 +20,6 @@ rules:
   '@typescript-eslint/no-var-requires': off
   '@typescript-eslint/strict-boolean-expressions': off
   '@typescript-eslint/no-unsafe-argument': off
-  react/prop-types:
-    - error
-    - ignore:
-        - navigation
-  '@typescript-eslint/explicit-function-return-type': off
 settings:
   react:
     version: 'detect'
