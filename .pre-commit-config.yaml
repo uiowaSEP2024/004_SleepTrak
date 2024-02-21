@@ -32,3 +32,10 @@ repos:
     rev: v3.1.0
     hooks:
       - id: prettier
+  - repo: local
+    hooks:
+      - id: check-lock-files
+        name: Check lock files
+        entry: sh -c 'git diff --cached --name-only | grep -E "yarn.lock|package-lock.json" && echo "You are trying to commit yarn.lock or package-lock.json file" && exit 1 || exit 0'
+        language: system
+        stages: [commit]
