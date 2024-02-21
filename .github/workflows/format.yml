@@ -31,3 +31,5 @@ jobs:
       - name: Fail if changes
         if: steps.git-check.outputs.modified == 'true'
         run: exit 1
+      - name: Merge Conflict finder
+        uses: olivernybroe/action-conflict-finder@v4.0
