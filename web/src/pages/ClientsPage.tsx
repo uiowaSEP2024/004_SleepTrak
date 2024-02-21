@@ -14,8 +14,8 @@ function ClientsPage() {
           <Item>
             <ClientCard
               avatarSrc="/static/images/avatar/1.jpg"
-              title="Mingi Lee"
-              body="Mingi Information"
+              title="Client 1"
+              body="Baby 1 (1y 2m), Baby2 (0y 2m)"
             />
           </Item>
         </Grid>

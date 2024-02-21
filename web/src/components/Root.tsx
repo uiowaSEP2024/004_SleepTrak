@@ -8,7 +8,7 @@ export default function Root() {
   return (
     <>
       <CssBaseline />
-      <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
+      <Box sx={{ display: 'flex', minHeight: '100dvh', minWidth: '100vw' }}>
         <Sidebar />
         <Header />
         <Box

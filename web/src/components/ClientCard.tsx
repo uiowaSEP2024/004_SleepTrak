@@ -6,6 +6,7 @@ import CardContent from '@mui/joy/CardContent';
 import CardOverflow from '@mui/joy/CardOverflow';
 import CardActions from '@mui/joy/CardActions';
 import Typography from '@mui/joy/Typography';
+import { Link } from 'react-router-dom';
 
 interface ClientCardProps {
   avatarSrc: string;
@@ -39,7 +40,11 @@ const ClientCard: React.FC<ClientCardProps> = ({ avatarSrc, title, body }) => {
             variant="outlined"
             sx={{ bgcolor: 'background.surface' }}>
             <Button>Message</Button>
-            <Button>More</Button>
+            <Button
+              component={Link}
+              to="/client">
+              More
+            </Button>
           </ButtonGroup>
         </CardActions>
       </CardOverflow>
