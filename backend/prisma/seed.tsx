@@ -1,10 +1,10 @@
-var { PrismaClient } = require('@prisma/client');
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
-const TOTAL_CLIENTS = 30;
-const TOTAL_BABIES = 40;
-const TOTAL_COACHES = 5;
-const possibleNames = [
+const TOTAL_CLIENTS: number = 30;
+const TOTAL_BABIES: number = 40;
+const TOTAL_COACHES: number = 5;
+const possibleNames: string[] = [
   'Valentina',
   'Camila',
   'Fiorella',
@@ -20,23 +20,23 @@ const possibleNames = [
   'Curt'
 ];
 
-function getRandomElement(list) {
+function getRandomElement(list: any[]): any {
   if (list.length === 0) {
     console.error('Error: The array is empty.');
     return undefined; // or any other value that makes sense in your context
   }
 
-  let index = Math.floor(Math.random() * list.length);
+  const index: number = Math.floor(Math.random() * list.length);
   return list[index];
 }
 
-function getRandomNumber(minValue, maxValue) {
-  const difference = Math.abs(maxValue - minValue);
+function getRandomNumber(minValue: number, maxValue: number): number {
+  const difference: number = Math.abs(maxValue - minValue);
   return Math.floor(minValue + Math.random() * difference);
 }
 
-function createCoachData() {
-  newCoach = {
+function createCoachData(): any {
+  const newCoach = {
     email: 'coach' + getRandomNumber(0, 10000000) + '@test.com',
     first_name: getRandomElement(possibleNames),
     last_name: 'Test',
@@ -44,8 +44,9 @@ function createCoachData() {
   };
   return newCoach;
 }
-function createClientData(coachObjects) {
-  newClient = {
+
+function createClientData(coachObjects: any[]): any {
+  const newClient = {
     email: 'client' + getRandomNumber(0, TOTAL_CLIENTS * 10000) + '@test.com',
     first_name: getRandomElement(possibleNames),
     last_name: 'Test',
@@ -54,8 +55,9 @@ function createClientData(coachObjects) {
   };
   return newClient;
 }
-function createBabyData(clientObjects) {
-  newBaby = {
+
+function createBabyData(clientObjects: any[]): any {
+  const newBaby = {
     name: getRandomElement(possibleNames),
     dob: new Date(
       getRandomNumber(2018, 2024), // year
@@ -69,8 +71,8 @@ function createBabyData(clientObjects) {
   return newBaby;
 }
 
-async function main() {
-  currentUsers = await prisma.user.findMany();
+async function main(): Promise<void> {
+  const currentUsers = await prisma.user.findMany();
 
   // if database already seeded, move on
   if (currentUsers.length > 0) {
@@ -79,14 +81,14 @@ async function main() {
   }
 
   // Create coaches
-  let coachObjects = [];
+  const coachObjects: any[] = [];
   for (let i = 0; i < TOTAL_COACHES; i++) {
     coachObjects.push(await prisma.user.create({ data: createCoachData() }));
   }
   console.log('Seeding: Finished seeding coaches!');
 
   // Create users
-  let clientObjects = [];
+  const clientObjects: any[] = [];
   for (let i = 0; i < TOTAL_CLIENTS; i++) {
     clientObjects.push(
       await prisma.user.create({
@@ -97,7 +99,7 @@ async function main() {
   console.log('Seeding: Finished seeding clients!');
 
   // Create users
-  let babyObjects = [];
+  const babyObjects: any[] = [];
   for (let i = 0; i < TOTAL_BABIES; i++) {
     babyObjects.push(
       await prisma.baby.create({ data: createBabyData(clientObjects) })
