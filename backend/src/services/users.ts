@@ -1,4 +1,4 @@
-var { prisma } = require('../../prisma/client');
+const { prisma } = require('../../prisma/client');
 
 module.exports = {
   getAll: async (userId) => {
@@ -14,7 +14,7 @@ module.exports = {
     try {
       const result = await prisma.user.findUnique({
         where: {
-          userId: userId
+          userId
         }
       });
 
@@ -47,7 +47,7 @@ module.exports = {
     try {
       const result = await prisma.user.update({
         where: {
-          userId: userId
+          userId
         },
         data: valuesToUpdate
       });
@@ -61,7 +61,7 @@ module.exports = {
     try {
       const result = await prisma.user.delete({
         where: {
-          userId: userId
+          userId
         }
       });
 

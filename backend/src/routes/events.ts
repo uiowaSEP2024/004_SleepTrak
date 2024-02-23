@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var controller = require('../controllers/events');
-var auth = require('../services/auth');
+const express = require('express');
+const router = express.Router();
+const controller = require('../controllers/events');
+const auth = require('../services/auth');
 
 // Protecting routes with auth0
 router.use(auth.requireAuth);

@@ -42,7 +42,9 @@ describe('test /reminders/:id route', () => {
     expect(response.body).toEqual(
       mockReminders.filter((reminders) => reminders.id === tid)
     );
-    response.body.forEach((reminder) => expect(reminder.id).toEqual(tid));
+    response.body.forEach((reminder) => {
+      expect(reminder.id).toEqual(tid);
+    });
     expect(prismaMock.reminder.findUnique).toHaveBeenCalledWith({
       where: { reminderId: '{tid}' }
     });
@@ -60,9 +62,9 @@ describe('test /reminders/search route', () => {
     expect(response.body).toEqual(
       mockReminders.filter((reminder) => reminder.description === description)
     );
-    response.body.forEach((reminder) =>
-      expect(reminder.description).toEqual(description)
-    );
+    response.body.forEach((reminder) => {
+      expect(reminder.description).toEqual(description);
+    });
     expect(prismaMock.reminder.findMany).toHaveBeenCalledWith({ where: {} });
   });
 });

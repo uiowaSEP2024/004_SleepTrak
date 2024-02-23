@@ -1,4 +1,4 @@
-function collapseObject(obj) {
+function collapseObject(obj: any): any {
   const result = {};
   for (const key in obj) {
     if (obj[key] !== null) {
