@@ -24,11 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Security configurations
-app.use(
-  cors({
-    origin: [process.env.CALLBACK_URL, 'http://localhost:3000'] // Replace with allowed origins
-  })
-);
+app.use(cors());
 
 // Sets routes
 app.use('/', indexRouter);
