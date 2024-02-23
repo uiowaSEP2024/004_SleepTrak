@@ -1,18 +1,16 @@
-const express = require('express');
-const path = require('path');
-const logger = require('morgan');
-const cors = require('cors');
-const dotenv = require('dotenv');
+import express from 'express';
+import path from 'path';
+import logger from 'morgan';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import indexRouter from './routes/index';
+import usersRouter from './routes/users';
+import plansRouter from './routes/plans';
+import eventsRouter from './routes/events';
+import babiesRouter from './routes/babies';
+import remindersRouter from './routes/reminders';
 
 dotenv.config();
-
-// Routes
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const plansRouter = require('./routes/plans');
-const eventsRouter = require('./routes/events');
-const babiesRouter = require('./routes/babies');
-const remindersRouter = require('./routes/reminders');
 
 // Starts app
 const app = express();
@@ -34,4 +32,4 @@ app.use('/events', eventsRouter);
 app.use('/babies', babiesRouter);
 app.use('/reminders', remindersRouter);
 
-module.exports = app;
+export default app;
