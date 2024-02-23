@@ -1,7 +1,8 @@
+import { type Request, type Response } from 'express';
 const service = require('../services/plans');
 
 module.exports = {
-  getAll: async (req, res) => {
+  getAll: async (_req: Request, res: Response) => {
     try {
       const plans = await service.getAll();
       res.json(plans);
@@ -9,7 +10,7 @@ module.exports = {
       res.status(500).send(err);
     }
   },
-  get: async (req, res) => {
+  get: async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
       const plan = await service.get(id);
@@ -18,7 +19,7 @@ module.exports = {
       res.status(500).send(err);
     }
   },
-  search: async (req, res) => {
+  search: async (req: Request, res: Response) => {
     try {
       const searchParams = req.body;
       const plans = await service.search(searchParams);
@@ -27,7 +28,7 @@ module.exports = {
       res.status(500).send(err);
     }
   },
-  create: async (req, res) => {
+  create: async (req: Request, res: Response) => {
     try {
       const creationParams = req.body;
       if (creationParams.length === 0) {
@@ -46,7 +47,7 @@ module.exports = {
       res.status(500).send(err);
     }
   },
-  update: async (req, res) => {
+  update: async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
       const updateParams = req.body;
@@ -60,7 +61,7 @@ module.exports = {
       res.status(500).send(err);
     }
   },
-  destroy: async (req, res) => {
+  destroy: async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
 

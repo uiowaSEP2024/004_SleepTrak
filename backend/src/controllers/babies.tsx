@@ -1,7 +1,8 @@
+import { type Request, type Response } from 'express';
 const service = require('../services/babies');
 
 module.exports = {
-  getAll: async (req, res) => {
+  getAll: async (_req: Request, res: Response) => {
     try {
       const babies = await service.getAll();
       res.json(babies);
@@ -9,7 +10,7 @@ module.exports = {
       res.status(500).send(err);
     }
   },
-  get: async (req, res) => {
+  get: async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
       const baby = await service.get(id);
@@ -18,7 +19,7 @@ module.exports = {
       res.status(500).send(err);
     }
   },
-  search: async (req, res) => {
+  search: async (req: Request, res: Response) => {
     try {
       const searchParams = req.body;
       const babies = await service.search(searchParams);
@@ -27,10 +28,10 @@ module.exports = {
       res.status(500).send(err);
     }
   },
-  create: async (req, res) => {
+  create: async (req: Request, res: Response) => {
     try {
       const creationParams = req.body;
-      if (creationParams.length === 0) {
+      if (Object.keys(creationParams).length === 0) {
         throw new Error('Empty body');
       }
 
@@ -48,11 +49,11 @@ module.exports = {
       res.status(500).send(err);
     }
   },
-  update: async (req, res) => {
+  update: async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
       const updateParams = req.body;
-      if (updateParams.length === 0) {
+      if (Object.keys(updateParams).length === 0) {
         throw new Error('Empty body');
       }
 
@@ -62,7 +63,7 @@ module.exports = {
       res.status(500).send(err);
     }
   },
-  destroy: async (req, res) => {
+  destroy: async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
 
