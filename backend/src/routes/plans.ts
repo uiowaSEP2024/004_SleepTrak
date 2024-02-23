@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
+import { controller } from '../controllers/plans';
+import { auth } from '../services/auth';
 const router = express.Router();
-const controller = require('../controllers/plans');
-const auth = require('../services/auth');
 
 // Protecting routes with auth0
 router.use(auth.requireAuth);
@@ -14,4 +14,4 @@ router.post('/create', controller.create);
 router.put('/:id/update', controller.update);
 router.delete('/:id/delete', controller.destroy);
 
-module.exports = router;
+export default router;
