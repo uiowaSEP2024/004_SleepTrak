@@ -60,7 +60,9 @@ describe('test /users/:id route', () => {
     expect(response.body).toEqual(
       mockUsers.filter((users) => users.id === tid)
     );
-    response.body.forEach((user) => expect(user.id).toEqual(tid));
+    response.body.forEach((user) => {
+      expect(user.id).toEqual(tid);
+    });
     expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
       where: { userId: '{tid}' }
     });
@@ -78,7 +80,9 @@ describe('test /users/search route', () => {
     expect(response.body).toEqual(
       mockUsers.filter((user) => user.role === role)
     );
-    response.body.forEach((user) => expect(user.role).toEqual(role));
+    response.body.forEach((user) => {
+      expect(user.role).toEqual(role);
+    });
     expect(prismaMock.user.findMany).toHaveBeenCalledWith({ where: {} });
   });
 });

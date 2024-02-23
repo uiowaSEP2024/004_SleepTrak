@@ -50,7 +50,9 @@ describe('test /babies/:id route', () => {
     expect(response.body).toEqual(
       mockBabies.filter((babies) => babies.id === tid)
     );
-    response.body.forEach((baby) => expect(baby.id).toEqual(tid));
+    response.body.forEach((baby) => {
+      expect(baby.id).toEqual(tid);
+    });
     expect(prismaMock.baby.findUnique).toHaveBeenCalledWith({
       where: { babyId: '{tid}' }
     });
@@ -68,7 +70,9 @@ describe('test /babies/search route', () => {
     expect(response.body).toEqual(
       mockBabies.filter((baby) => baby.name === name)
     );
-    response.body.forEach((baby) => expect(baby.name).toEqual(name));
+    response.body.forEach((baby) => {
+      expect(baby.name).toEqual(name);
+    });
     expect(prismaMock.baby.findMany).toHaveBeenCalledWith({ where: {} });
   });
 });

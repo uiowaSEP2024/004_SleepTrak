@@ -2,14 +2,13 @@
     This is an example I made using the documentation. It's just for reference.
 */
 
-var express = require('express');
-var router = express.Router();
-var { PrismaClient } = require('@prisma/client');
-const { where } = require('sequelize');
+const express = require('express');
+const router = express.Router();
+const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-app.post(`/post`, async (req, res) => {
+router.post(`/post`, async (req, res) => {
   const { title, content, authorEmail } = req.body;
   const result = await prisma.post.create({
     data: {
@@ -21,7 +20,7 @@ app.post(`/post`, async (req, res) => {
   res.json(result);
 });
 
-app.put('/post/:id/views', async (req, res) => {
+router.put('/post/:id/views', async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -40,7 +39,7 @@ app.put('/post/:id/views', async (req, res) => {
   }
 });
 
-app.delete(`/post/:id`, async (req, res) => {
+router.delete(`/post/:id`, async (req, res) => {
   const { id } = req.params;
   const post = await prisma.post.delete({
     where: {
@@ -50,12 +49,12 @@ app.delete(`/post/:id`, async (req, res) => {
   res.json(post);
 });
 
-app.get('/users', async (req, res) => {
+router.get('/users', async (req, res) => {
   const users = await prisma.user.findMany();
   res.json(users);
 });
 
-app.get('/user/:id/drafts', async (req, res) => {
+router.get('/user/:id/drafts', async (req, res) => {
   const { id } = req.params;
 
   const drafts = await prisma.user

@@ -44,9 +44,13 @@ describe('test /events/:id route', () => {
     const response = await request(app).get('/events/{tid}');
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual(
-      mockEvents.filter((events) => events.id === tid)
+      mockEvents.filter((events) => {
+        return events.id === tid;
+      })
     );
-    response.body.forEach((event) => expect(event.id).toEqual(tid));
+    response.body.forEach((event) => {
+      expect(event.id).toEqual(tid);
+    });
     expect(prismaMock.event.findUnique).toHaveBeenCalledWith({
       where: { eventId: '{tid}' }
     });
@@ -64,7 +68,9 @@ describe('test /events/search route', () => {
     expect(response.body).toEqual(
       mockEvents.filter((event) => event.role === role)
     );
-    response.body.forEach((event) => expect(event.role).toEqual(role));
+    response.body.forEach((event) => {
+      expect(event.role).toEqual(role);
+    });
     expect(prismaMock.event.findMany).toHaveBeenCalledWith({ where: {} });
   });
 });
