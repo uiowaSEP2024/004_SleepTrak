@@ -1,20 +1,21 @@
 const { prisma } = require('../../prisma/client');
 
 module.exports = {
-  getAll: async (eventId) => {
+  getAll: async () => {
     try {
-      const result = await prisma.event.findMany();
+      const result = await prisma.reminder.findMany();
 
       return result;
     } catch (err) {
       return err;
     }
   },
-  get: async (eventId) => {
+  get: async (reminderId: string) => {
+    console.log(reminderId);
     try {
-      const result = await prisma.event.findUnique({
+      const result = await prisma.reminder.findUnique({
         where: {
-          eventId
+          reminderId
         }
       });
 
@@ -23,9 +24,9 @@ module.exports = {
       return err;
     }
   },
-  search: async (searchParams) => {
+  search: async (searchParams: any) => {
     try {
-      const result = await prisma.event.findMany({
+      const result = await prisma.reminder.findMany({
         where: searchParams
       });
 
@@ -34,20 +35,20 @@ module.exports = {
       return err;
     }
   },
-  create: async (eventData) => {
+  create: async (reminderData: any) => {
     try {
-      const result = await prisma.event.create({ data: eventData });
+      const result = await prisma.reminder.create({ data: reminderData });
 
       return result;
     } catch (err) {
       return err;
     }
   },
-  update: async (eventId, valuesToUpdate) => {
+  update: async (reminderId: string, valuesToUpdate: any) => {
     try {
-      const result = await prisma.event.update({
+      const result = await prisma.reminder.update({
         where: {
-          eventId
+          reminderId
         },
         data: valuesToUpdate
       });
@@ -57,11 +58,11 @@ module.exports = {
       return err;
     }
   },
-  destroy: async (eventId) => {
+  destroy: async (reminderId: string) => {
     try {
-      const result = await prisma.event.delete({
+      const result = await prisma.reminder.delete({
         where: {
-          eventId
+          reminderId
         }
       });
 

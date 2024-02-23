@@ -1,20 +1,20 @@
-var { prisma } = require('../../prisma/client');
+const { prisma } = require('../../prisma/client');
 
 module.exports = {
-  getAll: async (userId) => {
+  getAll: async () => {
     try {
-      const result = await prisma.user.findMany();
+      const result = await prisma.event.findMany();
 
       return result;
     } catch (err) {
       return err;
     }
   },
-  get: async (userId) => {
+  get: async (eventId: string) => {
     try {
-      const result = await prisma.user.findUnique({
+      const result = await prisma.event.findUnique({
         where: {
-          userId: userId
+          eventId
         }
       });
 
@@ -23,9 +23,9 @@ module.exports = {
       return err;
     }
   },
-  search: async (searchParams) => {
+  search: async (searchParams: any) => {
     try {
-      const result = await prisma.user.findMany({
+      const result = await prisma.event.findMany({
         where: searchParams
       });
 
@@ -34,20 +34,20 @@ module.exports = {
       return err;
     }
   },
-  create: async (userData) => {
+  create: async (eventData: any) => {
     try {
-      const result = await prisma.user.create({ data: userData });
+      const result = await prisma.event.create({ data: eventData });
 
       return result;
     } catch (err) {
       return err;
     }
   },
-  update: async (userId, valuesToUpdate) => {
+  update: async (eventId: string, valuesToUpdate: any) => {
     try {
-      const result = await prisma.user.update({
+      const result = await prisma.event.update({
         where: {
-          userId: userId
+          eventId
         },
         data: valuesToUpdate
       });
@@ -57,11 +57,11 @@ module.exports = {
       return err;
     }
   },
-  destroy: async (userId) => {
+  destroy: async (eventId: string) => {
     try {
-      const result = await prisma.user.delete({
+      const result = await prisma.event.delete({
         where: {
-          userId: userId
+          eventId
         }
       });
 

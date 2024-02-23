@@ -1,20 +1,20 @@
 const { prisma } = require('../../prisma/client');
 
 module.exports = {
-  getAll: async (babyId) => {
+  getAll: async () => {
     try {
-      const result = await prisma.baby.findMany();
+      const result = await prisma.user.findMany();
 
       return result;
     } catch (err) {
       return err;
     }
   },
-  get: async (babyId) => {
+  get: async (userId: string) => {
     try {
-      const result = await prisma.baby.findUnique({
+      const result = await prisma.user.findUnique({
         where: {
-          babyId
+          userId
         }
       });
 
@@ -23,9 +23,9 @@ module.exports = {
       return err;
     }
   },
-  search: async (searchParams) => {
+  search: async (searchParams: any) => {
     try {
-      const result = await prisma.baby.findMany({
+      const result = await prisma.user.findMany({
         where: searchParams
       });
 
@@ -34,20 +34,20 @@ module.exports = {
       return err;
     }
   },
-  create: async (babyData) => {
+  create: async (userData: any) => {
     try {
-      const result = await prisma.baby.create({ data: babyData });
+      const result = await prisma.user.create({ data: userData });
 
       return result;
     } catch (err) {
       return err;
     }
   },
-  update: async (babyId, valuesToUpdate) => {
+  update: async (userId: string, valuesToUpdate: any) => {
     try {
-      const result = await prisma.baby.update({
+      const result = await prisma.user.update({
         where: {
-          babyId
+          userId
         },
         data: valuesToUpdate
       });
@@ -57,11 +57,11 @@ module.exports = {
       return err;
     }
   },
-  destroy: async (babyId) => {
+  destroy: async (userId: string) => {
     try {
-      const result = await prisma.baby.delete({
+      const result = await prisma.user.delete({
         where: {
-          babyId
+          userId
         }
       });
 

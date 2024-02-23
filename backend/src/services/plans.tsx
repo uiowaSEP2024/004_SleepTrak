@@ -1,7 +1,7 @@
 const { prisma } = require('../../prisma/client');
 
 module.exports = {
-  getAll: async (planId) => {
+  getAll: async () => {
     try {
       const result = await prisma.plan.findMany();
 
@@ -10,7 +10,7 @@ module.exports = {
       return err;
     }
   },
-  get: async (planId) => {
+  get: async (planId: string) => {
     try {
       const result = await prisma.plan.findUnique({
         where: {
@@ -23,7 +23,7 @@ module.exports = {
       return err;
     }
   },
-  search: async (searchParams) => {
+  search: async (searchParams: any) => {
     try {
       const result = await prisma.plan.findMany({
         where: searchParams
@@ -34,7 +34,7 @@ module.exports = {
       return err;
     }
   },
-  create: async (planData) => {
+  create: async (planData: any) => {
     try {
       const result = await prisma.plan.create({ data: planData });
 
@@ -43,7 +43,7 @@ module.exports = {
       return err;
     }
   },
-  update: async (planId, valuesToUpdate) => {
+  update: async (planId: string, valuesToUpdate: any) => {
     try {
       const result = await prisma.plan.update({
         where: {
@@ -57,7 +57,7 @@ module.exports = {
       return err;
     }
   },
-  destroy: async (planId) => {
+  destroy: async (planId: string) => {
     try {
       const result = await prisma.plan.delete({
         where: {

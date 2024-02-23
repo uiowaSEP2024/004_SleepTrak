@@ -1,21 +1,20 @@
 const { prisma } = require('../../prisma/client');
 
 module.exports = {
-  getAll: async (reminderId) => {
+  getAll: async () => {
     try {
-      const result = await prisma.reminder.findMany();
+      const result = await prisma.baby.findMany();
 
       return result;
     } catch (err) {
       return err;
     }
   },
-  get: async (reminderId) => {
-    console.log(reminderId);
+  get: async (babyId: string) => {
     try {
-      const result = await prisma.reminder.findUnique({
+      const result = await prisma.baby.findUnique({
         where: {
-          reminderId
+          babyId
         }
       });
 
@@ -24,9 +23,9 @@ module.exports = {
       return err;
     }
   },
-  search: async (searchParams) => {
+  search: async (searchParams: any) => {
     try {
-      const result = await prisma.reminder.findMany({
+      const result = await prisma.baby.findMany({
         where: searchParams
       });
 
@@ -35,20 +34,20 @@ module.exports = {
       return err;
     }
   },
-  create: async (reminderData) => {
+  create: async (babyData: any) => {
     try {
-      const result = await prisma.reminder.create({ data: reminderData });
+      const result = await prisma.baby.create({ data: babyData });
 
       return result;
     } catch (err) {
       return err;
     }
   },
-  update: async (reminderId, valuesToUpdate) => {
+  update: async (babyId: string, valuesToUpdate: any) => {
     try {
-      const result = await prisma.reminder.update({
+      const result = await prisma.baby.update({
         where: {
-          reminderId
+          babyId
         },
         data: valuesToUpdate
       });
@@ -58,11 +57,11 @@ module.exports = {
       return err;
     }
   },
-  destroy: async (reminderId) => {
+  destroy: async (babyId: string) => {
     try {
-      const result = await prisma.reminder.delete({
+      const result = await prisma.baby.delete({
         where: {
-          reminderId
+          babyId
         }
       });
 
