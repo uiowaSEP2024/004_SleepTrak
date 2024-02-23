@@ -1,73 +1,85 @@
-const { prisma } = require('../../prisma/client');
+import { prisma } from '../../prisma/client';
+import type { Baby } from '@prisma/client';
+import { ensureError } from '../utils/error';
 
-module.exports = {
-  getAll: async (babyId) => {
-    try {
-      const result = await prisma.baby.findMany();
+const getAll = async (): Promise<Baby[] | Error> => {
+  try {
+    const result = await prisma.baby.findMany();
 
-      return result;
-    } catch (err) {
-      return err;
-    }
-  },
-  get: async (babyId) => {
-    try {
-      const result = await prisma.baby.findUnique({
-        where: {
-          babyId
-        }
-      });
-
-      return result;
-    } catch (err) {
-      return err;
-    }
-  },
-  search: async (searchParams) => {
-    try {
-      const result = await prisma.baby.findMany({
-        where: searchParams
-      });
-
-      return result;
-    } catch (err) {
-      return err;
-    }
-  },
-  create: async (babyData) => {
-    try {
-      const result = await prisma.baby.create({ data: babyData });
-
-      return result;
-    } catch (err) {
-      return err;
-    }
-  },
-  update: async (babyId, valuesToUpdate) => {
-    try {
-      const result = await prisma.baby.update({
-        where: {
-          babyId
-        },
-        data: valuesToUpdate
-      });
-
-      return result;
-    } catch (err) {
-      return err;
-    }
-  },
-  destroy: async (babyId) => {
-    try {
-      const result = await prisma.baby.delete({
-        where: {
-          babyId
-        }
-      });
-
-      return result;
-    } catch (err) {
-      return err;
-    }
+    return result;
+  } catch (err) {
+    return ensureError(err);
   }
+};
+const get = async (babyId: string): Promise<Baby | null | Error> => {
+  try {
+    const result = await prisma.baby.findUnique({
+      where: {
+        babyId
+      }
+    });
+
+    return result;
+  } catch (err) {
+    return ensureError(err);
+  }
+};
+const search = async (searchParams: any): Promise<Baby[] | Error> => {
+  try {
+    const result = await prisma.baby.findMany({
+      where: searchParams
+    });
+
+    return result;
+  } catch (err) {
+    return ensureError(err);
+  }
+};
+const create = async (babyData: any): Promise<Baby | Error> => {
+  try {
+    const result = await prisma.baby.create({ data: babyData });
+
+    return result;
+  } catch (err) {
+    return ensureError(err);
+  }
+};
+const update = async (
+  babyId: string,
+  valuesToUpdate: any
+): Promise<Baby | Error> => {
+  try {
+    const result = await prisma.baby.update({
+      where: {
+        babyId
+      },
+      data: valuesToUpdate
+    });
+
+    return result;
+  } catch (err) {
+    return ensureError(err);
+  }
+};
+const destroy = async (babyId: string): Promise<Baby | Error> => {
+  try {
+    const result = await prisma.baby.delete({
+      where: {
+        babyId
+      }
+    });
+
+    return result;
+  } catch (err) {
+    return ensureError(err);
+  }
+};
+
+export const service = {
+  getAll,
+  get,
+  search,
+  create,
+  update,
+  destroy
 };

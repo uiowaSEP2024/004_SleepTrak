@@ -1,4 +1,4 @@
-const service = require('../services/babies');
+import { service } from '../services/babies';
 
 module.exports = {
   getAll: async (req, res) => {
