@@ -1,10 +1,11 @@
-const { PrismaClient } = require('@prisma/client');
+import { PrismaClient } from '@prisma/client';
+import type { User, Baby } from '@prisma/client';
 
 const prisma = new PrismaClient();
-const TOTAL_CLIENTS = 30;
-const TOTAL_BABIES = 40;
-const TOTAL_COACHES = 5;
-const possibleNames = [
+const TOTAL_CLIENTS: number = 30;
+const TOTAL_BABIES: number = 40;
+const TOTAL_COACHES: number = 5;
+const possibleNames: string[] = [
   'Valentina',
   'Camila',
   'Fiorella',
@@ -20,10 +21,9 @@ const possibleNames = [
   'Curt'
 ];
 
-function getRandomElement<T>(list: T[]): T | undefined {
+function getRandomElement<T>(list: T[]): T {
   if (list.length === 0) {
-    console.error('Error: The array is empty.');
-    return undefined; // or any other value that makes sense in your context
+    throw new Error('Error: The array is empty.');
   }
 
   const index = Math.floor(Math.random() * list.length);
@@ -35,42 +35,45 @@ function getRandomNumber(minValue: number, maxValue: number): number {
   return Math.floor(minValue + Math.random() * difference);
 }
 
-function createCoachData(): any {
-  const newCoach = {
-    email: 'coach' + getRandomNumber(0, 10000000) + '@test.com',
-    first_name: getRandomElement(possibleNames),
-    last_name: 'Test',
-    role: 'coach'
-  };
-  return newCoach;
+async function createCoachData(): Promise<User> {
+  return await prisma.user.create({
+    data: {
+      email: 'coach' + getRandomNumber(0, 10000000) + '@test.com',
+      first_name: getRandomElement(possibleNames),
+      last_name: 'Test',
+      role: 'coach'
+    }
+  });
 }
-function createClientData(coachObjects: any): any {
-  const newClient = {
-    email: 'client' + getRandomNumber(0, TOTAL_CLIENTS * 10000) + '@test.com',
-    first_name: getRandomElement(possibleNames),
-    last_name: 'Test',
-    role: 'client',
-    coach: { connect: { userId: getRandomElement(coachObjects).userId } }
-  };
-  return newClient;
+async function createClientData(coachObjects: User[]): Promise<User> {
+  return await prisma.user.create({
+    data: {
+      email: 'client' + getRandomNumber(0, TOTAL_CLIENTS * 10000) + '@test.com',
+      first_name: getRandomElement(possibleNames),
+      last_name: 'Test',
+      role: 'client',
+      coach: { connect: { userId: getRandomElement(coachObjects).userId } }
+    }
+  });
 }
-function createBabyData(clientObjects: any): any {
-  const newBaby = {
-    name: getRandomElement(possibleNames),
-    dob: new Date(
-      getRandomNumber(2018, 2024), // year
-      getRandomNumber(1, 12), // month
-      getRandomNumber(1, 30) // day
-    ),
-    weight: getRandomNumber(1, 10),
-    medicine: getRandomElement(['Advil', 'NyQuil', 'DayQuil']),
-    parent: { connect: { userId: getRandomElement(clientObjects).userId } }
-  };
-  return newBaby;
+async function createBabyData(clientObjects: User[]): Promise<Baby> {
+  return await prisma.baby.create({
+    data: {
+      name: getRandomElement(possibleNames),
+      dob: new Date(
+        getRandomNumber(2018, 2024), // year
+        getRandomNumber(1, 12), // month
+        getRandomNumber(1, 30) // day
+      ),
+      weight: getRandomNumber(1, 10),
+      medicine: getRandomElement(['Advil', 'NyQuil', 'DayQuil']),
+      parent: { connect: { userId: getRandomElement(clientObjects).userId } }
+    }
+  });
 }
 
 async function main(): Promise<any> {
-  const currentUsers = await prisma.user.findMany();
+  const currentUsers: User[] = await prisma.user.findMany();
 
   // if database already seeded, move on
   if (currentUsers.length > 0) {
@@ -79,30 +82,28 @@ async function main(): Promise<any> {
   }
 
   // Create coaches
-  const coachObjects = [];
-  for (let i = 0; i < TOTAL_COACHES; i++) {
-    coachObjects.push(await prisma.user.create({ data: createCoachData() }));
-  }
+  const coachObjects: User[] = await Promise.all(
+    Array.from({ length: TOTAL_COACHES }, createCoachData)
+  );
   console.log('Seeding: Finished seeding coaches!');
 
   // Create users
-  const clientObjects = [];
-  for (let i = 0; i < TOTAL_CLIENTS; i++) {
-    clientObjects.push(
-      await prisma.user.create({
-        data: createClientData(coachObjects)
-      })
-    );
-  }
+  const clientObjects: User[] = await Promise.all(
+    Array.from(
+      { length: TOTAL_CLIENTS },
+      async () => await createClientData(coachObjects)
+    )
+  );
   console.log('Seeding: Finished seeding clients!');
 
-  // Create users
-  const babyObjects = [];
-  for (let i = 0; i < TOTAL_BABIES; i++) {
-    babyObjects.push(
-      await prisma.baby.create({ data: createBabyData(clientObjects) })
-    );
-  }
+  // Create babies
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  const babyObjects: Baby[] = await Promise.all(
+    Array.from(
+      { length: TOTAL_BABIES },
+      async () => await createBabyData(clientObjects)
+    )
+  );
   console.log('Seeding: Finished seeding babies!');
 }
 
