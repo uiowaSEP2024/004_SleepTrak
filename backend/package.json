@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "test": "jest",
-    "start": "node ./bin/www"
+    "start": "ts-node ./bin/www.ts",
+    "start-transpiled": "node ./bin/www"
   },
   "dependencies": {
     "@prisma/client": "^5.9.1",
