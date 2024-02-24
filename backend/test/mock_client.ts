@@ -1,4 +1,4 @@
-const { mockDeep, mockReset } = require('jest-mock-extended');
+import { mockDeep, mockReset } from 'jest-mock-extended';
 
 // Mocking '../prisma/client' with prismaMock
 jest.mock('../prisma/client', () => {
@@ -19,6 +19,4 @@ beforeEach(() => {
 });
 
 // Exporting prismaMock
-module.exports = {
-  prismaMock: require('../prisma/client').prisma
-};
+export const prismaMock = require('../prisma/client').prisma;
