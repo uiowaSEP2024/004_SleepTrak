@@ -4,7 +4,7 @@
  */
 
 /** @type {import('jest').Config} */
-const config = {
+export default {
   preset: 'ts-jest',
   testEnvironment: 'node',
   setupFiles: ['./test/env-setup.ts'],
@@ -199,5 +199,3 @@ const config = {
   // Whether to use watchman for file crawling
   // watchman: true,
 };
-
-module.exports = config;
