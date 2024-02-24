@@ -17,6 +17,6 @@
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true
   },
-  "include": ["src", "prisma", "test"],
+  "include": ["src", "prisma", "test", "bin"],
   "references": []
 }
