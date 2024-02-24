@@ -97,6 +97,7 @@ async function main(): Promise<any> {
   console.log('Seeding: Finished seeding clients!');
 
   // Create babies
+  // @ts-expect-error we may want to use the babyObjects to seed further in the future
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const babyObjects: Baby[] = await Promise.all(
     Array.from(

@@ -1,10 +1,13 @@
 {
   "name": "backend",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
+    "build": "tsc --build --verbose",
     "test": "jest",
-    "start": "ts-node ./bin/www.ts",
-    "start-transpiled": "node ./bin/www"
+    "start": "node --loader ts-node/esm ./bin/www.ts",
+    "start-transpiled": "node ./bin/www",
+    "dev": "nodemon src/app.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.9.1",
@@ -25,10 +28,11 @@
     "@types/supertest": "^6.0.2",
     "jest": "^29.7.0",
     "jest-mock-extended": "^3.0.5",
+    "nodemon": "^3.1.0",
     "prisma": "^5.9.1",
     "supertest": "^6.3.4",
     "ts-jest": "^29.1.2",
-    "ts-node-dev": "^2.0.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
   "prisma": {
