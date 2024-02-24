@@ -2,7 +2,7 @@ import type { Request, Response } from 'express';
 import { service } from '../services/babies';
 import { ensureError } from '../utils/error';
 
-const getAll = async (req: Request, res: Response): Promise<void> => {
+const getAll = async (res: Response): Promise<void> => {
   try {
     const babies = await service.getAll();
     res.json(babies);
