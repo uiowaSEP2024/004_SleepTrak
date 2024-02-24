@@ -3,7 +3,7 @@ import { service } from '../services/users';
 import { collapseObject } from '../utils/collapse';
 import { ensureError } from '../utils/error';
 
-const getAll = async (req: Request, res: Response): Promise<void> => {
+const getAll = async (res: Response): Promise<void> => {
   try {
     const users = await service.getAll();
     res.json(users);
