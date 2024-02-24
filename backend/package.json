@@ -8,7 +8,11 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --verbose --coverage --config jest.config.js",
     "start": "node --loader ts-node/esm ./bin/www.ts",
     "start-js": "node --es-module-specifier-resolution=node ./dist/bin/www",
-    "dev": "../node_modules/nodemon/bin/nodemon.js"
+    "start-bjs": "yarn build && yarn start-js",
+    "pg": "prisma generate",
+    "start-docker": "yarn build && yarn pg && yarn start-js",
+    "dev": "nodemon",
+    "dev-docker": "nodemon -L"
   },
   "dependencies": {
     "@prisma/client": "^5.9.1",
