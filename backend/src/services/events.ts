@@ -2,7 +2,7 @@ import { prisma } from '../../prisma/client';
 import type { Event } from '@prisma/client';
 import { ensureError } from '../utils/error';
 
-const getAll = async (eventId: string): Promise<Event[] | Error> => {
+const getAll = async (): Promise<Event[] | Error> => {
   try {
     const result = await prisma.event.findMany();
 
