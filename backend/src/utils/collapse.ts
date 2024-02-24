@@ -1,5 +1,5 @@
-export function collapseObject(obj: any): any {
-  const result = {};
+export function collapseObject(obj: Record<string, any>): any {
+  const result: Record<string, any> = {};
   for (const key in obj) {
     if (obj[key] !== null) {
       if (typeof obj[key] === 'object') {
