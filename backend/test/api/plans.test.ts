@@ -1,19 +1,19 @@
-const request = require('supertest');
-const app = require('../../src/app');
-const { prismaMock } = require('../mock_client');
+import request from 'supertest';
+import app from '../../src/app';
+import { prismaMock } from '../mock_client';
 
 const mockPlans = [
   {
-    id: 1,
+    planId: 1,
     Status: 'upcoming'
   },
   {
-    id: 2,
+    planId: 2,
     Status: 'complete'
   }
 ];
 const plan = {
-  id: 3,
+  planId: 3,
   Status: 'cancelled'
 };
 
@@ -31,15 +31,15 @@ describe('test /plans/:id route', () => {
   test('GET /plans/:id calls findUnique and returns plan', async () => {
     const tid = 3;
     prismaMock.plan.findUnique.mockReturnValue(
-      mockPlans.filter((plans) => plans.id === tid)
+      mockPlans.filter((plans) => plans.planId === tid)
     );
     const response = await request(app).get('/plans/{tid}');
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual(
-      mockPlans.filter((plans) => plans.id === tid)
+      mockPlans.filter((plans) => plans.planId === tid)
     );
-    response.body.forEach((plan) => {
-      expect(plan.id).toEqual(tid);
+    response.body.forEach((plan: any) => {
+      expect(plan.planId).toEqual(tid);
     });
     expect(prismaMock.plan.findUnique).toHaveBeenCalledWith({
       where: { planId: '{tid}' }
@@ -49,17 +49,17 @@ describe('test /plans/:id route', () => {
 
 describe('test /plans/search route', () => {
   test('GET /plans/search calls findMany and returns plans', async () => {
-    const role = 'client';
+    const status = 'complete';
     prismaMock.plan.findMany.mockReturnValue(
-      mockPlans.filter((plan) => plan.role === role)
+      mockPlans.filter((plan) => plan.Status === status)
     );
     const response = await request(app).get('/plans/search');
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual(
-      mockPlans.filter((plan) => plan.role === role)
+      mockPlans.filter((plan) => plan.Status === status)
     );
-    response.body.forEach((plan) => {
-      expect(plan.role).toEqual(role);
+    response.body.forEach((plan: any) => {
+      expect(plan.role).toEqual(status);
     });
     expect(prismaMock.plan.findMany).toHaveBeenCalledWith({ where: {} });
   });

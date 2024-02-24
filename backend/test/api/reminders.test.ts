@@ -1,6 +1,6 @@
-const request = require('supertest');
-const app = require('../../src/app');
-const { prismaMock } = require('../mock_client');
+import request from 'supertest';
+import app from '../../src/app';
+import { prismaMock } from '../mock_client';
 
 const mockReminders = [
   {
@@ -35,15 +35,15 @@ describe('test /reminders/:id route', () => {
   test('GET /reminders/:id calls findUnique and returns reminder', async () => {
     const tid = 3;
     prismaMock.reminder.findUnique.mockReturnValue(
-      mockReminders.filter((reminders) => reminders.id === tid)
+      mockReminders.filter((reminders) => reminders.reminderId === tid)
     );
     const response = await request(app).get('/reminders/{tid}');
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual(
-      mockReminders.filter((reminders) => reminders.id === tid)
+      mockReminders.filter((reminders) => reminders.reminderId === tid)
     );
-    response.body.forEach((reminder) => {
-      expect(reminder.id).toEqual(tid);
+    response.body.forEach((reminder: any) => {
+      expect(reminder.reminderId).toEqual(tid);
     });
     expect(prismaMock.reminder.findUnique).toHaveBeenCalledWith({
       where: { reminderId: '{tid}' }
@@ -62,7 +62,7 @@ describe('test /reminders/search route', () => {
     expect(response.body).toEqual(
       mockReminders.filter((reminder) => reminder.description === description)
     );
-    response.body.forEach((reminder) => {
+    response.body.forEach((reminder: any) => {
       expect(reminder.description).toEqual(description);
     });
     expect(prismaMock.reminder.findMany).toHaveBeenCalledWith({ where: {} });

@@ -1,31 +1,31 @@
-const request = require('supertest');
-const app = require('../../src/app');
-const { prismaMock } = require('../mock_client');
+import request from 'supertest';
+import app from '../../src/app';
+import { prismaMock } from '../mock_client';
 
 const mockUsers = [
   {
-    id: 1,
+    userId: 1,
     first_name: 'Dylan',
     last_name: 'Laurianti',
     email: 'dl@email.js',
     role: 'owner'
   },
   {
-    id: 2,
+    userId: 2,
     first_name: 'Sergio',
     last_name: 'Martelo',
     email: 'sm@email.js',
     role: 'client'
   },
   {
-    id: 3,
+    userId: 3,
     first_name: 'Haruko',
     last_name: 'Okada',
     email: 'ho@email.js',
     role: 'coach'
   },
   {
-    id: 4,
+    userId: 4,
     first_name: 'Mingi',
     last_name: 'Lee',
     email: 'ml@email.js',
@@ -53,15 +53,15 @@ describe('test /users/:id route', () => {
   test('GET /users/:id calls findUnique and returns user', async () => {
     const tid = 3;
     prismaMock.user.findUnique.mockReturnValue(
-      mockUsers.filter((users) => users.id === tid)
+      mockUsers.filter((users) => users.userId === tid)
     );
     const response = await request(app).get('/users/{tid}');
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual(
-      mockUsers.filter((users) => users.id === tid)
+      mockUsers.filter((users) => users.userId === tid)
     );
-    response.body.forEach((user) => {
-      expect(user.id).toEqual(tid);
+    response.body.forEach((user: any) => {
+      expect(user.userId).toEqual(tid);
     });
     expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
       where: { userId: '{tid}' }
@@ -80,7 +80,7 @@ describe('test /users/search route', () => {
     expect(response.body).toEqual(
       mockUsers.filter((user) => user.role === role)
     );
-    response.body.forEach((user) => {
+    response.body.forEach((user: any) => {
       expect(user.role).toEqual(role);
     });
     expect(prismaMock.user.findMany).toHaveBeenCalledWith({ where: {} });

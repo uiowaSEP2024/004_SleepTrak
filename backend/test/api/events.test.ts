@@ -1,6 +1,6 @@
-const request = require('supertest');
-const app = require('../../src/app');
-const { prismaMock } = require('../mock_client');
+import request from 'supertest';
+import app from '../../src/app';
+import { prismaMock } from '../mock_client';
 
 const mockEvents = [
   {
@@ -39,17 +39,17 @@ describe('test /events/:id route', () => {
   test('GET /events/:id calls findUnique and returns event', async () => {
     const tid = 3;
     prismaMock.event.findUnique.mockReturnValue(
-      mockEvents.filter((events) => events.id === tid)
+      mockEvents.filter((events) => events.eventId === tid)
     );
     const response = await request(app).get('/events/{tid}');
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual(
       mockEvents.filter((events) => {
-        return events.id === tid;
+        return events.eventId === tid;
       })
     );
-    response.body.forEach((event) => {
-      expect(event.id).toEqual(tid);
+    response.body.forEach((event: any) => {
+      expect(event.eventId).toEqual(tid);
     });
     expect(prismaMock.event.findUnique).toHaveBeenCalledWith({
       where: { eventId: '{tid}' }
@@ -59,17 +59,17 @@ describe('test /events/:id route', () => {
 
 describe('test /events/search route', () => {
   test('GET /events/search calls findMany and returns events', async () => {
-    const role = 'client';
+    const type = 'sleep';
     prismaMock.event.findMany.mockReturnValue(
-      mockEvents.filter((event) => event.role === role)
+      mockEvents.filter((event) => event.type === type)
     );
     const response = await request(app).get('/events/search');
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual(
-      mockEvents.filter((event) => event.role === role)
+      mockEvents.filter((event) => event.type === type)
     );
-    response.body.forEach((event) => {
-      expect(event.role).toEqual(role);
+    response.body.forEach((event: any) => {
+      expect(event.type).toEqual(type);
     });
     expect(prismaMock.event.findMany).toHaveBeenCalledWith({ where: {} });
   });

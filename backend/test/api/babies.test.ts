@@ -1,6 +1,6 @@
-const request = require('supertest');
-const app = require('../../src/app');
-const { prismaMock } = require('../mock_client');
+import request from 'supertest';
+import app from '../../src/app';
+import { prismaMock } from '../mock_client';
 
 const mockBabies = [
   {
@@ -43,15 +43,15 @@ describe('test /babies/:id route', () => {
   test('GET /babies/:id calls findUnique and returns baby', async () => {
     const tid = 3;
     prismaMock.baby.findUnique.mockReturnValue(
-      mockBabies.filter((babies) => babies.id === tid)
+      mockBabies.filter((babies) => babies.babyId === tid)
     );
     const response = await request(app).get('/babies/{tid}');
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual(
-      mockBabies.filter((babies) => babies.id === tid)
+      mockBabies.filter((babies) => babies.babyId === tid)
     );
-    response.body.forEach((baby) => {
-      expect(baby.id).toEqual(tid);
+    response.body.forEach((baby: any) => {
+      expect(baby.babyId).toEqual(tid);
     });
     expect(prismaMock.baby.findUnique).toHaveBeenCalledWith({
       where: { babyId: '{tid}' }
@@ -70,7 +70,7 @@ describe('test /babies/search route', () => {
     expect(response.body).toEqual(
       mockBabies.filter((baby) => baby.name === name)
     );
-    response.body.forEach((baby) => {
+    response.body.forEach((baby: any) => {
       expect(baby.name).toEqual(name);
     });
     expect(prismaMock.baby.findMany).toHaveBeenCalledWith({ where: {} });
