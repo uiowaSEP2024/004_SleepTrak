@@ -1,80 +1,89 @@
-const service = require('../services/users');
-const utils = require('./utils');
+import type { Request, Response } from 'express';
+import { service } from '../services/users';
+import { collapseObject } from '../utils/collapse';
+import { ensureError } from '../utils/error';
 
-module.exports = {
-  getAll: async (req, res) => {
-    try {
-      const users = await service.getAll();
-      res.json(users);
-    } catch (err) {
-      res.status(500).send(err);
-    }
-  },
-  get: async (req, res) => {
-    try {
-      const { id } = req.params;
-      const user = await service.get(id);
-      res.json(user);
-    } catch (err) {
-      res.status(500).send(err);
-    }
-  },
-  search: async (req, res) => {
-    try {
-      const searchParams = req.body;
-      const users = await service.search(searchParams);
-      res.json(users);
-    } catch (err) {
-      res.status(500).send(err);
-    }
-  },
-  create: async (req, res) => {
-    try {
-      const creationParams = req.body;
-      if (creationParams.length === 0) {
-        throw new Error('Empty body');
-      }
-
-      let userData = {
-        first_name: creationParams.first_name,
-        last_name: creationParams.last_name,
-        email: creationParams.email,
-        role: creationParams.role,
-        coach: creationParams.coachId
-          ? { connect: { coachId: creationParams.coachId } }
-          : null
-      };
-
-      userData = utils.collapseObject(userData);
-
-      const user = await service.create(userData);
-      res.json(user);
-    } catch (err) {
-      res.status(500).send(err);
-    }
-  },
-  update: async (req, res) => {
-    try {
-      const { id } = req.params;
-      const updateParams = req.body;
-      if (updateParams.length === 0) {
-        throw new Error('Empty body');
-      }
-
-      const user = await service.update(id, updateParams);
-      res.json(user);
-    } catch (err) {
-      res.status(500).send(err);
-    }
-  },
-  destroy: async (req, res) => {
-    try {
-      const { id } = req.params;
-
-      const user = await service.destroy(id);
-      res.json(user);
-    } catch (err) {
-      res.status(500).send(err);
-    }
+const getAll = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const users = await service.getAll();
+    res.json(users);
+  } catch (err) {
+    res.status(500).send(ensureError(err));
   }
+};
+const get = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const user = await service.get(id);
+    res.json(user);
+  } catch (err) {
+    res.status(500).send(ensureError(err));
+  }
+};
+const search = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const searchParams = req.body;
+    const users = await service.search(searchParams);
+    res.json(users);
+  } catch (err) {
+    res.status(500).send(ensureError(err));
+  }
+};
+const create = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const creationParams = req.body;
+    if (creationParams.length === 0) {
+      throw new Error('Empty body');
+    }
+
+    let userData = {
+      first_name: creationParams.first_name,
+      last_name: creationParams.last_name,
+      email: creationParams.email,
+      role: creationParams.role,
+      coach: creationParams.coachId
+        ? { connect: { coachId: creationParams.coachId } }
+        : null
+    };
+
+    userData = collapseObject(userData);
+
+    const user = await service.create(userData);
+    res.json(user);
+  } catch (err) {
+    res.status(500).send(ensureError(err));
+  }
+};
+const update = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const updateParams = req.body;
+    if (updateParams.length === 0) {
+      throw new Error('Empty body');
+    }
+
+    const user = await service.update(id, updateParams);
+    res.json(user);
+  } catch (err) {
+    res.status(500).send(ensureError(err));
+  }
+};
+const destroy = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+
+    const user = await service.destroy(id);
+    res.json(user);
+  } catch (err) {
+    res.status(500).send(ensureError(err));
+  }
+};
+
+export const controller = {
+  getAll,
+  get,
+  search,
+  create,
+  update,
+  destroy
 };
