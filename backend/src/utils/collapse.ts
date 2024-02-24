@@ -1,4 +1,4 @@
-function collapseObject(obj: any): any {
+export function collapseObject(obj: any): any {
   const result = {};
   for (const key in obj) {
     if (obj[key] !== null) {
@@ -11,7 +11,3 @@ function collapseObject(obj: any): any {
   }
   return result;
 }
-
-module.exports = {
-  collapseObject
-};

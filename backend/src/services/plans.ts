@@ -2,7 +2,7 @@ import { prisma } from '../../prisma/client';
 import type { Plan } from '@prisma/client';
 import { ensureError } from '../utils/error';
 
-const getAll = async (planId: string): Promise<Plan[] | Error> => {
+const getAll = async (): Promise<Plan[] | Error> => {
   try {
     const result = await prisma.plan.findMany();
 
