@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
-import { service } from '../services/users';
-import { collapseObject } from '../utils/collapse';
-import { ensureError } from '../utils/error';
+import { service } from '../services/users.js';
+import { collapseObject } from '../utils/collapse.js';
+import { ensureError } from '../utils/error.js';
 
 const getAll = async (res: Response): Promise<void> => {
   try {

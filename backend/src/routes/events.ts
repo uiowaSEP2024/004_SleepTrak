@@ -1,17 +1,19 @@
 import express from 'express';
-import { controller } from '../controllers/events';
-import { auth } from '../services/auth';
+import { controller } from '../controllers/events.js';
+import { auth } from '../services/auth.js';
+import { asyncHandler } from './handler.js';
+
 const router = express.Router();
 
 // Protecting routes with auth0
 router.use(auth.requireAuth);
 
 // Routes
-router.get('/all', controller.getAll);
-router.get('/search', controller.search);
-router.get('/:id', controller.get);
-router.post('/create', controller.create);
-router.put('/:id/update', controller.update);
-router.delete('/:id/delete', controller.destroy);
+router.get('/all', asyncHandler(controller.getAll));
+router.get('/search', asyncHandler(controller.search));
+router.get('/:id', asyncHandler(controller.get));
+router.post('/create', asyncHandler(controller.create));
+router.put('/:id/update', asyncHandler(controller.update));
+router.delete('/:id/delete', asyncHandler(controller.destroy));
 
 export default router;
