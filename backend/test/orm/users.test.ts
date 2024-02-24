@@ -1,5 +1,5 @@
-const { prismaMock } = require('../mock_client');
-const service = require('../../src/services/users');
+import { prismaMock } from '../mock_client';
+import { service } from '../../src/services/users';
 
 test('should create new user ', async () => {
   const user = {
