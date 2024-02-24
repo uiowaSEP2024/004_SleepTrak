@@ -8,7 +8,7 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --verbose --coverage --config jest.config.js",
     "start": "node --loader ts-node/esm ./bin/www.ts",
     "start-js": "node --es-module-specifier-resolution=node ./dist/bin/www",
-    "dev": "nodemon src/app.ts"
+    "dev": "../node_modules/nodemon/bin/nodemon.js"
   },
   "dependencies": {
     "@prisma/client": "^5.9.1",
