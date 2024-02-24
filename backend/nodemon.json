@@ -1,6 +1,6 @@
 {
   "ignore": [".git", "node_modules", "dist", "test", "coverage"],
   "watch": ["./src", "./prisma", "./bin"],
-  "exec": "yarn start",
+  "exec": "yarn start-docker",
   "ext": "js,jsx,ts,tsx,json,html,css"
 }

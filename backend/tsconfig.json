@@ -21,5 +21,8 @@
   },
   "include": ["src", "prisma", "test", "bin/*.ts"],
   "exclude": ["node_modules"],
-  "references": []
+  "references": [],
+  "ts-node": {
+    "esm": true
+  }
 }
