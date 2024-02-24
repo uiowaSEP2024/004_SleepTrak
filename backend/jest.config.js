@@ -8,6 +8,15 @@ export default {
   preset: 'ts-jest',
   testEnvironment: 'node',
   setupFiles: ['./test/env-setup.ts'],
+  extensionsToTreatAsEsm: ['.ts'],
+  transform: {
+    '^.+\\.(mt|t|cj|j)s$': [
+      'ts-jest',
+      {
+        useESM: true
+      }
+    ]
+  },
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
