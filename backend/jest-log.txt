@@ -1,0 +1,1309 @@
+[2K[1G[33mwarning[39m package.json: No license field
+(node:5486) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5480) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+[0m[7m[1m[31m FAIL [39m[22m[27m[0m [2mdist/test/orm/[22m[1musers.test.js[22m
+  [31m✕[39m [2mshould create new user  (140 ms)[22m
+
+[1m[31m  [1m● [22m[1mshould create new user [39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mresolves[2m.[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  -  6[39m
+    [31m+ Received  + 11[39m
+
+    [32m- Object {[39m
+    [32m-   "email": "test@email.js",[39m
+    [32m-   "first_name": "Test",[39m
+    [32m-   "last_name": "User",[39m
+    [32m-   "role": "coach",[39m
+    [32m- }[39m
+    [31m+ [PrismaClientInitializationError: [39m
+    [31m+ Invalid `prisma.user.create()` invocation in[39m
+    [31m+ /root/git/SleepTrak/backend/dist/src/services/users.js:38:42[39m
+    [31m+[39m
+    [31m+   35 };[39m
+    [31m+   36 const create = async (userData) => {[39m
+    [31m+   37     try {[39m
+    [31m+ → 38         const result = await prisma.user.create([39m
+    [31m+ Can't reach database server at `ls-aca82caf014d482037b78448d813ccb1584a9b1a.c54g80cg4sps`:`5432`[39m
+    [31m+[39m
+    [31m+ Please make sure your database server is running at `ls-aca82caf014d482037b78448d813ccb1584a9b1a.c54g80cg4sps`:`5432`.][39m
+[2m[22m
+[2m    [0m [90m  9 |[39m     }[33m;[39m[0m[22m
+[2m    [0m [90m 10 |[39m     prismaMock[33m.[39muser[33m.[39mcreate[33m.[39mmockResolvedValue(user)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 11 |[39m     [36mawait[39m expect(service[33m.[39mcreate(user))[33m.[39mresolves[33m.[39mtoEqual(user)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 12 |[39m })[33m;[39m[0m[22m
+[2m    [0m [90m 13 |[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.toEqual ([22m[2m../node_modules/expect/build/index.js[2m:174:22)[22m[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/orm/users.test.js[39m[0m[2m:11:49)[22m[2m[22m
+
+[0m[7m[1m[31m FAIL [39m[22m[27m[0m [2mtest/orm/[22m[1musers.test.ts[22m
+  [31m✕[39m [2mshould create new user  (85 ms)[22m
+
+[1m[31m  [1m● [22m[1mshould create new user [39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mresolves[2m.[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  -  6[39m
+    [31m+ Received  + 11[39m
+
+    [32m- Object {[39m
+    [32m-   "email": "test@email.js",[39m
+    [32m-   "first_name": "Test",[39m
+    [32m-   "last_name": "User",[39m
+    [32m-   "role": "coach",[39m
+    [32m- }[39m
+    [31m+ [PrismaClientInitializationError: [39m
+    [31m+ Invalid `prisma.user.create()` invocation in[39m
+    [31m+ /root/git/SleepTrak/backend/src/services/users.ts:40:38[39m
+    [31m+[39m
+    [31m+   37 };[39m
+    [31m+   38 const create = async (userData: any): Promise<User | Error> => {[39m
+    [31m+   39   try {[39m
+    [31m+ → 40     const result = await prisma.user.create([39m
+    [31m+ Can't reach database server at `ls-aca82caf014d482037b78448d813ccb1584a9b1a.c54g80cg4sps`:`5432`[39m
+    [31m+[39m
+    [31m+ Please make sure your database server is running at `ls-aca82caf014d482037b78448d813ccb1584a9b1a.c54g80cg4sps`:`5432`.][39m
+[2m[22m
+[2m    [0m [90m 12 |[39m   prismaMock[33m.[39muser[33m.[39mcreate[33m.[39mmockResolvedValue(user)[33m;[39m[0m[22m
+[2m    [0m [90m 13 |[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 14 |[39m   [36mawait[39m expect(service[33m.[39mcreate(user))[33m.[39mresolves[33m.[39mtoEqual(user)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                               [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 15 |[39m })[33m;[39m[0m[22m
+[2m    [0m [90m 16 |[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.toEqual ([22m[2m../node_modules/expect/build/index.js[2m:174:22)[22m[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/orm/users.test.ts[39m[0m[2m:14:47)[22m[2m[22m
+
+(node:5431) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5425) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5467) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5466) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5426) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5444) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5474) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5436) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5424) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:5468) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+[0m[7m[1m[31m FAIL [39m[22m[27m[0m [2mtest/api/[22m[1musers.test.ts[22m
+  Test /users/all route
+    [31m✕[39m [2mGET /users returns all users (96 ms)[22m
+  test /users/:id route
+    [31m✕[39m [2mGET /users/:id calls findUnique and returns user (24 ms)[22m
+  test /users/search route
+    [31m✕[39m [2mGET /users/search calls findMany and returns users (18 ms)[22m
+  test /users/create route
+    [31m✕[39m [2mPOST /users/create calls create and returns user (8 ms)[22m
+  test /users/:id/update route
+    [31m✕[39m [2mPUT /users/:id/update calls update and returns user (21 ms)[22m
+  test /users/:id/delete route
+    [31m✕[39m [2mPUT /users/:id/delete calls delete and returns delete info (14 ms)[22m
+
+[1m[31m  [1m● [22m[1mTest /users/all route › GET /users returns all users[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 44 |[39m     prismaMock[33m.[39muser[33m.[39mfindMany[33m.[39mmockReturnValue(mockUsers)[33m;[39m[0m[22m
+[2m    [0m [90m 45 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/users/all'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 46 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 47 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual(mockUsers)[33m;[39m[0m[22m
+[2m    [0m [90m 48 |[39m     expect(prismaMock[33m.[39muser[33m.[39mfindMany)[33m.[39mtoHaveBeenCalledWith()[33m;[39m[0m[22m
+[2m    [0m [90m 49 |[39m   })[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/users.test.ts[39m[0m[2m:46:33)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /users/:id route › GET /users/:id calls findUnique and returns user[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 57 |[39m     )[33m;[39m[0m[22m
+[2m    [0m [90m 58 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/users/{tid}'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 59 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 60 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual([0m[22m
+[2m    [0m [90m 61 |[39m       mockUsers[33m.[39mfilter((users) [33m=>[39m users[33m.[39muserId [33m===[39m tid)[0m[22m
+[2m    [0m [90m 62 |[39m     )[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/users.test.ts[39m[0m[2m:59:33)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /users/search route › GET /users/search calls findMany and returns users[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 77 |[39m     )[33m;[39m[0m[22m
+[2m    [0m [90m 78 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/users/search'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 79 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 80 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual([0m[22m
+[2m    [0m [90m 81 |[39m       mockUsers[33m.[39mfilter((user) [33m=>[39m user[33m.[39mrole [33m===[39m role)[0m[22m
+[2m    [0m [90m 82 |[39m     )[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/users.test.ts[39m[0m[2m:79:33)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /users/create route › POST /users/create calls create and returns user[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 92 |[39m     prismaMock[33m.[39muser[33m.[39mcreate[33m.[39mmockReturnValue(user)[33m;[39m[0m[22m
+[2m    [0m [90m 93 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39mpost([32m'/users/create'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 94 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 95 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual(user)[33m;[39m[0m[22m
+[2m    [0m [90m 96 |[39m   })[33m;[39m[0m[22m
+[2m    [0m [90m 97 |[39m })[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/users.test.ts[39m[0m[2m:94:33)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /users/:id/update route › PUT /users/:id/update calls update and returns user[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 103 |[39m       [33m.[39mput([32m'/users/4/update'[39m)[0m[22m
+[2m    [0m [90m 104 |[39m       [33m.[39msend({ first_name[33m:[39m [32m'Update'[39m })[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 105 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m     |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 106 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual(user)[33m;[39m[0m[22m
+[2m    [0m [90m 107 |[39m     expect(prismaMock[33m.[39muser[33m.[39mupdate)[33m.[39mtoHaveBeenCalledWith({[0m[22m
+[2m    [0m [90m 108 |[39m       data[33m:[39m {[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/users.test.ts[39m[0m[2m:105:33)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /users/:id/delete route › PUT /users/:id/delete calls delete and returns delete info[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 118 |[39m     prismaMock[33m.[39muser[33m.[39m[36mdelete[39m[33m.[39mmockReturnValue(user)[33m;[39m[0m[22m
+[2m    [0m [90m 119 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mdelete[39m([32m'/users/4/delete'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 120 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m     |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 121 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual(user)[33m;[39m[0m[22m
+[2m    [0m [90m 122 |[39m     expect(prismaMock[33m.[39muser[33m.[39m[36mdelete[39m)[33m.[39mtoHaveBeenCalledWith({[0m[22m
+[2m    [0m [90m 123 |[39m       where[33m:[39m { userId[33m:[39m [32m'4'[39m }[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/users.test.ts[39m[0m[2m:120:33)[22m[2m[22m
+
+[0m[7m[1m[31m FAIL [39m[22m[27m[0m [2mdist/test/api/[22m[1mplans.test.js[22m
+  Test /plans/all route
+    [31m✕[39m [2mGET /plans returns all plans (86 ms)[22m
+  test /plans/:id route
+    [31m✕[39m [2mGET /plans/:id calls findUnique and returns plan (21 ms)[22m
+  test /plans/search route
+    [31m✕[39m [2mGET /plans/search calls findMany and returns plans (15 ms)[22m
+  test /plans/create route
+    [31m✕[39m [2mPOST /plans/create calls create and returns plan (10 ms)[22m
+  test /plans/:id/update route
+    [31m✕[39m [2mPUT /plans/:id/update calls update and returns plan (23 ms)[22m
+  test /plans/:id/delete route
+    [31m✕[39m [2mPUT /plans/:id/delete calls delete and returns delete info (6 ms)[22m
+
+[1m[31m  [1m● [22m[1mTest /plans/all route › GET /plans returns all plans[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 20 |[39m         prismaMock[33m.[39mplan[33m.[39mfindMany[33m.[39mmockReturnValue(mockPlans)[33m;[39m[0m[22m
+[2m    [0m [90m 21 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/plans/all'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 22 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 23 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(mockPlans)[33m;[39m[0m[22m
+[2m    [0m [90m 24 |[39m         expect(prismaMock[33m.[39mplan[33m.[39mfindMany)[33m.[39mtoHaveBeenCalledWith()[33m;[39m[0m[22m
+[2m    [0m [90m 25 |[39m     })[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/plans.test.js[39m[0m[2m:22:37)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /plans/:id route › GET /plans/:id calls findUnique and returns plan[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 30 |[39m         prismaMock[33m.[39mplan[33m.[39mfindUnique[33m.[39mmockReturnValue(mockPlans[33m.[39mfilter((plans) [33m=>[39m plans[33m.[39mplanId [33m===[39m tid))[33m;[39m[0m[22m
+[2m    [0m [90m 31 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/plans/{tid}'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 32 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 33 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(mockPlans[33m.[39mfilter((plans) [33m=>[39m plans[33m.[39mplanId [33m===[39m tid))[33m;[39m[0m[22m
+[2m    [0m [90m 34 |[39m         response[33m.[39mbody[33m.[39mforEach((plan) [33m=>[39m {[0m[22m
+[2m    [0m [90m 35 |[39m             expect(plan[33m.[39mplanId)[33m.[39mtoEqual(tid)[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/plans.test.js[39m[0m[2m:32:37)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /plans/search route › GET /plans/search calls findMany and returns plans[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 45 |[39m         prismaMock[33m.[39mplan[33m.[39mfindMany[33m.[39mmockReturnValue(mockPlans[33m.[39mfilter((plan) [33m=>[39m plan[33m.[39m[33mStatus[39m [33m===[39m status))[33m;[39m[0m[22m
+[2m    [0m [90m 46 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/plans/search'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 47 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 48 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(mockPlans[33m.[39mfilter((plan) [33m=>[39m plan[33m.[39m[33mStatus[39m [33m===[39m status))[33m;[39m[0m[22m
+[2m    [0m [90m 49 |[39m         response[33m.[39mbody[33m.[39mforEach((plan) [33m=>[39m {[0m[22m
+[2m    [0m [90m 50 |[39m             expect(plan[33m.[39mrole)[33m.[39mtoEqual(status)[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/plans.test.js[39m[0m[2m:47:37)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /plans/create route › POST /plans/create calls create and returns plan[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 57 |[39m         prismaMock[33m.[39mplan[33m.[39mcreate[33m.[39mmockReturnValue(plan)[33m;[39m[0m[22m
+[2m    [0m [90m 58 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39mpost([32m'/plans/create'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 59 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 60 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(plan)[33m;[39m[0m[22m
+[2m    [0m [90m 61 |[39m     })[33m;[39m[0m[22m
+[2m    [0m [90m 62 |[39m })[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/plans.test.js[39m[0m[2m:59:37)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /plans/:id/update route › PUT /plans/:id/update calls update and returns plan[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 67 |[39m             [33m.[39mput([32m'/plans/4/update'[39m)[0m[22m
+[2m    [0m [90m 68 |[39m             [33m.[39msend({ first_name[33m:[39m [32m'Update'[39m })[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 69 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 70 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(plan)[33m;[39m[0m[22m
+[2m    [0m [90m 71 |[39m         expect(prismaMock[33m.[39mplan[33m.[39mupdate)[33m.[39mtoHaveBeenCalledWith({[0m[22m
+[2m    [0m [90m 72 |[39m             data[33m:[39m {[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/plans.test.js[39m[0m[2m:69:37)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /plans/:id/delete route › PUT /plans/:id/delete calls delete and returns delete info[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 81 |[39m         prismaMock[33m.[39mplan[33m.[39m[36mdelete[39m[33m.[39mmockReturnValue(plan)[33m;[39m[0m[22m
+[2m    [0m [90m 82 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mdelete[39m([32m'/plans/4/delete'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 83 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 84 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(plan)[33m;[39m[0m[22m
+[2m    [0m [90m 85 |[39m         expect(prismaMock[33m.[39mplan[33m.[39m[36mdelete[39m)[33m.[39mtoHaveBeenCalledWith({[0m[22m
+[2m    [0m [90m 86 |[39m             where[33m:[39m { planId[33m:[39m [32m'4'[39m }[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/plans.test.js[39m[0m[2m:83:37)[22m[2m[22m
+
+[0m[7m[1m[31m FAIL [39m[22m[27m[0m [2mdist/test/api/[22m[1mbabies.test.js[22m
+  Test /babies/all route
+    [31m✕[39m [2mGET /babies returns all babies (89 ms)[22m
+  test /babies/:id route
+    [31m✕[39m [2mGET /babies/:id calls findUnique and returns baby (20 ms)[22m
+  test /babies/search route
+    [31m✕[39m [2mGET /babies/search calls findMany and returns babies (12 ms)[22m
+  test /babies/create route
+    [31m✕[39m [2mPOST /babies/create calls create and returns baby (10 ms)[22m
+  test /babies/:id/update route
+    [31m✕[39m [2mPUT /babies/:id/update calls update and returns baby (24 ms)[22m
+  test /babies/:id/delete route
+    [31m✕[39m [2mPUT /babies/:id/delete calls delete and returns delete info (18 ms)[22m
+
+[1m[31m  [1m● [22m[1mTest /babies/all route › GET /babies returns all babies[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 32 |[39m         prismaMock[33m.[39mbaby[33m.[39mfindMany[33m.[39mmockReturnValue(mockBabies)[33m;[39m[0m[22m
+[2m    [0m [90m 33 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/babies/all'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 34 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 35 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(mockBabies)[33m;[39m[0m[22m
+[2m    [0m [90m 36 |[39m         expect(prismaMock[33m.[39mbaby[33m.[39mfindMany)[33m.[39mtoHaveBeenCalledWith()[33m;[39m[0m[22m
+[2m    [0m [90m 37 |[39m     })[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/babies.test.js[39m[0m[2m:34:37)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /babies/:id route › GET /babies/:id calls findUnique and returns baby[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 42 |[39m         prismaMock[33m.[39mbaby[33m.[39mfindUnique[33m.[39mmockReturnValue(mockBabies[33m.[39mfilter((babies) [33m=>[39m babies[33m.[39mbabyId [33m===[39m tid))[33m;[39m[0m[22m
+[2m    [0m [90m 43 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/babies/{tid}'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 44 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 45 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(mockBabies[33m.[39mfilter((babies) [33m=>[39m babies[33m.[39mbabyId [33m===[39m tid))[33m;[39m[0m[22m
+[2m    [0m [90m 46 |[39m         response[33m.[39mbody[33m.[39mforEach((baby) [33m=>[39m {[0m[22m
+[2m    [0m [90m 47 |[39m             expect(baby[33m.[39mbabyId)[33m.[39mtoEqual(tid)[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/babies.test.js[39m[0m[2m:44:37)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /babies/search route › GET /babies/search calls findMany and returns babies[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 57 |[39m         prismaMock[33m.[39mbaby[33m.[39mfindMany[33m.[39mmockReturnValue(mockBabies[33m.[39mfilter((baby) [33m=>[39m baby[33m.[39mname [33m===[39m name))[33m;[39m[0m[22m
+[2m    [0m [90m 58 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/babies/search'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 59 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 60 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(mockBabies[33m.[39mfilter((baby) [33m=>[39m baby[33m.[39mname [33m===[39m name))[33m;[39m[0m[22m
+[2m    [0m [90m 61 |[39m         response[33m.[39mbody[33m.[39mforEach((baby) [33m=>[39m {[0m[22m
+[2m    [0m [90m 62 |[39m             expect(baby[33m.[39mname)[33m.[39mtoEqual(name)[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/babies.test.js[39m[0m[2m:59:37)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /babies/create route › POST /babies/create calls create and returns baby[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 69 |[39m         prismaMock[33m.[39mbaby[33m.[39mcreate[33m.[39mmockReturnValue(baby)[33m;[39m[0m[22m
+[2m    [0m [90m 70 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39mpost([32m'/babies/create'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 71 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 72 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(baby)[33m;[39m[0m[22m
+[2m    [0m [90m 73 |[39m     })[33m;[39m[0m[22m
+[2m    [0m [90m 74 |[39m })[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/babies.test.js[39m[0m[2m:71:37)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /babies/:id/update route › PUT /babies/:id/update calls update and returns baby[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 79 |[39m             [33m.[39mput([32m'/babies/4/update'[39m)[0m[22m
+[2m    [0m [90m 80 |[39m             [33m.[39msend({ name[33m:[39m [32m'Mary'[39m })[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 81 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 82 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(baby)[33m;[39m[0m[22m
+[2m    [0m [90m 83 |[39m         expect(prismaMock[33m.[39mbaby[33m.[39mupdate)[33m.[39mtoHaveBeenCalledWith({[0m[22m
+[2m    [0m [90m 84 |[39m             data[33m:[39m {[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/babies.test.js[39m[0m[2m:81:37)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /babies/:id/delete route › PUT /babies/:id/delete calls delete and returns delete info[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 93 |[39m         prismaMock[33m.[39mbaby[33m.[39m[36mdelete[39m[33m.[39mmockReturnValue(baby)[33m;[39m[0m[22m
+[2m    [0m [90m 94 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mdelete[39m([32m'/babies/4/delete'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 95 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 96 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(baby)[33m;[39m[0m[22m
+[2m    [0m [90m 97 |[39m         expect(prismaMock[33m.[39mbaby[33m.[39m[36mdelete[39m)[33m.[39mtoHaveBeenCalledWith({[0m[22m
+[2m    [0m [90m 98 |[39m             where[33m:[39m { babyId[33m:[39m [32m'4'[39m }[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/babies.test.js[39m[0m[2m:95:37)[22m[2m[22m
+
+[0m[7m[1m[31m FAIL [39m[22m[27m[0m [2mdist/test/api/[22m[1mevents.test.js[22m
+  Test /events/all route
+    [31m✕[39m [2mGET /events returns all events (59 ms)[22m
+  test /events/:id route
+    [31m✕[39m [2mGET /events/:id calls findUnique and returns event (14 ms)[22m
+  test /events/search route
+    [31m✕[39m [2mGET /events/search calls findMany and returns events (6 ms)[22m
+  test /events/create route
+    [31m✕[39m [2mPOST /events/create calls create and returns event (18 ms)[22m
+  test /events/:id/update route
+    [31m✕[39m [2mPUT /events/:id/update calls update and returns event (27 ms)[22m
+  test /events/:id/delete route
+    [31m✕[39m [2mPUT /events/:id/delete calls delete and returns delete info (9 ms)[22m
+
+[1m[31m  [1m● [22m[1mTest /events/all route › GET /events returns all events[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 28 |[39m         prismaMock[33m.[39mevent[33m.[39mfindMany[33m.[39mmockReturnValue(mockEvents)[33m;[39m[0m[22m
+[2m    [0m [90m 29 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/events/all'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 30 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 31 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(mockEvents)[33m;[39m[0m[22m
+[2m    [0m [90m 32 |[39m         expect(prismaMock[33m.[39mevent[33m.[39mfindMany)[33m.[39mtoHaveBeenCalledWith()[33m;[39m[0m[22m
+[2m    [0m [90m 33 |[39m     })[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/events.test.js[39m[0m[2m:30:37)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /events/:id route › GET /events/:id calls findUnique and returns event[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 38 |[39m         prismaMock[33m.[39mevent[33m.[39mfindUnique[33m.[39mmockReturnValue(mockEvents[33m.[39mfilter((events) [33m=>[39m events[33m.[39meventId [33m===[39m tid))[33m;[39m[0m[22m
+[2m    [0m [90m 39 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/events/{tid}'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 40 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 41 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(mockEvents[33m.[39mfilter((events) [33m=>[39m {[0m[22m
+[2m    [0m [90m 42 |[39m             [36mreturn[39m events[33m.[39meventId [33m===[39m tid[33m;[39m[0m[22m
+[2m    [0m [90m 43 |[39m         }))[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/events.test.js[39m[0m[2m:40:37)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /events/search route › GET /events/search calls findMany and returns events[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 55 |[39m         prismaMock[33m.[39mevent[33m.[39mfindMany[33m.[39mmockReturnValue(mockEvents[33m.[39mfilter((event) [33m=>[39m event[33m.[39mtype [33m===[39m type))[33m;[39m[0m[22m
+[2m    [0m [90m 56 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/events/search'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 57 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 58 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(mockEvents[33m.[39mfilter((event) [33m=>[39m event[33m.[39mtype [33m===[39m type))[33m;[39m[0m[22m
+[2m    [0m [90m 59 |[39m         response[33m.[39mbody[33m.[39mforEach((event) [33m=>[39m {[0m[22m
+[2m    [0m [90m 60 |[39m             expect(event[33m.[39mtype)[33m.[39mtoEqual(type)[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/events.test.js[39m[0m[2m:57:37)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /events/create route › POST /events/create calls create and returns event[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 67 |[39m         prismaMock[33m.[39mevent[33m.[39mcreate[33m.[39mmockReturnValue(event)[33m;[39m[0m[22m
+[2m    [0m [90m 68 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39mpost([32m'/events/create'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 69 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 70 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(event)[33m;[39m[0m[22m
+[2m    [0m [90m 71 |[39m     })[33m;[39m[0m[22m
+[2m    [0m [90m 72 |[39m })[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/events.test.js[39m[0m[2m:69:37)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /events/:id/update route › PUT /events/:id/update calls update and returns event[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 77 |[39m             [33m.[39mput([32m'/events/4/update'[39m)[0m[22m
+[2m    [0m [90m 78 |[39m             [33m.[39msend({ type[33m:[39m [32m'nap'[39m })[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 79 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 80 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(event)[33m;[39m[0m[22m
+[2m    [0m [90m 81 |[39m         expect(prismaMock[33m.[39mevent[33m.[39mupdate)[33m.[39mtoHaveBeenCalledWith({[0m[22m
+[2m    [0m [90m 82 |[39m             data[33m:[39m {[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/events.test.js[39m[0m[2m:79:37)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /events/:id/delete route › PUT /events/:id/delete calls delete and returns delete info[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 91 |[39m         prismaMock[33m.[39mevent[33m.[39m[36mdelete[39m[33m.[39mmockReturnValue(event)[33m;[39m[0m[22m
+[2m    [0m [90m 92 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mdelete[39m([32m'/events/4/delete'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 93 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 94 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(event)[33m;[39m[0m[22m
+[2m    [0m [90m 95 |[39m         expect(prismaMock[33m.[39mevent[33m.[39m[36mdelete[39m)[33m.[39mtoHaveBeenCalledWith({[0m[22m
+[2m    [0m [90m 96 |[39m             where[33m:[39m { eventId[33m:[39m [32m'4'[39m }[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/events.test.js[39m[0m[2m:93:37)[22m[2m[22m
+
+[0m[7m[1m[31m FAIL [39m[22m[27m[0m [2mtest/api/[22m[1mbabies.test.ts[22m
+  Test /babies/all route
+    [31m✕[39m [2mGET /babies returns all babies (70 ms)[22m
+  test /babies/:id route
+    [31m✕[39m [2mGET /babies/:id calls findUnique and returns baby (28 ms)[22m
+  test /babies/search route
+    [31m✕[39m [2mGET /babies/search calls findMany and returns babies (9 ms)[22m
+  test /babies/create route
+    [31m✕[39m [2mPOST /babies/create calls create and returns baby (12 ms)[22m
+  test /babies/:id/update route
+    [31m✕[39m [2mPUT /babies/:id/update calls update and returns baby (20 ms)[22m
+  test /babies/:id/delete route
+    [31m✕[39m [2mPUT /babies/:id/delete calls delete and returns delete info (16 ms)[22m
+
+[1m[31m  [1m● [22m[1mTest /babies/all route › GET /babies returns all babies[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 34 |[39m     prismaMock[33m.[39mbaby[33m.[39mfindMany[33m.[39mmockReturnValue(mockBabies)[33m;[39m[0m[22m
+[2m    [0m [90m 35 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/babies/all'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 36 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 37 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual(mockBabies)[33m;[39m[0m[22m
+[2m    [0m [90m 38 |[39m     expect(prismaMock[33m.[39mbaby[33m.[39mfindMany)[33m.[39mtoHaveBeenCalledWith()[33m;[39m[0m[22m
+[2m    [0m [90m 39 |[39m   })[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/babies.test.ts[39m[0m[2m:36:33)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /babies/:id route › GET /babies/:id calls findUnique and returns baby[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 47 |[39m     )[33m;[39m[0m[22m
+[2m    [0m [90m 48 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/babies/{tid}'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 49 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 50 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual([0m[22m
+[2m    [0m [90m 51 |[39m       mockBabies[33m.[39mfilter((babies) [33m=>[39m babies[33m.[39mbabyId [33m===[39m tid)[0m[22m
+[2m    [0m [90m 52 |[39m     )[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/babies.test.ts[39m[0m[2m:49:33)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /babies/search route › GET /babies/search calls findMany and returns babies[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 67 |[39m     )[33m;[39m[0m[22m
+[2m    [0m [90m 68 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/babies/search'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 69 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 70 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual([0m[22m
+[2m    [0m [90m 71 |[39m       mockBabies[33m.[39mfilter((baby) [33m=>[39m baby[33m.[39mname [33m===[39m name)[0m[22m
+[2m    [0m [90m 72 |[39m     )[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/babies.test.ts[39m[0m[2m:69:33)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /babies/create route › POST /babies/create calls create and returns baby[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 82 |[39m     prismaMock[33m.[39mbaby[33m.[39mcreate[33m.[39mmockReturnValue(baby)[33m;[39m[0m[22m
+[2m    [0m [90m 83 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39mpost([32m'/babies/create'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 84 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 85 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual(baby)[33m;[39m[0m[22m
+[2m    [0m [90m 86 |[39m   })[33m;[39m[0m[22m
+[2m    [0m [90m 87 |[39m })[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/babies.test.ts[39m[0m[2m:84:33)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /babies/:id/update route › PUT /babies/:id/update calls update and returns baby[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 93 |[39m       [33m.[39mput([32m'/babies/4/update'[39m)[0m[22m
+[2m    [0m [90m 94 |[39m       [33m.[39msend({ name[33m:[39m [32m'Mary'[39m })[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 95 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 96 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual(baby)[33m;[39m[0m[22m
+[2m    [0m [90m 97 |[39m     expect(prismaMock[33m.[39mbaby[33m.[39mupdate)[33m.[39mtoHaveBeenCalledWith({[0m[22m
+[2m    [0m [90m 98 |[39m       data[33m:[39m {[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/babies.test.ts[39m[0m[2m:95:33)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /babies/:id/delete route › PUT /babies/:id/delete calls delete and returns delete info[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 108 |[39m     prismaMock[33m.[39mbaby[33m.[39m[36mdelete[39m[33m.[39mmockReturnValue(baby)[33m;[39m[0m[22m
+[2m    [0m [90m 109 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mdelete[39m([32m'/babies/4/delete'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 110 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m     |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 111 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual(baby)[33m;[39m[0m[22m
+[2m    [0m [90m 112 |[39m     expect(prismaMock[33m.[39mbaby[33m.[39m[36mdelete[39m)[33m.[39mtoHaveBeenCalledWith({[0m[22m
+[2m    [0m [90m 113 |[39m       where[33m:[39m { babyId[33m:[39m [32m'4'[39m }[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/babies.test.ts[39m[0m[2m:110:33)[22m[2m[22m
+
+[0m[7m[1m[31m FAIL [39m[22m[27m[0m [2mtest/api/[22m[1mreminders.test.ts[22m
+  Test /reminders/all route
+    [31m✕[39m [2mGET /reminders returns all reminders (127 ms)[22m
+  test /reminders/:id route
+    [31m✕[39m [2mGET /reminders/:id calls findUnique and returns reminder (36 ms)[22m
+  test /reminders/search route
+    [31m✕[39m [2mGET /reminders/search calls findMany and returns reminders (38 ms)[22m
+  test /reminders/create route
+    [31m✕[39m [2mPOST /reminders/create calls create and returns reminder (39 ms)[22m
+  test /reminders/:id/update route
+    [31m✕[39m [2mPUT /reminders/:id/update calls update and returns reminder (40 ms)[22m
+  test /reminders/:id/delete route
+    [31m✕[39m [2mPUT /reminders/:id/delete calls delete and returns delete info (31 ms)[22m
+
+[1m[31m  [1m● [22m[1mTest /reminders/all route › GET /reminders returns all reminders[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    Expected: [32m[{"description": "nap", "reminderId": 1}, {"description": "nap", "reminderId": 2}, {"description": "nap", "reminderId": 3}][39m
+    Received: [31m{"clientVersion": "5.9.1", "name": "PrismaClientInitializationError"}[39m
+[2m[22m
+[2m    [0m [90m 27 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/reminders/all'[39m)[33m;[39m[0m[22m
+[2m    [0m [90m 28 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 29 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual(mockReminders)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                           [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 30 |[39m     expect(prismaMock[33m.[39mreminder[33m.[39mfindMany)[33m.[39mtoHaveBeenCalledWith()[33m;[39m[0m[22m
+[2m    [0m [90m 31 |[39m   })[33m;[39m[0m[22m
+[2m    [0m [90m 32 |[39m })[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/reminders.test.ts[39m[0m[2m:29:27)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /reminders/:id route › GET /reminders/:id calls findUnique and returns reminder[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    Expected: [32m[{"description": "nap", "reminderId": 3}][39m
+    Received: [31m{"clientVersion": "5.9.1", "name": "PrismaClientInitializationError"}[39m
+[2m[22m
+[2m    [0m [90m 40 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/reminders/{tid}'[39m)[33m;[39m[0m[22m
+[2m    [0m [90m 41 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 42 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual([0m[22m
+[2m    [0m [90m    |[39m                           [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 43 |[39m       mockReminders[33m.[39mfilter((reminders) [33m=>[39m reminders[33m.[39mreminderId [33m===[39m tid)[0m[22m
+[2m    [0m [90m 44 |[39m     )[33m;[39m[0m[22m
+[2m    [0m [90m 45 |[39m     response[33m.[39mbody[33m.[39mforEach((reminder[33m:[39m any) [33m=>[39m {[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/reminders.test.ts[39m[0m[2m:42:27)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /reminders/search route › GET /reminders/search calls findMany and returns reminders[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    Expected: [32m[{"description": "nap", "reminderId": 1}, {"description": "nap", "reminderId": 2}, {"description": "nap", "reminderId": 3}][39m
+    Received: [31m{"clientVersion": "5.9.1", "name": "PrismaClientInitializationError"}[39m
+[2m[22m
+[2m    [0m [90m 60 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/reminders/search'[39m)[33m;[39m[0m[22m
+[2m    [0m [90m 61 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 62 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual([0m[22m
+[2m    [0m [90m    |[39m                           [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 63 |[39m       mockReminders[33m.[39mfilter((reminder) [33m=>[39m reminder[33m.[39mdescription [33m===[39m description)[0m[22m
+[2m    [0m [90m 64 |[39m     )[33m;[39m[0m[22m
+[2m    [0m [90m 65 |[39m     response[33m.[39mbody[33m.[39mforEach((reminder[33m:[39m any) [33m=>[39m {[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/reminders.test.ts[39m[0m[2m:62:27)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /reminders/create route › POST /reminders/create calls create and returns reminder[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 2[39m
+    [31m+ Received  + 2[39m
+
+    [2m  Object {[22m
+    [32m-   "description": "bedtime",[39m
+    [32m-   "reminderId": 4,[39m
+    [31m+   "clientVersion": "5.9.1",[39m
+    [31m+   "name": "PrismaClientInitializationError",[39m
+    [2m  }[22m
+[2m[22m
+[2m    [0m [90m 75 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39mpost([32m'/reminders/create'[39m)[33m;[39m[0m[22m
+[2m    [0m [90m 76 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 77 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual(reminder)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                           [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 78 |[39m   })[33m;[39m[0m[22m
+[2m    [0m [90m 79 |[39m })[33m;[39m[0m[22m
+[2m    [0m [90m 80 |[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/reminders.test.ts[39m[0m[2m:77:27)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /reminders/:id/update route › PUT /reminders/:id/update calls update and returns reminder[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 2[39m
+    [31m+ Received  + 2[39m
+
+    [2m  Object {[22m
+    [32m-   "description": "bedtime",[39m
+    [32m-   "reminderId": 4,[39m
+    [31m+   "clientVersion": "5.9.1",[39m
+    [31m+   "name": "PrismaClientInitializationError",[39m
+    [2m  }[22m
+[2m[22m
+[2m    [0m [90m 86 |[39m       [33m.[39msend({ description[33m:[39m [32m'bedtime'[39m })[33m;[39m[0m[22m
+[2m    [0m [90m 87 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 88 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual(reminder)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                           [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 89 |[39m     expect(prismaMock[33m.[39mreminder[33m.[39mupdate)[33m.[39mtoHaveBeenCalledWith({[0m[22m
+[2m    [0m [90m 90 |[39m       data[33m:[39m {[0m[22m
+[2m    [0m [90m 91 |[39m         description[33m:[39m [32m'bedtime'[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/reminders.test.ts[39m[0m[2m:88:27)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /reminders/:id/delete route › PUT /reminders/:id/delete calls delete and returns delete info[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 2[39m
+    [31m+ Received  + 2[39m
+
+    [2m  Object {[22m
+    [32m-   "description": "bedtime",[39m
+    [32m-   "reminderId": 4,[39m
+    [31m+   "clientVersion": "5.9.1",[39m
+    [31m+   "name": "PrismaClientInitializationError",[39m
+    [2m  }[22m
+[2m[22m
+[2m    [0m [90m 101 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mdelete[39m([32m'/reminders/4/delete'[39m)[33m;[39m[0m[22m
+[2m    [0m [90m 102 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 103 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual(reminder)[33m;[39m[0m[22m
+[2m    [0m [90m     |[39m                           [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 104 |[39m     expect(prismaMock[33m.[39mreminder[33m.[39m[36mdelete[39m)[33m.[39mtoHaveBeenCalledWith({[0m[22m
+[2m    [0m [90m 105 |[39m       where[33m:[39m { reminderId[33m:[39m [32m'4'[39m }[0m[22m
+[2m    [0m [90m 106 |[39m     })[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/reminders.test.ts[39m[0m[2m:103:27)[22m[2m[22m
+
+[0m[7m[1m[31m FAIL [39m[22m[27m[0m [2mtest/api/[22m[1mevents.test.ts[22m
+  Test /events/all route
+    [31m✕[39m [2mGET /events returns all events (60 ms)[22m
+  test /events/:id route
+    [31m✕[39m [2mGET /events/:id calls findUnique and returns event (20 ms)[22m
+  test /events/search route
+    [31m✕[39m [2mGET /events/search calls findMany and returns events (9 ms)[22m
+  test /events/create route
+    [31m✕[39m [2mPOST /events/create calls create and returns event (15 ms)[22m
+  test /events/:id/update route
+    [31m✕[39m [2mPUT /events/:id/update calls update and returns event (20 ms)[22m
+  test /events/:id/delete route
+    [31m✕[39m [2mPUT /events/:id/delete calls delete and returns delete info (8 ms)[22m
+
+[1m[31m  [1m● [22m[1mTest /events/all route › GET /events returns all events[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 30 |[39m     prismaMock[33m.[39mevent[33m.[39mfindMany[33m.[39mmockReturnValue(mockEvents)[33m;[39m[0m[22m
+[2m    [0m [90m 31 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/events/all'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 32 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 33 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual(mockEvents)[33m;[39m[0m[22m
+[2m    [0m [90m 34 |[39m     expect(prismaMock[33m.[39mevent[33m.[39mfindMany)[33m.[39mtoHaveBeenCalledWith()[33m;[39m[0m[22m
+[2m    [0m [90m 35 |[39m   })[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/events.test.ts[39m[0m[2m:32:33)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /events/:id route › GET /events/:id calls findUnique and returns event[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 43 |[39m     )[33m;[39m[0m[22m
+[2m    [0m [90m 44 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/events/{tid}'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 45 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 46 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual([0m[22m
+[2m    [0m [90m 47 |[39m       mockEvents[33m.[39mfilter((events) [33m=>[39m {[0m[22m
+[2m    [0m [90m 48 |[39m         [36mreturn[39m events[33m.[39meventId [33m===[39m tid[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/events.test.ts[39m[0m[2m:45:33)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /events/search route › GET /events/search calls findMany and returns events[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 65 |[39m     )[33m;[39m[0m[22m
+[2m    [0m [90m 66 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/events/search'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 67 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 68 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual([0m[22m
+[2m    [0m [90m 69 |[39m       mockEvents[33m.[39mfilter((event) [33m=>[39m event[33m.[39mtype [33m===[39m type)[0m[22m
+[2m    [0m [90m 70 |[39m     )[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/events.test.ts[39m[0m[2m:67:33)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /events/create route › POST /events/create calls create and returns event[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 80 |[39m     prismaMock[33m.[39mevent[33m.[39mcreate[33m.[39mmockReturnValue(event)[33m;[39m[0m[22m
+[2m    [0m [90m 81 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39mpost([32m'/events/create'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 82 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 83 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual(event)[33m;[39m[0m[22m
+[2m    [0m [90m 84 |[39m   })[33m;[39m[0m[22m
+[2m    [0m [90m 85 |[39m })[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/events.test.ts[39m[0m[2m:82:33)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /events/:id/update route › PUT /events/:id/update calls update and returns event[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 91 |[39m       [33m.[39mput([32m'/events/4/update'[39m)[0m[22m
+[2m    [0m [90m 92 |[39m       [33m.[39msend({ type[33m:[39m [32m'nap'[39m })[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 93 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 94 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual(event)[33m;[39m[0m[22m
+[2m    [0m [90m 95 |[39m     expect(prismaMock[33m.[39mevent[33m.[39mupdate)[33m.[39mtoHaveBeenCalledWith({[0m[22m
+[2m    [0m [90m 96 |[39m       data[33m:[39m {[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/events.test.ts[39m[0m[2m:93:33)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /events/:id/delete route › PUT /events/:id/delete calls delete and returns delete info[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 106 |[39m     prismaMock[33m.[39mevent[33m.[39m[36mdelete[39m[33m.[39mmockReturnValue(event)[33m;[39m[0m[22m
+[2m    [0m [90m 107 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mdelete[39m([32m'/events/4/delete'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 108 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m     |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 109 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual(event)[33m;[39m[0m[22m
+[2m    [0m [90m 110 |[39m     expect(prismaMock[33m.[39mevent[33m.[39m[36mdelete[39m)[33m.[39mtoHaveBeenCalledWith({[0m[22m
+[2m    [0m [90m 111 |[39m       where[33m:[39m { eventId[33m:[39m [32m'4'[39m }[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/events.test.ts[39m[0m[2m:108:33)[22m[2m[22m
+
+[0m[7m[1m[31m FAIL [39m[22m[27m[0m [2mtest/api/[22m[1mplans.test.ts[22m
+  Test /plans/all route
+    [31m✕[39m [2mGET /plans returns all plans (71 ms)[22m
+  test /plans/:id route
+    [31m✕[39m [2mGET /plans/:id calls findUnique and returns plan (22 ms)[22m
+  test /plans/search route
+    [31m✕[39m [2mGET /plans/search calls findMany and returns plans (7 ms)[22m
+  test /plans/create route
+    [31m✕[39m [2mPOST /plans/create calls create and returns plan (16 ms)[22m
+  test /plans/:id/update route
+    [31m✕[39m [2mPUT /plans/:id/update calls update and returns plan (22 ms)[22m
+  test /plans/:id/delete route
+    [31m✕[39m [2mPUT /plans/:id/delete calls delete and returns delete info (10 ms)[22m
+
+[1m[31m  [1m● [22m[1mTest /plans/all route › GET /plans returns all plans[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 22 |[39m     prismaMock[33m.[39mplan[33m.[39mfindMany[33m.[39mmockReturnValue(mockPlans)[33m;[39m[0m[22m
+[2m    [0m [90m 23 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/plans/all'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 24 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 25 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual(mockPlans)[33m;[39m[0m[22m
+[2m    [0m [90m 26 |[39m     expect(prismaMock[33m.[39mplan[33m.[39mfindMany)[33m.[39mtoHaveBeenCalledWith()[33m;[39m[0m[22m
+[2m    [0m [90m 27 |[39m   })[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/plans.test.ts[39m[0m[2m:24:33)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /plans/:id route › GET /plans/:id calls findUnique and returns plan[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 35 |[39m     )[33m;[39m[0m[22m
+[2m    [0m [90m 36 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/plans/{tid}'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 37 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 38 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual([0m[22m
+[2m    [0m [90m 39 |[39m       mockPlans[33m.[39mfilter((plans) [33m=>[39m plans[33m.[39mplanId [33m===[39m tid)[0m[22m
+[2m    [0m [90m 40 |[39m     )[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/plans.test.ts[39m[0m[2m:37:33)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /plans/search route › GET /plans/search calls findMany and returns plans[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 55 |[39m     )[33m;[39m[0m[22m
+[2m    [0m [90m 56 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/plans/search'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 57 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 58 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual([0m[22m
+[2m    [0m [90m 59 |[39m       mockPlans[33m.[39mfilter((plan) [33m=>[39m plan[33m.[39m[33mStatus[39m [33m===[39m status)[0m[22m
+[2m    [0m [90m 60 |[39m     )[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/plans.test.ts[39m[0m[2m:57:33)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /plans/create route › POST /plans/create calls create and returns plan[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 70 |[39m     prismaMock[33m.[39mplan[33m.[39mcreate[33m.[39mmockReturnValue(plan)[33m;[39m[0m[22m
+[2m    [0m [90m 71 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39mpost([32m'/plans/create'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 72 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 73 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual(plan)[33m;[39m[0m[22m
+[2m    [0m [90m 74 |[39m   })[33m;[39m[0m[22m
+[2m    [0m [90m 75 |[39m })[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/plans.test.ts[39m[0m[2m:72:33)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /plans/:id/update route › PUT /plans/:id/update calls update and returns plan[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 81 |[39m       [33m.[39mput([32m'/plans/4/update'[39m)[0m[22m
+[2m    [0m [90m 82 |[39m       [33m.[39msend({ first_name[33m:[39m [32m'Update'[39m })[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 83 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 84 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual(plan)[33m;[39m[0m[22m
+[2m    [0m [90m 85 |[39m     expect(prismaMock[33m.[39mplan[33m.[39mupdate)[33m.[39mtoHaveBeenCalledWith({[0m[22m
+[2m    [0m [90m 86 |[39m       data[33m:[39m {[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/plans.test.ts[39m[0m[2m:83:33)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /plans/:id/delete route › PUT /plans/:id/delete calls delete and returns delete info[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m  96 |[39m     prismaMock[33m.[39mplan[33m.[39m[36mdelete[39m[33m.[39mmockReturnValue(plan)[33m;[39m[0m[22m
+[2m    [0m [90m  97 |[39m     [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mdelete[39m([32m'/plans/4/delete'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m  98 |[39m     expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m     |[39m                                 [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m  99 |[39m     expect(response[33m.[39mbody)[33m.[39mtoEqual(plan)[33m;[39m[0m[22m
+[2m    [0m [90m 100 |[39m     expect(prismaMock[33m.[39mplan[33m.[39m[36mdelete[39m)[33m.[39mtoHaveBeenCalledWith({[0m[22m
+[2m    [0m [90m 101 |[39m       where[33m:[39m { planId[33m:[39m [32m'4'[39m }[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mtest/api/plans.test.ts[39m[0m[2m:98:33)[22m[2m[22m
+
+[0m[7m[1m[31m FAIL [39m[22m[27m[0m [2mdist/test/api/[22m[1musers.test.js[22m
+  Test /users/all route
+    [31m✕[39m [2mGET /users returns all users (77 ms)[22m
+  test /users/:id route
+    [31m✕[39m [2mGET /users/:id calls findUnique and returns user (18 ms)[22m
+  test /users/search route
+    [31m✕[39m [2mGET /users/search calls findMany and returns users (16 ms)[22m
+  test /users/create route
+    [31m✕[39m [2mPOST /users/create calls create and returns user (13 ms)[22m
+  test /users/:id/update route
+    [31m✕[39m [2mPUT /users/:id/update calls update and returns user (23 ms)[22m
+  test /users/:id/delete route
+    [31m✕[39m [2mPUT /users/:id/delete calls delete and returns delete info (9 ms)[22m
+
+[1m[31m  [1m● [22m[1mTest /users/all route › GET /users returns all users[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 42 |[39m         prismaMock[33m.[39muser[33m.[39mfindMany[33m.[39mmockReturnValue(mockUsers)[33m;[39m[0m[22m
+[2m    [0m [90m 43 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/users/all'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 44 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 45 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(mockUsers)[33m;[39m[0m[22m
+[2m    [0m [90m 46 |[39m         expect(prismaMock[33m.[39muser[33m.[39mfindMany)[33m.[39mtoHaveBeenCalledWith()[33m;[39m[0m[22m
+[2m    [0m [90m 47 |[39m     })[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/users.test.js[39m[0m[2m:44:37)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /users/:id route › GET /users/:id calls findUnique and returns user[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 52 |[39m         prismaMock[33m.[39muser[33m.[39mfindUnique[33m.[39mmockReturnValue(mockUsers[33m.[39mfilter((users) [33m=>[39m users[33m.[39muserId [33m===[39m tid))[33m;[39m[0m[22m
+[2m    [0m [90m 53 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/users/{tid}'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 54 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 55 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(mockUsers[33m.[39mfilter((users) [33m=>[39m users[33m.[39muserId [33m===[39m tid))[33m;[39m[0m[22m
+[2m    [0m [90m 56 |[39m         response[33m.[39mbody[33m.[39mforEach((user) [33m=>[39m {[0m[22m
+[2m    [0m [90m 57 |[39m             expect(user[33m.[39muserId)[33m.[39mtoEqual(tid)[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/users.test.js[39m[0m[2m:54:37)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /users/search route › GET /users/search calls findMany and returns users[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 67 |[39m         prismaMock[33m.[39muser[33m.[39mfindMany[33m.[39mmockReturnValue(mockUsers[33m.[39mfilter((user) [33m=>[39m user[33m.[39mrole [33m===[39m role))[33m;[39m[0m[22m
+[2m    [0m [90m 68 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/users/search'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 69 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 70 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(mockUsers[33m.[39mfilter((user) [33m=>[39m user[33m.[39mrole [33m===[39m role))[33m;[39m[0m[22m
+[2m    [0m [90m 71 |[39m         response[33m.[39mbody[33m.[39mforEach((user) [33m=>[39m {[0m[22m
+[2m    [0m [90m 72 |[39m             expect(user[33m.[39mrole)[33m.[39mtoEqual(role)[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/users.test.js[39m[0m[2m:69:37)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /users/create route › POST /users/create calls create and returns user[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 79 |[39m         prismaMock[33m.[39muser[33m.[39mcreate[33m.[39mmockReturnValue(user)[33m;[39m[0m[22m
+[2m    [0m [90m 80 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39mpost([32m'/users/create'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 81 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 82 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(user)[33m;[39m[0m[22m
+[2m    [0m [90m 83 |[39m     })[33m;[39m[0m[22m
+[2m    [0m [90m 84 |[39m })[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/users.test.js[39m[0m[2m:81:37)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /users/:id/update route › PUT /users/:id/update calls update and returns user[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 89 |[39m             [33m.[39mput([32m'/users/4/update'[39m)[0m[22m
+[2m    [0m [90m 90 |[39m             [33m.[39msend({ first_name[33m:[39m [32m'Update'[39m })[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 91 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 92 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(user)[33m;[39m[0m[22m
+[2m    [0m [90m 93 |[39m         expect(prismaMock[33m.[39muser[33m.[39mupdate)[33m.[39mtoHaveBeenCalledWith({[0m[22m
+[2m    [0m [90m 94 |[39m             data[33m:[39m {[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/users.test.js[39m[0m[2m:91:37)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /users/:id/delete route › PUT /users/:id/delete calls delete and returns delete info[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m401[39m
+[2m[22m
+[2m    [0m [90m 103 |[39m         prismaMock[33m.[39muser[33m.[39m[36mdelete[39m[33m.[39mmockReturnValue(user)[33m;[39m[0m[22m
+[2m    [0m [90m 104 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mdelete[39m([32m'/users/4/delete'[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 105 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m [90m     |[39m                                     [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 106 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(user)[33m;[39m[0m[22m
+[2m    [0m [90m 107 |[39m         expect(prismaMock[33m.[39muser[33m.[39m[36mdelete[39m)[33m.[39mtoHaveBeenCalledWith({[0m[22m
+[2m    [0m [90m 108 |[39m             where[33m:[39m { userId[33m:[39m [32m'4'[39m }[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/users.test.js[39m[0m[2m:105:37)[22m[2m[22m
+
+[0m[7m[1m[31m FAIL [39m[22m[27m[0m [2mdist/test/api/[22m[1mreminders.test.js[22m
+  Test /reminders/all route
+    [31m✕[39m [2mGET /reminders returns all reminders (87 ms)[22m
+  test /reminders/:id route
+    [31m✕[39m [2mGET /reminders/:id calls findUnique and returns reminder (34 ms)[22m
+  test /reminders/search route
+    [31m✕[39m [2mGET /reminders/search calls findMany and returns reminders (33 ms)[22m
+  test /reminders/create route
+    [31m✕[39m [2mPOST /reminders/create calls create and returns reminder (37 ms)[22m
+  test /reminders/:id/update route
+    [31m✕[39m [2mPUT /reminders/:id/update calls update and returns reminder (45 ms)[22m
+  test /reminders/:id/delete route
+    [31m✕[39m [2mPUT /reminders/:id/delete calls delete and returns delete info (27 ms)[22m
+
+[1m[31m  [1m● [22m[1mTest /reminders/all route › GET /reminders returns all reminders[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    Expected: [32m[{"description": "nap", "reminderId": 1}, {"description": "nap", "reminderId": 2}, {"description": "nap", "reminderId": 3}][39m
+    Received: [31m{"clientVersion": "5.9.1", "name": "PrismaClientInitializationError"}[39m
+[2m[22m
+[2m    [0m [90m 25 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/reminders/all'[39m)[33m;[39m[0m[22m
+[2m    [0m [90m 26 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 27 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(mockReminders)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                               [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 28 |[39m         expect(prismaMock[33m.[39mreminder[33m.[39mfindMany)[33m.[39mtoHaveBeenCalledWith()[33m;[39m[0m[22m
+[2m    [0m [90m 29 |[39m     })[33m;[39m[0m[22m
+[2m    [0m [90m 30 |[39m })[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/reminders.test.js[39m[0m[2m:27:31)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /reminders/:id route › GET /reminders/:id calls findUnique and returns reminder[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    Expected: [32m[{"description": "nap", "reminderId": 3}][39m
+    Received: [31m{"clientVersion": "5.9.1", "name": "PrismaClientInitializationError"}[39m
+[2m[22m
+[2m    [0m [90m 35 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/reminders/{tid}'[39m)[33m;[39m[0m[22m
+[2m    [0m [90m 36 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 37 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(mockReminders[33m.[39mfilter((reminders) [33m=>[39m reminders[33m.[39mreminderId [33m===[39m tid))[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                               [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 38 |[39m         response[33m.[39mbody[33m.[39mforEach((reminder) [33m=>[39m {[0m[22m
+[2m    [0m [90m 39 |[39m             expect(reminder[33m.[39mreminderId)[33m.[39mtoEqual(tid)[33m;[39m[0m[22m
+[2m    [0m [90m 40 |[39m         })[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/reminders.test.js[39m[0m[2m:37:31)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /reminders/search route › GET /reminders/search calls findMany and returns reminders[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    Expected: [32m[{"description": "nap", "reminderId": 1}, {"description": "nap", "reminderId": 2}, {"description": "nap", "reminderId": 3}][39m
+    Received: [31m{"clientVersion": "5.9.1", "name": "PrismaClientInitializationError"}[39m
+[2m[22m
+[2m    [0m [90m 50 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mget[39m([32m'/reminders/search'[39m)[33m;[39m[0m[22m
+[2m    [0m [90m 51 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 52 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(mockReminders[33m.[39mfilter((reminder) [33m=>[39m reminder[33m.[39mdescription [33m===[39m description))[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                               [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 53 |[39m         response[33m.[39mbody[33m.[39mforEach((reminder) [33m=>[39m {[0m[22m
+[2m    [0m [90m 54 |[39m             expect(reminder[33m.[39mdescription)[33m.[39mtoEqual(description)[33m;[39m[0m[22m
+[2m    [0m [90m 55 |[39m         })[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/reminders.test.js[39m[0m[2m:52:31)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /reminders/create route › POST /reminders/create calls create and returns reminder[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 2[39m
+    [31m+ Received  + 2[39m
+
+    [2m  Object {[22m
+    [32m-   "description": "bedtime",[39m
+    [32m-   "reminderId": 4,[39m
+    [31m+   "clientVersion": "5.9.1",[39m
+    [31m+   "name": "PrismaClientInitializationError",[39m
+    [2m  }[22m
+[2m[22m
+[2m    [0m [90m 62 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39mpost([32m'/reminders/create'[39m)[33m;[39m[0m[22m
+[2m    [0m [90m 63 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 64 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(reminder)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                               [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 65 |[39m     })[33m;[39m[0m[22m
+[2m    [0m [90m 66 |[39m })[33m;[39m[0m[22m
+[2m    [0m [90m 67 |[39m describe([32m'test /reminders/:id/update route'[39m[33m,[39m () [33m=>[39m {[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/reminders.test.js[39m[0m[2m:64:31)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /reminders/:id/update route › PUT /reminders/:id/update calls update and returns reminder[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 2[39m
+    [31m+ Received  + 2[39m
+
+    [2m  Object {[22m
+    [32m-   "description": "bedtime",[39m
+    [32m-   "reminderId": 4,[39m
+    [31m+   "clientVersion": "5.9.1",[39m
+    [31m+   "name": "PrismaClientInitializationError",[39m
+    [2m  }[22m
+[2m[22m
+[2m    [0m [90m 72 |[39m             [33m.[39msend({ description[33m:[39m [32m'bedtime'[39m })[33m;[39m[0m[22m
+[2m    [0m [90m 73 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 74 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(reminder)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                               [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 75 |[39m         expect(prismaMock[33m.[39mreminder[33m.[39mupdate)[33m.[39mtoHaveBeenCalledWith({[0m[22m
+[2m    [0m [90m 76 |[39m             data[33m:[39m {[0m[22m
+[2m    [0m [90m 77 |[39m                 description[33m:[39m [32m'bedtime'[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/reminders.test.js[39m[0m[2m:74:31)[22m[2m[22m
+
+[1m[31m  [1m● [22m[1mtest /reminders/:id/delete route › PUT /reminders/:id/delete calls delete and returns delete info[39m[22m
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 2[39m
+    [31m+ Received  + 2[39m
+
+    [2m  Object {[22m
+    [32m-   "description": "bedtime",[39m
+    [32m-   "reminderId": 4,[39m
+    [31m+   "clientVersion": "5.9.1",[39m
+    [31m+   "name": "PrismaClientInitializationError",[39m
+    [2m  }[22m
+[2m[22m
+[2m    [0m [90m 86 |[39m         [36mconst[39m response [33m=[39m [36mawait[39m request(app)[33m.[39m[36mdelete[39m([32m'/reminders/4/delete'[39m)[33m;[39m[0m[22m
+[2m    [0m [90m 87 |[39m         expect(response[33m.[39mstatusCode)[33m.[39mtoBe([35m200[39m)[33m;[39m[0m[22m
+[2m    [0m[31m[1m>[22m[2m[39m[90m 88 |[39m         expect(response[33m.[39mbody)[33m.[39mtoEqual(reminder)[33m;[39m[0m[22m
+[2m    [0m [90m    |[39m                               [31m[1m^[22m[2m[39m[0m[22m
+[2m    [0m [90m 89 |[39m         expect(prismaMock[33m.[39mreminder[33m.[39m[36mdelete[39m)[33m.[39mtoHaveBeenCalledWith({[0m[22m
+[2m    [0m [90m 90 |[39m             where[33m:[39m { reminderId[33m:[39m [32m'4'[39m }[0m[22m
+[2m    [0m [90m 91 |[39m         })[33m;[39m[0m[22m
+[2m[22m
+[2m      [2mat Object.<anonymous> ([22m[2m[0m[36mdist/test/api/reminders.test.js[39m[0m[2m:88:31)[22m[2m[22m
+
+[1mTest Suites: [22m[1m[31m12 failed[39m[22m, 12 total
+[1mTests:       [22m[1m[31m62 failed[39m[22m, 62 total
+[1mSnapshots:   [22m0 total
+[1mTime:[22m        4.578 s, estimated 5 s
+[2mRan all test suites[22m[2m.[22m
+[2K[1G[31merror[39m Command failed with exit code 1.
