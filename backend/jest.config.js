@@ -20,6 +20,7 @@ export default {
       }
     ]
   },
+  transformIgnorePatterns: ['/node_modules/', '/dist/'],
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
