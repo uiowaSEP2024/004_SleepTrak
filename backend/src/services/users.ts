@@ -1,6 +1,6 @@
-import { prisma } from '../../prisma/client';
+import { prisma } from '../../prisma/client.js';
 import type { User } from '@prisma/client';
-import { ensureError } from '../utils/error';
+import { ensureError } from '../utils/error.js';
 
 const getAll = async (): Promise<User[] | Error> => {
   try {

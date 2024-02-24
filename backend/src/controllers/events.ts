@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
-import { service } from '../services/events';
-import { ensureError } from '../utils/error';
+import { service } from '../services/events.js';
+import { ensureError } from '../utils/error.js';
 
 const getAll = async (res: Response): Promise<void> => {
   try {

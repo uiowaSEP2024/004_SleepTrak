@@ -3,14 +3,18 @@ import path from 'path';
 import logger from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import indexRouter from './routes/index';
-import usersRouter from './routes/users';
-import plansRouter from './routes/plans';
-import eventsRouter from './routes/events';
-import babiesRouter from './routes/babies';
-import remindersRouter from './routes/reminders';
+import { fileURLToPath } from 'url';
+import indexRouter from './routes/index.js';
+import usersRouter from './routes/users.js';
+import plansRouter from './routes/plans.js';
+import eventsRouter from './routes/events.js';
+import babiesRouter from './routes/babies.js';
+import remindersRouter from './routes/reminders.js';
 
 dotenv.config();
+
+const _filename = fileURLToPath(import.meta.url);
+const _dirname = path.dirname(_filename);
 
 // Starts app
 const app = express();
@@ -19,7 +23,7 @@ const app = express();
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(_dirname, 'public')));
 
 // Security configurations
 app.use(cors());
