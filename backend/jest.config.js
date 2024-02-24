@@ -9,6 +9,9 @@ export default {
   testEnvironment: 'node',
   setupFiles: ['./test/env-setup.ts'],
   extensionsToTreatAsEsm: ['.ts'],
+  moduleNameMapper: {
+    '^(\\.{1,2}/.*)\\.js$': '$1'
+  },
   transform: {
     '^.+\\.(mt|t|cj|j)s$': [
       'ts-jest',
