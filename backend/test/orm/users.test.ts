@@ -1,5 +1,5 @@
-import { prismaMock } from '../mock_client';
-import { service } from '../../src/services/users';
+import { prismaMock } from '../mock_client.js';
+import { service } from '../../src/services/users.js';
 
 test('should create new user ', async () => {
   const user = {

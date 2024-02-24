@@ -1,22 +1,19 @@
+import { jest } from '@jest/globals';
 import { mockDeep, mockReset } from 'jest-mock-extended';
+import type { PrismaClient } from '@prisma/client/extension';
 
+const prismaMock = mockDeep<PrismaClient>();
 // Mocking '../prisma/client' with prismaMock
-jest.mock('../prisma/client', () => {
-  const prismaMock = mockDeep();
+jest.mock('../prisma/client.js', () => {
   return {
     __esModule: true,
-    prisma: prismaMock,
-    user: {
-      findMany: jest.fn()
-    }
+    prisma: mockDeep<PrismaClient>()
   };
 });
 
 // Reset the mock before each test
-beforeEach(() => {
-  const { prisma } = require('../prisma/client'); // Requiring inside beforeEach to get the latest mock
-  mockReset(prisma);
+beforeEach(async () => {
+  mockReset(prismaMock);
 });
 
-// Exporting prismaMock
-export const prismaMock = require('../prisma/client').prisma;
+export { prismaMock };

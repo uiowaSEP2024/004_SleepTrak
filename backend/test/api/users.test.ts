@@ -1,6 +1,6 @@
 import request from 'supertest';
 import app from '../../src/app';
-import { prismaMock } from '../mock_client';
+import { prismaMock } from '../mock_client.js';
 
 const mockUsers = [
   {
