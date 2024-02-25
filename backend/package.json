@@ -13,7 +13,8 @@
     "pg": "prisma generate",
     "start-docker": "yarn build && yarn pg && yarn start-js",
     "dev": "nodemon",
-    "dev-docker": "nodemon -L"
+    "dev-docker": "nodemon -L",
+    "seed": "NODE_NO_WARNINGS=1 node --loader ts-node/esm prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.9.1",
