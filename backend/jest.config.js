@@ -20,6 +20,8 @@ export default {
       }
     ]
   },
+  testMatch: ['<rootDir>/dist/test/**/*.test.js'],
+  testPathIgnorePatterns: ['/node_modules/,'],
   transformIgnorePatterns: ['/node_modules/', '/dist/'],
   // All imported modules in your tests should be mocked automatically
   // automock: false,
