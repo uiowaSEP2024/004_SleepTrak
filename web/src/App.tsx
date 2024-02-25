@@ -9,6 +9,7 @@ import {
   Auth0ProviderWithRedirectCallback,
   ProtectedRoute
 } from './components/auth';
+import ClientPage from './pages/ClientPage';
 
 const domain: string = import.meta.env.VITE_AUTH0_DOMAIN!;
 const clientId: string = import.meta.env.VITE_AUTH0_CLIENT_ID!;
@@ -39,6 +40,10 @@ function App() {
             <Route
               path="clients"
               element={<ClientsPage />}
+            />
+            <Route
+              path="/client/:clientId"
+              element={<ClientPage />}
             />
             <Route
               path="messages"
