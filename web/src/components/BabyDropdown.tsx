@@ -8,11 +8,28 @@ import Typography from '@mui/joy/Typography';
 import { getAge } from '../util/utils';
 import { useNavigate } from 'react-router-dom';
 
-export default function BabyDropdown(props) {
-  const babyNames = props.babies;
+interface Baby {
+  name: string;
+  dob: string;
+  babyId: string;
+}
+
+interface BabyDropdownProps {
+  babies: Baby[];
+}
+
+const BabyDropdown: React.FC<BabyDropdownProps> = (props) => {
+  const babyNames: Baby[] = props.babies;
   const navigate = useNavigate();
 
-  const handleSelectChange = (_, child) => {
+  const handleSelectChange = (
+    _:
+      | React.MouseEvent<Element, MouseEvent>
+      | React.KeyboardEvent<Element>
+      | React.FocusEvent<Element, Element>
+      | null,
+    child: string | null
+  ) => {
     const babyId = babyNames.filter((baby) => baby.name === child)[0].babyId;
     navigate(`/babies/${babyId}`);
   };
@@ -65,4 +82,6 @@ export default function BabyDropdown(props) {
       ))}
     </Select>
   );
-}
+};
+
+export default BabyDropdown;
