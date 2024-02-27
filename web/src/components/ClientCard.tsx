@@ -30,6 +30,7 @@ const ClientCard: React.FC<ClientCardProps> = ({
       }}>
       <CardContent sx={{ alignItems: 'center', textAlign: 'center' }}>
         <Avatar
+          data-testid="avatar"
           src={avatarSrc}
           sx={{ '--Avatar-size': '4rem' }}
         />
