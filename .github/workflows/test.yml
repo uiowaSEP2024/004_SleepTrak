@@ -32,7 +32,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           skip-step: install
-          test-script: yarn run test-web --coverage
+          test-script: yarn run test-web-coverage
           package-manager: yarn
 
   mobile-test:
@@ -57,5 +57,5 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           skip-step: install
-          test-script: yarn run test-mobile --coverage
+          test-script: yarn run test-mobile-coverage
           package-manager: yarn

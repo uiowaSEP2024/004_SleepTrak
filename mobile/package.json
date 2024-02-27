@@ -9,7 +9,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest",
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "coverage": "jest --coverage --silent --ci --testLocationInResults --json --outputFile=\"report.json\""
   },
   "jest": {
     "preset": "jest-expo",
