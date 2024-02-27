@@ -8,3 +8,5 @@ extends:
 plugins:
   - '@typescript-eslint'
   - 'jest'
+rules:
+  jest/no-export: off
