@@ -24,3 +24,18 @@ export function toggleSidebar() {
     }
   }
 }
+
+export function getAge(dob: string): string {
+  const today = new Date();
+  const birthDate = new Date(dob);
+
+  let ageYears = today.getFullYear() - birthDate.getFullYear();
+  let ageMonths = today.getMonth() - birthDate.getMonth();
+
+  if (ageMonths < 0) {
+    ageYears--;
+    ageMonths += 12;
+  }
+
+  return ageYears + 'Y ' + ageMonths + 'M';
+}
