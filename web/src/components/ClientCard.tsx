@@ -12,9 +12,15 @@ interface ClientCardProps {
   avatarSrc: string;
   title: string;
   body: string;
+  babyId: string;
 }
 
-const ClientCard: React.FC<ClientCardProps> = ({ avatarSrc, title, body }) => {
+const ClientCard: React.FC<ClientCardProps> = ({
+  avatarSrc,
+  title,
+  body,
+  babyId
+}) => {
   return (
     <Card
       sx={{
@@ -42,7 +48,7 @@ const ClientCard: React.FC<ClientCardProps> = ({ avatarSrc, title, body }) => {
             <Button>Message</Button>
             <Button
               component={Link}
-              to="/client">
+              to={`/babies/${babyId}`}>
               More
             </Button>
           </ButtonGroup>
