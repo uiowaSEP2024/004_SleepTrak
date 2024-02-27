@@ -1,9 +1,22 @@
-import { describe, test, expect } from '@jest/globals';
+import { jest, describe, test, expect } from '@jest/globals';
 import request from 'supertest';
-import app from '../../src/app';
 import { prisma as prismaMock } from '../../prisma/client.js';
 import prismaSpy from '../prismaSpy.test.js';
-import authSpy from '../authSpy.test.js';
+// import authSpy from '../authSpy.test.js';
+
+jest.unstable_mockModule('../../src/services/auth.js', () => ({
+  auth: {
+    requireAuth: jest
+      .fn()
+      .mockImplementation(
+        (_req: unknown, _res: unknown, next: (...args: unknown[]) => unknown) =>
+          next()
+      )
+  }
+}));
+
+// use dynamic import after for oauth mocks to work
+const app = (await import('../../src/app.js')).default;
 
 export interface testRouteParams {
   reqData: object;
@@ -50,12 +63,7 @@ export function testRoute({
   const controller = generateController(model);
   const url = generateURL(controller, id, route);
   describe(`Test ${url} route`, () => {
-    test(`GET ${url} returns all ${controller}`, async () => {
-      authSpy.requireAuth.mockImplementation(
-        () =>
-          (_req: object, _res: object, next: (...args: unknown[]) => unknown) =>
-            next()
-      );
+    test(`GET ${url} returns ${route} ${id} ${controller}`, async () => {
       prismaSpy[controller][route].mockResolvedValue(mockData);
       const response = await request(app).get(url).send(reqData);
       expect(response.statusCode).toBe(expectData.status);
