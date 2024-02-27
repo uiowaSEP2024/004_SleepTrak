@@ -23,7 +23,12 @@
       "!**/node_modules/**",
       "!**/babel.config.js",
       "!**/jest.setup.js"
-    ]
+    ],
+    "coverageThreshold": {
+      "global": {
+        "lines": 75
+      }
+    }
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^6.5.12",

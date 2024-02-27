@@ -4,5 +4,10 @@ module.exports = {
   testEnvironment: 'node',
   collectCoverage: true,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
-  collectCoverageFrom: ['src/components/**/*.{ts,tsx}']
+  collectCoverageFrom: ['src/components/**/*.{ts,tsx}'],
+  coverageThreshold: {
+    global: {
+      lines: 75
+    }
+  }
 };
