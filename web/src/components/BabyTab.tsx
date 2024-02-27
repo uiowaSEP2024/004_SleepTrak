@@ -1,7 +1,7 @@
 import Tabs from '@mui/joy/Tabs';
 import TabList from '@mui/joy/TabList';
 import Tab, { tabClasses } from '@mui/joy/Tab';
-import { useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 import SummaryPage from '../pages/SummaryPage';
 import LogPage from '../pages/LogPage';
 import DocsPage from '../pages/DocsPage';
@@ -10,9 +10,15 @@ import { Box } from '@mui/joy';
 export default function BabyTab() {
   const [activeTab, setActiveTab] = useState<number>(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setActiveTab(newValue);
+  const handleChange = (
+    _event: SyntheticEvent<Element, Event> | null,
+    newValue: string | number | null
+  ) => {
+    if (typeof newValue === 'number') {
+      setActiveTab(newValue);
+    }
   };
+
   return (
     <>
       <Box display="flex">
