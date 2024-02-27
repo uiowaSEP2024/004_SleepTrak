@@ -4,7 +4,11 @@ import { ensureError } from '../utils/error.js';
 
 const getAll = async (): Promise<Baby[] | Error> => {
   try {
-    const result = await prisma.baby.findMany();
+    const result = await prisma.baby.findMany({
+      include: {
+        parent: true
+      }
+    });
 
     return result;
   } catch (err) {
@@ -16,6 +20,9 @@ const get = async (babyId: string): Promise<Baby | null | Error> => {
     const result = await prisma.baby.findUnique({
       where: {
         babyId
+      },
+      include: {
+        parent: true
       }
     });
 
