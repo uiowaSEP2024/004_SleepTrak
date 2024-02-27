@@ -25,8 +25,15 @@ jobs:
         run: |
           cd web
           yarn install
-      - name: Run tests
+      - name: Run tests for web
         run: yarn run test-web
+      - name: Coverage Report
+        uses: ArtiomTr/jest-coverage-report-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          skip-step: install
+          test-script: yarn run test-web --coverage
+          package-manager: yarn
 
   mobile-test:
     name: Mobile Test
@@ -43,5 +50,12 @@ jobs:
         run: |
           cd mobile
           yarn install
-      - name: Run tests
+      - name: Run tests for mobile
         run: yarn run test-mobile
+      - name: Coverage Report
+        uses: ArtiomTr/jest-coverage-report-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          skip-step: install
+          test-script: yarn run test-mobile --coverage
+          package-manager: yarn
