@@ -23,6 +23,10 @@
       "!**/node_modules/**",
       "!**/babel.config.js",
       "!**/jest.setup.js"
+    ],
+    "coverageReporters": [
+      "text",
+      "cobertura"
     ]
   },
   "dependencies": {
