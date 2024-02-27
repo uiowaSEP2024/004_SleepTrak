@@ -5,16 +5,22 @@ import ListItemDecorator from '@mui/joy/ListItemDecorator';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import Typography from '@mui/joy/Typography';
+import { getAge } from '../util/utils';
+import { useNavigate } from 'react-router-dom';
 
-export default function BabyDropdown() {
-  const people = [
-    { name: 'Baby1', age: '1M 2Y' },
-    { name: 'Baby2', age: '0M 2Y' }
-  ] as const;
+export default function BabyDropdown(props) {
+  const babyNames = props.babies;
+  const navigate = useNavigate();
+
+  const handleSelectChange = (_, child) => {
+    const babyId = babyNames.filter((baby) => baby.name === child)[0].babyId;
+    navigate(`/babies/${babyId}`);
+  };
 
   return (
     <Select
-      defaultValue={people[0].name}
+      defaultValue={babyNames[0].name}
+      onChange={handleSelectChange}
       slotProps={{
         listbox: {
           sx: {
@@ -25,12 +31,11 @@ export default function BabyDropdown() {
       sx={{
         minWidth: 240
       }}>
-      {people.map((data, index) => (
+      {babyNames.map((data, index) => (
         <Option
           key={data.name}
           value={data.name}
-          label={data.name} // The appearance of the selected value will be a string
-        >
+          label={data.name}>
           <ListItemDecorator>
             <Avatar src={`/static/images/avatar/${index + 1}.jpg`} />
           </ListItemDecorator>
@@ -54,7 +59,7 @@ export default function BabyDropdown() {
               paddingInline: '4px',
               fontSize: 'xs'
             }}>
-            {data.age}
+            {getAge(data.dob)}
           </Chip>
         </Option>
       ))}
