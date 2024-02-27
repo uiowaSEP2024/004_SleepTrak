@@ -1,5 +1,8 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
   preset: 'ts-jest',
-  testEnvironment: 'node'
+  testEnvironment: 'node',
+  collectCoverage: true,
+  coverageReporters: ['json', 'lcov', 'text', 'clover'],
+  collectCoverageFrom: ['src/components/**/*.{ts,tsx}']
 };
