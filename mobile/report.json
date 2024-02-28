@@ -1,0 +1,1001 @@
+{
+  "numFailedTestSuites": 1,
+  "numFailedTests": 1,
+  "numPassedTestSuites": 3,
+  "numPassedTests": 7,
+  "numPendingTestSuites": 0,
+  "numPendingTests": 0,
+  "numRuntimeErrorTestSuites": 0,
+  "numTodoTests": 0,
+  "numTotalTestSuites": 4,
+  "numTotalTests": 8,
+  "openHandles": [],
+  "snapshot": {
+    "added": 0,
+    "didUpdate": false,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0
+  },
+  "startTime": 1709048252503,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Home"],
+          "duration": 10514,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Home renders without crashing",
+          "invocations": 1,
+          "location": { "column": 3, "line": 10 },
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "renders without crashing"
+        },
+        {
+          "ancestorTitles": ["Home"],
+          "duration": 81,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Home should navigate to sleep timer when button is pressed",
+          "invocations": 1,
+          "location": { "column": 3, "line": 15 },
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "should navigate to sleep timer when button is pressed"
+        }
+      ],
+      "endTime": 1709048291517,
+      "message": "",
+      "name": "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/__tests__/screens/HomeScreen.test.tsx",
+      "startTime": 1709048254719,
+      "status": "passed",
+      "summary": ""
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["App"],
+          "duration": 10641,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "App renders without crashing",
+          "invocations": 1,
+          "location": { "column": 3, "line": 6 },
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "renders without crashing"
+        }
+      ],
+      "endTime": 1709048291715,
+      "message": "",
+      "name": "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/__tests__/App.test.tsx",
+      "startTime": 1709048254707,
+      "status": "passed",
+      "summary": ""
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["SleepTimerScreen"],
+          "duration": 10558,
+          "failureDetails": [
+            {
+              "message": "thrown: \"Exceeded timeout of 5000 ms for a test.\nAdd a timeout value to this test to increase the timeout, if this is a long-running test. See https://jestjs.io/docs/api#testname-fn-timeout.\""
+            }
+          ],
+          "failureMessages": [
+            "Error: thrown: \"Exceeded timeout of 5000 ms for a test.\nAdd a timeout value to this test to increase the timeout, if this is a long-running test. See https://jestjs.io/docs/api#testname-fn-timeout.\"\n    at test (/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/__tests__/screens/SleepTimerScreen.test.tsx:21:3)\n    at _dispatchDescribe (/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/node_modules/jest-circus/build/index.js:91:26)\n    at describe (/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/node_modules/jest-circus/build/index.js:55:5)\n    at Object.describe (/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/__tests__/screens/SleepTimerScreen.test.tsx:5:1)\n    at Runtime._execModule (/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/node_modules/jest-runtime/build/index.js:1439:24)\n    at Runtime._loadModule (/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/node_modules/jest-runtime/build/index.js:1022:12)\n    at Runtime.requireModule (/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/node_modules/jest-runtime/build/index.js:882:12)\n    at jestAdapter (/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:77:13)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at runTestInternal (/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/node_modules/jest-runner/build/runTest.js:444:34)\n    at Object.worker (/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/node_modules/jest-runner/build/testWorker.js:106:12)"
+          ],
+          "fullName": "SleepTimerScreen Timer button alternates between Start and Stop accordingly",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "failed",
+          "title": "Timer button alternates between Start and Stop accordingly"
+        },
+        {
+          "ancestorTitles": ["SleepTimerScreen"],
+          "duration": 42,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "SleepTimerScreen Start time is correctly displayed when the Start button is pressed",
+          "invocations": 1,
+          "location": { "column": 3, "line": 39 },
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "Start time is correctly displayed when the Start button is pressed"
+        },
+        {
+          "ancestorTitles": ["SleepTimerScreen"],
+          "duration": 114,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "SleepTimerScreen Stop time is correctly displayed when the Stop button is pressed",
+          "invocations": 1,
+          "location": { "column": 3, "line": 52 },
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "Stop time is correctly displayed when the Stop button is pressed"
+        },
+        {
+          "ancestorTitles": ["SleepTimerScreen"],
+          "duration": 55,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "SleepTimerScreen Elapsed time is correctly displayed when the timer is stopped",
+          "invocations": 1,
+          "location": { "column": 3, "line": 75 },
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "Elapsed time is correctly displayed when the timer is stopped"
+        }
+      ],
+      "endTime": 1709048291901,
+      "message": "\u001b[1m\u001b[31m  \u001b[1m● \u001b[22m\u001b[1mSleepTimerScreen › Timer button alternates between Start and Stop accordingly\u001b[39m\u001b[22m\n\n    thrown: \"Exceeded timeout of 5000 ms for a test.\n    Add a timeout value to this test to increase the timeout, if this is a long-running test. See https://jestjs.io/docs/api#testname-fn-timeout.\"\n\u001b[2m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 19 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 20 |\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[2m\u001b[39m\u001b[90m 21 |\u001b[39m   test(\u001b[32m'Timer button alternates between Start and Stop accordingly'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m () \u001b[33m=>\u001b[39m {\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m    |\u001b[39m   \u001b[31m\u001b[1m^\u001b[22m\u001b[2m\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 22 |\u001b[39m     \u001b[36mconst\u001b[39m { getByText\u001b[33m,\u001b[39m findByText } \u001b[33m=\u001b[39m render(\u001b[33m<\u001b[39m\u001b[33mSleepTimer\u001b[39m \u001b[33m/\u001b[39m\u001b[33m>\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 23 |\u001b[39m     \u001b[36mlet\u001b[39m button \u001b[33m=\u001b[39m getByText(\u001b[32m'Start'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m    \u001b[0m \u001b[90m 24 |\u001b[39m\u001b[0m\u001b[22m\n\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat test (\u001b[22m\u001b[2m\u001b[0m\u001b[36m__tests__/screens/SleepTimerScreen.test.tsx\u001b[39m\u001b[0m\u001b[2m:21:3)\u001b[22m\u001b[2m\u001b[22m\n\u001b[2m      \u001b[2mat Object.describe (\u001b[22m\u001b[2m\u001b[0m\u001b[36m__tests__/screens/SleepTimerScreen.test.tsx\u001b[39m\u001b[0m\u001b[2m:5:1)\u001b[22m\u001b[2m\u001b[22m\n",
+      "name": "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/__tests__/screens/SleepTimerScreen.test.tsx",
+      "startTime": 1709048254474,
+      "status": "failed",
+      "summary": ""
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Setting"],
+          "duration": 94,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Setting renders without crashing",
+          "invocations": 1,
+          "location": { "column": 3, "line": 6 },
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "renders without crashing"
+        }
+      ],
+      "endTime": 1709048292131,
+      "message": "",
+      "name": "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/__tests__/screens/SettingScreen.test.tsx",
+      "startTime": 1709048291532,
+      "status": "passed",
+      "summary": ""
+    }
+  ],
+  "wasInterrupted": false,
+  "coverageMap": {
+    "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/src/components/buttons/NavigationButton.tsx": {
+      "path": "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/src/components/buttons/NavigationButton.tsx",
+      "statementMap": {
+        "0": {
+          "start": { "line": 10, "column": 42 },
+          "end": { "line": 18, "column": 1 }
+        },
+        "1": {
+          "start": { "line": 11, "column": 2 },
+          "end": { "line": 17, "column": 4 }
+        },
+        "2": {
+          "start": { "line": 20, "column": 15 },
+          "end": { "line": 30, "column": 2 }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "(anonymous_0)",
+          "decl": {
+            "start": { "line": 10, "column": 42 },
+            "end": { "line": 10, "column": 43 }
+          },
+          "loc": {
+            "start": { "line": 10, "column": 66 },
+            "end": { "line": 18, "column": 1 }
+          },
+          "line": 10
+        }
+      },
+      "branchMap": {},
+      "s": { "0": 2, "1": 3, "2": 2 },
+      "f": { "0": 3 },
+      "b": {},
+      "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+      "hash": "91691cce91094b6f687d068d45b471fb911ee11a"
+    },
+    "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/src/screens/HomeScreen.tsx": {
+      "path": "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/src/screens/HomeScreen.tsx",
+      "statementMap": {
+        "0": {
+          "start": { "line": 6, "column": 2 },
+          "end": { "line": 13, "column": 4 }
+        },
+        "1": {
+          "start": { "line": 9, "column": 23 },
+          "end": { "line": 9, "column": 56 }
+        },
+        "2": {
+          "start": { "line": 16, "column": 15 },
+          "end": { "line": 22, "column": 2 }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "Home",
+          "decl": {
+            "start": { "line": 5, "column": 9 },
+            "end": { "line": 5, "column": 13 }
+          },
+          "loc": {
+            "start": { "line": 5, "column": 51 },
+            "end": { "line": 14, "column": 1 }
+          },
+          "line": 5
+        },
+        "1": {
+          "name": "(anonymous_1)",
+          "decl": {
+            "start": { "line": 9, "column": 17 },
+            "end": { "line": 9, "column": 18 }
+          },
+          "loc": {
+            "start": { "line": 9, "column": 23 },
+            "end": { "line": 9, "column": 56 }
+          },
+          "line": 9
+        }
+      },
+      "branchMap": {},
+      "s": { "0": 3, "1": 1, "2": 2 },
+      "f": { "0": 3, "1": 1 },
+      "b": {},
+      "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+      "hash": "eb99dc6c0decdf411bbc7d8807635ba30379baed"
+    },
+    "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/src/screens/SettingScreen.tsx": {
+      "path": "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/src/screens/SettingScreen.tsx",
+      "statementMap": {
+        "0": {
+          "start": { "line": 5, "column": 2 },
+          "end": { "line": 9, "column": 4 }
+        },
+        "1": {
+          "start": { "line": 12, "column": 15 },
+          "end": { "line": 18, "column": 2 }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "Setting",
+          "decl": {
+            "start": { "line": 4, "column": 9 },
+            "end": { "line": 4, "column": 16 }
+          },
+          "loc": {
+            "start": { "line": 4, "column": 19 },
+            "end": { "line": 10, "column": 1 }
+          },
+          "line": 4
+        }
+      },
+      "branchMap": {},
+      "s": { "0": 1, "1": 2 },
+      "f": { "0": 1 },
+      "b": {},
+      "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+      "hash": "a45adb290e233a7921ec12f964e24e480fd0969d"
+    },
+    "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/src/components/buttons/TimerButton.tsx": {
+      "path": "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/src/components/buttons/TimerButton.tsx",
+      "statementMap": {
+        "0": {
+          "start": { "line": 21, "column": 48 },
+          "end": { "line": 41, "column": 1 }
+        },
+        "1": {
+          "start": { "line": 22, "column": 46 },
+          "end": { "line": 22, "column": 61 }
+        },
+        "2": {
+          "start": { "line": 24, "column": 22 },
+          "end": { "line": 31, "column": 3 }
+        },
+        "3": {
+          "start": { "line": 25, "column": 4 },
+          "end": { "line": 29, "column": 5 }
+        },
+        "4": {
+          "start": { "line": 26, "column": 6 },
+          "end": { "line": 26, "column": 15 }
+        },
+        "5": {
+          "start": { "line": 28, "column": 6 },
+          "end": { "line": 28, "column": 16 }
+        },
+        "6": {
+          "start": { "line": 30, "column": 4 },
+          "end": { "line": 30, "column": 39 }
+        },
+        "7": {
+          "start": { "line": 30, "column": 32 },
+          "end": { "line": 30, "column": 37 }
+        },
+        "8": {
+          "start": { "line": 33, "column": 2 },
+          "end": { "line": 40, "column": 4 }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "(anonymous_0)",
+          "decl": {
+            "start": { "line": 21, "column": 48 },
+            "end": { "line": 21, "column": 49 }
+          },
+          "loc": {
+            "start": { "line": 21, "column": 73 },
+            "end": { "line": 41, "column": 1 }
+          },
+          "line": 21
+        },
+        "1": {
+          "name": "(anonymous_1)",
+          "decl": {
+            "start": { "line": 24, "column": 22 },
+            "end": { "line": 24, "column": 23 }
+          },
+          "loc": {
+            "start": { "line": 24, "column": 28 },
+            "end": { "line": 31, "column": 3 }
+          },
+          "line": 24
+        },
+        "2": {
+          "name": "(anonymous_2)",
+          "decl": {
+            "start": { "line": 30, "column": 22 },
+            "end": { "line": 30, "column": 23 }
+          },
+          "loc": {
+            "start": { "line": 30, "column": 32 },
+            "end": { "line": 30, "column": 37 }
+          },
+          "line": 30
+        }
+      },
+      "branchMap": {
+        "0": {
+          "loc": {
+            "start": { "line": 25, "column": 4 },
+            "end": { "line": 29, "column": 5 }
+          },
+          "type": "if",
+          "locations": [
+            {
+              "start": { "line": 25, "column": 4 },
+              "end": { "line": 29, "column": 5 }
+            },
+            {
+              "start": { "line": 27, "column": 11 },
+              "end": { "line": 29, "column": 5 }
+            }
+          ],
+          "line": 25
+        },
+        "1": {
+          "loc": {
+            "start": { "line": 35, "column": 12 },
+            "end": { "line": 35, "column": 44 }
+          },
+          "type": "cond-expr",
+          "locations": [
+            {
+              "start": { "line": 35, "column": 29 },
+              "end": { "line": 35, "column": 35 }
+            },
+            {
+              "start": { "line": 35, "column": 38 },
+              "end": { "line": 35, "column": 44 }
+            }
+          ],
+          "line": 35
+        },
+        "2": {
+          "loc": {
+            "start": { "line": 38, "column": 7 },
+            "end": { "line": 38, "column": 40 }
+          },
+          "type": "cond-expr",
+          "locations": [
+            {
+              "start": { "line": 38, "column": 24 },
+              "end": { "line": 38, "column": 30 }
+            },
+            {
+              "start": { "line": 38, "column": 33 },
+              "end": { "line": 38, "column": 40 }
+            }
+          ],
+          "line": 38
+        }
+      },
+      "s": {
+        "0": 2,
+        "1": 10,
+        "2": 10,
+        "3": 6,
+        "4": 2,
+        "5": 4,
+        "6": 6,
+        "7": 6,
+        "8": 10
+      },
+      "f": { "0": 10, "1": 6, "2": 6 },
+      "b": { "0": [2, 4], "1": [4, 6], "2": [4, 6] },
+      "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+      "hash": "56225eb5774d9bc162a4341c7a5fb08262298f3d"
+    },
+    "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/src/components/views/TimerDisplay.tsx": {
+      "path": "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/src/components/views/TimerDisplay.tsx",
+      "statementMap": {
+        "0": {
+          "start": { "line": 23, "column": 50 },
+          "end": { "line": 33, "column": 1 }
+        },
+        "1": {
+          "start": { "line": 27, "column": 2 },
+          "end": { "line": 32, "column": 4 }
+        },
+        "2": {
+          "start": { "line": 35, "column": 0 },
+          "end": { "line": 38, "column": 2 }
+        },
+        "3": {
+          "start": { "line": 40, "column": 15 },
+          "end": { "line": 57, "column": 2 }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "(anonymous_0)",
+          "decl": {
+            "start": { "line": 23, "column": 50 },
+            "end": { "line": 23, "column": 51 }
+          },
+          "loc": {
+            "start": { "line": 26, "column": 6 },
+            "end": { "line": 33, "column": 1 }
+          },
+          "line": 26
+        }
+      },
+      "branchMap": {
+        "0": {
+          "loc": {
+            "start": { "line": 24, "column": 2 },
+            "end": { "line": 24, "column": 12 }
+          },
+          "type": "default-arg",
+          "locations": [
+            {
+              "start": { "line": 24, "column": 10 },
+              "end": { "line": 24, "column": 12 }
+            }
+          ],
+          "line": 24
+        },
+        "1": {
+          "loc": {
+            "start": { "line": 25, "column": 2 },
+            "end": { "line": 25, "column": 11 }
+          },
+          "type": "default-arg",
+          "locations": [
+            {
+              "start": { "line": 25, "column": 9 },
+              "end": { "line": 25, "column": 11 }
+            }
+          ],
+          "line": 25
+        }
+      },
+      "s": { "0": 2, "1": 20, "2": 2, "3": 2 },
+      "f": { "0": 20 },
+      "b": { "0": [0], "1": [0] },
+      "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+      "hash": "4ad28b0f84bf32213f2ce30a0f4c0ce8fe945935"
+    },
+    "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/src/components/views/ElapsedTimeDisplay.tsx": {
+      "path": "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/src/components/views/ElapsedTimeDisplay.tsx",
+      "statementMap": {
+        "0": {
+          "start": { "line": 19, "column": 62 },
+          "end": { "line": 52, "column": 1 }
+        },
+        "1": {
+          "start": { "line": 22, "column": 40 },
+          "end": { "line": 22, "column": 59 }
+        },
+        "2": {
+          "start": { "line": 25, "column": 22 },
+          "end": { "line": 25, "column": 72 }
+        },
+        "3": {
+          "start": { "line": 27, "column": 2 },
+          "end": { "line": 43, "column": 18 }
+        },
+        "4": {
+          "start": { "line": 28, "column": 4 },
+          "end": { "line": 36, "column": 5 }
+        },
+        "5": {
+          "start": { "line": 29, "column": 6 },
+          "end": { "line": 29, "column": 24 }
+        },
+        "6": {
+          "start": { "line": 31, "column": 6 },
+          "end": { "line": 33, "column": 15 }
+        },
+        "7": {
+          "start": { "line": 32, "column": 8 },
+          "end": { "line": 32, "column": 65 }
+        },
+        "8": {
+          "start": { "line": 32, "column": 44 },
+          "end": { "line": 32, "column": 63 }
+        },
+        "9": {
+          "start": { "line": 35, "column": 6 },
+          "end": { "line": 35, "column": 64 }
+        },
+        "10": {
+          "start": { "line": 40, "column": 4 },
+          "end": { "line": 42, "column": 6 }
+        },
+        "11": {
+          "start": { "line": 41, "column": 6 },
+          "end": { "line": 41, "column": 66 }
+        },
+        "12": {
+          "start": { "line": 41, "column": 31 },
+          "end": { "line": 41, "column": 66 }
+        },
+        "13": {
+          "start": { "line": 45, "column": 24 },
+          "end": { "line": 45, "column": 47 }
+        },
+        "14": {
+          "start": { "line": 47, "column": 2 },
+          "end": { "line": 51, "column": 4 }
+        },
+        "15": {
+          "start": { "line": 54, "column": 19 },
+          "end": { "line": 64, "column": 1 }
+        },
+        "16": {
+          "start": { "line": 55, "column": 16 },
+          "end": { "line": 55, "column": 48 }
+        },
+        "17": {
+          "start": { "line": 56, "column": 18 },
+          "end": { "line": 56, "column": 57 }
+        },
+        "18": {
+          "start": { "line": 57, "column": 18 },
+          "end": { "line": 57, "column": 36 }
+        },
+        "19": {
+          "start": { "line": 59, "column": 25 },
+          "end": { "line": 59, "column": 58 }
+        },
+        "20": {
+          "start": { "line": 60, "column": 27 },
+          "end": { "line": 60, "column": 62 }
+        },
+        "21": {
+          "start": { "line": 61, "column": 27 },
+          "end": { "line": 61, "column": 62 }
+        },
+        "22": {
+          "start": { "line": 63, "column": 2 },
+          "end": { "line": 63, "column": 69 }
+        },
+        "23": {
+          "start": { "line": 66, "column": 15 },
+          "end": { "line": 76, "column": 2 }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "(anonymous_0)",
+          "decl": {
+            "start": { "line": 19, "column": 62 },
+            "end": { "line": 19, "column": 63 }
+          },
+          "loc": {
+            "start": { "line": 21, "column": 6 },
+            "end": { "line": 52, "column": 1 }
+          },
+          "line": 21
+        },
+        "1": {
+          "name": "(anonymous_1)",
+          "decl": {
+            "start": { "line": 27, "column": 12 },
+            "end": { "line": 27, "column": 13 }
+          },
+          "loc": {
+            "start": { "line": 27, "column": 18 },
+            "end": { "line": 43, "column": 3 }
+          },
+          "line": 27
+        },
+        "2": {
+          "name": "(anonymous_2)",
+          "decl": {
+            "start": { "line": 31, "column": 40 },
+            "end": { "line": 31, "column": 41 }
+          },
+          "loc": {
+            "start": { "line": 31, "column": 46 },
+            "end": { "line": 33, "column": 7 }
+          },
+          "line": 31
+        },
+        "3": {
+          "name": "(anonymous_3)",
+          "decl": {
+            "start": { "line": 32, "column": 23 },
+            "end": { "line": 32, "column": 24 }
+          },
+          "loc": {
+            "start": { "line": 32, "column": 44 },
+            "end": { "line": 32, "column": 63 }
+          },
+          "line": 32
+        },
+        "4": {
+          "name": "(anonymous_4)",
+          "decl": {
+            "start": { "line": 40, "column": 11 },
+            "end": { "line": 40, "column": 12 }
+          },
+          "loc": {
+            "start": { "line": 40, "column": 17 },
+            "end": { "line": 42, "column": 5 }
+          },
+          "line": 40
+        },
+        "5": {
+          "name": "(anonymous_5)",
+          "decl": {
+            "start": { "line": 54, "column": 19 },
+            "end": { "line": 54, "column": 20 }
+          },
+          "loc": {
+            "start": { "line": 54, "column": 54 },
+            "end": { "line": 64, "column": 1 }
+          },
+          "line": 54
+        }
+      },
+      "branchMap": {
+        "0": {
+          "loc": {
+            "start": { "line": 28, "column": 4 },
+            "end": { "line": 36, "column": 5 }
+          },
+          "type": "if",
+          "locations": [
+            {
+              "start": { "line": 28, "column": 4 },
+              "end": { "line": 36, "column": 5 }
+            },
+            {
+              "start": { "line": 34, "column": 11 },
+              "end": { "line": 36, "column": 5 }
+            }
+          ],
+          "line": 28
+        },
+        "1": {
+          "loc": {
+            "start": { "line": 35, "column": 6 },
+            "end": { "line": 35, "column": 63 }
+          },
+          "type": "binary-expr",
+          "locations": [
+            {
+              "start": { "line": 35, "column": 6 },
+              "end": { "line": 35, "column": 25 }
+            },
+            {
+              "start": { "line": 35, "column": 29 },
+              "end": { "line": 35, "column": 63 }
+            }
+          ],
+          "line": 35
+        },
+        "2": {
+          "loc": {
+            "start": { "line": 41, "column": 6 },
+            "end": { "line": 41, "column": 66 }
+          },
+          "type": "if",
+          "locations": [
+            {
+              "start": { "line": 41, "column": 6 },
+              "end": { "line": 41, "column": 66 }
+            },
+            { "start": {}, "end": {} }
+          ],
+          "line": 41
+        }
+      },
+      "s": {
+        "0": 2,
+        "1": 10,
+        "2": 10,
+        "3": 10,
+        "4": 10,
+        "5": 4,
+        "6": 4,
+        "7": 3602,
+        "8": 3602,
+        "9": 6,
+        "10": 10,
+        "11": 10,
+        "12": 6,
+        "13": 10,
+        "14": 10,
+        "15": 2,
+        "16": 10,
+        "17": 10,
+        "18": 10,
+        "19": 10,
+        "20": 10,
+        "21": 10,
+        "22": 10,
+        "23": 2
+      },
+      "f": { "0": 10, "1": 10, "2": 3602, "3": 3602, "4": 10, "5": 10 },
+      "b": { "0": [4, 6], "1": [6, 2], "2": [6, 4] },
+      "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+      "hash": "4d93d1ea5b15402ccb65bc4bab87eeae71236fd2"
+    },
+    "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/src/screens/SleepTimerScreen.tsx": {
+      "path": "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/src/screens/SleepTimerScreen.tsx",
+      "statementMap": {
+        "0": {
+          "start": { "line": 13, "column": 29 },
+          "end": { "line": 46, "column": 1 }
+        },
+        "1": {
+          "start": { "line": 14, "column": 36 },
+          "end": { "line": 14, "column": 63 }
+        },
+        "2": {
+          "start": { "line": 15, "column": 34 },
+          "end": { "line": 15, "column": 61 }
+        },
+        "3": {
+          "start": { "line": 16, "column": 36 },
+          "end": { "line": 16, "column": 60 }
+        },
+        "4": {
+          "start": { "line": 18, "column": 22 },
+          "end": { "line": 22, "column": 3 }
+        },
+        "5": {
+          "start": { "line": 19, "column": 4 },
+          "end": { "line": 19, "column": 29 }
+        },
+        "6": {
+          "start": { "line": 20, "column": 4 },
+          "end": { "line": 20, "column": 22 }
+        },
+        "7": {
+          "start": { "line": 21, "column": 4 },
+          "end": { "line": 21, "column": 23 }
+        },
+        "8": {
+          "start": { "line": 24, "column": 21 },
+          "end": { "line": 27, "column": 3 }
+        },
+        "9": {
+          "start": { "line": 25, "column": 4 },
+          "end": { "line": 25, "column": 28 }
+        },
+        "10": {
+          "start": { "line": 26, "column": 4 },
+          "end": { "line": 26, "column": 24 }
+        },
+        "11": {
+          "start": { "line": 29, "column": 2 },
+          "end": { "line": 45, "column": 4 }
+        },
+        "12": {
+          "start": { "line": 48, "column": 15 },
+          "end": { "line": 54, "column": 2 }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "(anonymous_0)",
+          "decl": {
+            "start": { "line": 13, "column": 29 },
+            "end": { "line": 13, "column": 30 }
+          },
+          "loc": {
+            "start": { "line": 13, "column": 35 },
+            "end": { "line": 46, "column": 1 }
+          },
+          "line": 13
+        },
+        "1": {
+          "name": "(anonymous_1)",
+          "decl": {
+            "start": { "line": 18, "column": 22 },
+            "end": { "line": 18, "column": 23 }
+          },
+          "loc": {
+            "start": { "line": 18, "column": 28 },
+            "end": { "line": 22, "column": 3 }
+          },
+          "line": 18
+        },
+        "2": {
+          "name": "(anonymous_2)",
+          "decl": {
+            "start": { "line": 24, "column": 21 },
+            "end": { "line": 24, "column": 22 }
+          },
+          "loc": {
+            "start": { "line": 24, "column": 27 },
+            "end": { "line": 27, "column": 3 }
+          },
+          "line": 24
+        }
+      },
+      "branchMap": {
+        "0": {
+          "loc": {
+            "start": { "line": 33, "column": 14 },
+            "end": { "line": 33, "column": 61 }
+          },
+          "type": "cond-expr",
+          "locations": [
+            {
+              "start": { "line": 33, "column": 26 },
+              "end": { "line": 33, "column": 56 }
+            },
+            {
+              "start": { "line": 33, "column": 59 },
+              "end": { "line": 33, "column": 61 }
+            }
+          ],
+          "line": 33
+        },
+        "1": {
+          "loc": {
+            "start": { "line": 37, "column": 14 },
+            "end": { "line": 37, "column": 59 }
+          },
+          "type": "cond-expr",
+          "locations": [
+            {
+              "start": { "line": 37, "column": 25 },
+              "end": { "line": 37, "column": 54 }
+            },
+            {
+              "start": { "line": 37, "column": 57 },
+              "end": { "line": 37, "column": 59 }
+            }
+          ],
+          "line": 37
+        }
+      },
+      "s": {
+        "0": 2,
+        "1": 10,
+        "2": 10,
+        "3": 10,
+        "4": 10,
+        "5": 4,
+        "6": 4,
+        "7": 4,
+        "8": 10,
+        "9": 2,
+        "10": 2,
+        "11": 10,
+        "12": 2
+      },
+      "f": { "0": 10, "1": 4, "2": 2 },
+      "b": { "0": [6, 4], "1": [2, 8] },
+      "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+      "hash": "e29e7d1ca8d7362784bc229d91648248c18788b9"
+    },
+    "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/src/navigations/HomeStack.tsx": {
+      "path": "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/src/navigations/HomeStack.tsx",
+      "statementMap": {
+        "0": {
+          "start": { "line": 5, "column": 14 },
+          "end": { "line": 5, "column": 42 }
+        },
+        "1": {
+          "start": { "line": 8, "column": 2 },
+          "end": { "line": 21, "column": 4 }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "HomeStack",
+          "decl": {
+            "start": { "line": 7, "column": 9 },
+            "end": { "line": 7, "column": 18 }
+          },
+          "loc": {
+            "start": { "line": 7, "column": 21 },
+            "end": { "line": 22, "column": 1 }
+          },
+          "line": 7
+        }
+      },
+      "branchMap": {},
+      "s": { "0": 1, "1": 1 },
+      "f": { "0": 1 },
+      "b": {},
+      "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+      "hash": "ecee878735da8837978a4804b8a9b8bae88670e4"
+    },
+    "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/src/navigations/MainNavigator.tsx": {
+      "path": "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/mobile/src/navigations/MainNavigator.tsx",
+      "statementMap": {
+        "0": {
+          "start": { "line": 5, "column": 12 },
+          "end": { "line": 5, "column": 38 }
+        },
+        "1": {
+          "start": { "line": 8, "column": 2 },
+          "end": { "line": 19, "column": 4 }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "BottomTabs",
+          "decl": {
+            "start": { "line": 7, "column": 9 },
+            "end": { "line": 7, "column": 19 }
+          },
+          "loc": {
+            "start": { "line": 7, "column": 22 },
+            "end": { "line": 20, "column": 1 }
+          },
+          "line": 7
+        }
+      },
+      "branchMap": {},
+      "s": { "0": 1, "1": 1 },
+      "f": { "0": 1 },
+      "b": {},
+      "_coverageSchema": "1a1c01bbd47fc00a2c39e90264f33305004495a9",
+      "hash": "bc00561369189c7af853d8ca4b2ee1e06ac52981"
+    }
+  }
+}
