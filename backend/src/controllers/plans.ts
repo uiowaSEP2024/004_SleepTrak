@@ -38,7 +38,7 @@ const create = async (req: Request, res: Response): Promise<void> => {
     const planData = {
       client: { connect: { userId: creationParams.clientId } },
       coach: { connect: { userId: creationParams.coachId } },
-      status: creationParams.status
+      Status: creationParams.Status
     };
 
     const plan = await service.create(planData);
