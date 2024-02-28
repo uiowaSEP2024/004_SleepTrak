@@ -85,8 +85,8 @@ testRoute({
     calledWith: {
       data: {
         ...eventProps,
-        startTime: event.startTime,
-        endTime: event.endTime,
+        startTime: new Date(event.startTime),
+        endTime: new Date(event.endTime),
         owner: { connect: { userId: event.ownerId } }
       }
     }

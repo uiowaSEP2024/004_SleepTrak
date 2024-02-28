@@ -37,8 +37,8 @@ const create = async (req: Request, res: Response): Promise<void> => {
 
     const eventData = {
       owner: { connect: { userId: creationParams.ownerId } },
-      startTime: creationParams.startTime,
-      endTime: creationParams.endTime,
+      startTime: new Date(creationParams.startTime),
+      endTime: new Date(creationParams.endTime),
       type: creationParams.type
     };
 
