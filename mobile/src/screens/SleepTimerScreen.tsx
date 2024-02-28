@@ -9,6 +9,7 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import TimerButton from '../components/buttons/TimerButton';
 import TimerDisplay from '../components/views/TimerDisplay';
 import ElapsedTimeDisplay from '../components/views/ElapsedTimeDisplay';
+import ShowMoreButton from '../components/buttons/ShowMoreButton';
 
 const SleepTimer: React.FC = () => {
   const [startTime, setStartTime] = useState<Date | null>(null);
@@ -41,6 +42,10 @@ const SleepTimer: React.FC = () => {
         <TimerButton
           onStart={handleStart}
           onStop={handleStop}
+        />
+        <ShowMoreButton
+          onPress={() => console.log('Show log button pressed')}
+          title="Show Log"
         />
       </View>
     </ScrollView>
