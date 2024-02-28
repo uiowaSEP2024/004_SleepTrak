@@ -1,108 +1,133 @@
-import request from 'supertest';
-import app from '../../src/app';
-import { prismaMock } from '../mock_client.js';
+import { testRoute } from './common.js';
 
 const mockReminders = [
   {
-    reminderId: 1,
-    description: 'nap'
+    reminderId: '1',
+    planId: '1',
+    description: 'nap',
+    timestamp: '2022-01-01T12:00:00Z'
   },
   {
-    reminderId: 2,
-    description: 'nap'
-  },
-  {
-    reminderId: 3,
-    description: 'nap'
+    reminderId: '2',
+    planId: '2',
+    description: 'nap',
+    timestamp: '2023-01-01T12:00:00Z'
   }
 ];
 const reminder = {
-  reminderId: 4,
-  description: 'bedtime'
+  reminderId: '3',
+  planId: '3',
+  description: 'nap',
+  timestamp: '2024-01-01T12:00:00Z'
 };
 
-describe('Test /reminders/all route', () => {
-  test('GET /reminders returns all reminders', async () => {
-    prismaMock.reminder.findMany.mockReturnValue(mockReminders);
-    const response = await request(app).get('/reminders/all');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(mockReminders);
-    expect(prismaMock.reminder.findMany).toHaveBeenCalledWith();
-  });
+// /reminders/all
+testRoute({
+  reqData: {},
+  mockData: mockReminders,
+  expectData: {
+    status: 200,
+    body: mockReminders
+  },
+  model: 'reminder',
+  route: 'all'
 });
 
-describe('test /reminders/:id route', () => {
-  test('GET /reminders/:id calls findUnique and returns reminder', async () => {
-    const tid = 3;
-    prismaMock.reminder.findUnique.mockReturnValue(
-      mockReminders.filter((reminders) => reminders.reminderId === tid)
-    );
-    const response = await request(app).get('/reminders/{tid}');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(
-      mockReminders.filter((reminders) => reminders.reminderId === tid)
-    );
-    response.body.forEach((reminder: any) => {
-      expect(reminder.reminderId).toEqual(tid);
-    });
-    expect(prismaMock.reminder.findUnique).toHaveBeenCalledWith({
-      where: { reminderId: '{tid}' }
-    });
-  });
+// /reminders/:id
+testRoute({
+  reqData: {},
+  mockData: mockReminders.filter((reminder) => reminder.reminderId === '1'),
+  expectData: {
+    status: 200,
+    body: mockReminders.filter((reminder) => reminder.reminderId === '1'),
+    calledWith: {
+      where: {
+        reminderId: ':id'
+      }
+    }
+  },
+  model: 'reminder',
+  id: '1'
 });
 
-describe('test /reminders/search route', () => {
-  test('GET /reminders/search calls findMany and returns reminders', async () => {
-    const description = 'nap';
-    prismaMock.reminder.findMany.mockReturnValue(
-      mockReminders.filter((reminder) => reminder.description === description)
-    );
-    const response = await request(app).get('/reminders/search');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(
-      mockReminders.filter((reminder) => reminder.description === description)
-    );
-    response.body.forEach((reminder: any) => {
-      expect(reminder.description).toEqual(description);
-    });
-    expect(prismaMock.reminder.findMany).toHaveBeenCalledWith({ where: {} });
-  });
+// /reminders/search
+testRoute({
+  reqData: {
+    role: 'client'
+  },
+  mockData: mockReminders.filter((reminder) => reminder.description === 'nap'),
+  expectData: {
+    status: 200,
+    body: mockReminders.filter((reminder) => reminder.description === 'nap'),
+    calledWith: {
+      where: {
+        role: 'client'
+      }
+    }
+  },
+  model: 'reminder',
+  route: 'search'
 });
 
-describe('test /reminders/create route', () => {
-  test('POST /reminders/create calls create and returns reminder', async () => {
-    prismaMock.reminder.create.mockReturnValue(reminder);
-    const response = await request(app).post('/reminders/create');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(reminder);
-  });
-});
-
-describe('test /reminders/:id/update route', () => {
-  test('PUT /reminders/:id/update calls update and returns reminder', async () => {
-    prismaMock.reminder.update.mockReturnValue(reminder);
-    const response = await request(app)
-      .put('/reminders/4/update')
-      .send({ description: 'bedtime' });
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(reminder);
-    expect(prismaMock.reminder.update).toHaveBeenCalledWith({
+// /reminders/create
+const { reminderId: _u, planId: _p, ...reminderProps } = reminder;
+testRoute({
+  reqData: {
+    ...reminder
+  },
+  mockData: reminder,
+  expectData: {
+    status: 200,
+    body: reminder,
+    calledWith: {
       data: {
-        description: 'bedtime'
-      },
-      where: { reminderId: '4' }
-    });
-  });
+        ...reminderProps,
+        plan: { connect: { planId: reminder.planId } },
+        timestamp: new Date(reminder.timestamp)
+      }
+    }
+  },
+  model: 'reminder',
+  route: 'create'
 });
 
-describe('test /reminders/:id/delete route', () => {
-  test('PUT /reminders/:id/delete calls delete and returns delete info', async () => {
-    prismaMock.reminder.delete.mockReturnValue(reminder);
-    const response = await request(app).delete('/reminders/4/delete');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(reminder);
-    expect(prismaMock.reminder.delete).toHaveBeenCalledWith({
-      where: { reminderId: '4' }
-    });
-  });
+// /reminders/update
+testRoute({
+  reqData: {
+    ...reminder
+  },
+  mockData: reminder,
+  expectData: {
+    status: 200,
+    body: reminder,
+    calledWith: {
+      data: {
+        ...reminder
+      },
+      where: {
+        reminderId: ':id'
+      }
+    }
+  },
+  model: 'reminder',
+  id: '1',
+  route: 'update'
+});
+
+// /reminders/delete
+testRoute({
+  reqData: {},
+  mockData: reminder,
+  expectData: {
+    status: 200,
+    body: reminder,
+    calledWith: {
+      where: {
+        reminderId: ':id'
+      }
+    }
+  },
+  model: 'reminder',
+  id: '1',
+  route: 'delete'
 });
