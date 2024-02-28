@@ -1,6 +1,6 @@
 import { jest, describe, test, expect } from '@jest/globals';
 import request from 'supertest';
-import prismaSpy from '../prismaSpy.test.js';
+import prismaSpy from '../prismaSpy.js';
 
 // unstable_mockModule for esm module mocking compatibility
 jest.unstable_mockModule('../../src/services/auth.js', () => ({
