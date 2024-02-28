@@ -1,8 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-// The doc above tells jest to use jsdom instead of node
-
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { BrowserRouter } from 'react-router-dom';
@@ -27,7 +22,6 @@ beforeEach(() => {
   (useAuth0 as jest.Mock).mockReturnValue({
     user,
     logout: logoutMock
-    // Add any other functions or properties that your component uses from useAuth0
   });
 });
 

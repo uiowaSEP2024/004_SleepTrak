@@ -1,8 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-// The doc above tells jest to use jsdom instead of node
-
 import { render, screen, fireEvent } from '@testing-library/react';
 import Header from '../../components/Header';
 import { toggleSidebar } from '../../util/utils';
