@@ -1,0 +1,837 @@
+{
+  "numFailedTestSuites": 0,
+  "numFailedTests": 0,
+  "numPassedTestSuites": 3,
+  "numPassedTests": 18,
+  "numPendingTestSuites": 0,
+  "numPendingTests": 0,
+  "numRuntimeErrorTestSuites": 0,
+  "numTodoTests": 0,
+  "numTotalTestSuites": 3,
+  "numTotalTests": 18,
+  "openHandles": [],
+  "snapshot": {
+    "added": 0,
+    "didUpdate": false,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0
+  },
+  "startTime": 1709048303128,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Header component"],
+          "duration": 206,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Header component renders without crashing",
+          "invocations": 1,
+          "location": { "column": 3, "line": 22 },
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "renders without crashing"
+        },
+        {
+          "ancestorTitles": ["Header component"],
+          "duration": 14,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Header component toggleSidebarButton is present",
+          "invocations": 1,
+          "location": { "column": 3, "line": 26 },
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "toggleSidebarButton is present"
+        },
+        {
+          "ancestorTitles": ["Header component"],
+          "duration": 17,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Header component clicking toggleSidebarButton calls toggleSidebar function",
+          "invocations": 1,
+          "location": { "column": 3, "line": 32 },
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "clicking toggleSidebarButton calls toggleSidebar function"
+        }
+      ],
+      "endTime": 1709048325177,
+      "message": "",
+      "name": "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/web/src/__tests__/components/Header.test.tsx",
+      "startTime": 1709048305594,
+      "status": "passed",
+      "summary": ""
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Root component"],
+          "duration": 473,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Root component renders without crashing",
+          "invocations": 1,
+          "location": { "column": 3, "line": 13 },
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "renders without crashing"
+        }
+      ],
+      "endTime": 1709048326378,
+      "message": "",
+      "name": "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/web/src/__tests__/components/Root.test.tsx",
+      "startTime": 1709048305600,
+      "status": "passed",
+      "summary": ""
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Sidebar Title and Night Mode Toggle Button"],
+          "duration": 455,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Sidebar Title and Night Mode Toggle Button renders sidebar with correct title",
+          "invocations": 1,
+          "location": { "column": 3, "line": 35 },
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "renders sidebar with correct title"
+        },
+        {
+          "ancestorTitles": ["Sidebar Title and Night Mode Toggle Button"],
+          "duration": 289,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Sidebar Title and Night Mode Toggle Button renders night mode toggle button",
+          "invocations": 1,
+          "location": { "column": 3, "line": 44 },
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "renders night mode toggle button"
+        },
+        {
+          "ancestorTitles": ["Sidebar Navigation Links"],
+          "duration": 59,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Sidebar Navigation Links renders sidebar with correct navigation text (Dashboard)",
+          "invocations": 1,
+          "location": { "column": 19, "line": 64 },
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "renders sidebar with correct navigation text (Dashboard)"
+        },
+        {
+          "ancestorTitles": ["Sidebar Navigation Links"],
+          "duration": 101,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Sidebar Navigation Links renders sidebar with correct navigation text (Clients)",
+          "invocations": 1,
+          "location": { "column": 19, "line": 64 },
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "renders sidebar with correct navigation text (Clients)"
+        },
+        {
+          "ancestorTitles": ["Sidebar Navigation Links"],
+          "duration": 214,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Sidebar Navigation Links renders sidebar with correct navigation text (Babies)",
+          "invocations": 1,
+          "location": { "column": 19, "line": 64 },
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "renders sidebar with correct navigation text (Babies)"
+        },
+        {
+          "ancestorTitles": ["Sidebar Navigation Links"],
+          "duration": 47,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Sidebar Navigation Links renders sidebar with correct navigation text (Messages)",
+          "invocations": 1,
+          "location": { "column": 19, "line": 64 },
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "renders sidebar with correct navigation text (Messages)"
+        },
+        {
+          "ancestorTitles": ["Sidebar Navigation Links"],
+          "duration": 286,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Sidebar Navigation Links clicking the Dashboard link navigates to /dashboard",
+          "invocations": 1,
+          "location": { "column": 19, "line": 77 },
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "clicking the Dashboard link navigates to /dashboard"
+        },
+        {
+          "ancestorTitles": ["Sidebar Navigation Links"],
+          "duration": 288,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Sidebar Navigation Links clicking the Clients link navigates to /clients",
+          "invocations": 1,
+          "location": { "column": 19, "line": 77 },
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "clicking the Clients link navigates to /clients"
+        },
+        {
+          "ancestorTitles": ["Sidebar Navigation Links"],
+          "duration": 381,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Sidebar Navigation Links clicking the Babies link navigates to /babies",
+          "invocations": 1,
+          "location": { "column": 19, "line": 77 },
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "clicking the Babies link navigates to /babies"
+        },
+        {
+          "ancestorTitles": ["Sidebar Navigation Links"],
+          "duration": 182,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Sidebar Navigation Links clicking the Messages link navigates to /messages",
+          "invocations": 1,
+          "location": { "column": 19, "line": 77 },
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "clicking the Messages link navigates to /messages"
+        },
+        {
+          "ancestorTitles": ["Sidebar User Profile and Logout"],
+          "duration": 370,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Sidebar User Profile and Logout renders sidebar with user avatar",
+          "invocations": 1,
+          "location": { "column": 3, "line": 94 },
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "renders sidebar with user avatar"
+        },
+        {
+          "ancestorTitles": ["Sidebar User Profile and Logout"],
+          "duration": 159,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Sidebar User Profile and Logout renders sidebar with username",
+          "invocations": 1,
+          "location": { "column": 3, "line": 108 },
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "renders sidebar with username"
+        },
+        {
+          "ancestorTitles": ["Sidebar User Profile and Logout"],
+          "duration": 76,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Sidebar User Profile and Logout renders sidebar with log-out button",
+          "invocations": 1,
+          "location": { "column": 3, "line": 118 },
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "renders sidebar with log-out button"
+        },
+        {
+          "ancestorTitles": ["Sidebar User Profile and Logout"],
+          "duration": 145,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Sidebar User Profile and Logout pressing log-out button calls auth0 logout function",
+          "invocations": 1,
+          "location": { "column": 3, "line": 128 },
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "status": "passed",
+          "title": "pressing log-out button calls auth0 logout function"
+        }
+      ],
+      "endTime": 1709048329003,
+      "message": "",
+      "name": "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/web/src/__tests__/components/Sidebar.test.tsx",
+      "startTime": 1709048305568,
+      "status": "passed",
+      "summary": ""
+    }
+  ],
+  "wasInterrupted": false,
+  "coverageMap": {
+    "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/web/src/components/Header.tsx": {
+      "path": "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/web/src/components/Header.tsx",
+      "statementMap": {
+        "0": {
+          "start": { "line": 1, "column": 0 },
+          "end": { "line": 1, "column": 49 }
+        },
+        "1": {
+          "start": { "line": 2, "column": 0 },
+          "end": { "line": 2, "column": 35 }
+        },
+        "2": {
+          "start": { "line": 3, "column": 0 },
+          "end": { "line": 3, "column": 45 }
+        },
+        "3": {
+          "start": { "line": 4, "column": 0 },
+          "end": { "line": 4, "column": 48 }
+        },
+        "4": {
+          "start": { "line": 6, "column": 0 },
+          "end": { "line": 6, "column": 46 }
+        },
+        "5": {
+          "start": { "line": 9, "column": 2 },
+          "end": { "line": 45, "column": 4 }
+        },
+        "6": {
+          "start": { "line": 27, "column": 28 },
+          "end": { "line": 34, "column": 10 }
+        },
+        "7": {
+          "start": { "line": 37, "column": 23 },
+          "end": { "line": 37, "column": 38 }
+        },
+        "8": {
+          "start": { "line": 8, "column": 0 },
+          "end": { "line": 8, "column": 24 }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "Header",
+          "decl": {
+            "start": { "line": 8, "column": 24 },
+            "end": { "line": 8, "column": 30 }
+          },
+          "loc": {
+            "start": { "line": 8, "column": 30 },
+            "end": { "line": 46, "column": 1 }
+          }
+        },
+        "1": {
+          "name": "(anonymous_1)",
+          "decl": {
+            "start": { "line": 27, "column": 16 },
+            "end": { "line": 27, "column": 17 }
+          },
+          "loc": {
+            "start": { "line": 27, "column": 28 },
+            "end": { "line": 34, "column": 10 }
+          }
+        },
+        "2": {
+          "name": "(anonymous_2)",
+          "decl": {
+            "start": { "line": 37, "column": 17 },
+            "end": { "line": 37, "column": 20 }
+          },
+          "loc": {
+            "start": { "line": 37, "column": 23 },
+            "end": { "line": 37, "column": 38 }
+          }
+        }
+      },
+      "branchMap": {},
+      "s": {
+        "0": 2,
+        "1": 2,
+        "2": 2,
+        "3": 2,
+        "4": 2,
+        "5": 4,
+        "6": 4,
+        "7": 1,
+        "8": 2
+      },
+      "f": { "0": 4, "1": 4, "2": 1 },
+      "b": {}
+    },
+    "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/web/src/components/Root.tsx": {
+      "path": "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/web/src/components/Root.tsx",
+      "statementMap": {
+        "0": {
+          "start": { "line": 1, "column": 0 },
+          "end": { "line": 1, "column": 47 }
+        },
+        "1": {
+          "start": { "line": 2, "column": 0 },
+          "end": { "line": 2, "column": 31 }
+        },
+        "2": {
+          "start": { "line": 3, "column": 0 },
+          "end": { "line": 3, "column": 32 }
+        },
+        "3": {
+          "start": { "line": 4, "column": 0 },
+          "end": { "line": 4, "column": 30 }
+        },
+        "4": {
+          "start": { "line": 5, "column": 0 },
+          "end": { "line": 5, "column": 42 }
+        },
+        "5": {
+          "start": { "line": 8, "column": 2 },
+          "end": { "line": 36, "column": 4 }
+        },
+        "6": {
+          "start": { "line": 7, "column": 0 },
+          "end": { "line": 7, "column": 24 }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "Root",
+          "decl": {
+            "start": { "line": 7, "column": 24 },
+            "end": { "line": 7, "column": 28 }
+          },
+          "loc": {
+            "start": { "line": 7, "column": 28 },
+            "end": { "line": 37, "column": 1 }
+          }
+        }
+      },
+      "branchMap": {},
+      "s": { "0": 1, "1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 1 },
+      "f": { "0": 1 },
+      "b": {}
+    },
+    "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/web/src/components/Sidebar.tsx": {
+      "path": "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/web/src/components/Sidebar.tsx",
+      "statementMap": {
+        "0": {
+          "start": { "line": 1, "column": 0 },
+          "end": { "line": 1, "column": 49 }
+        },
+        "1": {
+          "start": { "line": 2, "column": 0 },
+          "end": { "line": 2, "column": 37 }
+        },
+        "2": {
+          "start": { "line": 3, "column": 0 },
+          "end": { "line": 3, "column": 31 }
+        },
+        "3": {
+          "start": { "line": 4, "column": 0 },
+          "end": { "line": 4, "column": 33 }
+        },
+        "4": {
+          "start": { "line": 5, "column": 0 },
+          "end": { "line": 5, "column": 39 }
+        },
+        "5": {
+          "start": { "line": 6, "column": 0 },
+          "end": { "line": 6, "column": 33 }
+        },
+        "6": {
+          "start": { "line": 7, "column": 0 },
+          "end": { "line": 7, "column": 41 }
+        },
+        "7": {
+          "start": { "line": 8, "column": 0 },
+          "end": { "line": 8, "column": 80 }
+        },
+        "8": {
+          "start": { "line": 9, "column": 0 },
+          "end": { "line": 9, "column": 55 }
+        },
+        "9": {
+          "start": { "line": 10, "column": 0 },
+          "end": { "line": 10, "column": 45 }
+        },
+        "10": {
+          "start": { "line": 11, "column": 0 },
+          "end": { "line": 11, "column": 35 }
+        },
+        "11": {
+          "start": { "line": 12, "column": 0 },
+          "end": { "line": 12, "column": 72 }
+        },
+        "12": {
+          "start": { "line": 13, "column": 0 },
+          "end": { "line": 13, "column": 82 }
+        },
+        "13": {
+          "start": { "line": 14, "column": 0 },
+          "end": { "line": 14, "column": 58 }
+        },
+        "14": {
+          "start": { "line": 15, "column": 0 },
+          "end": { "line": 15, "column": 52 }
+        },
+        "15": {
+          "start": { "line": 16, "column": 0 },
+          "end": { "line": 16, "column": 58 }
+        },
+        "16": {
+          "start": { "line": 17, "column": 0 },
+          "end": { "line": 17, "column": 45 }
+        },
+        "17": {
+          "start": { "line": 18, "column": 0 },
+          "end": { "line": 18, "column": 40 }
+        },
+        "18": {
+          "start": { "line": 19, "column": 0 },
+          "end": { "line": 19, "column": 50 }
+        },
+        "19": {
+          "start": { "line": 20, "column": 0 },
+          "end": { "line": 20, "column": 51 }
+        },
+        "20": {
+          "start": { "line": 25, "column": 19 },
+          "end": { "line": 25, "column": 32 }
+        },
+        "21": {
+          "start": { "line": 26, "column": 2 },
+          "end": { "line": 180, "column": 4 }
+        },
+        "22": {
+          "start": { "line": 50, "column": 30 },
+          "end": { "line": 57, "column": 12 }
+        },
+        "23": {
+          "start": { "line": 76, "column": 25 },
+          "end": { "line": 76, "column": 39 }
+        },
+        "24": {
+          "start": { "line": 105, "column": 46 },
+          "end": { "line": 105, "column": 66 }
+        },
+        "25": {
+          "start": { "line": 24, "column": 0 },
+          "end": { "line": 24, "column": 24 }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "Sidebar",
+          "decl": {
+            "start": { "line": 24, "column": 24 },
+            "end": { "line": 24, "column": 31 }
+          },
+          "loc": {
+            "start": { "line": 24, "column": 31 },
+            "end": { "line": 181, "column": 1 }
+          }
+        },
+        "1": {
+          "name": "(anonymous_1)",
+          "decl": {
+            "start": { "line": 50, "column": 18 },
+            "end": { "line": 50, "column": 19 }
+          },
+          "loc": {
+            "start": { "line": 50, "column": 30 },
+            "end": { "line": 57, "column": 12 }
+          }
+        },
+        "2": {
+          "name": "(anonymous_2)",
+          "decl": {
+            "start": { "line": 76, "column": 19 },
+            "end": { "line": 76, "column": 22 }
+          },
+          "loc": {
+            "start": { "line": 76, "column": 25 },
+            "end": { "line": 76, "column": 39 }
+          }
+        },
+        "3": {
+          "name": "(anonymous_3)",
+          "decl": {
+            "start": { "line": 105, "column": 35 },
+            "end": { "line": 105, "column": 36 }
+          },
+          "loc": {
+            "start": { "line": 105, "column": 46 },
+            "end": { "line": 105, "column": 66 }
+          }
+        }
+      },
+      "branchMap": {},
+      "s": {
+        "0": 2,
+        "1": 2,
+        "2": 2,
+        "3": 2,
+        "4": 2,
+        "5": 2,
+        "6": 2,
+        "7": 2,
+        "8": 2,
+        "9": 2,
+        "10": 2,
+        "11": 2,
+        "12": 2,
+        "13": 2,
+        "14": 2,
+        "15": 2,
+        "16": 2,
+        "17": 2,
+        "18": 2,
+        "19": 2,
+        "20": 15,
+        "21": 15,
+        "22": 15,
+        "23": 0,
+        "24": 15,
+        "25": 2
+      },
+      "f": { "0": 15, "1": 15, "2": 0, "3": 15 },
+      "b": {}
+    },
+    "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/web/src/components/auth.tsx": {
+      "path": "/Users/haruko/Desktop/UIOWA/SEP/Project_Repo/004_SleepTrak/web/src/components/auth.tsx",
+      "statementMap": {
+        "0": {
+          "start": { "line": 2, "column": 0 },
+          "end": { "line": 2, "column": null }
+        },
+        "1": {
+          "start": { "line": 8, "column": 0 },
+          "end": { "line": 8, "column": 38 }
+        },
+        "2": {
+          "start": { "line": 9, "column": 0 },
+          "end": { "line": 9, "column": 66 }
+        },
+        "3": {
+          "start": { "line": 10, "column": 0 },
+          "end": { "line": 10, "column": 47 }
+        },
+        "4": {
+          "start": { "line": 26, "column": 38 },
+          "end": { "line": 45, "column": 1 }
+        },
+        "5": {
+          "start": { "line": 27, "column": 21 },
+          "end": { "line": 27, "column": 31 }
+        },
+        "6": {
+          "start": { "line": 29, "column": 2 },
+          "end": { "line": 44, "column": 4 }
+        },
+        "7": {
+          "start": { "line": 36, "column": 8 },
+          "end": { "line": 40, "column": 11 }
+        },
+        "8": {
+          "start": { "line": 26, "column": 13 },
+          "end": { "line": 26, "column": 38 }
+        },
+        "9": {
+          "start": { "line": 47, "column": 61 },
+          "end": { "line": 53, "column": 1 }
+        },
+        "10": {
+          "start": { "line": 51, "column": 20 },
+          "end": { "line": 51, "column": 63 }
+        },
+        "11": {
+          "start": { "line": 52, "column": 2 },
+          "end": { "line": 52, "column": 23 }
+        },
+        "12": {
+          "start": { "line": 47, "column": 13 },
+          "end": { "line": 47, "column": 61 }
+        },
+        "13": {
+          "start": { "line": 57, "column": 4 },
+          "end": { "line": 69, "column": 1 }
+        },
+        "14": {
+          "start": { "line": 58, "column": 19 },
+          "end": { "line": 58, "column": 32 }
+        },
+        "15": {
+          "start": { "line": 59, "column": 29 },
+          "end": { "line": 61, "column": 3 }
+        },
+        "16": {
+          "start": { "line": 60, "column": 4 },
+          "end": { "line": 60, "column": 61 }
+        },
+        "17": {
+          "start": { "line": 62, "column": 2 },
+          "end": { "line": 68, "column": 4 }
+        },
+        "18": {
+          "start": { "line": 55, "column": 13 },
+          "end": { "line": 55, "column": null }
+        },
+        "19": {
+          "start": { "line": 79, "column": 27 },
+          "end": { "line": 82, "column": 1 }
+        },
+        "20": {
+          "start": { "line": 80, "column": 19 },
+          "end": { "line": 80, "column": 29 }
+        },
+        "21": {
+          "start": { "line": 81, "column": 2 },
+          "end": { "line": 81, "column": 14 }
+        },
+        "22": {
+          "start": { "line": 79, "column": 13 },
+          "end": { "line": 79, "column": 27 }
+        }
+      },
+      "fnMap": {
+        "0": {
+          "name": "(anonymous_0)",
+          "decl": {
+            "start": { "line": 26, "column": 38 },
+            "end": { "line": 26, "column": 41 }
+          },
+          "loc": {
+            "start": { "line": 26, "column": 43 },
+            "end": { "line": 45, "column": 1 }
+          }
+        },
+        "1": {
+          "name": "(anonymous_1)",
+          "decl": {
+            "start": { "line": 35, "column": 15 },
+            "end": { "line": 35, "column": 18 }
+          },
+          "loc": {
+            "start": { "line": 35, "column": 20 },
+            "end": { "line": 41, "column": 7 }
+          }
+        },
+        "2": {
+          "name": "(anonymous_2)",
+          "decl": {
+            "start": { "line": 47, "column": 61 },
+            "end": { "line": 47, "column": 62 }
+          },
+          "loc": {
+            "start": { "line": 50, "column": 5 },
+            "end": { "line": 53, "column": 1 }
+          }
+        },
+        "3": {
+          "name": "(anonymous_3)",
+          "decl": {
+            "start": { "line": 57, "column": 4 },
+            "end": { "line": 57, "column": 5 }
+          },
+          "loc": {
+            "start": { "line": 57, "column": 31 },
+            "end": { "line": 69, "column": 1 }
+          }
+        },
+        "4": {
+          "name": "(anonymous_4)",
+          "decl": {
+            "start": { "line": 59, "column": 29 },
+            "end": { "line": 59, "column": 30 }
+          },
+          "loc": {
+            "start": { "line": 59, "column": 53 },
+            "end": { "line": 61, "column": 3 }
+          }
+        },
+        "5": {
+          "name": "(anonymous_5)",
+          "decl": {
+            "start": { "line": 79, "column": 27 },
+            "end": { "line": 79, "column": 30 }
+          },
+          "loc": {
+            "start": { "line": 79, "column": 32 },
+            "end": { "line": 82, "column": 1 }
+          }
+        }
+      },
+      "branchMap": {
+        "0": {
+          "loc": {
+            "start": { "line": 60, "column": 13 },
+            "end": { "line": 60, "column": 59 }
+          },
+          "type": "binary-expr",
+          "locations": [
+            {
+              "start": { "line": 60, "column": 13 },
+              "end": { "line": 60, "column": 31 }
+            },
+            {
+              "start": { "line": 60, "column": 35 },
+              "end": { "line": 60, "column": 59 }
+            }
+          ]
+        }
+      },
+      "s": {
+        "0": 2,
+        "1": 2,
+        "2": 2,
+        "3": 2,
+        "4": 2,
+        "5": 15,
+        "6": 15,
+        "7": 1,
+        "8": 2,
+        "9": 2,
+        "10": 0,
+        "11": 0,
+        "12": 2,
+        "13": 2,
+        "14": 0,
+        "15": 0,
+        "16": 0,
+        "17": 0,
+        "18": 2,
+        "19": 2,
+        "20": 15,
+        "21": 15,
+        "22": 2
+      },
+      "f": { "0": 15, "1": 1, "2": 0, "3": 0, "4": 0, "5": 15 },
+      "b": { "0": [0, 0] }
+    }
+  }
+}

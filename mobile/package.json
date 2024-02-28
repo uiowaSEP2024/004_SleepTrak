@@ -9,7 +9,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest",
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "coverage": "jest --coverage --silent --ci --testLocationInResults --json --outputFile=\"report.json\""
   },
   "jest": {
     "preset": "jest-expo",
@@ -23,7 +24,12 @@
       "!**/node_modules/**",
       "!**/babel.config.js",
       "!**/jest.setup.js"
-    ]
+    ],
+    "coverageThreshold": {
+      "global": {
+        "lines": 75
+      }
+    }
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^6.5.12",
