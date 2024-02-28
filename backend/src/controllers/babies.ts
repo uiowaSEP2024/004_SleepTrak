@@ -40,7 +40,7 @@ const create = async (req: Request, res: Response): Promise<void> => {
       dob: new Date(creationParams.date),
       weight: creationParams.weight,
       medicine: creationParams.medicine,
-      parent: { connect: { parentId: creationParams.parentId } }
+      parent: { connect: { userId: creationParams.parentId } }
     };
 
     const baby = await service.create(babyData);

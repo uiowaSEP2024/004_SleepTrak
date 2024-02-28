@@ -42,7 +42,7 @@ const create = async (req: Request, res: Response): Promise<void> => {
       email: creationParams.email,
       role: creationParams.role,
       coach: creationParams.coachId
-        ? { connect: { coachId: creationParams.coachId } }
+        ? { connect: { userId: creationParams.coachId } }
         : null
     };
 
