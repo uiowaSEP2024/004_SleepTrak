@@ -71,7 +71,7 @@ testRoute({
 });
 
 // /plans/create
-const { planId: _u, clientId: _cl, coachId: _co, ...planProps } = plan;
+const { planId: _p, clientId: _cl, coachId: _co, ...planProps } = plan;
 testRoute({
   reqData: {
     ...plan

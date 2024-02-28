@@ -1,114 +1,137 @@
-import request from 'supertest';
-import app from '../../src/app';
-import { prismaMock } from '../mock_client.js';
+import { testRoute } from './common.js';
 
 const mockEvents = [
   {
-    eventId: 1,
+    eventId: '1',
+    ownerId: '1',
+    startTime: '2022-01-01T12:00:00Z',
+    endTime: '2022-01-01T13:00:00Z',
+    type: 'nap'
+  },
+  {
+    eventId: '2',
+    ownerId: '2',
+    startTime: '2023-01-01T12:00:00Z',
+    endTime: '2023-01-01T13:00:00Z',
     type: 'sleep'
-  },
-  {
-    eventId: 2,
-    type: 'wake'
-  },
-  {
-    eventId: 3,
-    type: 'food'
-  },
-  {
-    eventId: 4,
-    type: 'medicine'
   }
 ];
 const event = {
-  eventId: 5,
-  type: 'nap'
+  eventId: '3',
+  ownerId: '3',
+  startTime: '2024-01-01T12:00:00Z',
+  endTime: '2024-01-01T13:00:00Z',
+  type: 'wake'
 };
 
-describe('Test /events/all route', () => {
-  test('GET /events returns all events', async () => {
-    prismaMock.event.findMany.mockReturnValue(mockEvents);
-    const response = await request(app).get('/events/all');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(mockEvents);
-    expect(prismaMock.event.findMany).toHaveBeenCalledWith();
-  });
+// /events/all
+testRoute({
+  reqData: {},
+  mockData: mockEvents,
+  expectData: {
+    status: 200,
+    body: mockEvents
+  },
+  model: 'event',
+  route: 'all'
 });
 
-describe('test /events/:id route', () => {
-  test('GET /events/:id calls findUnique and returns event', async () => {
-    const tid = 3;
-    prismaMock.event.findUnique.mockReturnValue(
-      mockEvents.filter((events) => events.eventId === tid)
-    );
-    const response = await request(app).get('/events/{tid}');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(
-      mockEvents.filter((events) => {
-        return events.eventId === tid;
-      })
-    );
-    response.body.forEach((event: any) => {
-      expect(event.eventId).toEqual(tid);
-    });
-    expect(prismaMock.event.findUnique).toHaveBeenCalledWith({
-      where: { eventId: '{tid}' }
-    });
-  });
+// /events/:id
+testRoute({
+  reqData: {},
+  mockData: mockEvents.filter((event) => event.eventId === '1'),
+  expectData: {
+    status: 200,
+    body: mockEvents.filter((event) => event.eventId === '1'),
+    calledWith: {
+      where: {
+        eventId: ':id'
+      }
+    }
+  },
+  model: 'event',
+  id: '1'
 });
 
-describe('test /events/search route', () => {
-  test('GET /events/search calls findMany and returns events', async () => {
-    const type = 'sleep';
-    prismaMock.event.findMany.mockReturnValue(
-      mockEvents.filter((event) => event.type === type)
-    );
-    const response = await request(app).get('/events/search');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(
-      mockEvents.filter((event) => event.type === type)
-    );
-    response.body.forEach((event: any) => {
-      expect(event.type).toEqual(type);
-    });
-    expect(prismaMock.event.findMany).toHaveBeenCalledWith({ where: {} });
-  });
+// /events/search
+testRoute({
+  reqData: {
+    role: 'client'
+  },
+  mockData: mockEvents.filter((event) => event.type === 'nap'),
+  expectData: {
+    status: 200,
+    body: mockEvents.filter((event) => event.type === 'nap'),
+    calledWith: {
+      where: {
+        role: 'client'
+      }
+    }
+  },
+  model: 'event',
+  route: 'search'
 });
 
-describe('test /events/create route', () => {
-  test('POST /events/create calls create and returns event', async () => {
-    prismaMock.event.create.mockReturnValue(event);
-    const response = await request(app).post('/events/create');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(event);
-  });
-});
-
-describe('test /events/:id/update route', () => {
-  test('PUT /events/:id/update calls update and returns event', async () => {
-    prismaMock.event.update.mockReturnValue(event);
-    const response = await request(app)
-      .put('/events/4/update')
-      .send({ type: 'nap' });
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(event);
-    expect(prismaMock.event.update).toHaveBeenCalledWith({
+// /events/create
+const { eventId: _e, ownerId: _o, ...eventProps } = event;
+testRoute({
+  reqData: {
+    ...event
+  },
+  mockData: event,
+  expectData: {
+    status: 200,
+    body: event,
+    calledWith: {
       data: {
-        type: 'nap'
-      },
-      where: { eventId: '4' }
-    });
-  });
+        ...eventProps,
+        startTime: event.startTime,
+        endTime: event.endTime,
+        owner: { connect: { userId: event.ownerId } }
+      }
+    }
+  },
+  model: 'event',
+  route: 'create'
 });
 
-describe('test /events/:id/delete route', () => {
-  test('PUT /events/:id/delete calls delete and returns delete info', async () => {
-    prismaMock.event.delete.mockReturnValue(event);
-    const response = await request(app).delete('/events/4/delete');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(event);
-    expect(prismaMock.event.delete).toHaveBeenCalledWith({
-      where: { eventId: '4' }
-    });
-  });
+// /events/update
+testRoute({
+  reqData: {
+    ...event
+  },
+  mockData: event,
+  expectData: {
+    status: 200,
+    body: event,
+    calledWith: {
+      data: {
+        ...event
+      },
+      where: {
+        eventId: ':id'
+      }
+    }
+  },
+  model: 'event',
+  id: '1',
+  route: 'update'
+});
+
+// /events/delete
+testRoute({
+  reqData: {},
+  mockData: event,
+  expectData: {
+    status: 200,
+    body: event,
+    calledWith: {
+      where: {
+        eventId: ':id'
+      }
+    }
+  },
+  model: 'event',
+  id: '1',
+  route: 'delete'
 });
