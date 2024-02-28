@@ -4,7 +4,7 @@ import { prisma } from '../prisma/client.js';
 const prismaSpy = {
   users: {
     all: jest.spyOn(prisma.user, 'findMany'),
-    ':id': jest.spyOn(prisma.user, 'findUnique'),
+    get: jest.spyOn(prisma.user, 'findUnique'),
     search: jest.spyOn(prisma.user, 'findMany'),
     create: jest.spyOn(prisma.user, 'create'),
     update: jest.spyOn(prisma.user, 'update'),
@@ -12,7 +12,7 @@ const prismaSpy = {
   },
   events: {
     all: jest.spyOn(prisma.event, 'findMany'),
-    ':id': jest.spyOn(prisma.event, 'findUnique'),
+    get: jest.spyOn(prisma.event, 'findUnique'),
     search: jest.spyOn(prisma.event, 'findMany'),
     create: jest.spyOn(prisma.event, 'create'),
     update: jest.spyOn(prisma.event, 'update'),
@@ -20,7 +20,7 @@ const prismaSpy = {
   },
   plans: {
     all: jest.spyOn(prisma.plan, 'findMany'),
-    ':id': jest.spyOn(prisma.plan, 'findUnique'),
+    get: jest.spyOn(prisma.plan, 'findUnique'),
     search: jest.spyOn(prisma.plan, 'findMany'),
     create: jest.spyOn(prisma.plan, 'create'),
     update: jest.spyOn(prisma.plan, 'update'),
@@ -28,7 +28,7 @@ const prismaSpy = {
   },
   reminders: {
     all: jest.spyOn(prisma.reminder, 'findMany'),
-    ':id': jest.spyOn(prisma.reminder, 'findUnique'),
+    get: jest.spyOn(prisma.reminder, 'findUnique'),
     search: jest.spyOn(prisma.reminder, 'findMany'),
     create: jest.spyOn(prisma.reminder, 'create'),
     update: jest.spyOn(prisma.reminder, 'update'),
@@ -36,7 +36,7 @@ const prismaSpy = {
   },
   babies: {
     all: jest.spyOn(prisma.baby, 'findMany'),
-    ':id': jest.spyOn(prisma.baby, 'findUnique'),
+    get: jest.spyOn(prisma.baby, 'findUnique'),
     search: jest.spyOn(prisma.baby, 'findMany'),
     create: jest.spyOn(prisma.baby, 'create'),
     update: jest.spyOn(prisma.baby, 'update'),
