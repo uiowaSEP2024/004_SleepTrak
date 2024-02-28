@@ -1,9 +1,8 @@
 import { jest, describe, test, expect } from '@jest/globals';
 import request from 'supertest';
-import { prisma as prismaMock } from '../../prisma/client.js';
 import prismaSpy from '../prismaSpy.test.js';
-// import authSpy from '../authSpy.test.js';
 
+// unstable_mockModule for esm module mocking compatibility
 jest.unstable_mockModule('../../src/services/auth.js', () => ({
   auth: {
     requireAuth: jest
@@ -24,7 +23,7 @@ export interface testRouteParams {
   expectData: {
     status: number;
     body: object;
-    calledWith: object;
+    calledWith?: object;
   };
   model: string;
   id?: string;
@@ -66,11 +65,20 @@ export function testRoute({
     test(`GET ${url} returns ${route} ${id} ${controller}`, async () => {
       prismaSpy[controller][route].mockResolvedValue(mockData);
       const response = await request(app).get(url).send(reqData);
+
       expect(response.statusCode).toBe(expectData.status);
       expect(response.body).toEqual(expectData.body);
-      expect(prismaMock[controller][route]).toHaveBeenCalledWith(
-        expectData.calledWith
-      );
+      expect(prismaSpy[controller][route]).toHaveBeenCalled();
+      if (!expectData.calledWith) {
+        // this expect is matched with an expect in the else, and will not cause fragility
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(prismaSpy[controller][route]).toHaveBeenCalledWith();
+      } else {
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(prismaSpy[controller][route]).toHaveBeenCalledWith(
+          expectData.calledWith
+        );
+      }
     });
   });
 }
