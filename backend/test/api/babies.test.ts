@@ -1,116 +1,139 @@
-import request from 'supertest';
-import app from '../../src/app';
-import { prismaMock } from '../mock_client.js';
+import { testRoute } from './common.js';
 
-const mockBabies = [
+const mockBabys = [
   {
-    babyId: 1,
-    name: 'Sid',
-    weight: 12.5,
+    babyId: '1',
+    parentId: '1',
+    name: 'Mingi',
+    dob: '2022-01-01',
+    weight: 12,
+    medicine: 'vitamin c'
+  },
+  {
+    babyId: '2',
+    parentId: '2',
+    name: 'Matt',
+    dob: '2023-06-06',
+    weight: 10,
     medicine: 'tylenol'
-  },
-  {
-    babyId: 2,
-    name: 'Glen',
-    weight: 15.0,
-    medicine: 'ibuprofen'
-  },
-  {
-    babyId: 3,
-    name: 'Bobby',
-    weight: 13.8,
-    medicine: 'vitamins'
   }
 ];
 const baby = {
-  babyId: 4,
-  name: 'Jerry',
-  weight: 8.5,
-  medicine: 'water'
+  babyId: '3',
+  parentId: '3',
+  name: 'Adnane',
+  dob: '2021-03-03',
+  weight: 8,
+  medicine: 'pencillin'
 };
 
-describe('Test /babies/all route', () => {
-  test('GET /babies returns all babies', async () => {
-    prismaMock.baby.findMany.mockReturnValue(mockBabies);
-    const response = await request(app).get('/babies/all');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(mockBabies);
-    expect(prismaMock.baby.findMany).toHaveBeenCalledWith();
-  });
+// /babys/all
+testRoute({
+  reqData: {},
+  mockData: mockBabys,
+  expectData: {
+    status: 200,
+    body: mockBabys
+  },
+  model: 'baby',
+  route: 'all'
 });
 
-describe('test /babies/:id route', () => {
-  test('GET /babies/:id calls findUnique and returns baby', async () => {
-    const tid = 3;
-    prismaMock.baby.findUnique.mockReturnValue(
-      mockBabies.filter((babies) => babies.babyId === tid)
-    );
-    const response = await request(app).get('/babies/{tid}');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(
-      mockBabies.filter((babies) => babies.babyId === tid)
-    );
-    response.body.forEach((baby: any) => {
-      expect(baby.babyId).toEqual(tid);
-    });
-    expect(prismaMock.baby.findUnique).toHaveBeenCalledWith({
-      where: { babyId: '{tid}' }
-    });
-  });
+// /babys/:id
+testRoute({
+  reqData: {},
+  mockData: mockBabys.filter((baby) => baby.babyId === '1'),
+  expectData: {
+    status: 200,
+    body: mockBabys.filter((baby) => baby.babyId === '1'),
+    calledWith: {
+      where: {
+        babyId: ':id'
+      }
+    }
+  },
+  model: 'baby',
+  id: '1'
 });
 
-describe('test /babies/search route', () => {
-  test('GET /babies/search calls findMany and returns babies', async () => {
-    const name = 'Glen';
-    prismaMock.baby.findMany.mockReturnValue(
-      mockBabies.filter((baby) => baby.name === name)
-    );
-    const response = await request(app).get('/babies/search');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(
-      mockBabies.filter((baby) => baby.name === name)
-    );
-    response.body.forEach((baby: any) => {
-      expect(baby.name).toEqual(name);
-    });
-    expect(prismaMock.baby.findMany).toHaveBeenCalledWith({ where: {} });
-  });
+// /babys/search
+testRoute({
+  reqData: {
+    role: 'client'
+  },
+  mockData: mockBabys.filter((baby) => baby.medicine === 'tylenol'),
+  expectData: {
+    status: 200,
+    body: mockBabys.filter((baby) => baby.medicine === 'tylenol'),
+    calledWith: {
+      where: {
+        role: 'client'
+      }
+    }
+  },
+  model: 'baby',
+  route: 'search'
 });
 
-describe('test /babies/create route', () => {
-  test('POST /babies/create calls create and returns baby', async () => {
-    prismaMock.baby.create.mockReturnValue(baby);
-    const response = await request(app).post('/babies/create');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(baby);
-  });
-});
-
-describe('test /babies/:id/update route', () => {
-  test('PUT /babies/:id/update calls update and returns baby', async () => {
-    prismaMock.baby.update.mockReturnValue(baby);
-    const response = await request(app)
-      .put('/babies/4/update')
-      .send({ name: 'Mary' });
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(baby);
-    expect(prismaMock.baby.update).toHaveBeenCalledWith({
+// /babys/create
+const { babyId: _u, parentId: _p, ...babyProps } = baby;
+testRoute({
+  reqData: {
+    ...baby
+  },
+  mockData: baby,
+  expectData: {
+    status: 200,
+    body: baby,
+    calledWith: {
       data: {
-        name: 'Mary'
-      },
-      where: { babyId: '4' }
-    });
-  });
+        ...babyProps,
+        dob: new Date(baby.dob),
+        parent: { connect: { userId: baby.parentId } }
+      }
+    }
+  },
+  model: 'baby',
+  route: 'create'
 });
 
-describe('test /babies/:id/delete route', () => {
-  test('PUT /babies/:id/delete calls delete and returns delete info', async () => {
-    prismaMock.baby.delete.mockReturnValue(baby);
-    const response = await request(app).delete('/babies/4/delete');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(baby);
-    expect(prismaMock.baby.delete).toHaveBeenCalledWith({
-      where: { babyId: '4' }
-    });
-  });
+// /babys/update
+testRoute({
+  reqData: {
+    ...baby
+  },
+  mockData: baby,
+  expectData: {
+    status: 200,
+    body: baby,
+    calledWith: {
+      data: {
+        ...baby
+      },
+      where: {
+        babyId: ':id'
+      }
+    }
+  },
+  model: 'baby',
+  id: '1',
+  route: 'update'
+});
+
+// /babys/delete
+testRoute({
+  reqData: {},
+  mockData: baby,
+  expectData: {
+    status: 200,
+    body: baby,
+    calledWith: {
+      where: {
+        babyId: ':id'
+      }
+    }
+  },
+  model: 'baby',
+  id: '1',
+  route: 'delete'
 });
