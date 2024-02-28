@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "prebuild": "rimraf dist",
     "build": "tsc --build --verbose && copyfiles src/public/*.html dist",
     "pretest": "tsc -p tsconfig.json --noEmit",
     "test": "yarn build && NODE_NO_WARNINGS=1 NODE_OPTIONS=--experimental-vm-modules jest --verbose --coverage --config jest.config.js",
@@ -43,6 +44,7 @@
     "jest-mock-extended": "^3.0.5",
     "nodemon": "^3.1.0",
     "prisma": "^5.9.1",
+    "rimraf": "^5.0.5",
     "supertest": "^6.3.4",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
