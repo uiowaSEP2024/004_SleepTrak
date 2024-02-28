@@ -62,7 +62,10 @@ export function testRoute({
   const controller = generateController(model);
   const url = generateURL(controller, id, route);
   describe(`Test ${url} route`, () => {
-    test(`GET ${url} returns ${route} ${id} ${controller}`, async () => {
+    test(`GET ${url} returns as expected`, async () => {
+      if (!route) {
+        route = 'get';
+      }
       prismaSpy[controller][route].mockResolvedValue(mockData);
       const response = await request(app).get(url).send(reqData);
 
