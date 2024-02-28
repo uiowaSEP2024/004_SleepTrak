@@ -37,6 +37,19 @@ function generateController(model: string): string {
   return model + 's';
 }
 
+function generateHTTPMethod(route: string): string {
+  if (route === 'get' || route === 'all' || route === 'search') {
+    return 'get';
+  } else if (route === 'create') {
+    return 'post';
+  } else if (route === 'update') {
+    return 'put';
+  } else if (route === 'delete') {
+    return 'delete';
+  }
+  throw new URIError();
+}
+
 function generateURL(controller: string, id?: string, route?: string): string {
   if (controller && id && route) {
     return `/${controller}/:id/${route}`;
@@ -67,7 +80,9 @@ export function testRoute({
         route = 'get';
       }
       prismaSpy[controller][route].mockResolvedValue(mockData);
-      const response = await request(app).get(url).send(reqData);
+
+      const httpMethod = generateHTTPMethod(route);
+      const response = await request(app)[httpMethod](url).send(reqData);
 
       expect(response.statusCode).toBe(expectData.status);
       expect(response.body).toEqual(expectData.body);
