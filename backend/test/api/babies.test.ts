@@ -76,7 +76,7 @@ testRoute({
 });
 
 // /babys/create
-const { babyId: _u, parentId: _p, ...babyProps } = baby;
+const { babyId: _b, parentId: _p, ...babyProps } = baby;
 testRoute({
   reqData: {
     ...baby
