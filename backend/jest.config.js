@@ -24,7 +24,7 @@ export default {
   testPathIgnorePatterns: ['/node_modules/,'],
   transformIgnorePatterns: ['/node_modules/', '/dist/'],
   // All imported modules in your tests should be mocked automatically
-  // automock: false,
+  automock: false,
 
   // Stop running tests after `n` failures
   // bail: 0,
@@ -35,7 +35,7 @@ export default {
   // Automatically clear mock calls, instances, contexts and results before every test
   clearMocks: true,
 
-  setupFilesAfterEnv: ['./test/mock_client.ts'],
+  // setupFilesAfterEnv: ['./test/mock_client.ts'],
 
   // Indicates whether the coverage information should be collected while executing the test
   // collectCoverage: false,
