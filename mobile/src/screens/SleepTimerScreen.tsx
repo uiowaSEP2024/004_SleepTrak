@@ -5,7 +5,7 @@
  */
 
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import TimerButton from '../components/buttons/TimerButton';
 import TimerDisplay from '../components/views/TimerDisplay';
 import ElapsedTimeDisplay from '../components/views/ElapsedTimeDisplay';
@@ -27,21 +27,23 @@ const SleepTimer: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <TimerDisplay
-        title="Start Time:"
-        time={startTime ? startTime.toLocaleTimeString() : ''}
-      />
-      <TimerDisplay
-        title="Stop Time:"
-        time={stopTime ? stopTime.toLocaleTimeString() : ''}
-      />
-      <ElapsedTimeDisplay isRunning={isRunning} />
-      <TimerButton
-        onStart={handleStart}
-        onStop={handleStop}
-      />
-    </View>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <View style={styles.container}>
+        <TimerDisplay
+          title="Start Time:"
+          time={startTime ? startTime.toLocaleTimeString() : ''}
+        />
+        <TimerDisplay
+          title="Stop Time:"
+          time={stopTime ? stopTime.toLocaleTimeString() : ''}
+        />
+        <ElapsedTimeDisplay isRunning={isRunning} />
+        <TimerButton
+          onStart={handleStart}
+          onStop={handleStop}
+        />
+      </View>
+    </ScrollView>
   );
 };
 
