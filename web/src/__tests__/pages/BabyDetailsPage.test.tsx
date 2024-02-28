@@ -1,8 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-// The doc above tells jest to use jsdom instead of node
-
 import '@testing-library/jest-dom';
 import '../../util/setupDomTests';
 import { screen, act, render, waitFor } from '@testing-library/react';
