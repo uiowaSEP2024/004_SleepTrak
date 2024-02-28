@@ -71,6 +71,7 @@ testRoute({
 });
 
 // /plans/create
+const { planId: _u, clientId: _cl, coachId: _co, ...planProps } = plan;
 testRoute({
   reqData: {
     ...plan
@@ -81,9 +82,9 @@ testRoute({
     body: plan,
     calledWith: {
       data: {
+        ...planProps,
         client: { connect: { userId: plan.clientId } },
-        coach: { connect: { userId: plan.coachId } },
-        Status: plan.Status
+        coach: { connect: { userId: plan.coachId } }
       }
     }
   },
