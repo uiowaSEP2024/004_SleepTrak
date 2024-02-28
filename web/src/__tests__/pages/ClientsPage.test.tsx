@@ -64,7 +64,6 @@ describe('ClientsPage Component', () => {
       );
     });
     await waitFor(() => {
-      console.log(document.body.innerHTML);
       expect(screen.getByText('John Doe')).toBeInTheDocument();
       expect(screen.queryByText('Jane Smith')).not.toBeInTheDocument();
     });
