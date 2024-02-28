@@ -37,7 +37,7 @@ const create = async (req: Request, res: Response): Promise<void> => {
 
     const reminderData = {
       plan: { connect: { planId: creationParams.planId } },
-      timestamp: creationParams.timestamp,
+      timestamp: new Date(creationParams.timestamp),
       description: creationParams.description
     };
 
