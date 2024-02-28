@@ -6,7 +6,8 @@ import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 
 interface Baby {
-  id: string;
+  dob: string;
+  babyId: string;
   name: string;
   parentId: string;
 }
@@ -19,7 +20,7 @@ interface User {
 }
 
 export default function BabyDetailsPage() {
-  const [babyData, setBabyData] = useState<Baby[]>([]);
+  const [babyData, setBabyData] = useState<Baby | null>(null);
   const [clientData, setClientData] = useState<User | null>(null);
 
   const { getAccessTokenSilently } = useAuth0();
