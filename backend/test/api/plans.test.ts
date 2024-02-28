@@ -1,104 +1,133 @@
-import request from 'supertest';
-import app from '../../src/app';
-import { prismaMock } from '../mock_client.js';
+import { testRoute } from './common.js';
+import type { Plan } from '@prisma/client';
 
-const mockPlans = [
+const mockPlans: Plan[] = [
   {
-    planId: 1,
+    planId: '1',
+    clientId: '1',
+    coachId: '1',
     Status: 'upcoming'
   },
   {
-    planId: 2,
+    planId: '2',
+    clientId: '2',
+    coachId: '2',
     Status: 'complete'
   }
 ];
 const plan = {
-  planId: 3,
+  planId: '3',
+  clientId: '3',
+  coachId: '3',
   Status: 'cancelled'
 };
 
-describe('Test /plans/all route', () => {
-  test('GET /plans returns all plans', async () => {
-    prismaMock.plan.findMany.mockReturnValue(mockPlans);
-    const response = await request(app).get('/plans/all');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(mockPlans);
-    expect(prismaMock.plan.findMany).toHaveBeenCalledWith();
-  });
+// /plans/all
+testRoute({
+  reqData: {},
+  mockData: mockPlans,
+  expectData: {
+    status: 200,
+    body: mockPlans
+  },
+  model: 'plan',
+  route: 'all'
 });
 
-describe('test /plans/:id route', () => {
-  test('GET /plans/:id calls findUnique and returns plan', async () => {
-    const tid = 3;
-    prismaMock.plan.findUnique.mockReturnValue(
-      mockPlans.filter((plans) => plans.planId === tid)
-    );
-    const response = await request(app).get('/plans/{tid}');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(
-      mockPlans.filter((plans) => plans.planId === tid)
-    );
-    response.body.forEach((plan: any) => {
-      expect(plan.planId).toEqual(tid);
-    });
-    expect(prismaMock.plan.findUnique).toHaveBeenCalledWith({
-      where: { planId: '{tid}' }
-    });
-  });
+// /plans/:id
+testRoute({
+  reqData: {},
+  mockData: mockPlans.filter((plan) => plan.planId === '1'),
+  expectData: {
+    status: 200,
+    body: mockPlans.filter((plan) => plan.planId === '1'),
+    calledWith: {
+      where: {
+        planId: ':id'
+      }
+    }
+  },
+  model: 'plan',
+  id: '1'
 });
 
-describe('test /plans/search route', () => {
-  test('GET /plans/search calls findMany and returns plans', async () => {
-    const status = 'complete';
-    prismaMock.plan.findMany.mockReturnValue(
-      mockPlans.filter((plan) => plan.Status === status)
-    );
-    const response = await request(app).get('/plans/search');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(
-      mockPlans.filter((plan) => plan.Status === status)
-    );
-    response.body.forEach((plan: any) => {
-      expect(plan.role).toEqual(status);
-    });
-    expect(prismaMock.plan.findMany).toHaveBeenCalledWith({ where: {} });
-  });
+// /plans/search
+testRoute({
+  reqData: {
+    Status: 'complete'
+  },
+  mockData: mockPlans.filter((plan) => plan.Status === 'complete'),
+  expectData: {
+    status: 200,
+    body: mockPlans.filter((plan) => plan.Status === 'complete'),
+    calledWith: {
+      where: {
+        Status: 'complete'
+      }
+    }
+  },
+  model: 'plan',
+  route: 'search'
 });
 
-describe('test /plans/create route', () => {
-  test('POST /plans/create calls create and returns plan', async () => {
-    prismaMock.plan.create.mockReturnValue(plan);
-    const response = await request(app).post('/plans/create');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(plan);
-  });
-});
-
-describe('test /plans/:id/update route', () => {
-  test('PUT /plans/:id/update calls update and returns plan', async () => {
-    prismaMock.plan.update.mockReturnValue(plan);
-    const response = await request(app)
-      .put('/plans/4/update')
-      .send({ first_name: 'Update' });
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(plan);
-    expect(prismaMock.plan.update).toHaveBeenCalledWith({
+// /plans/create
+testRoute({
+  reqData: {
+    ...plan
+  },
+  mockData: plan,
+  expectData: {
+    status: 200,
+    body: plan,
+    calledWith: {
       data: {
-        first_name: 'Update'
-      },
-      where: { planId: '4' }
-    });
-  });
+        client: { connect: { userId: plan.clientId } },
+        coach: { connect: { userId: plan.coachId } },
+        Status: plan.Status
+      }
+    }
+  },
+  model: 'plan',
+  route: 'create'
 });
 
-describe('test /plans/:id/delete route', () => {
-  test('PUT /plans/:id/delete calls delete and returns delete info', async () => {
-    prismaMock.plan.delete.mockReturnValue(plan);
-    const response = await request(app).delete('/plans/4/delete');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(plan);
-    expect(prismaMock.plan.delete).toHaveBeenCalledWith({
-      where: { planId: '4' }
-    });
-  });
+// /plans/update
+testRoute({
+  reqData: {
+    ...plan
+  },
+  mockData: plan,
+  expectData: {
+    status: 200,
+    body: plan,
+    calledWith: {
+      data: {
+        ...plan
+      },
+      where: {
+        planId: ':id'
+      }
+    }
+  },
+  model: 'plan',
+  id: '1',
+  route: 'update'
+});
+
+// /plans/delete
+testRoute({
+  reqData: {},
+  mockData: plan,
+  expectData: {
+    status: 200,
+    body: plan,
+    calledWith: {
+      where: {
+        planId: ':id'
+      }
+    }
+  },
+  model: 'plan',
+  id: '1',
+  route: 'delete'
 });
