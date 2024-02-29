@@ -7,13 +7,16 @@
     "pretest": "tsc -p tsconfig.json --noEmit",
     "test": "yarn build && NODE_NO_WARNINGS=1 NODE_OPTIONS=--experimental-vm-modules jest --verbose --coverage --config jest.config.js",
     "test-debug": "yarn build && NODE_NO_WARNINGS=1 NODE_OPTIONS=--experimental-vm-modules node --inspect-brk node_modules/.bin/jest --runInBand --verbose --coverage --config jest.config.js",
+    "coverage": "yarn test -coverage --silent --ci --testLocationInResults --json --outputFile=\"report.json\"",
     "start": "NODE_NO_WARNINGS=1 node --loader ts-node/esm ./bin/www.ts",
     "start-js": "node --es-module-specifier-resolution=node ./dist/bin/www",
     "start-bjs": "yarn build && yarn start-js",
     "pg": "prisma generate",
     "start-docker": "yarn build && yarn pg && yarn start-js",
     "dev": "nodemon",
-    "dev-docker": "nodemon -L"
+    "dev-docker": "nodemon -L",
+    "seed": "NODE_NO_WARNINGS=1 node --loader ts-node/esm prisma/seed.ts",
+    "prisma-setup": "prisma generate && prisma migrate deploy"
   },
   "dependencies": {
     "@prisma/client": "^5.9.1",

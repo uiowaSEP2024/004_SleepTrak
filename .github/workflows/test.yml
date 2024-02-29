@@ -6,9 +6,8 @@ name: Tests
 on:
   push:
     branches: ['main']
-  pull_request_target:
+  pull_request:
     branches: ['main']
-
 jobs:
   web-test:
     name: Web Test
@@ -27,14 +26,6 @@ jobs:
           yarn install
       - name: Run tests for web
         run: yarn run test-web
-      - name: Coverage Report
-        uses: ArtiomTr/jest-coverage-report-action@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          skip-step: install
-          working-directory: ./mobile
-          test-script: yarn run coverage
-          package-manager: yarn
 
   mobile-test:
     name: Mobile Test
@@ -53,11 +44,3 @@ jobs:
           yarn install
       - name: Run tests for mobile
         run: yarn run test-mobile
-      - name: Coverage Report
-        uses: ArtiomTr/jest-coverage-report-action@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          skip-step: install
-          working-directory: ./mobile
-          test-script: yarn run coverage
-          package-manager: yarn
