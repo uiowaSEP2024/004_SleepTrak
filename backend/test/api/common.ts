@@ -18,6 +18,7 @@ jest.unstable_mockModule('../../src/services/auth.js', () => ({
 const app = (await import('../../src/app.js')).default;
 
 export interface testRouteParams {
+  description: string;
   reqData: object;
   mockData: object;
   expectData: {
@@ -65,6 +66,7 @@ function generateURL(controller: string, id?: string, route?: string): string {
 
 // model should be the singular form
 export function testRoute({
+  description,
   reqData,
   mockData,
   expectData,
@@ -74,8 +76,8 @@ export function testRoute({
 }: testRouteParams): void {
   const controller = generateController(model);
   const url = generateURL(controller, id, route);
-  describe(`Test ${url} route`, () => {
-    test(`GET ${url} returns as expected`, async () => {
+  describe(`Test ${url} route, controller, service, bypassing oauth & prisma`, () => {
+    test(`GET ${url} ${description}`, async () => {
       if (!route) {
         route = 'get';
       }

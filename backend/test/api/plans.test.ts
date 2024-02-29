@@ -24,6 +24,7 @@ const plan = {
 
 // /plans/all
 testRoute({
+  description: 'returns all plans',
   reqData: {},
   mockData: mockPlans,
   expectData: {
@@ -36,6 +37,7 @@ testRoute({
 
 // /plans/:id
 testRoute({
+  description: 'returns plan matching :id',
   reqData: {},
   mockData: mockPlans.filter((plan) => plan.planId === '1'),
   expectData: {
@@ -53,6 +55,7 @@ testRoute({
 
 // /plans/search
 testRoute({
+  description: 'returns plans matching search by Status',
   reqData: {
     Status: 'complete'
   },
@@ -73,6 +76,7 @@ testRoute({
 // /plans/create
 const { planId: _p, clientId: _cl, coachId: _co, ...planProps } = plan;
 testRoute({
+  description: 'returns created plan',
   reqData: {
     ...plan
   },
@@ -94,6 +98,7 @@ testRoute({
 
 // /plans/update
 testRoute({
+  description: 'returns updated  plan',
   reqData: {
     ...plan
   },
@@ -117,6 +122,7 @@ testRoute({
 
 // /plans/delete
 testRoute({
+  description: 'returns deleted plan',
   reqData: {},
   mockData: plan,
   expectData: {

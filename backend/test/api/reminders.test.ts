@@ -23,6 +23,7 @@ const reminder = {
 
 // /reminders/all
 testRoute({
+  description: 'returns all reminders',
   reqData: {},
   mockData: mockReminders,
   expectData: {
@@ -35,6 +36,7 @@ testRoute({
 
 // /reminders/:id
 testRoute({
+  description: 'returns reminder matching :id',
   reqData: {},
   mockData: mockReminders.filter((reminder) => reminder.reminderId === '1'),
   expectData: {
@@ -52,6 +54,7 @@ testRoute({
 
 // /reminders/search
 testRoute({
+  description: 'returns reminders matching search by description',
   reqData: {
     role: 'client'
   },
@@ -72,6 +75,7 @@ testRoute({
 // /reminders/create
 const { reminderId: _u, planId: _p, ...reminderProps } = reminder;
 testRoute({
+  description: 'returns created reminder',
   reqData: {
     ...reminder
   },
@@ -93,6 +97,7 @@ testRoute({
 
 // /reminders/update
 testRoute({
+  description: 'returns updated reminder',
   reqData: {
     ...reminder
   },
@@ -116,6 +121,7 @@ testRoute({
 
 // /reminders/delete
 testRoute({
+  description: 'returns deleted reminder',
   reqData: {},
   mockData: reminder,
   expectData: {

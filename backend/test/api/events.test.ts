@@ -26,6 +26,7 @@ const event = {
 
 // /events/all
 testRoute({
+  description: 'returns all events',
   reqData: {},
   mockData: mockEvents,
   expectData: {
@@ -38,6 +39,7 @@ testRoute({
 
 // /events/:id
 testRoute({
+  description: 'returns event matching :id',
   reqData: {},
   mockData: mockEvents.filter((event) => event.eventId === '1'),
   expectData: {
@@ -55,6 +57,7 @@ testRoute({
 
 // /events/search
 testRoute({
+  description: 'returns events matching search by type',
   reqData: {
     role: 'client'
   },
@@ -75,6 +78,7 @@ testRoute({
 // /events/create
 const { eventId: _e, ownerId: _o, ...eventProps } = event;
 testRoute({
+  description: 'returns created event',
   reqData: {
     ...event
   },
@@ -97,6 +101,7 @@ testRoute({
 
 // /events/update
 testRoute({
+  description: 'returns updated event',
   reqData: {
     ...event
   },
@@ -120,6 +125,7 @@ testRoute({
 
 // /events/delete
 testRoute({
+  description: 'returns deleted event',
   reqData: {},
   mockData: event,
   expectData: {
