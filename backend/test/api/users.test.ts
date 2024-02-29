@@ -30,6 +30,7 @@ const user = {
 
 // /users/all
 testRoute({
+  description: 'returns all users',
   reqData: {},
   mockData: mockUsers,
   expectData: {
@@ -42,6 +43,7 @@ testRoute({
 
 // /users/:id
 testRoute({
+  description: 'returns user matching :id',
   reqData: {},
   mockData: mockUsers.filter((user) => user.userId === '1'),
   expectData: {
@@ -59,6 +61,7 @@ testRoute({
 
 // /users/search
 testRoute({
+  description: 'returns user matching search by role',
   reqData: {
     role: 'client'
   },
@@ -79,6 +82,7 @@ testRoute({
 // /users/create
 const { userId: _u, coachId: _c, ...userProps } = user;
 testRoute({
+  description: 'returns created user',
   reqData: {
     ...user
   },
@@ -99,6 +103,7 @@ testRoute({
 
 // /users/update
 testRoute({
+  description: 'returns updated user',
   reqData: {
     ...user
   },
@@ -122,6 +127,7 @@ testRoute({
 
 // /users/delete
 testRoute({
+  description: 'returns deleted user',
   reqData: {},
   mockData: user,
   expectData: {

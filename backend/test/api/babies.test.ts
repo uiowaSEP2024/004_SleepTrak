@@ -29,6 +29,7 @@ const baby = {
 
 // /babys/all
 testRoute({
+  description: 'returns all babies',
   reqData: {},
   mockData: mockBabys,
   expectData: {
@@ -41,6 +42,7 @@ testRoute({
 
 // /babys/:id
 testRoute({
+  description: 'returns baby matching :id',
   reqData: {},
   mockData: mockBabys.filter((baby) => baby.babyId === '1'),
   expectData: {
@@ -58,6 +60,7 @@ testRoute({
 
 // /babys/search
 testRoute({
+  description: 'returns babies matching search by medicine',
   reqData: {
     role: 'client'
   },
@@ -78,6 +81,7 @@ testRoute({
 // /babys/create
 const { babyId: _b, parentId: _p, ...babyProps } = baby;
 testRoute({
+  description: 'returns created baby',
   reqData: {
     ...baby
   },
@@ -99,6 +103,7 @@ testRoute({
 
 // /babys/update
 testRoute({
+  description: 'returns updated baby',
   reqData: {
     ...baby
   },
@@ -122,6 +127,7 @@ testRoute({
 
 // /babys/delete
 testRoute({
+  description: 'returns deleted baby',
   reqData: {},
   mockData: baby,
   expectData: {
