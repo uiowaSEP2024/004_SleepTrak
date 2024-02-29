@@ -81,7 +81,11 @@ export function testRoute({
       if (!route) {
         route = 'get';
       }
-      prismaSpy[controller][route].mockResolvedValue(mockData);
+      if (mockData instanceof Error) {
+        prismaSpy[controller][route].mockRejectedValue(mockData);
+      } else {
+        prismaSpy[controller][route].mockResolvedValue(mockData);
+      }
 
       const httpMethod = generateHTTPMethod(route);
       const response = await request(app)[httpMethod](url).send(reqData);
