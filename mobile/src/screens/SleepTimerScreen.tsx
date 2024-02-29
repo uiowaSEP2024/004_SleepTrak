@@ -39,14 +39,16 @@ const SleepTimer: React.FC = () => {
       ref={scrollViewRef}
       contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
-        <TimerDisplay
-          title="Start Time:"
-          time={startTime ? startTime.toLocaleTimeString() : ''}
-        />
-        <TimerDisplay
-          title="Stop Time:"
-          time={stopTime ? stopTime.toLocaleTimeString() : ''}
-        />
+        <View style={styles.timerGroup}>
+          <TimerDisplay
+            title="Start Time:"
+            time={startTime ? startTime.toLocaleTimeString() : ''}
+          />
+          <TimerDisplay
+            title="Stop Time:"
+            time={stopTime ? stopTime.toLocaleTimeString() : ''}
+          />
+        </View>
         <ElapsedTimeDisplay isRunning={isRunning} />
         <TimerButton
           onStart={handleStart}
@@ -73,6 +75,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-between'
+  },
+  timerGroup: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: 60
   },
   listContainer: {
     marginTop: 100
