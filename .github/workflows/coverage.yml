@@ -20,6 +20,7 @@ jobs:
         path:
           - ./mobile
           - ./web
+          - ./backend
     steps:
       - uses: actions/checkout@v3
 
