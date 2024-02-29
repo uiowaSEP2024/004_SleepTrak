@@ -13,21 +13,33 @@ import ShowMoreButton from '../components/buttons/ShowMoreButton';
 import WindowCell from '../components/views/WindowCell';
 
 const SleepTimer: React.FC = () => {
-  const [startTime, setStartTime] = useState<Date | null>(null);
-  const [stopTime, setStopTime] = useState<Date | null>(null);
+  const [sleepStartTime, setSleepStartTime] = useState<Date | null>(null);
+  const [SleepStopTime, setSleepStopTime] = useState<Date | null>(null);
   const [isRunning, setIsRunning] = useState<boolean>(false);
-  const data = ['Item 1', 'Item 2', 'Item 3'];
+  const [windows, setWindows] = useState<
+    Array<{ id: string; startTime: string; stopTime: string }>
+  >([]);
   const scrollViewRef = useRef<ScrollView>(null);
 
   const handleStart = () => {
-    setStartTime(new Date());
-    setStopTime(null);
+    setSleepStartTime(new Date());
+    setSleepStopTime(null);
     setIsRunning(true);
   };
 
   const handleStop = () => {
-    setStopTime(new Date());
+    const stopTimeForLog = new Date();
+    setSleepStopTime(new Date());
     setIsRunning(false);
+    if (sleepStartTime && stopTimeForLog) {
+      const newWindow = {
+        id: sleepStartTime.getTime().toString(),
+        startTime: sleepStartTime.toLocaleTimeString(),
+        stopTime: stopTimeForLog.toLocaleTimeString()
+      };
+      setWindows([...windows, newWindow]);
+      console.log(windows);
+    }
   };
 
   const handleShowLog = () => {
@@ -42,11 +54,11 @@ const SleepTimer: React.FC = () => {
         <View style={styles.timerGroup}>
           <TimerDisplay
             title="Start Time:"
-            time={startTime ? startTime.toLocaleTimeString() : ''}
+            time={sleepStartTime ? sleepStartTime.toLocaleTimeString() : ''}
           />
           <TimerDisplay
             title="Stop Time:"
-            time={stopTime ? stopTime.toLocaleTimeString() : ''}
+            time={SleepStopTime ? SleepStopTime.toLocaleTimeString() : ''}
           />
         </View>
         <ElapsedTimeDisplay isRunning={isRunning} />
@@ -61,9 +73,14 @@ const SleepTimer: React.FC = () => {
       </View>
       <View style={styles.listContainer}>
         <FlatList
-          data={data}
-          renderItem={({ item }) => <WindowCell item={item} />}
-          keyExtractor={(index) => index.toString()}
+          data={windows}
+          renderItem={({ item: { startTime, stopTime } }) => (
+            <WindowCell
+              startTime={startTime}
+              endTime={stopTime}
+            />
+          )}
+          keyExtractor={(window) => window.id}
         />
       </View>
     </ScrollView>
