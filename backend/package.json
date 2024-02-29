@@ -10,7 +10,7 @@
     "coverage": "yarn test -coverage --silent --ci --testLocationInResults --json --outputFile=\"report.json\"",
     "test-debug": "yarn build && DEBUG=express:* NODE_NO_WARNINGS=1 NODE_OPTIONS=--experimental-vm-modules node node_modules/.bin/jest --runInBand --verbose --coverage --config jest.config.js",
     "test-debug-devtools": "yarn build && NODE_NO_WARNINGS=1 NODE_OPTIONS=--experimental-vm-modules node --no-lazy --inspect-brk node_modules/.bin/jest --runInBand --verbose --coverage --config jest.config.js",
-    "coverage": "jest -coverage --silent --ci --testLocationInResults --json --outputFile=\"report.json\"",
+    "coverage": "yarn test -coverage --silent --ci --testLocationInResults --json --outputFile=\"report.json\"",
     "start": "NODE_NO_WARNINGS=1 node --no-lazy --loader ts-node/esm ./bin/www.ts",
     "start-debug": "DEBUG=express:* NODE_NO_WARNINGS=1 node --loader ts-node/esm ./bin/www.ts",
     "start-debug-devtools": "DEBUG=express:* NODE_NO_WARNINGS=1 node --no-lazy --inspect-brk --loader ts-node/esm ./bin/www.ts",
