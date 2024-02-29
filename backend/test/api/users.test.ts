@@ -28,6 +28,9 @@ const user = {
   role: 'client'
 };
 
+// Happy Path Tests
+// ============================================================================
+
 // /users/all
 testRoute({
   description: 'returns all users',
@@ -141,5 +144,118 @@ testRoute({
   },
   model: 'user',
   id: '1',
+  route: 'delete'
+});
+// Sad Path Tests
+// ============================================================================
+
+// /users/all
+testRoute({
+  description: 'returns no users if there are none',
+  reqData: {},
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {}
+  },
+  model: 'user',
+  route: 'all'
+});
+
+// /users/:id
+testRoute({
+  description: 'returns nothing if no user matches :id',
+  reqData: {},
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {},
+    calledWith: {
+      where: {
+        userId: ':id'
+      }
+    }
+  },
+  model: 'user',
+  id: '5'
+});
+
+// /users/search
+testRoute({
+  description: 'returns nothing if no users match searched role',
+  reqData: {
+    role: 'admin'
+  },
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {},
+    calledWith: {
+      where: {
+        role: 'admin'
+      }
+    }
+  },
+  model: 'user',
+  route: 'search'
+});
+
+// /users/create
+testRoute({
+  description: 'returns empty object when no data passed',
+  reqData: {},
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {},
+    calledWith: {
+      data: {
+        first_name: undefined,
+        last_name: undefined,
+        email: undefined,
+        role: undefined
+      }
+    }
+  },
+  model: 'user',
+  route: 'create'
+});
+
+// /users/update
+testRoute({
+  description: 'returns unupdated user if no data passed',
+  reqData: {},
+  mockData: user,
+  expectData: {
+    status: 200,
+    body: user,
+    calledWith: {
+      data: {},
+      where: {
+        userId: ':id'
+      }
+    }
+  },
+  model: 'user',
+  id: '1',
+  route: 'update'
+});
+
+// /users/delete
+testRoute({
+  description: 'returns nothing if no user matches :id',
+  reqData: {},
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {},
+    calledWith: {
+      where: {
+        userId: ':id'
+      }
+    }
+  },
+  model: 'user',
+  id: '5',
   route: 'delete'
 });
