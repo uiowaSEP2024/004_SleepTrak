@@ -5,7 +5,13 @@
  */
 
 import React, { useState, useRef } from 'react';
-import { View, StyleSheet, ScrollView, FlatList } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  FlatList,
+  Dimensions
+} from 'react-native';
 import TimerButton from '../components/buttons/TimerButton';
 import TimerDisplay from '../components/views/TimerDisplay';
 import ElapsedTimeDisplay from '../components/views/ElapsedTimeDisplay';
@@ -53,6 +59,7 @@ const SleepTimer: React.FC = () => {
       <View style={styles.container}>
         <View style={styles.timerGroup}>
           <TimerDisplay
+            style={{ marginBottom: 40 }}
             title="Start Time:"
             time={sleepStartTime ? sleepStartTime.toLocaleTimeString() : ''}
           />
@@ -61,10 +68,14 @@ const SleepTimer: React.FC = () => {
             time={SleepStopTime ? SleepStopTime.toLocaleTimeString() : ''}
           />
         </View>
-        <ElapsedTimeDisplay isRunning={isRunning} />
+        <ElapsedTimeDisplay
+          isRunning={isRunning}
+          style={{ marginBottom: 40 }}
+        />
         <TimerButton
           onStart={handleStart}
           onStop={handleStop}
+          style={{ marginBottom: 80 }}
         />
         <ShowMoreButton
           onPress={handleShowLog}
@@ -89,17 +100,19 @@ const SleepTimer: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'flex-start',
+    height: Dimensions.get('window').height
   },
   timerGroup: {
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: 60
+    marginTop: 60,
+    marginBottom: 40
   },
   listContainer: {
-    marginTop: 100
+    marginTop: 100,
+    justifyContent: 'flex-start'
   }
 });
 
