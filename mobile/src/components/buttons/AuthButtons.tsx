@@ -51,6 +51,7 @@ export const LogoutButton = () => {
   );
 };
 
+/* istanbul ignore next */
 export const AuthTestButton = () => {
   const { getCredentials, user } = useAuth0();
   const [apiResponse, setApiResponse] = useState('');
@@ -61,11 +62,14 @@ export const AuthTestButton = () => {
 
     if (credentials?.accessToken) {
       const accessToken = credentials.accessToken;
-      const apiResponse = await fetch('http://localhost:3000/users/all', {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
+      const apiResponse = await fetch(
+        process.env.EXPO_PUBLIC_API_URL + '/users/all',
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
         }
-      });
+      );
       setApiResponse(await apiResponse.text());
     }
   };
