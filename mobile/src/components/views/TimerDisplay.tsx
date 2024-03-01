@@ -6,12 +6,14 @@
 
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { Text } from 'react-native-paper';
 import PropTypes from 'prop-types';
 
 interface TimerDisplayProps {
   title: string;
   time: string;
+  style?: StyleProp<ViewStyle>;
 }
 
 /**
@@ -22,10 +24,11 @@ interface TimerDisplayProps {
  */
 const TimerDisplay: React.FC<TimerDisplayProps> = ({
   title = '',
-  time = ''
+  time = '',
+  style
 }) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.time}>{time}</Text>
     </View>
