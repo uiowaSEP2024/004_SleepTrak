@@ -32,9 +32,6 @@ const search = async (req: Request, res: Response): Promise<void> => {
 const create = async (req: Request, res: Response): Promise<void> => {
   try {
     const creationParams = req.body;
-    if (creationParams.length === 0) {
-      throw new Error('Empty body');
-    }
 
     let userData = {
       first_name: creationParams.first_name,
@@ -58,9 +55,6 @@ const update = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
     const updateParams = req.body;
-    if (updateParams.length === 0) {
-      throw new Error('Empty body');
-    }
 
     const user = await service.update(id, updateParams);
     res.json(user);
