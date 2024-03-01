@@ -38,7 +38,12 @@ testRoute({
   mockData: mockUsers,
   expectData: {
     status: 200,
-    body: mockUsers
+    body: mockUsers,
+    calledWith: {
+      include: {
+        Babies: true
+      }
+    }
   },
   model: 'user',
   route: 'all'
@@ -53,6 +58,9 @@ testRoute({
     status: 200,
     body: mockUsers.filter((user) => user.userId === '1'),
     calledWith: {
+      include: {
+        Babies: true
+      },
       where: {
         userId: ':id'
       }
@@ -156,7 +164,12 @@ testRoute({
   mockData: {},
   expectData: {
     status: 200,
-    body: {}
+    body: {},
+    calledWith: {
+      include: {
+        Babies: true
+      }
+    }
   },
   model: 'user',
   route: 'all'
@@ -171,6 +184,9 @@ testRoute({
     status: 200,
     body: {},
     calledWith: {
+      include: {
+        Babies: true
+      },
       where: {
         userId: ':id'
       }
