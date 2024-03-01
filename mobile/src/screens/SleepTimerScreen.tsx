@@ -17,8 +17,10 @@ import TimerDisplay from '../components/views/TimerDisplay';
 import ElapsedTimeDisplay from '../components/views/ElapsedTimeDisplay';
 import ShowMoreButton from '../components/buttons/ShowMoreButton';
 import WindowCell from '../components/views/WindowCell';
+import SleepTypeSelector from '../components/selectors/SleepTypeSelector';
 
 const SleepTimer: React.FC = () => {
+  const [isNap, setIsNap] = useState<boolean>(true);
   const [sleepStartTime, setSleepStartTime] = useState<Date | null>(null);
   const [SleepStopTime, setSleepStopTime] = useState<Date | null>(null);
   const [wakeStartTime, setWakeStartTime] = useState<Date | null>(null);
@@ -73,11 +75,19 @@ const SleepTimer: React.FC = () => {
     scrollViewRef.current?.scrollToEnd({ animated: true });
   };
 
+  const handleSleepTypeChange = (newValue: string) => {
+    setIsNap(newValue === 'nap');
+  };
+
   return (
     <ScrollView
       ref={scrollViewRef}
       contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
+        <SleepTypeSelector
+          onValueChange={handleSleepTypeChange}
+          style={{ marginTop: 40 }}
+        />
         <View style={styles.timerGroup}>
           <TimerDisplay
             style={{ marginBottom: 40 }}

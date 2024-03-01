@@ -1,27 +1,45 @@
 import * as React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { SegmentedButtons } from 'react-native-paper';
+import { colors } from '../../../assets/colors';
 
-const SleepTypeSelector = () => {
+interface SleepTypeSelectorProps {
+  onValueChange: (value: string) => void;
+  style?: StyleProp<ViewStyle>;
+}
+
+const SleepTypeSelector: React.FC<SleepTypeSelectorProps> = (props) => {
+  const { style } = props;
   const [value, setValue] = React.useState('');
 
   return (
-    <SafeAreaView style={styles.container}>
-      <SegmentedButtons
-        value={value}
-        onValueChange={setValue}
-        buttons={[
-          {
-            value: 'nap',
-            label: 'Nap'
-          },
-          {
-            value: 'nightSleep',
-            label: 'Night Sleep'
+    <SegmentedButtons
+      style={[styles.container, style]}
+      value={value}
+      onValueChange={(newValue) => {
+        setValue(newValue);
+        props.onValueChange(newValue);
+      }}
+      buttons={[
+        {
+          value: 'nap',
+          label: 'Nap',
+          style: {
+            backgroundColor: value === 'nap' ? colors.lightTan : 'transparent'
           }
-        ]}
-      />
-    </SafeAreaView>
+        },
+        {
+          value: 'nightSleep',
+          label: 'Night Sleep',
+          style: {
+            backgroundColor:
+              value === 'nightSleep' ? colors.lightTan : 'transparent'
+          }
+        }
+      ]}
+      theme={{ colors: { primary: 'green' } }}
+    />
   );
 };
 
