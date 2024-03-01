@@ -12,7 +12,7 @@ const getAll = async (): Promise<Baby[] | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 const get = async (babyId: string): Promise<Baby | null | Error> => {
@@ -28,7 +28,7 @@ const get = async (babyId: string): Promise<Baby | null | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 const search = async (searchParams: any): Promise<Baby[] | Error> => {
@@ -39,7 +39,7 @@ const search = async (searchParams: any): Promise<Baby[] | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 const create = async (babyData: any): Promise<Baby | Error> => {
@@ -48,7 +48,7 @@ const create = async (babyData: any): Promise<Baby | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 const update = async (
@@ -65,7 +65,7 @@ const update = async (
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 const destroy = async (babyId: string): Promise<Baby | Error> => {
@@ -78,7 +78,7 @@ const destroy = async (babyId: string): Promise<Baby | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 

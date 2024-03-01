@@ -12,14 +12,14 @@ const getAll = async (): Promise<User[] | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 const get = async (userId: string): Promise<User | null | Error> => {
   try {
     const result = await prisma.user.findUnique({
       where: {
-        userId: userId
+        userId
       },
       include: {
         Babies: true
@@ -28,7 +28,7 @@ const get = async (userId: string): Promise<User | null | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 const search = async (searchParams: any): Promise<User[] | Error> => {
@@ -39,7 +39,7 @@ const search = async (searchParams: any): Promise<User[] | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 const create = async (userData: any): Promise<User | Error> => {
@@ -48,7 +48,7 @@ const create = async (userData: any): Promise<User | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 const update = async (
@@ -65,7 +65,7 @@ const update = async (
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 const destroy = async (userId: string): Promise<User | Error> => {
@@ -78,7 +78,7 @@ const destroy = async (userId: string): Promise<User | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 

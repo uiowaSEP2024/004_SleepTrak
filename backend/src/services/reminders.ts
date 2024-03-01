@@ -8,7 +8,7 @@ const getAll = async (): Promise<Reminder[] | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 const get = async (reminderId: string): Promise<Reminder | null | Error> => {
@@ -21,7 +21,7 @@ const get = async (reminderId: string): Promise<Reminder | null | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 const search = async (searchParams: any): Promise<Reminder[] | Error> => {
@@ -32,7 +32,7 @@ const search = async (searchParams: any): Promise<Reminder[] | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 const create = async (reminderData: any): Promise<Reminder | Error> => {
@@ -41,7 +41,7 @@ const create = async (reminderData: any): Promise<Reminder | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 const update = async (
@@ -58,7 +58,7 @@ const update = async (
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 const destroy = async (reminderId: string): Promise<Reminder | Error> => {
@@ -71,7 +71,7 @@ const destroy = async (reminderId: string): Promise<Reminder | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 
