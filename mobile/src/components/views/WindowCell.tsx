@@ -1,15 +1,21 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { Text, Icon } from 'react-native-paper';
 
 interface WindowCellProps {
   startTime: string;
   endTime: string;
+  style?: StyleProp<ViewStyle>;
 }
 
-const WindowCell: React.FC<WindowCellProps> = ({ startTime, endTime }) => {
+const WindowCell: React.FC<WindowCellProps> = ({
+  startTime,
+  endTime,
+  style
+}) => {
   return (
-    <View style={styles.cell}>
+    <View style={[styles.cell, style]}>
       <Text>{startTime}</Text>
       <Text>{endTime}</Text>
       <Icon
