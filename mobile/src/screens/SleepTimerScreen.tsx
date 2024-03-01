@@ -18,6 +18,7 @@ import ElapsedTimeDisplay from '../components/views/ElapsedTimeDisplay';
 import ShowMoreButton from '../components/buttons/ShowMoreButton';
 import WindowCell from '../components/views/WindowCell';
 import SleepTypeSelector from '../components/selectors/SleepTypeSelector';
+import SaveButton from '../components/buttons/SaveButton';
 
 const SleepTimer: React.FC = () => {
   const [isNap, setIsNap] = useState<boolean>(true);
@@ -79,6 +80,15 @@ const SleepTimer: React.FC = () => {
     setIsNap(newValue === 'nap');
   };
 
+  const saveSleepSession = () => {
+    console.log('Save button pressed');
+    const sleepBegin = windows[0].startTime;
+    const sleepEnd = windows[windows.length - 1].stopTime;
+    console.log('Type of Sleep:', isNap ? 'Nap' : 'Night Sleep');
+    console.log('Sleep Start Time: ', sleepBegin);
+    console.log('Sleep Stop Time: ', sleepEnd);
+  };
+
   return (
     <ScrollView
       ref={scrollViewRef}
@@ -125,6 +135,13 @@ const SleepTimer: React.FC = () => {
           )}
           keyExtractor={(window) => window.id}
         />
+        <SaveButton
+          onPress={() => {
+            saveSleepSession();
+          }}
+          title="Save Log"
+          style={{ marginTop: 20, marginBottom: 40 }}
+        />
       </View>
     </ScrollView>
   );
@@ -144,7 +161,8 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     marginTop: 100,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    alignItems: 'center'
   }
 });
 
