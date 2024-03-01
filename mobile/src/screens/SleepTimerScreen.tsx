@@ -25,7 +25,7 @@ const SleepTimer: React.FC = () => {
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [isSleep, setIsSleep] = useState<boolean>(true);
   const [windows, setWindows] = useState<
-    Array<{ id: string; startTime: string; stopTime: string }>
+    Array<{ id: string; startTime: string; stopTime: string; isSleep: boolean }>
   >([]);
   const scrollViewRef = useRef<ScrollView>(null);
   const options: Intl.DateTimeFormatOptions = {
@@ -48,8 +48,6 @@ const SleepTimer: React.FC = () => {
         isSleep: isSleep
       };
       setWindows([...windows, newWindow]);
-      console.log('AWAKE SESSION ENDS', isSleep);
-      console.log(windows);
     }
   };
 
@@ -67,8 +65,6 @@ const SleepTimer: React.FC = () => {
         isSleep: isSleep
       };
       setWindows([...windows, newWindow]);
-      console.log('AWAKE SESSION STARTS', isSleep);
-      console.log(windows);
     }
     setIsSleep(false);
   };
@@ -110,7 +106,7 @@ const SleepTimer: React.FC = () => {
       <View style={styles.listContainer}>
         <FlatList
           data={windows}
-          renderItem={({ item: { startTime, stopTime } }) => (
+          renderItem={({ item: { startTime, stopTime, isSleep } }) => (
             <WindowCell
               startTime={startTime}
               endTime={stopTime}
