@@ -21,7 +21,9 @@ import WindowCell from '../components/views/WindowCell';
 const SleepTimer: React.FC = () => {
   const [sleepStartTime, setSleepStartTime] = useState<Date | null>(null);
   const [SleepStopTime, setSleepStopTime] = useState<Date | null>(null);
+  const [wakeStartTime, setWakeStartTime] = useState<Date | null>(null);
   const [isRunning, setIsRunning] = useState<boolean>(false);
+  const [isSleep, setIsSleep] = useState<boolean>(true);
   const [windows, setWindows] = useState<
     Array<{ id: string; startTime: string; stopTime: string }>
   >([]);
@@ -32,24 +34,43 @@ const SleepTimer: React.FC = () => {
   };
 
   const handleStart = () => {
+    const stopTimeForLog = new Date();
     setSleepStartTime(new Date());
     setSleepStopTime(null);
     setIsRunning(true);
+    setIsSleep(true);
+    if (wakeStartTime) {
+      setIsSleep(true);
+      const newWindow = {
+        id: wakeStartTime.getTime().toString(),
+        startTime: wakeStartTime.toLocaleTimeString(undefined, options),
+        stopTime: stopTimeForLog.toLocaleTimeString(undefined, options),
+        isSleep: isSleep
+      };
+      setWindows([...windows, newWindow]);
+      console.log('AWAKE SESSION ENDS', isSleep);
+      console.log(windows);
+    }
   };
 
   const handleStop = () => {
     const stopTimeForLog = new Date();
     setSleepStopTime(new Date());
     setIsRunning(false);
+    // When sleep is stopped, set awake session begins
+    setWakeStartTime(new Date());
     if (sleepStartTime && stopTimeForLog) {
       const newWindow = {
         id: sleepStartTime.getTime().toString(),
         startTime: sleepStartTime.toLocaleTimeString(undefined, options),
-        stopTime: stopTimeForLog.toLocaleTimeString(undefined, options)
+        stopTime: stopTimeForLog.toLocaleTimeString(undefined, options),
+        isSleep: isSleep
       };
       setWindows([...windows, newWindow]);
+      console.log('AWAKE SESSION STARTS', isSleep);
       console.log(windows);
     }
+    setIsSleep(false);
   };
 
   const handleShowLog = () => {
@@ -93,6 +114,7 @@ const SleepTimer: React.FC = () => {
             <WindowCell
               startTime={startTime}
               endTime={stopTime}
+              isSleep={isSleep}
             />
           )}
           keyExtractor={(window) => window.id}
