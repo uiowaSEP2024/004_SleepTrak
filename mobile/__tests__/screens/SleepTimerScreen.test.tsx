@@ -52,8 +52,8 @@ describe('SleepTimerScreen', () => {
     expect(startTimeDisplay).toBeDefined();
   });
 
-  test('Stop time is correctly displayed when the Stop button is pressed', async () => {
-    const { getByText, findByText } = render(<SleepTimer />);
+  test('Stop time is correctly displayed and new window cell is created when the Stop button is pressed', async () => {
+    const { getByText, findByText, getAllByText } = render(<SleepTimer />);
     let startButton = getByText('Start');
 
     // Press start button
@@ -71,8 +71,10 @@ describe('SleepTimerScreen', () => {
     });
     startButton = await findByText('Start');
     expect(startButton).toBeDefined();
-    const stopTimeDisplay = await findByText(/10:30:0[0-1] AM/);
-    expect(stopTimeDisplay).toBeDefined();
+    const startTimeDisplay = getAllByText(/10:00:00 AM/);
+    const stopTimeDisplay = getAllByText(/10:30:0[0-1] AM/);
+    expect(startTimeDisplay.length).toBe(2);
+    expect(stopTimeDisplay.length).toBe(2);
   });
 
   test('Elapsed time is correctly displayed when the timer is stopped', async () => {
