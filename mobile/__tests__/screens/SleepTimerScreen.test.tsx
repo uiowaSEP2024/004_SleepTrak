@@ -149,4 +149,14 @@ describe('SleepTimerScreen', () => {
     expect(timeDisplay3.length).toBe(3);
     expect(timeDisplay4.length).toBe(2);
   });
+
+  test('Show More button navigates to the Log screen', async () => {
+    const { getByText, findByText } = render(<SleepTimer />);
+    const showMoreButton = getByText('Show Log');
+    await act(async () => {
+      fireEvent.press(showMoreButton);
+    });
+    const logScreenTitle = await findByText('Log');
+    expect(logScreenTitle).toBeDefined();
+  });
 });
