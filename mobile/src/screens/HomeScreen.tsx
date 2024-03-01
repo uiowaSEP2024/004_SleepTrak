@@ -9,6 +9,10 @@ function Home({ navigation }: { navigation: any }) {
         onPress={() => navigation.navigate('SleepTimer')}
         title="Log Sleep"
       />
+      <NavigationButton
+        onPress={() => navigation.navigate('Login')}
+        title="Login test"
+      />
     </SafeAreaView>
   );
 }
