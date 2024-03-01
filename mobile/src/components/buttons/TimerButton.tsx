@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { TouchableRipple, Icon, Text } from 'react-native-paper';
-import { colors } from '../../../../common_styles/colors';
+import { colors } from '../../../assets/colors';
 
 interface TimerButtonProps {
   onStart: () => void;

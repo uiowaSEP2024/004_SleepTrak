@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { Text, Icon } from 'react-native-paper';
-import { colors } from '../../../../common_styles/colors';
+import { colors } from '../../../assets/colors';
 
 interface WindowCellProps {
   startTime: string;
