@@ -26,6 +26,10 @@ const SleepTimer: React.FC = () => {
     Array<{ id: string; startTime: string; stopTime: string }>
   >([]);
   const scrollViewRef = useRef<ScrollView>(null);
+  const options: Intl.DateTimeFormatOptions = {
+    hour: '2-digit',
+    minute: '2-digit'
+  };
 
   const handleStart = () => {
     setSleepStartTime(new Date());
@@ -40,8 +44,8 @@ const SleepTimer: React.FC = () => {
     if (sleepStartTime && stopTimeForLog) {
       const newWindow = {
         id: sleepStartTime.getTime().toString(),
-        startTime: sleepStartTime.toLocaleTimeString(),
-        stopTime: stopTimeForLog.toLocaleTimeString()
+        startTime: sleepStartTime.toLocaleTimeString(undefined, options),
+        stopTime: stopTimeForLog.toLocaleTimeString(undefined, options)
       };
       setWindows([...windows, newWindow]);
       console.log(windows);
