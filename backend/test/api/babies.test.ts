@@ -34,7 +34,12 @@ testRoute({
   mockData: mockBabys,
   expectData: {
     status: 200,
-    body: mockBabys
+    body: mockBabys,
+    calledWith: {
+      include: {
+        parent: true
+      }
+    }
   },
   model: 'baby',
   route: 'all'
@@ -49,6 +54,9 @@ testRoute({
     status: 200,
     body: mockBabys.filter((baby) => baby.babyId === '1'),
     calledWith: {
+      include: {
+        parent: true
+      },
       where: {
         babyId: ':id'
       }
