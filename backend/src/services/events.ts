@@ -8,7 +8,7 @@ const getAll = async (): Promise<Event[] | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 const get = async (eventId: string): Promise<Event | null | Error> => {
@@ -21,7 +21,7 @@ const get = async (eventId: string): Promise<Event | null | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 const search = async (searchParams: any): Promise<Event[] | Error> => {
@@ -32,7 +32,7 @@ const search = async (searchParams: any): Promise<Event[] | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 const create = async (eventData: any): Promise<Event | Error> => {
@@ -41,7 +41,7 @@ const create = async (eventData: any): Promise<Event | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 const update = async (
@@ -58,7 +58,7 @@ const update = async (
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 const destroy = async (eventId: string): Promise<Event | Error> => {
@@ -71,7 +71,7 @@ const destroy = async (eventId: string): Promise<Event | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 
