@@ -1,18 +1,32 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
-import { LoginButton } from '../components/buttons/AuthButtons';
+import {
+  LoginButton,
+  AuthTestButton,
+  LogoutButton
+} from '../components/buttons/AuthButtons';
+import { useAuth0 } from 'react-native-auth0';
 
-const LoginScreen: React.FC = () => {
+const AuthScreen: React.FC = () => {
+  const { user } = useAuth0();
+  const isAuthenticated = user !== undefined && user !== null;
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Camila Sleep</Text>
-      <LoginButton />
+      {isAuthenticated ? (
+        <Text> You are {user.email} </Text>
+      ) : (
+        <Text>You are not logged in.</Text>
+      )}
+      {isAuthenticated ? <LogoutButton /> : <LoginButton />}
+      <AuthTestButton />
     </View>
   );
 };
 
-LoginScreen.propTypes = {};
+AuthScreen.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {
@@ -29,4 +43,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default LoginScreen;
+export default AuthScreen;
