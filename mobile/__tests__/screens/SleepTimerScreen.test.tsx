@@ -4,7 +4,7 @@ import SleepTimer from '../../src/screens/SleepTimerScreen';
 
 describe('SleepTimerScreen', () => {
   // Mock current time
-  beforeAll(() => {
+  beforeEach(() => {
     const currentTime = new Date('2022-01-01T10:00:00');
     jest.useFakeTimers();
     jest.setSystemTime(currentTime.getTime());
@@ -95,5 +95,55 @@ describe('SleepTimerScreen', () => {
     expect(startButton).toBeDefined();
     const elapsedTimeDisplay = await findByText(/Elapsed Time: 00:30:0[0-1]/);
     expect(elapsedTimeDisplay).toBeDefined();
+  });
+
+  test('Wake window cell is created between each sleep session', async () => {
+    const { getByText, findByText, getAllByText } = render(<SleepTimer />);
+    let startButton = getByText('Start');
+
+    // Press start button
+    await act(async () => {
+      fireEvent.press(startButton);
+      jest.runOnlyPendingTimers();
+    });
+    const stopButton = await findByText('Stop');
+
+    // Advance the mocked time by 30 minutes and press stop button
+    await act(async () => {
+      jest.advanceTimersByTime(30 * 60 * 1000);
+      fireEvent.press(stopButton);
+      jest.runOnlyPendingTimers();
+    });
+
+    // Advance mock time by 30 minutes while the baby is awake
+    await act(async () => {
+      jest.advanceTimersByTime(30 * 60 * 1000);
+    });
+
+    // Press start button again
+    await act(async () => {
+      fireEvent.press(startButton);
+      jest.runOnlyPendingTimers();
+    });
+    const stopButton2 = await findByText('Stop');
+
+    // Advance the mocked time by 30 minutes and press stop button
+    await act(async () => {
+      jest.advanceTimersByTime(30 * 60 * 1000);
+      fireEvent.press(stopButton2);
+      jest.runOnlyPendingTimers();
+    });
+    startButton = await findByText('Start');
+    expect(startButton).toBeDefined();
+
+    // Check all time slots
+    const timeDisplay1 = getAllByText(/10:00:00 AM/);
+    const timeDisplay2 = getAllByText(/10:30:0[0-1] AM/);
+    const timeDisplay3 = getAllByText(/11:00:0[0-2] AM/);
+    const timeDisplay4 = getAllByText(/11:30:0[0-3] AM/);
+    expect(timeDisplay1.length).toBe(1);
+    expect(timeDisplay2.length).toBe(2);
+    expect(timeDisplay3.length).toBe(3);
+    expect(timeDisplay4.length).toBe(2);
   });
 });
