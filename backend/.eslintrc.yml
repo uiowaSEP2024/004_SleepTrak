@@ -10,3 +10,4 @@ plugins:
   - 'jest'
 rules:
   jest/no-export: off
+  '@typescript-eslint/no-explicit-any': off
