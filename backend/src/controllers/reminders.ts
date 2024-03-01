@@ -31,9 +31,6 @@ const search = async (req: Request, res: Response): Promise<void> => {
 const create = async (req: Request, res: Response): Promise<void> => {
   try {
     const creationParams = req.body;
-    if (creationParams.length === 0) {
-      throw new Error('Empty body');
-    }
 
     const reminderData = {
       plan: { connect: { planId: creationParams.planId } },
@@ -51,9 +48,6 @@ const update = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
     const updateParams = req.body;
-    if (updateParams.length === 0) {
-      throw new Error('Empty body');
-    }
 
     const reminder = await service.update(id, updateParams);
     res.json(reminder);
