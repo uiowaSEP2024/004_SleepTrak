@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { Text, Icon } from 'react-native-paper';
 import { colors } from '../../../assets/colors';
@@ -38,10 +38,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginHorizontal: 20,
     marginVertical: 10,
     borderRadius: 35,
-    height: 70
+    height: 70,
+    width: Dimensions.get('window').width * 0.8
   },
   sleep: {
     backgroundColor: colors.peachyOrange

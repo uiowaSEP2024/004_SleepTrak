@@ -5,13 +5,7 @@
  */
 
 import React, { useState, useRef } from 'react';
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  FlatList,
-  Dimensions
-} from 'react-native';
+import { View, StyleSheet, ScrollView, FlatList } from 'react-native';
 import TimerButton from '../components/buttons/TimerButton';
 import TimerDisplay from '../components/views/TimerDisplay';
 import ElapsedTimeDisplay from '../components/views/ElapsedTimeDisplay';
@@ -93,10 +87,10 @@ const SleepTimer: React.FC = () => {
     <ScrollView
       ref={scrollViewRef}
       contentContainerStyle={{ flexGrow: 1 }}>
-      <View style={styles.container}>
+      <View style={styles.timerContainer}>
         <SleepTypeSelector
           onValueChange={handleSleepTypeChange}
-          style={{ marginTop: 40 }}
+          style={{ marginVertical: 40 }}
         />
         <View style={styles.timerGroup}>
           <TimerDisplay
@@ -111,19 +105,20 @@ const SleepTimer: React.FC = () => {
         </View>
         <ElapsedTimeDisplay
           isRunning={isRunning}
-          style={{ marginBottom: 40 }}
+          style={{ marginVertical: 20 }}
         />
         <TimerButton
           onStart={handleStart}
           onStop={handleStop}
-          style={{ marginBottom: 80 }}
+          style={{ marginVertical: 40 }}
         />
         <ShowMoreButton
           onPress={handleShowLog}
           title="Show Log"
+          style={{ marginVertical: 30 }}
         />
       </View>
-      <View style={styles.listContainer}>
+      <View style={styles.logContainer}>
         <FlatList
           data={windows}
           renderItem={({ item: { startTime, stopTime, isSleep } }) => (
@@ -148,20 +143,15 @@ const SleepTimer: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    height: Dimensions.get('window').height
+  timerContainer: {
+    alignItems: 'center'
   },
   timerGroup: {
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: 60,
-    marginBottom: 40
+    marginVertical: 20
   },
-  listContainer: {
-    marginTop: 100,
-    justifyContent: 'flex-start',
+  logContainer: {
     alignItems: 'center'
   }
 });
