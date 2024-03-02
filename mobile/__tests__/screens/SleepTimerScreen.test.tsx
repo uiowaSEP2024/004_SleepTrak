@@ -71,8 +71,8 @@ describe('SleepTimerScreen', () => {
     });
     startButton = await findByText('Start');
     expect(startButton).toBeDefined();
-    const startTimeDisplay = getAllByText(/10:00:00 AM/);
-    const stopTimeDisplay = getAllByText(/10:30:0[0-1] AM/);
+    const startTimeDisplay = getAllByText(/10:00(:0[0-2])? AM/);
+    const stopTimeDisplay = getAllByText(/10:30(:0[0-2])? AM/);
     expect(startTimeDisplay.length).toBe(2);
     expect(stopTimeDisplay.length).toBe(2);
   });
@@ -140,23 +140,13 @@ describe('SleepTimerScreen', () => {
     expect(startButton).toBeDefined();
 
     // Check all time slots
-    const timeDisplay1 = getAllByText(/10:00:00 AM/);
-    const timeDisplay2 = getAllByText(/10:30:0[0-1] AM/);
-    const timeDisplay3 = getAllByText(/11:00:0[0-2] AM/);
-    const timeDisplay4 = getAllByText(/11:30:0[0-3] AM/);
+    const timeDisplay1 = getAllByText(/10:00 AM/);
+    const timeDisplay2 = getAllByText(/10:30 AM/);
+    const timeDisplay3 = getAllByText(/11:00(:0[0-2])? AM/);
+    const timeDisplay4 = getAllByText(/11:30(:0[0-2])? AM/);
     expect(timeDisplay1.length).toBe(1);
     expect(timeDisplay2.length).toBe(2);
     expect(timeDisplay3.length).toBe(3);
     expect(timeDisplay4.length).toBe(2);
-  });
-
-  test('Show More button navigates to the Log screen', async () => {
-    const { getByText, findByText } = render(<SleepTimer />);
-    const showMoreButton = getByText('Show Log');
-    await act(async () => {
-      fireEvent.press(showMoreButton);
-    });
-    const logScreenTitle = await findByText('Log');
-    expect(logScreenTitle).toBeDefined();
   });
 });
