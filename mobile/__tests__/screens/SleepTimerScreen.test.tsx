@@ -2,6 +2,9 @@ import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react-native';
 import SleepTimer from '../../src/screens/SleepTimerScreen';
 
+jest.mock('expo-font');
+jest.mock('expo-asset');
+
 describe('SleepTimerScreen', () => {
   // Mock current time
   beforeAll(() => {
