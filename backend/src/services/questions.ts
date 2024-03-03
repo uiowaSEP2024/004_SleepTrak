@@ -4,11 +4,7 @@ import { ensureError } from '../utils/error.js';
 
 const getAll = async (): Promise<Question[] | Error> => {
   try {
-    const result = await prisma.question.findMany({
-      include: {
-        parent: true
-      }
-    });
+    const result = await prisma.question.findMany();
 
     return result;
   } catch (err) {
