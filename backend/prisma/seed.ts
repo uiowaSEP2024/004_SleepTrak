@@ -38,6 +38,7 @@ function getRandomNumber(minValue: number, maxValue: number): number {
 async function createCoachData(): Promise<User> {
   return await prisma.user.create({
     data: {
+      userId: 'testID_' + getRandomNumber(0, 10000).toString(),
       email: 'coach' + getRandomNumber(0, 10000000) + '@test.com',
       first_name: getRandomElement(possibleNames),
       last_name: 'Test',
@@ -48,6 +49,7 @@ async function createCoachData(): Promise<User> {
 async function createClientData(coachObjects: User[]): Promise<User> {
   return await prisma.user.create({
     data: {
+      userId: 'testID_' + getRandomNumber(10001, 20000).toString(),
       email: 'client' + getRandomNumber(0, TOTAL_CLIENTS * 10000) + '@test.com',
       first_name: getRandomElement(possibleNames),
       last_name: 'Test',
@@ -59,6 +61,7 @@ async function createClientData(coachObjects: User[]): Promise<User> {
 async function createBabyData(clientObjects: User[]): Promise<Baby> {
   return await prisma.baby.create({
     data: {
+      babyId: 'testID_' + getRandomNumber(0, 10000).toString(),
       name: getRandomElement(possibleNames),
       dob: new Date(
         getRandomNumber(2018, 2024), // year
@@ -72,7 +75,7 @@ async function createBabyData(clientObjects: User[]): Promise<Baby> {
   });
 }
 
-async function main(): Promise<any> {
+async function main(): Promise<void> {
   const currentUsers: User[] = await prisma.user.findMany();
 
   // if database already seeded, move on
@@ -112,7 +115,8 @@ main()
   .then(async () => {
     await prisma.$disconnect();
   })
-  .catch(async (e: any) => {
+  .catch(async (e: Error) => {
+    // Provide a valid type for the catch parameter
     console.error(e);
     await prisma.$disconnect();
     process.exit(1);
