@@ -88,7 +88,7 @@ export default function RecommendedSchedule() {
           }}>
           <thead>
             <tr>
-              <th style={{ width: 'var(--Table-firstColumnWidth)' }}>Row</th>
+              <th style={{ width: 'var(--Table-firstColumnWidth)' }}>Event</th>
               <th style={{ width: 200 }}>Time</th>
               <th
                 aria-label="last"
