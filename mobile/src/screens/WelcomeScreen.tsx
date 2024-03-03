@@ -5,9 +5,11 @@ import { useNavigation } from '@react-navigation/native';
 import { hasOnboarded, hasValidCredentials } from '../utils/auth';
 import { SvgUri } from 'react-native-svg';
 import { colors } from '../../../common_styles/colors';
+import { useAuth0 } from 'react-native-auth0';
 
 const WelcomeScreen: React.FC = () => {
   const navigation = useNavigation();
+  const { user } = useAuth0();
 
   useEffect(() => {
     // Redirects users to the appropriate screen
@@ -35,7 +37,7 @@ const WelcomeScreen: React.FC = () => {
       }
     };
     void checkCredentials();
-  }, [hasValidCredentials]);
+  }, [user]);
 
   return (
     <View style={styles.container}>
