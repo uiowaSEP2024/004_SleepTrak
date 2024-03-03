@@ -5,7 +5,16 @@
  */
 
 import React, { useState, useRef } from 'react';
-import { View, StyleSheet, ScrollView, FlatList } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  FlatList,
+  TouchableOpacity
+} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../navigations/HomeStack';
 import TimerButton from '../components/buttons/TimerButton';
 import TimerDisplay from '../components/views/TimerDisplay';
 import ElapsedTimeDisplay from '../components/views/ElapsedTimeDisplay';
@@ -13,6 +22,11 @@ import ShowMoreButton from '../components/buttons/ShowMoreButton';
 import WindowCell from '../components/views/WindowCell';
 import SleepTypeSelector from '../components/selectors/SleepTypeSelector';
 import SaveButton from '../components/buttons/SaveButton';
+
+type NavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'SleepTimerScreen'
+>;
 
 const SleepTimer: React.FC = () => {
   const [isNap, setIsNap] = useState<boolean>(true);
@@ -29,6 +43,7 @@ const SleepTimer: React.FC = () => {
     hour: '2-digit',
     minute: '2-digit'
   };
+  const navigation = useNavigation<NavigationProp>();
 
   const handleStart = () => {
     const stopTimeForLog = new Date();
@@ -122,11 +137,20 @@ const SleepTimer: React.FC = () => {
         <FlatList
           data={windows}
           renderItem={({ item: { startTime, stopTime, isSleep } }) => (
-            <WindowCell
-              startTime={startTime}
-              endTime={stopTime}
-              isSleep={isSleep}
-            />
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('EditWindowScreen', {
+                  startTime,
+                  stopTime,
+                  isSleep
+                });
+              }}>
+              <WindowCell
+                startTime={startTime}
+                endTime={stopTime}
+                isSleep={isSleep}
+              />
+            </TouchableOpacity>
           )}
           keyExtractor={(window) => window.id}
         />
