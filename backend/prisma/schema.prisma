@@ -9,12 +9,12 @@ datasource db {
 
 //TODO: deal with passwords
 model User {
-  userId      String  @id @default(uuid()) @db.Uuid
+  userId      String  @id
   first_name  String
   last_name   String
   email       String  @unique
   coach       User?   @relation(name: "client_coach", fields: [coachId], references: [userId])
-  coachId     String? @db.Uuid
+  coachId     String?
   clients     User[]  @relation(name: "client_coach")
   role        String
   events      Event[]
@@ -24,36 +24,36 @@ model User {
 }
 
 model Event {
-  eventId   String   @id @default(uuid()) @db.Uuid
+  eventId   String   @id
   owner     User     @relation(fields: [ownerId], references: [userId])
-  ownerId   String   @db.Uuid
+  ownerId   String
   startTime DateTime @db.Timestamptz()
   endTime   DateTime @db.Timestamptz()
   type      String
 }
 
 model Plan {
-  planId    String     @id @default(uuid()) @db.Uuid
+  planId    String     @id
   client    User       @relation(name: "client_plan", fields: [clientId], references: [userId])
-  clientId  String     @db.Uuid
+  clientId  String
   coach     User       @relation(name: "coach_plan", fields: [coachId], references: [userId])
-  coachId   String     @db.Uuid
+  coachId   String
   Reminders Reminder[] @relation(name: "plan_reference")
   Status    String
 }
 
 model Reminder {
-  reminderId  String   @id @default(uuid()) @db.Uuid
+  reminderId  String   @id
   plan        Plan     @relation(name: "plan_reference", fields: [planId], references: [planId])
-  planId      String   @db.Uuid
+  planId      String
   description String
   timestamp   DateTime @db.Timestamptz()
 }
 
 model Baby {
-  babyId   String   @id @default(uuid()) @db.Uuid
+  babyId   String   @id
   parent   User     @relation(name: "baby_parent", fields: [parentId], references: [userId])
-  parentId String   @db.Uuid
+  parentId String
   name     String
   dob      DateTime @db.Date
   weight   Float
