@@ -8,7 +8,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slider from '@mui/joy/Slider';
 import Grid from '@mui/joy/Grid';
-import TimePickerField from './TimePickerField';
+import TimePickerField from '../TimePickerField';
 import dayjs from 'dayjs';
 
 export interface WakeWindowInputFieldProps {

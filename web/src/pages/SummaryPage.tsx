@@ -1,4 +1,4 @@
-import RecommendedSchedule from '../components/RecommendedSchedule';
+import RecommendedSchedule from '../components/RecommendedSchedule/RecommendedSchedule';
 
 function SummaryPage() {
   return (

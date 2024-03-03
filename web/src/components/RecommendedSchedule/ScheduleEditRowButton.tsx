@@ -6,7 +6,7 @@ import Dialog from '@mui/material/Dialog';
 import dayjs from 'dayjs';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import TimePickerField from './TimePickerField';
+import TimePickerField from '../TimePickerField';
 import { Checkbox, FormControlLabel } from '@mui/material';
 
 export default function ScheduleEditButton() {
