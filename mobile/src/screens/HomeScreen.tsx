@@ -13,6 +13,10 @@ function Home({ navigation }: { navigation: any }) {
         onPress={() => navigation.navigate('Login')}
         title="Login test"
       />
+      <NavigationButton
+        onPress={() => navigation.navigate('Welcome')}
+        title="Welcome Screen"
+      />
     </SafeAreaView>
   );
 }
