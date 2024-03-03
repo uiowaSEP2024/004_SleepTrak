@@ -3,6 +3,7 @@ import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import Table from '@mui/joy/Table';
 import Sheet from '@mui/joy/Sheet';
+import ScheduleDeleteRowButton from '../__tests__/components/ScheduleRowDeleteButton';
 
 function createData(name: string, time: string) {
   return { name, time };
@@ -31,7 +32,18 @@ export default function RecommendedSchedule() {
           Add Schedule
         </Button>
       </Box>
-      <h4>Schedule 1</h4>
+      <Box
+        display="flex"
+        justifyContent="space-between">
+        <h4>Schedule 1</h4>
+        <Button
+          size="sm"
+          variant="soft"
+          color="danger"
+          sx={{ m: 2 }}>
+          Delete Schedule
+        </Button>
+      </Box>
       <Sheet
         variant="outlined"
         sx={{
@@ -93,14 +105,7 @@ export default function RecommendedSchedule() {
                 aria-label="last"
                 style={{
                   width: 'var(--Table-lastColumnWidth)'
-                }}>
-                <Button
-                  size="sm"
-                  variant="soft"
-                  color="danger">
-                  Delete Schedule
-                </Button>
-              </th>
+                }}></th>
             </tr>
           </thead>
           <tbody>
@@ -120,12 +125,7 @@ export default function RecommendedSchedule() {
                       color="neutral">
                       Edit
                     </Button>
-                    <Button
-                      size="sm"
-                      variant="soft"
-                      color="danger">
-                      Delete
-                    </Button>
+                    <ScheduleDeleteRowButton />
                   </Box>
                 </td>
               </tr>
