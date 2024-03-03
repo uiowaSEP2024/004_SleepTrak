@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from '../screens/HomeScreen';
 import SleepTimer from '../screens/SleepTimerScreen';
 import LoginScreen from '../screens/AuthScreen';
+import WelcomeScreen from '../screens/WelcomeScreen';
 import EditWindowScreen from '../screens/EditWindowScreen';
 
 export interface RootStackParamList {
@@ -31,6 +32,10 @@ const HomeStack = () => {
       <Stack.Screen
         name="SleepTimer"
         component={SleepTimer}
+      />
+      <Stack.Screen
+        name="Welcome"
+        component={WelcomeScreen}
       />
       <Stack.Screen
         name="EditWindowScreen"
