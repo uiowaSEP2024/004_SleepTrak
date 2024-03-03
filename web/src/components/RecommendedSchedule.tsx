@@ -20,7 +20,7 @@ const rows = [
 
 export default function RecommendedSchedule() {
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '60%' }}>
       <Box
         display="flex"
         justifyContent="space-between">
@@ -40,12 +40,11 @@ export default function RecommendedSchedule() {
           // the number is the amount of the header rows.
           '--TableHeader-height': 'calc(1 * var(--TableCell-height))',
           '--Table-firstColumnWidth': '60px',
-          '--Table-lastColumnWidth': '27px',
+          '--Table-lastColumnWidth': '47px',
           // background needs to have transparency to show the scrolling shadows
           '--TableRow-stripeBackground': 'rgba(0 0 0 / 0.04)',
           '--TableRow-hoverBackground': 'rgba(0 0 0 / 0.08)',
           overflow: 'auto',
-
           background: (
             theme
           ) => `linear-gradient(to right, ${theme.vars.palette.background.surface} 30%, rgba(255, 255, 255, 0)),
