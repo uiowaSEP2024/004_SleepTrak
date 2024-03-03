@@ -11,53 +11,57 @@ import {
 } from './components/auth';
 import BabyDetailsPage from './pages/BabyDetailsPage';
 import RecommendedSchedule from './components/RecommendedSchedule';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 const domain: string = import.meta.env.VITE_AUTH0_DOMAIN!;
 const clientId: string = import.meta.env.VITE_AUTH0_CLIENT_ID!;
 
 function App() {
   return (
-    <Router>
-      <Auth0ProviderWithRedirectCallback
-        domain={domain}
-        clientId={clientId}
-        authorizationParams={{
-          redirect_uri: window.location.origin,
-          audience: import.meta.env.VITE_AUTH0_API_AUDIENCE
-        }}>
-        <Routes>
-          <Route
-            path="*"
-            element={<ErrorPage />}
-          />
-          {/* if you need a route that is not auth protected, then make a <route></route> element outside of this one. */}
-          <Route
-            path="/"
-            element={<ProtectedRoute component={Root} />}>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Router>
+        <Auth0ProviderWithRedirectCallback
+          domain={domain}
+          clientId={clientId}
+          authorizationParams={{
+            redirect_uri: window.location.origin,
+            audience: import.meta.env.VITE_AUTH0_API_AUDIENCE
+          }}>
+          <Routes>
             <Route
-              path="dashboard"
-              element={<DashboardPage />}
+              path="*"
+              element={<ErrorPage />}
             />
+            {/* if you need a route that is not auth protected, then make a <route></route> element outside of this one. */}
             <Route
-              path="clients"
-              element={<ClientsPage />}
-            />
-            <Route
-              path="/babies/:babyId"
-              element={<BabyDetailsPage />}
-            />
-            <Route
-              path="/temp_schedule"
-              element={<RecommendedSchedule />}
-            />
-            <Route
-              path="messages"
-              element={<MessagesPage />}
-            />
-          </Route>
-        </Routes>
-      </Auth0ProviderWithRedirectCallback>
-    </Router>
+              path="/"
+              element={<ProtectedRoute component={Root} />}>
+              <Route
+                path="dashboard"
+                element={<DashboardPage />}
+              />
+              <Route
+                path="clients"
+                element={<ClientsPage />}
+              />
+              <Route
+                path="/babies/:babyId"
+                element={<BabyDetailsPage />}
+              />
+              <Route
+                path="/temp_schedule"
+                element={<RecommendedSchedule />}
+              />
+              <Route
+                path="messages"
+                element={<MessagesPage />}
+              />
+            </Route>
+          </Routes>
+        </Auth0ProviderWithRedirectCallback>
+      </Router>
+    </LocalizationProvider>
   );
 }
 
