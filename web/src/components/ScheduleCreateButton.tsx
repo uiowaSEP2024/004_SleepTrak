@@ -7,37 +7,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slider from '@mui/joy/Slider';
-import dayjs, { Dayjs } from 'dayjs';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import Grid from '@mui/joy/Grid';
-import { Box } from '@mui/joy';
-
-export interface TimePickerValueProps {
-  label: string;
-}
+import TimePickerField from './TimePickerField';
+import dayjs from 'dayjs';
 
 export interface WakeWindowInputFieldProps {
   label: string;
-}
-
-function TimePickerValue(props: TimePickerValueProps) {
-  const { label } = props;
-
-  const [value, setValue] = React.useState<Dayjs | null>(
-    dayjs('2022-04-17T07:00')
-  );
-
-  return (
-    <Box sx={{ my: '20px' }}>
-      <TimePicker
-        value={value}
-        label={label}
-        onChange={(newValue: React.SetStateAction<dayjs.Dayjs | null>) =>
-          setValue(newValue)
-        }
-      />
-    </Box>
-  );
 }
 
 function WakeWindowInputField(props: WakeWindowInputFieldProps) {
@@ -108,8 +83,14 @@ export default function ScheduleCreateButton() {
                 max={6}
                 valueLabelDisplay="auto"
               />
-              <TimePickerValue label="Earliest Get Ready Time for Bed" />
-              <TimePickerValue label="Wake Up Time" />
+              <TimePickerField
+                label="Earliest Get Ready Time for Bed"
+                defaultValue={dayjs('2023-07-18T07:00')}
+              />
+              <TimePickerField
+                label="Wake Up Time"
+                defaultValue={dayjs('2023-07-18T20:00')}
+              />
             </Grid>
             <Grid xs>
               <DialogContentText>Wake Windows</DialogContentText>
