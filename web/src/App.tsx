@@ -10,7 +10,6 @@ import {
   ProtectedRoute
 } from './components/auth';
 import BabyDetailsPage from './pages/BabyDetailsPage';
-import RecommendedSchedule from './components/RecommendedSchedule';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
@@ -48,10 +47,6 @@ function App() {
               <Route
                 path="/babies/:babyId"
                 element={<BabyDetailsPage />}
-              />
-              <Route
-                path="/temp_schedule"
-                element={<RecommendedSchedule />}
               />
               <Route
                 path="messages"
