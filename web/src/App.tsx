@@ -10,6 +10,7 @@ import {
   ProtectedRoute
 } from './components/auth';
 import BabyDetailsPage from './pages/BabyDetailsPage';
+import RecommendedSchedule from './components/RecommendedSchedule';
 
 const domain: string = import.meta.env.VITE_AUTH0_DOMAIN!;
 const clientId: string = import.meta.env.VITE_AUTH0_CLIENT_ID!;
@@ -44,6 +45,10 @@ function App() {
             <Route
               path="/babies/:babyId"
               element={<BabyDetailsPage />}
+            />
+            <Route
+              path="/temp_schedule"
+              element={<RecommendedSchedule />}
             />
             <Route
               path="messages"
