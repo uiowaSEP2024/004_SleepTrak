@@ -1,10 +1,10 @@
 import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
 import Table from '@mui/joy/Table';
 import Sheet from '@mui/joy/Sheet';
 import ScheduleDeleteRowButton from './ScheduleRowDeleteButton';
 import ScheduleCreateButton from './ScheduleCreateButton';
 import ScheduleDeleteButton from './ScheduleDeleteButton';
+import ScheduleEditButton from './ScheduleEditRowButton';
 
 function createData(name: string, time: string) {
   return { name, time };
@@ -108,12 +108,7 @@ export default function RecommendedSchedule() {
                       display: 'flex',
                       gap: 1
                     }}>
-                    <Button
-                      size="sm"
-                      variant="plain"
-                      color="neutral">
-                      Edit
-                    </Button>
+                    <ScheduleEditButton />
                     <ScheduleDeleteRowButton />
                   </Box>
                 </td>
