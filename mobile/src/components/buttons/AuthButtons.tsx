@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View } from 'react-native';
 import { useAuth0 } from 'react-native-auth0';
 import { Button, Text } from 'react-native-paper';
+import { colors } from '../../../../common_styles/colors';
 
 const auth0Audience = process.env.EXPO_PUBLIC_AUTH0_AUDIENCE ?? '';
 
@@ -20,11 +21,18 @@ export const LoginButton = () => {
 
   return (
     <Button
+      style={{
+        borderRadius: 12,
+        padding: 12,
+        backgroundColor: colors.crimsonRed,
+        width: '65%'
+      }}
       onPress={() => {
         void onPress();
       }}>
-      {' '}
-      Log In{' '}
+      <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>
+        Log In
+      </Text>
     </Button>
   );
 };
