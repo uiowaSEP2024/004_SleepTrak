@@ -1,5 +1,11 @@
+import RecommendedSchedule from '../components/RecommendedSchedule';
+
 function SummaryPage() {
-  return <h2 data-testid="summary-page">TODO: Summary Page</h2>;
+  return (
+    <div data-testid="summary-page">
+      <RecommendedSchedule />
+    </div>
+  );
 }
 
 export default SummaryPage;
