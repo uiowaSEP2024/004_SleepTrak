@@ -50,7 +50,6 @@ const WelcomeScreen: React.FC = () => {
         />
       </View>
       <View style={styles.buttonContainer}>
-        {/* <Text style={styles.title}> Welcome! </Text> */}
         <LoginButton />
       </View>
     </View>

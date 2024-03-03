@@ -16,7 +16,10 @@ const AuthScreen: React.FC = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Camila Sleep</Text>
       {isAuthenticated ? (
-        <Text> You are {user.email} </Text>
+        <Text>
+          {' '}
+          You are {user.email} with {user.sub}{' '}
+        </Text>
       ) : (
         <Text>You are not logged in.</Text>
       )}
