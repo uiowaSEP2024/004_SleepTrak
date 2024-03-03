@@ -8,8 +8,6 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slider from '@mui/joy/Slider';
 import dayjs, { Dayjs } from 'dayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import Grid from '@mui/joy/Grid';
 import { Box } from '@mui/joy';
@@ -30,17 +28,15 @@ function TimePickerValue(props: TimePickerValueProps) {
   );
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Box sx={{ my: '20px' }}>
-        <TimePicker
-          value={value}
-          label={label}
-          onChange={(newValue: React.SetStateAction<dayjs.Dayjs | null>) =>
-            setValue(newValue)
-          }
-        />
-      </Box>
-    </LocalizationProvider>
+    <Box sx={{ my: '20px' }}>
+      <TimePicker
+        value={value}
+        label={label}
+        onChange={(newValue: React.SetStateAction<dayjs.Dayjs | null>) =>
+          setValue(newValue)
+        }
+      />
+    </Box>
   );
 }
 
