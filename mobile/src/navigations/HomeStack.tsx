@@ -2,10 +2,20 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from '../screens/HomeScreen';
 import SleepTimer from '../screens/SleepTimerScreen';
 import LoginScreen from '../screens/AuthScreen';
+import EditWindowScreen from '../screens/EditWindowScreen';
+
+export interface RootStackParamList {
+  Home: undefined;
+  SleepTimerScreen: undefined;
+  EditWindowScreen: { startTime: string; stopTime: string; isSleep: boolean };
+  [key: string]:
+    | undefined
+    | { startTime: string; stopTime: string; isSleep: boolean };
+}
 
 const Stack = createNativeStackNavigator();
 
-function HomeStack() {
+const HomeStack = () => {
   return (
     <Stack.Navigator
       initialRouteName="Home"
@@ -22,8 +32,12 @@ function HomeStack() {
         name="SleepTimer"
         component={SleepTimer}
       />
+      <Stack.Screen
+        name="EditWindowScreen"
+        component={EditWindowScreen}
+      />
     </Stack.Navigator>
   );
-}
+};
 
 export default HomeStack;
