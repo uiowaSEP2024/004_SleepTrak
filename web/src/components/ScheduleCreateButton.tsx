@@ -65,7 +65,7 @@ export default function ScheduleCreateButton() {
           component: 'form',
           onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
-            // TODO: handle submittint the schedule
+            // TODO: handle submitting the schedule
             handleClose();
           }
         }}>
