@@ -61,5 +61,12 @@ model Baby {
   medicine String
 }
 
+model Question {
+  questionId        String @id
+  description       String
+  type              String
+  onboarding_screen Int
+}
+
 // TODO: Will do this one when we are actually building the chat out.
 // model Message {}
