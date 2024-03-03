@@ -1,9 +1,10 @@
-import * as React from 'react';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import Table from '@mui/joy/Table';
 import Sheet from '@mui/joy/Sheet';
-import ScheduleDeleteRowButton from '../__tests__/components/ScheduleRowDeleteButton';
+import ScheduleDeleteRowButton from './ScheduleRowDeleteButton';
+import ScheduleCreateButton from './ScheduleCreateButton';
+import ScheduleDeleteButton from './ScheduleDeleteButton';
 
 function createData(name: string, time: string) {
   return { name, time };
@@ -24,25 +25,13 @@ export default function RecommendedSchedule() {
         display="flex"
         justifyContent="space-between">
         <h2>Recommended Schedule</h2>
-        <Button
-          size="sm"
-          variant="soft"
-          color="primary"
-          sx={{ m: 2 }}>
-          Add Schedule
-        </Button>
+        <ScheduleCreateButton />
       </Box>
       <Box
         display="flex"
         justifyContent="space-between">
         <h4>Schedule 1</h4>
-        <Button
-          size="sm"
-          variant="soft"
-          color="danger"
-          sx={{ m: 2 }}>
-          Delete Schedule
-        </Button>
+        <ScheduleDeleteButton />
       </Box>
       <Sheet
         variant="outlined"
