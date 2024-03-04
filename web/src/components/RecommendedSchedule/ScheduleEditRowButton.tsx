@@ -9,7 +9,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import TimePickerField from '../TimePickerField';
 import { Checkbox, FormControlLabel } from '@mui/material';
 
-export default function ScheduleEditButton() {
+export default function ScheduleEditRowButton() {
   const [open, setOpen] = React.useState(false);
   const [showEndTime, setShowEndTime] = React.useState(true);
 
