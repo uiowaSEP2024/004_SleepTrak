@@ -36,7 +36,7 @@ const SleepTimer: React.FC = () => {
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [isSleep, setIsSleep] = useState<boolean>(true);
   const [windows, setWindows] = useState<
-    Array<{ id: string; startTime: string; stopTime: string; isSleep: boolean }>
+    Array<{ id: string; startTime: Date; stopTime: Date; isSleep: boolean }>
   >([]);
   const scrollViewRef = useRef<ScrollView>(null);
   const options: Intl.DateTimeFormatOptions = {
@@ -55,8 +55,8 @@ const SleepTimer: React.FC = () => {
       setIsSleep(true);
       const newWindow = {
         id: wakeStartTime.getTime().toString(),
-        startTime: wakeStartTime.toLocaleTimeString(undefined, options),
-        stopTime: stopTimeForLog.toLocaleTimeString(undefined, options),
+        startTime: wakeStartTime,
+        stopTime: stopTimeForLog,
         isSleep: isSleep
       };
       setWindows([...windows, newWindow]);
@@ -72,8 +72,8 @@ const SleepTimer: React.FC = () => {
     if (sleepStartTime && stopTimeForLog) {
       const newWindow = {
         id: sleepStartTime.getTime().toString(),
-        startTime: sleepStartTime.toLocaleTimeString(undefined, options),
-        stopTime: stopTimeForLog.toLocaleTimeString(undefined, options),
+        startTime: sleepStartTime,
+        stopTime: stopTimeForLog,
         isSleep: isSleep
       };
       setWindows([...windows, newWindow]);
@@ -146,8 +146,8 @@ const SleepTimer: React.FC = () => {
                 });
               }}>
               <WindowCell
-                startTime={startTime}
-                endTime={stopTime}
+                startTime={startTime.toLocaleTimeString(undefined, options)}
+                endTime={stopTime.toLocaleTimeString(undefined, options)}
                 isSleep={isSleep}
               />
             </TouchableOpacity>
