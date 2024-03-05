@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import type { RouteProp } from '@react-navigation/native';
-import { colors } from '../../assets/colors';
 import EditTimePicker from '../components/inputs/EditTimePicker';
+import SaveButton from '../components/buttons/SaveButton';
 
 type RootStackParamList = {
   EditWindowScreen: {
@@ -26,11 +26,18 @@ const EditWindowScreen: React.FC<Props> = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <EditTimePicker
-        title="Start Time"
-        placeholderTime={startTime}
-      />
-      <Button
+      <View style={styles.editTimeGroup}>
+        <EditTimePicker
+          style={{ marginBottom: 30 }}
+          title="Start Time"
+          placeholderTime={startTime}
+        />
+        <EditTimePicker
+          title="Stop Time"
+          placeholderTime={stopTime}
+        />
+      </View>
+      <SaveButton
         title="Save"
         onPress={() => {
           console.log({ startTime, stopTime, isSleep });
@@ -43,9 +50,13 @@ const EditWindowScreen: React.FC<Props> = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: colors.lightTan
+    alignItems: 'center'
+  },
+  editTimeGroup: {
+    marginVertical: 60
+  },
+  saveButton: {
+    bottom: 30
   }
 });
 
