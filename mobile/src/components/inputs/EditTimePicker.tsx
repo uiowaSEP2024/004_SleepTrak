@@ -6,17 +6,20 @@ import {
   TouchableOpacity,
   Dimensions
 } from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
+import { Icon } from 'react-native-paper';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { Button } from 'react-native-paper';
 
 interface EditTimePickerProps {
   title: string;
   placeholderTime: Date;
+  style?: StyleProp<ViewStyle>;
 }
 
 const EditTimePicker: React.FC<EditTimePickerProps> = ({
   title,
-  placeholderTime
+  placeholderTime,
+  style
 }) => {
   const [isPickerVisible, setPickerVisible] = useState(false);
   const [selectedTime, setSelectedTime] = useState(placeholderTime);
@@ -36,15 +39,27 @@ const EditTimePicker: React.FC<EditTimePickerProps> = ({
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-      <TouchableOpacity onPress={showPicker}>
-        <Text>
-          {selectedTime.toLocaleTimeString(undefined, {
-            hour: '2-digit',
-            minute: '2-digit'
-          })}
-        </Text>
+    <View style={[styles.container, style]}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>{title}</Text>
+      </View>
+      <TouchableOpacity
+        onPress={showPicker}
+        style={styles.pickerContainer}>
+        <View style={styles.timeContainer}>
+          <Text style={styles.timeText}>
+            {selectedTime.toLocaleTimeString(undefined, {
+              hour: '2-digit',
+              minute: '2-digit'
+            })}
+          </Text>
+        </View>
+        <View style={styles.iconContainer}>
+          <Icon
+            source="pencil"
+            size={18}
+          />
+        </View>
       </TouchableOpacity>
       <DateTimePickerModal
         isVisible={isPickerVisible}
@@ -52,12 +67,6 @@ const EditTimePicker: React.FC<EditTimePickerProps> = ({
         onConfirm={handleConfirm}
         onCancel={hidePicker}
       />
-      <Button
-        onPress={() => {
-          console.log(selectedTime);
-        }}>
-        Change Time
-      </Button>
     </View>
   );
 };
@@ -72,13 +81,26 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'grey'
   },
-  title: {
-    fontSize: 16,
-    marginRight: 10,
+  pickerContainer: {
+    flexDirection: 'row',
     marginBottom: 10
   },
-  input: {
+  timeText: {
+    fontSize: 15,
+    marginBottom: 2
+  },
+  timeContainer: {
+    borderBottomWidth: 1
+  },
+  iconContainer: {
+    marginLeft: 3
+  },
+  titleContainer: {
+    marginLeft: 2,
     marginBottom: 10
+  },
+  title: {
+    fontSize: 16
   }
 });
 
