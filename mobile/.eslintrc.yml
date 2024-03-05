@@ -1,6 +1,4 @@
 rules:
-  react/prop-types:
-    - error
-    - ignore:
-        - navigation
+  react/prop-types: off
   '@typescript-eslint/explicit-function-return-type': off
+  '@typescript-eslint/consistent-type-definitions': off
