@@ -9,6 +9,7 @@ import {
 import type { StyleProp, ViewStyle } from 'react-native';
 import { Icon } from 'react-native-paper';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { colors, hexToRGBA } from '../../../assets/colors';
 
 interface EditTimePickerProps {
   title: string;
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 25,
     borderBottomWidth: 1,
-    borderBottomColor: 'grey'
+    borderBottomColor: hexToRGBA(colors.crimsonRed, 0.6)
   },
   pickerContainer: {
     flexDirection: 'row',
@@ -90,7 +91,8 @@ const styles = StyleSheet.create({
     marginBottom: 2
   },
   timeContainer: {
-    borderBottomWidth: 1
+    borderBottomWidth: 2,
+    borderBottomColor: colors.crimsonRed
   },
   iconContainer: {
     marginLeft: 3
