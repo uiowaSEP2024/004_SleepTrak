@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import type { RouteProp } from '@react-navigation/native';
 import EditTimePicker from '../components/inputs/EditTimePicker';
+import NotesTextInput from '../components/inputs/NotesTextInput';
 import SaveButton from '../components/buttons/SaveButton';
 
 type RootStackParamList = {
@@ -37,8 +38,10 @@ const EditWindowScreen: React.FC<Props> = ({ route }) => {
           placeholderTime={stopTime}
         />
       </View>
+      <NotesTextInput />
       <SaveButton
         title="Save"
+        style={styles.saveButton}
         onPress={() => {
           console.log({ startTime, stopTime, isSleep });
         }}
@@ -53,10 +56,11 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   editTimeGroup: {
-    marginVertical: 60
+    marginTop: 60,
+    marginBottom: 40
   },
   saveButton: {
-    bottom: 30
+    marginBottom: 40
   }
 });
 
