@@ -7,10 +7,10 @@ import EditWindowScreen from '../screens/EditWindowScreen';
 export interface RootStackParamList {
   Home: undefined;
   SleepTimerScreen: undefined;
-  EditWindowScreen: { startTime: string; stopTime: string; isSleep: boolean };
+  EditWindowScreen: { startTime: Date; stopTime: Date; isSleep: boolean };
   [key: string]:
-    | undefined
-    | { startTime: string; stopTime: string; isSleep: boolean };
+    | { startTime: Date; stopTime: Date; isSleep: boolean }
+    | undefined;
 }
 
 const Stack = createNativeStackNavigator();

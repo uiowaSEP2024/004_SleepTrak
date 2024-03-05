@@ -1,11 +1,41 @@
-import * as React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, StyleSheet, Button } from 'react-native';
+import type { RouteProp } from '@react-navigation/native';
 import { colors } from '../../assets/colors';
+import EditTimePicker from '../components/inputs/EditTimePicker';
 
-const EditWindowScreen: React.FC = () => {
+type RootStackParamList = {
+  EditWindowScreen: {
+    startTime: Date;
+    stopTime: Date;
+    isSleep: boolean;
+  };
+};
+
+type EditWindowScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'EditWindowScreen'
+>;
+
+type Props = {
+  route: EditWindowScreenRouteProp;
+};
+
+const EditWindowScreen: React.FC<Props> = ({ route }) => {
+  const { startTime, stopTime, isSleep } = route.params;
+
   return (
     <View style={styles.container}>
-      <Text>EditWindowScreen</Text>
+      <EditTimePicker
+        title="Start Time"
+        placeholderTime={startTime}
+      />
+      <Button
+        title="Save"
+        onPress={() => {
+          console.log({ startTime, stopTime, isSleep });
+        }}
+      />
     </View>
   );
 };
