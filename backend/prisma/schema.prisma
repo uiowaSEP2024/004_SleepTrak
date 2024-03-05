@@ -9,18 +9,19 @@ datasource db {
 
 //TODO: deal with passwords
 model User {
-  userId      String  @id
-  first_name  String
-  last_name   String
-  email       String  @unique
-  coach       User?   @relation(name: "client_coach", fields: [coachId], references: [userId])
-  coachId     String?
-  clients     User[]  @relation(name: "client_coach")
-  role        String
-  events      Event[]
-  coach_plans Plan[]  @relation(name: "coach_plan")
-  user_plans  Plan[]  @relation(name: "client_plan")
-  Babies      Baby[]  @relation(name: "baby_parent")
+  userId             String             @id
+  first_name         String
+  last_name          String
+  email              String             @unique
+  coach              User?              @relation(name: "client_coach", fields: [coachId], references: [userId])
+  coachId            String?
+  clients            User[]             @relation(name: "client_coach")
+  role               String
+  events             Event[]
+  coach_plans        Plan[]             @relation(name: "coach_plan")
+  user_plans         Plan[]             @relation(name: "client_plan")
+  Babies             Baby[]             @relation(name: "baby_parent")
+  onboarding_answers OnboardingAnswer[]
 }
 
 model Event {
@@ -51,21 +52,33 @@ model Reminder {
 }
 
 model Baby {
-  babyId   String   @id
-  parent   User     @relation(name: "baby_parent", fields: [parentId], references: [userId])
-  parentId String
-  name     String
-  dob      DateTime @db.Date
-  weight   Float
+  babyId             String             @id
+  parent             User               @relation(name: "baby_parent", fields: [parentId], references: [userId])
+  parentId           String
+  name               String
+  dob                DateTime           @db.Date
+  weight             Float
   // We can make a medicine table if needed later
-  medicine String
+  medicine           String
+  Onboarding_answers OnboardingAnswer[]
 }
 
-model Question {
+model OnboardingQuestion {
   questionId        String @id
   description       String
   type              String
   onboarding_screen Int
+}
+
+model OnboardingAnswer {
+  answerId    String @id
+  answer_text String
+  question    String
+  questionId  String
+  user        User   @relation(fields: [userId], references: [userId])
+  userId      String
+  baby        Baby   @relation(fields: [babyId], references: [babyId])
+  babyId      String
 }
 
 // TODO: Will do this one when we are actually building the chat out.
