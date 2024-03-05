@@ -174,7 +174,7 @@ async function main(): Promise<void> {
 
   // Create questions
   for (const question of questionData) {
-    await prisma.question.create({
+    await prisma.onboardingQuestion.create({
       data: question
     });
   }

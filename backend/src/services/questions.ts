@@ -4,7 +4,7 @@ import { ensureError } from '../utils/error.js';
 
 const getAll = async (): Promise<Question[] | Error> => {
   try {
-    const result = await prisma.question.findMany();
+    const result = await prisma.onboardingQuestion.findMany();
 
     return result;
   } catch (err) {
@@ -13,7 +13,7 @@ const getAll = async (): Promise<Question[] | Error> => {
 };
 const get = async (questionId: string): Promise<Question | null | Error> => {
   try {
-    const result = await prisma.question.findUnique({
+    const result = await prisma.onboardingQuestion.findUnique({
       where: {
         questionId
       }
