@@ -1,9 +1,15 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react-native';
 import SleepTimer from '../../src/screens/SleepTimerScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import type { RenderAPI } from '@testing-library/react-native';
 
 jest.mock('expo-font');
 jest.mock('expo-asset');
+
+const Stack = createNativeStackNavigator();
+let renderResult: RenderAPI;
 
 describe('SleepTimerScreen', () => {
   // Mock current time
@@ -17,12 +23,25 @@ describe('SleepTimerScreen', () => {
     jest.useRealTimers();
   });
 
+  beforeEach(() => {
+    renderResult = render(
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="SleepTimer"
+            component={SleepTimer}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   test('Timer button alternates between Start and Stop accordingly', async () => {
-    const { getByText, findByText } = render(<SleepTimer />);
+    const { getByText, findByText } = renderResult;
     let button = getByText('Start');
 
     // On first press button should change to stop
@@ -40,7 +59,7 @@ describe('SleepTimerScreen', () => {
   });
 
   test('Start time is correctly displayed when the Start button is pressed', async () => {
-    const { getByText, findByText } = render(<SleepTimer />);
+    const { getByText, findByText } = renderResult;
     const startButton = getByText('Start');
     await act(async () => {
       fireEvent.press(startButton);
@@ -53,7 +72,7 @@ describe('SleepTimerScreen', () => {
   });
 
   test('Stop time is correctly displayed and new window cell is created when the Stop button is pressed', async () => {
-    const { getByText, findByText, getAllByText } = render(<SleepTimer />);
+    const { getByText, findByText, getAllByText } = renderResult;
     let startButton = getByText('Start');
 
     // Press start button
@@ -78,7 +97,7 @@ describe('SleepTimerScreen', () => {
   });
 
   test('Elapsed time is correctly displayed when the timer is stopped', async () => {
-    const { getByText, findByText } = render(<SleepTimer />);
+    const { getByText, findByText } = renderResult;
     let startButton = getByText('Start');
 
     // Press start button
@@ -101,7 +120,7 @@ describe('SleepTimerScreen', () => {
   });
 
   test('Wake window cell is created between each sleep session', async () => {
-    const { getByText, findByText, getAllByText } = render(<SleepTimer />);
+    const { getByText, findByText, getAllByText } = renderResult;
     let startButton = getByText('Start');
 
     // Press start button
