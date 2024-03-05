@@ -6,6 +6,11 @@ import {
   DefaultTheme
 } from 'react-native-paper';
 import { colors } from '../../../assets/colors';
+import type { StyleProp, ViewStyle } from 'react-native';
+
+interface NotesTextInputProps {
+  style?: StyleProp<ViewStyle>;
+}
 
 const theme = {
   ...DefaultTheme,
@@ -15,7 +20,7 @@ const theme = {
   }
 };
 
-const NotesTextInput = () => {
+const NotesTextInput: React.FC<NotesTextInputProps> = ({ style }) => {
   const [value, setValue] = useState('');
   const onChangeTextHandler = (text: React.SetStateAction<string>) => {
     setValue(text);
@@ -23,13 +28,12 @@ const NotesTextInput = () => {
 
   return (
     <PaperProvider theme={theme}>
-      <View style={styles.textInputContainer}>
+      <View style={[styles.textInputContainer, style]}>
         <TextInput
           mode="outlined"
           label="Add Notes"
           onChangeText={onChangeTextHandler}
           multiline
-          dense
           style={styles.input}
           value={value}
         />
