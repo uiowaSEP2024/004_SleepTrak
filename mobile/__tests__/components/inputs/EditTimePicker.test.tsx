@@ -2,35 +2,10 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import type { RenderAPI } from '@testing-library/react-native';
 import EditTimePicker from '../../../src/components/inputs/EditTimePicker';
+import 'react-native-modal-datetime-picker';
 
 jest.mock('expo-font');
 jest.mock('expo-asset');
-jest.mock('react-native-modal-datetime-picker', () => {
-  const React = require('react');
-  const { View, Text, TouchableOpacity } = require('react-native');
-
-  return {
-    __esModule: true,
-    default: jest
-      .fn()
-      .mockImplementation(({ isVisible, onConfirm, onCancel }) => {
-        return isVisible ? (
-          <View>
-            <Text>Mock DateTimePickerModal</Text>
-            <TouchableOpacity
-              onPress={() => onConfirm(new Date(2022, 1, 1, 11, 0))}>
-              <Text>Confirm</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={onCancel}>
-              <Text>Cancel</Text>
-            </TouchableOpacity>
-          </View>
-        ) : (
-          <></>
-        );
-      })
-  };
-});
 
 describe('EditTimePicker', () => {
   let component: RenderAPI;
