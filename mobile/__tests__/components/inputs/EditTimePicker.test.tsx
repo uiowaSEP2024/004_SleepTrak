@@ -1,48 +1,54 @@
 import React from 'react';
-import { View, Button } from 'react-native';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
+import type { RenderAPI } from '@testing-library/react-native';
 import EditTimePicker from '../../../src/components/inputs/EditTimePicker';
-import DateTimePickerModalMock from '../../../__mocks__/DateTimePickerModalMock';
-
-interface DateTimePickerModalProps {
-  isVisible: boolean;
-  testID: string;
-  children?: React.ReactNode;
-  onCancel?: () => void;
-}
 
 jest.mock('expo-font');
 jest.mock('expo-asset');
-jest.doMock('react-native-modal-datetime-picker', () => {
-  const DateTimePickerModalMock = ({
-    isVisible,
-    testID,
-    onCancel,
-    children
-  }: DateTimePickerModalProps) => {
-    if (isVisible) {
-      return (
-        <View testID={testID}>
-          {children}
-          <Button
-            accessibilityLabel="cancelButton"
-            onPress={onCancel}
-            title="Cancel"
-          />
-        </View>
-      );
-    }
-    return null;
+jest.mock('react-native-modal-datetime-picker', () => {
+  const React = require('react');
+  const { View, Text, TouchableOpacity } = require('react-native');
+
+  return {
+    __esModule: true,
+    default: jest
+      .fn()
+      .mockImplementation(({ isVisible, onConfirm, onCancel }) => {
+        return isVisible ? (
+          <View>
+            <Text>Mock DateTimePickerModal</Text>
+            <TouchableOpacity
+              onPress={() => onConfirm(new Date(2022, 1, 1, 11, 0))}>
+              <Text>Confirm</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onCancel}>
+              <Text>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <></>
+        );
+      })
   };
-  return DateTimePickerModalMock;
 });
 
 describe('EditTimePicker', () => {
+  let component: RenderAPI;
   // Mock current time
   beforeEach(() => {
     const currentTime = new Date('2022-01-01T10:00:00');
     jest.useFakeTimers();
     jest.setSystemTime(currentTime.getTime());
+    component = render(
+      <EditTimePicker
+        title="Test Title"
+        placeholderTime={new Date()}
+      />
+    );
+  });
+
+  afterEach(() => {
+    component.unmount();
   });
 
   afterAll(() => {
@@ -50,59 +56,32 @@ describe('EditTimePicker', () => {
   });
 
   test('renders correctly', () => {
-    const { getByText } = render(
-      <EditTimePicker
-        title="Test Title"
-        placeholderTime={new Date()}
-      />
-    );
-    expect(getByText('Test Title')).toBeTruthy();
+    const { getByText } = component;
+    expect(getByText('Test Title')).toBeDefined();
   });
 
-  test('shows the picker when the button is pressed', () => {
-    const { getByTestId } = render(
-      <EditTimePicker
-        title="Test Picker"
-        placeholderTime={new Date()}
-      />
-    );
-    fireEvent.press(getByTestId('timePickerButton'));
-    expect(getByTestId('time-picker')).toBeTruthy();
+  test('shows date picker on press', () => {
+    const { getByText } = component;
+    fireEvent.press(getByText('10:00 AM'));
+    expect(getByText('Confirm')).toBeDefined();
+    expect(getByText('Cancel')).toBeDefined();
   });
 
-  test('hides modal when cancel button is pressed', () => {
-    const { getByTestId, queryByTestId } = render(
-      <EditTimePicker
-        title="Test Picker"
-        placeholderTime={new Date()}
-      />
-    );
-    fireEvent.press(getByTestId('timePickerButton'));
-    expect(getByTestId('time-picker')).toBeTruthy();
-    const cancelButton = queryByTestId('cancelButton');
-    if (cancelButton) {
-      console.log('hellooooooo');
-      fireEvent.press(cancelButton);
-    }
-    expect(queryByTestId('time-picker')).toBeNull();
+  test('hides date picker on cancel without changing time', async () => {
+    const { getByText, queryByText } = component;
+    fireEvent.press(getByText('10:00 AM'));
+    fireEvent.press(getByText('Cancel'));
+    await waitFor(() => {
+      expect(queryByText('Confirm')).toBeNull();
+      expect(queryByText('Cancel')).toBeNull();
+    });
+    expect(queryByText('10:00 AM')).toBeDefined();
   });
 
-  // test('hides modal when cancel button is pressed', async () => {
-  //   const hidePickerMock = jest.fn();
-  //   const { getByTestId, getByText, debug } = render(
-  //     <EditTimePicker title="Test Title" placeholderTime={new Date(Date.now())} />
-  //   );
-  //   fireEvent.press(getByTestId('timePickerButton'));
-  //   debug();
-  //   await waitFor(() => getByText('Cancel'));
-  //   fireEvent.press(getByText('Cancel'));
-  //   expect(hidePickerMock).toHaveBeenCalled();
-  // });
-
-  // test('handles confirm when handleConfirm is called', () => {
-  //   const { getByText } = render(<EditTimePicker title="Test Title" placeholderTime={new Date(Date.now())} />);
-  //   fireEvent.press(getByText('10:00 AM'));
-  //   fireEvent.press(getByText('Confirm'));
-  //   expect(getByText('11:00 AM')).toBeDefined();
-  // });
+  test('hides date picker on confirm with changed time', async () => {
+    const { getByText } = component;
+    fireEvent.press(getByText('10:00 AM'));
+    fireEvent.press(getByText('Confirm'));
+    expect(getByText('11:00 AM')).toBeTruthy();
+  });
 });
