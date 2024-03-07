@@ -21,7 +21,7 @@ import ElapsedTimeDisplay from '../components/views/ElapsedTimeDisplay';
 import ShowMoreButton from '../components/buttons/ShowMoreButton';
 import WindowCell from '../components/views/WindowCell';
 import SleepTypeSelector from '../components/selectors/SleepTypeSelector';
-import SaveButton from '../components/buttons/SaveButton';
+import BasicButton from '../components/buttons/SaveButton';
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -154,7 +154,7 @@ const SleepTimer: React.FC = () => {
           )}
           keyExtractor={(window) => window.id}
         />
-        <SaveButton
+        <BasicButton
           onPress={() => {
             saveSleepSession();
           }}

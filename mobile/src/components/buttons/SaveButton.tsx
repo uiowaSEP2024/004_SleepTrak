@@ -16,7 +16,7 @@ interface SaveButtonProps {
   style?: StyleProp<ViewStyle>;
 }
 
-const SaveButton: React.FC<SaveButtonProps> = ({ onPress, title, style }) => {
+const BasicButton: React.FC<SaveButtonProps> = ({ onPress, title, style }) => {
   return (
     <Button
       mode="contained"
@@ -42,4 +42,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SaveButton;
+export default BasicButton;
