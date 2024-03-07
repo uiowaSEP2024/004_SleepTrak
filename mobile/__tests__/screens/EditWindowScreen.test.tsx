@@ -29,10 +29,26 @@ describe('EditWindowScreen', () => {
     expect(getByTestId('notesTextInput')).toBeTruthy();
   });
 
+  test('should render the save and delete button', () => {
+    const { getByText } = render(<EditWindowScreen route={mockRoute} />);
+
+    expect(getByText('Save')).toBeTruthy();
+    expect(getByText('Delete')).toBeTruthy();
+  });
+
   test('should call the onPress function when the save button is pressed', () => {
     const { getByText } = render(<EditWindowScreen route={mockRoute} />);
 
     const saveButton = getByText('Save');
     fireEvent.press(saveButton);
+    // Write logic to test the onPress function once database is set
+  });
+
+  test('should call the onPress function when the Delete button is pressed', () => {
+    const { getByText } = render(<EditWindowScreen route={mockRoute} />);
+
+    const deleteButton = getByText('Delete');
+    fireEvent.press(deleteButton);
+    // Write logic to test the onPress function once database is set
   });
 });
