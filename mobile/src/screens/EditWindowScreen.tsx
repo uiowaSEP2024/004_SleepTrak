@@ -3,7 +3,8 @@ import { View, StyleSheet } from 'react-native';
 import type { RouteProp } from '@react-navigation/native';
 import EditTimePicker from '../components/inputs/EditTimePicker';
 import NotesTextInput from '../components/inputs/NotesTextInput';
-import SaveButton from '../components/buttons/SaveButton';
+import BasicButton from '../components/buttons/SaveButton';
+import { colors } from '../../assets/colors';
 
 type RootStackParamList = {
   EditWindowScreen: {
@@ -39,9 +40,16 @@ const EditWindowScreen: React.FC<Props> = ({ route }) => {
         />
       </View>
       <NotesTextInput />
-      <SaveButton
+      <BasicButton
         title="Save"
         style={styles.saveButton}
+        onPress={() => {
+          console.log({ startTime, stopTime, isSleep });
+        }}
+      />
+      <BasicButton
+        title="Delete"
+        style={styles.deleteButton}
         onPress={() => {
           console.log({ startTime, stopTime, isSleep });
         }}
@@ -60,7 +68,11 @@ const styles = StyleSheet.create({
     marginBottom: 40
   },
   saveButton: {
-    marginBottom: 40
+    marginBottom: 20
+  },
+  deleteButton: {
+    backgroundColor: colors.skyBlue,
+    marginBottom: 20
   }
 });
 
