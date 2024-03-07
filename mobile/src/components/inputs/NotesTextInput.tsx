@@ -36,6 +36,7 @@ const NotesTextInput: React.FC<NotesTextInputProps> = ({ style }) => {
           multiline
           style={styles.input}
           value={value}
+          testID="notesTextInput"
         />
       </View>
     </PaperProvider>
