@@ -1,0 +1,113 @@
+[
+  { "path": "/", "methods": ["GET"], "middlewares": ["anonymous"] },
+  { "path": "/users/all", "methods": ["GET"], "middlewares": ["anonymous"] },
+  { "path": "/users/search", "methods": ["GET"], "middlewares": ["anonymous"] },
+  { "path": "/users/:id", "methods": ["GET"], "middlewares": ["anonymous"] },
+  {
+    "path": "/users/create",
+    "methods": ["POST"],
+    "middlewares": ["anonymous"]
+  },
+  {
+    "path": "/users/:id/update",
+    "methods": ["PUT"],
+    "middlewares": ["anonymous"]
+  },
+  {
+    "path": "/users/:id/delete",
+    "methods": ["DELETE"],
+    "middlewares": ["anonymous"]
+  },
+  { "path": "/plans/all", "methods": ["GET"], "middlewares": ["anonymous"] },
+  { "path": "/plans/search", "methods": ["GET"], "middlewares": ["anonymous"] },
+  { "path": "/plans/:id", "methods": ["GET"], "middlewares": ["anonymous"] },
+  {
+    "path": "/plans/create",
+    "methods": ["POST"],
+    "middlewares": ["anonymous"]
+  },
+  {
+    "path": "/plans/:id/update",
+    "methods": ["PUT"],
+    "middlewares": ["anonymous"]
+  },
+  {
+    "path": "/plans/:id/delete",
+    "methods": ["DELETE"],
+    "middlewares": ["anonymous"]
+  },
+  { "path": "/events/all", "methods": ["GET"], "middlewares": ["anonymous"] },
+  {
+    "path": "/events/search",
+    "methods": ["GET"],
+    "middlewares": ["anonymous"]
+  },
+  { "path": "/events/:id", "methods": ["GET"], "middlewares": ["anonymous"] },
+  {
+    "path": "/events/create",
+    "methods": ["POST"],
+    "middlewares": ["anonymous"]
+  },
+  {
+    "path": "/events/:id/update",
+    "methods": ["PUT"],
+    "middlewares": ["anonymous"]
+  },
+  {
+    "path": "/events/:id/delete",
+    "methods": ["DELETE"],
+    "middlewares": ["anonymous"]
+  },
+  { "path": "/babies/all", "methods": ["GET"], "middlewares": ["anonymous"] },
+  {
+    "path": "/babies/search",
+    "methods": ["GET"],
+    "middlewares": ["anonymous"]
+  },
+  { "path": "/babies/:id", "methods": ["GET"], "middlewares": ["anonymous"] },
+  {
+    "path": "/babies/create",
+    "methods": ["POST"],
+    "middlewares": ["anonymous"]
+  },
+  {
+    "path": "/babies/:id/update",
+    "methods": ["PUT"],
+    "middlewares": ["anonymous"]
+  },
+  {
+    "path": "/babies/:id/delete",
+    "methods": ["DELETE"],
+    "middlewares": ["anonymous"]
+  },
+  {
+    "path": "/reminders/all",
+    "methods": ["GET"],
+    "middlewares": ["anonymous"]
+  },
+  {
+    "path": "/reminders/search",
+    "methods": ["GET"],
+    "middlewares": ["anonymous"]
+  },
+  {
+    "path": "/reminders/:id",
+    "methods": ["GET"],
+    "middlewares": ["anonymous"]
+  },
+  {
+    "path": "/reminders/create",
+    "methods": ["POST"],
+    "middlewares": ["anonymous"]
+  },
+  {
+    "path": "/reminders/:id/update",
+    "methods": ["PUT"],
+    "middlewares": ["anonymous"]
+  },
+  {
+    "path": "/reminders/:id/delete",
+    "methods": ["DELETE"],
+    "middlewares": ["anonymous"]
+  }
+]
