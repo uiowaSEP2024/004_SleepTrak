@@ -1,0 +1,28 @@
+services:
+  backend:
+    build:
+      context: ./
+    depends_on:
+      - db
+    ports:
+      - '3000:3000'
+    env_file:
+      - ./.env
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: ${OVERRIDE_DATABASE_URL:-${DATABASE_URL}}
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    entrypoint: "bash -c './wait-for-it.sh db:5432 -- yarn prisma-setup && yarn integration'"
+    stdin_open: true
+    tty: true
+  db:
+    build:
+      context: ./db
+      args:
+        DB_USER: ${DB_USER}
+        DB_PASSWORD: ${DB_PASSWORD}
+        DB_NAME: ${DB_NAME}
+    ports:
+      - '5432:5432'
