@@ -1,3 +1,4 @@
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { testRoute } from './common.js';
 
 const mockEvents = [
@@ -24,8 +25,12 @@ const event = {
   type: 'wake'
 };
 
+// Happy Path Tests
+// ============================================================================
+
 // /events/all
 testRoute({
+  description: 'returns all events',
   reqData: {},
   mockData: mockEvents,
   expectData: {
@@ -38,6 +43,7 @@ testRoute({
 
 // /events/:id
 testRoute({
+  description: 'returns event matching :id',
   reqData: {},
   mockData: mockEvents.filter((event) => event.eventId === '1'),
   expectData: {
@@ -55,6 +61,7 @@ testRoute({
 
 // /events/search
 testRoute({
+  description: 'returns events matching search by type',
   reqData: {
     role: 'client'
   },
@@ -75,6 +82,7 @@ testRoute({
 // /events/create
 const { eventId: _e, ownerId: _o, ...eventProps } = event;
 testRoute({
+  description: 'returns created event',
   reqData: {
     ...event
   },
@@ -97,6 +105,7 @@ testRoute({
 
 // /events/update
 testRoute({
+  description: 'returns updated event',
   reqData: {
     ...event
   },
@@ -120,11 +129,267 @@ testRoute({
 
 // /events/delete
 testRoute({
+  description: 'returns deleted event',
   reqData: {},
   mockData: event,
   expectData: {
     status: 200,
     body: event,
+    calledWith: {
+      where: {
+        eventId: ':id'
+      }
+    }
+  },
+  model: 'event',
+  id: '1',
+  route: 'delete'
+});
+
+// Sad Path Tests
+// ============================================================================
+
+// /events/all
+testRoute({
+  description: 'returns no events if there are none',
+  reqData: {},
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {}
+  },
+  model: 'event',
+  route: 'all'
+});
+
+// /events/:id
+testRoute({
+  description: 'returns nothing if no event matches :id',
+  reqData: {},
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {},
+    calledWith: {
+      where: {
+        eventId: ':id'
+      }
+    }
+  },
+  model: 'event',
+  id: '5'
+});
+
+// /events/search
+testRoute({
+  description: 'returns nothing if no events match searched role',
+  reqData: {
+    type: 'nap'
+  },
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {},
+    calledWith: {
+      where: {
+        type: 'nap'
+      }
+    }
+  },
+  model: 'event',
+  route: 'search'
+});
+
+// /events/create
+testRoute({
+  description: 'returns empty object when no data passed',
+  reqData: {},
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {},
+    calledWith: {
+      data: {
+        owner: { connect: { userId: undefined } },
+        startTime: null,
+        endTime: null,
+        type: undefined
+      }
+    }
+  },
+  model: 'event',
+  route: 'create'
+});
+
+// /events/update
+testRoute({
+  description: 'returns unupdated event if no data passed',
+  reqData: {},
+  mockData: event,
+  expectData: {
+    status: 200,
+    body: event,
+    calledWith: {
+      data: {},
+      where: {
+        eventId: ':id'
+      }
+    }
+  },
+  model: 'event',
+  id: '1',
+  route: 'update'
+});
+
+// /events/delete
+testRoute({
+  description: 'returns nothing if no event matches :id',
+  reqData: {},
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {},
+    calledWith: {
+      where: {
+        eventId: ':id'
+      }
+    }
+  },
+  model: 'event',
+  id: '5',
+  route: 'delete'
+});
+
+// Error Path Tests
+// ============================================================================
+
+const prismaError = new PrismaClientKnownRequestError(
+  'Error manually generated for testing',
+  {
+    code: 'P2010',
+    clientVersion: 'jest mock'
+  }
+);
+// /events/all
+testRoute({
+  description: 'returns HTTP 500 if Prisma throws error',
+  reqData: {},
+  mockData: prismaError,
+  expectData: {
+    status: 500,
+    body: {
+      name: prismaError.name,
+      code: prismaError.code,
+      clientVersion: prismaError.clientVersion
+    }
+  },
+  model: 'event',
+  route: 'all'
+});
+
+// /events/:id
+testRoute({
+  description: 'returns HTTP 500 if Prisma throws error',
+  reqData: {},
+  mockData: prismaError,
+  expectData: {
+    status: 500,
+    body: {
+      name: prismaError.name,
+      code: prismaError.code,
+      clientVersion: prismaError.clientVersion
+    },
+    calledWith: {
+      where: {
+        eventId: ':id'
+      }
+    }
+  },
+  model: 'event',
+  id: '1'
+});
+
+// /events/search
+testRoute({
+  description: 'returns HTTP 500 if Prisma throws error',
+  reqData: {},
+  mockData: prismaError,
+  expectData: {
+    status: 500,
+    body: {
+      name: prismaError.name,
+      code: prismaError.code,
+      clientVersion: prismaError.clientVersion
+    },
+    calledWith: {
+      where: {}
+    }
+  },
+  model: 'event',
+  route: 'search'
+});
+
+// /events/create
+testRoute({
+  description: 'returns HTTP 500 if Prisma throws error',
+  reqData: {},
+  mockData: prismaError,
+  expectData: {
+    status: 500,
+    body: {
+      name: prismaError.name,
+      code: prismaError.code,
+      clientVersion: prismaError.clientVersion
+    },
+    calledWith: {
+      data: {
+        owner: { connect: { userId: undefined } },
+        startTime: null,
+        endTime: null,
+        type: undefined
+      }
+    }
+  },
+  model: 'event',
+  route: 'create'
+});
+
+// /events/update
+testRoute({
+  description: 'returns HTTP 500 if Prisma throws error',
+  reqData: {},
+  mockData: prismaError,
+  expectData: {
+    status: 500,
+    body: {
+      name: prismaError.name,
+      code: prismaError.code,
+      clientVersion: prismaError.clientVersion
+    },
+    calledWith: {
+      data: {},
+      where: {
+        eventId: ':id'
+      }
+    }
+  },
+  model: 'event',
+  id: '1',
+  route: 'update'
+});
+
+// /events/delete
+testRoute({
+  description: 'returns HTTP 500 if Prisma throws error',
+  reqData: {},
+  mockData: prismaError,
+  expectData: {
+    status: 500,
+    body: {
+      name: prismaError.name,
+      code: prismaError.code,
+      clientVersion: prismaError.clientVersion
+    },
     calledWith: {
       where: {
         eventId: ':id'

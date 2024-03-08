@@ -34,7 +34,7 @@ const create = async (req: Request, res: Response): Promise<void> => {
 
     const babyData = {
       name: creationParams.name,
-      dob: new Date(creationParams.dob),
+      dob: creationParams.dob ? new Date(creationParams.dob) : null,
       weight: creationParams.weight,
       medicine: creationParams.medicine,
       parent: { connect: { userId: creationParams.parentId } }

@@ -1,3 +1,4 @@
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { testRoute } from './common.js';
 
 const mockBabys = [
@@ -27,13 +28,22 @@ const baby = {
   medicine: 'pencillin'
 };
 
+// Happy Path Tests
+// ============================================================================
+
 // /babys/all
 testRoute({
+  description: 'returns all babies',
   reqData: {},
   mockData: mockBabys,
   expectData: {
     status: 200,
-    body: mockBabys
+    body: mockBabys,
+    calledWith: {
+      include: {
+        parent: true
+      }
+    }
   },
   model: 'baby',
   route: 'all'
@@ -41,12 +51,16 @@ testRoute({
 
 // /babys/:id
 testRoute({
+  description: 'returns baby matching :id',
   reqData: {},
   mockData: mockBabys.filter((baby) => baby.babyId === '1'),
   expectData: {
     status: 200,
     body: mockBabys.filter((baby) => baby.babyId === '1'),
     calledWith: {
+      include: {
+        parent: true
+      },
       where: {
         babyId: ':id'
       }
@@ -58,6 +72,7 @@ testRoute({
 
 // /babys/search
 testRoute({
+  description: 'returns babies matching search by medicine',
   reqData: {
     role: 'client'
   },
@@ -78,6 +93,7 @@ testRoute({
 // /babys/create
 const { babyId: _b, parentId: _p, ...babyProps } = baby;
 testRoute({
+  description: 'returns created baby',
   reqData: {
     ...baby
   },
@@ -99,6 +115,7 @@ testRoute({
 
 // /babys/update
 testRoute({
+  description: 'returns updated baby',
   reqData: {
     ...baby
   },
@@ -122,11 +139,285 @@ testRoute({
 
 // /babys/delete
 testRoute({
+  description: 'returns deleted baby',
   reqData: {},
   mockData: baby,
   expectData: {
     status: 200,
     body: baby,
+    calledWith: {
+      where: {
+        babyId: ':id'
+      }
+    }
+  },
+  model: 'baby',
+  id: '1',
+  route: 'delete'
+});
+
+// Sad Path Tests
+// ============================================================================
+
+// /babys/all
+testRoute({
+  description: 'returns no babys if there are none',
+  reqData: {},
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {},
+    calledWith: {
+      include: {
+        parent: true
+      }
+    }
+  },
+  model: 'baby',
+  route: 'all'
+});
+
+// /babys/:id
+testRoute({
+  description: 'returns nothing if no baby matches :id',
+  reqData: {},
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {},
+    calledWith: {
+      include: {
+        parent: true
+      },
+      where: {
+        babyId: ':id'
+      }
+    }
+  },
+  model: 'baby',
+  id: '5'
+});
+
+// /babys/search
+testRoute({
+  description: 'returns nothing if no babys match searched weight',
+  reqData: {
+    weight: 100
+  },
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {},
+    calledWith: {
+      where: {
+        weight: 100
+      }
+    }
+  },
+  model: 'baby',
+  route: 'search'
+});
+
+// /babys/create
+testRoute({
+  description: 'returns empty object when no data passed',
+  reqData: {},
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {},
+    calledWith: {
+      data: {
+        parent: { connect: { userId: undefined } },
+        name: undefined,
+        dob: null,
+        weight: undefined,
+        medicine: undefined
+      }
+    }
+  },
+  model: 'baby',
+  route: 'create'
+});
+
+// /babys/update
+testRoute({
+  description: 'returns unupdated baby if no data passed',
+  reqData: {},
+  mockData: baby,
+  expectData: {
+    status: 200,
+    body: baby,
+    calledWith: {
+      data: {},
+      where: {
+        babyId: ':id'
+      }
+    }
+  },
+  model: 'baby',
+  id: '1',
+  route: 'update'
+});
+
+// /babys/delete
+testRoute({
+  description: 'returns nothing if no baby matches :id',
+  reqData: {},
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {},
+    calledWith: {
+      where: {
+        babyId: ':id'
+      }
+    }
+  },
+  model: 'baby',
+  id: '5',
+  route: 'delete'
+});
+
+// Error Path Tests
+// ============================================================================
+
+const prismaError = new PrismaClientKnownRequestError(
+  'Error manually generated for testing',
+  {
+    code: 'P2010',
+    clientVersion: 'jest mock'
+  }
+);
+// /babys/all
+testRoute({
+  description: 'returns HTTP 500 if Prisma throws error',
+  reqData: {},
+  mockData: prismaError,
+  expectData: {
+    status: 500,
+    body: {
+      name: prismaError.name,
+      code: prismaError.code,
+      clientVersion: prismaError.clientVersion
+    },
+    calledWith: {
+      include: {
+        parent: true
+      }
+    }
+  },
+  model: 'baby',
+  route: 'all'
+});
+
+// /babys/:id
+testRoute({
+  description: 'returns HTTP 500 if Prisma throws error',
+  reqData: {},
+  mockData: prismaError,
+  expectData: {
+    status: 500,
+    body: {
+      name: prismaError.name,
+      code: prismaError.code,
+      clientVersion: prismaError.clientVersion
+    },
+    calledWith: {
+      include: {
+        parent: true
+      },
+      where: {
+        babyId: ':id'
+      }
+    }
+  },
+  model: 'baby',
+  id: '1'
+});
+
+// /babys/search
+testRoute({
+  description: 'returns HTTP 500 if Prisma throws error',
+  reqData: {},
+  mockData: prismaError,
+  expectData: {
+    status: 500,
+    body: {
+      name: prismaError.name,
+      code: prismaError.code,
+      clientVersion: prismaError.clientVersion
+    },
+    calledWith: {
+      where: {}
+    }
+  },
+  model: 'baby',
+  route: 'search'
+});
+
+// /babys/create
+testRoute({
+  description: 'returns HTTP 500 if Prisma throws error',
+  reqData: {},
+  mockData: prismaError,
+  expectData: {
+    status: 500,
+    body: {
+      name: prismaError.name,
+      code: prismaError.code,
+      clientVersion: prismaError.clientVersion
+    },
+    calledWith: {
+      data: {
+        parent: { connect: { userId: undefined } },
+        name: undefined,
+        dob: null,
+        weight: undefined,
+        medicine: undefined
+      }
+    }
+  },
+  model: 'baby',
+  route: 'create'
+});
+
+// /babys/update
+testRoute({
+  description: 'returns HTTP 500 if Prisma throws error',
+  reqData: {},
+  mockData: prismaError,
+  expectData: {
+    status: 500,
+    body: {
+      name: prismaError.name,
+      code: prismaError.code,
+      clientVersion: prismaError.clientVersion
+    },
+    calledWith: {
+      data: {},
+      where: {
+        babyId: ':id'
+      }
+    }
+  },
+  model: 'baby',
+  id: '1',
+  route: 'update'
+});
+
+// /babys/delete
+testRoute({
+  description: 'returns HTTP 500 if Prisma throws error',
+  reqData: {},
+  mockData: prismaError,
+  expectData: {
+    status: 500,
+    body: {
+      name: prismaError.name,
+      code: prismaError.code,
+      clientVersion: prismaError.clientVersion
+    },
     calledWith: {
       where: {
         babyId: ':id'

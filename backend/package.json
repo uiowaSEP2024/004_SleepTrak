@@ -20,7 +20,8 @@
     "dev": "nodemon",
     "dev-docker": "nodemon -L",
     "seed": "NODE_NO_WARNINGS=1 node --loader ts-node/esm prisma/seed.ts",
-    "prisma-setup": "prisma generate && prisma migrate deploy"
+    "prisma-setup": "prisma generate && prisma migrate deploy",
+    "list-routes": "NODE_NO_WARNINGS=1 node --no-lazy --loader ts-node/esm ./test/list-routes.ts && cat routes.json | jq -r '.[] | \"\\(.methods[0]): \\(.path)\"'"
   },
   "dependencies": {
     "@prisma/client": "^5.9.1",
@@ -35,11 +36,14 @@
     "@types/cors": "^2.8.17",
     "@types/debug": "^4.1.12",
     "@types/express": "^4.17.21",
+    "@types/express-list-endpoints": "^6.0.3",
     "@types/jest": "^29.5.12",
     "@types/morgan": "^1.9.9",
     "@types/node": "^20.11.20",
     "@types/supertest": "^6.0.2",
     "copyfiles": "^2.4.1",
+    "eslint-plugin-jest": "^27.9.0",
+    "express-list-endpoints": "^6.0.0",
     "jest": "^29.7.0",
     "jest-mock-extended": "^3.0.5",
     "nodemon": "^3.1.0",

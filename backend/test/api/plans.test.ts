@@ -1,3 +1,4 @@
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { testRoute } from './common.js';
 import type { Plan } from '@prisma/client';
 
@@ -22,8 +23,11 @@ const plan = {
   Status: 'cancelled'
 };
 
+// Happy Path Tests
+// ============================================================================
 // /plans/all
 testRoute({
+  description: 'returns all plans',
   reqData: {},
   mockData: mockPlans,
   expectData: {
@@ -36,6 +40,7 @@ testRoute({
 
 // /plans/:id
 testRoute({
+  description: 'returns plan matching :id',
   reqData: {},
   mockData: mockPlans.filter((plan) => plan.planId === '1'),
   expectData: {
@@ -53,6 +58,7 @@ testRoute({
 
 // /plans/search
 testRoute({
+  description: 'returns plans matching search by Status',
   reqData: {
     Status: 'complete'
   },
@@ -73,6 +79,7 @@ testRoute({
 // /plans/create
 const { planId: _p, clientId: _cl, coachId: _co, ...planProps } = plan;
 testRoute({
+  description: 'returns created plan',
   reqData: {
     ...plan
   },
@@ -94,6 +101,7 @@ testRoute({
 
 // /plans/update
 testRoute({
+  description: 'returns updated  plan',
   reqData: {
     ...plan
   },
@@ -117,11 +125,265 @@ testRoute({
 
 // /plans/delete
 testRoute({
+  description: 'returns deleted plan',
   reqData: {},
   mockData: plan,
   expectData: {
     status: 200,
     body: plan,
+    calledWith: {
+      where: {
+        planId: ':id'
+      }
+    }
+  },
+  model: 'plan',
+  id: '1',
+  route: 'delete'
+});
+
+// Sad Path Tests
+// ============================================================================
+
+// /plans/all
+testRoute({
+  description: 'returns no plans if there are none',
+  reqData: {},
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {}
+  },
+  model: 'plan',
+  route: 'all'
+});
+
+// /plans/:id
+testRoute({
+  description: 'returns nothing if no plan matches :id',
+  reqData: {},
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {},
+    calledWith: {
+      where: {
+        planId: ':id'
+      }
+    }
+  },
+  model: 'plan',
+  id: '5'
+});
+
+// /plans/search
+testRoute({
+  description: 'returns nothing if no plans match searched role',
+  reqData: {
+    Status: 'complete'
+  },
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {},
+    calledWith: {
+      where: {
+        Status: 'complete'
+      }
+    }
+  },
+  model: 'plan',
+  route: 'search'
+});
+
+// /plans/create
+testRoute({
+  description: 'returns empty object when no data passed',
+  reqData: {},
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {},
+    calledWith: {
+      data: {
+        client: { connect: { userId: undefined } },
+        coach: { connect: { coachId: undefined } },
+        Status: undefined
+      }
+    }
+  },
+  model: 'plan',
+  route: 'create'
+});
+
+// /plans/update
+testRoute({
+  description: 'returns unupdated plan if no data passed',
+  reqData: {},
+  mockData: plan,
+  expectData: {
+    status: 200,
+    body: plan,
+    calledWith: {
+      data: {},
+      where: {
+        planId: ':id'
+      }
+    }
+  },
+  model: 'plan',
+  id: '1',
+  route: 'update'
+});
+
+// /plans/delete
+testRoute({
+  description: 'returns nothing if no plan matches :id',
+  reqData: {},
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {},
+    calledWith: {
+      where: {
+        planId: ':id'
+      }
+    }
+  },
+  model: 'plan',
+  id: '5',
+  route: 'delete'
+});
+
+// Error Path Tests
+// ============================================================================
+
+const prismaError = new PrismaClientKnownRequestError(
+  'Error manually generated for testing',
+  {
+    code: 'P2010',
+    clientVersion: 'jest mock'
+  }
+);
+// /plans/all
+testRoute({
+  description: 'returns HTTP 500 if Prisma throws error',
+  reqData: {},
+  mockData: prismaError,
+  expectData: {
+    status: 500,
+    body: {
+      name: prismaError.name,
+      code: prismaError.code,
+      clientVersion: prismaError.clientVersion
+    }
+  },
+  model: 'plan',
+  route: 'all'
+});
+
+// /plans/:id
+testRoute({
+  description: 'returns HTTP 500 if Prisma throws error',
+  reqData: {},
+  mockData: prismaError,
+  expectData: {
+    status: 500,
+    body: {
+      name: prismaError.name,
+      code: prismaError.code,
+      clientVersion: prismaError.clientVersion
+    },
+    calledWith: {
+      where: {
+        planId: ':id'
+      }
+    }
+  },
+  model: 'plan',
+  id: '1'
+});
+
+// /plans/search
+testRoute({
+  description: 'returns HTTP 500 if Prisma throws error',
+  reqData: {},
+  mockData: prismaError,
+  expectData: {
+    status: 500,
+    body: {
+      name: prismaError.name,
+      code: prismaError.code,
+      clientVersion: prismaError.clientVersion
+    },
+    calledWith: {
+      where: {}
+    }
+  },
+  model: 'plan',
+  route: 'search'
+});
+
+// /plans/create
+testRoute({
+  description: 'returns HTTP 500 if Prisma throws error',
+  reqData: {},
+  mockData: prismaError,
+  expectData: {
+    status: 500,
+    body: {
+      name: prismaError.name,
+      code: prismaError.code,
+      clientVersion: prismaError.clientVersion
+    },
+    calledWith: {
+      data: {
+        client: { connect: { userId: undefined } },
+        coach: { connect: { userId: undefined } },
+        Status: undefined
+      }
+    }
+  },
+  model: 'plan',
+  route: 'create'
+});
+
+// /plans/update
+testRoute({
+  description: 'returns HTTP 500 if Prisma throws error',
+  reqData: {},
+  mockData: prismaError,
+  expectData: {
+    status: 500,
+    body: {
+      name: prismaError.name,
+      code: prismaError.code,
+      clientVersion: prismaError.clientVersion
+    },
+    calledWith: {
+      data: {},
+      where: {
+        planId: ':id'
+      }
+    }
+  },
+  model: 'plan',
+  id: '1',
+  route: 'update'
+});
+
+// /plans/delete
+testRoute({
+  description: 'returns HTTP 500 if Prisma throws error',
+  reqData: {},
+  mockData: prismaError,
+  expectData: {
+    status: 500,
+    body: {
+      name: prismaError.name,
+      code: prismaError.code,
+      clientVersion: prismaError.clientVersion
+    },
     calledWith: {
       where: {
         planId: ':id'
