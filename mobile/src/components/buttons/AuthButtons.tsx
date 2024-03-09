@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { View } from 'react-native';
 import { useAuth0 } from 'react-native-auth0';
 import { Button, Text } from 'react-native-paper';
-import { colors } from '../../../../common_styles/colors';
+import { colors } from '../../../assets/colors';
 
 const auth0Audience = process.env.EXPO_PUBLIC_AUTH0_AUDIENCE ?? '';
 
@@ -22,10 +22,11 @@ export const LoginButton = () => {
   return (
     <Button
       style={{
-        borderRadius: 12,
-        padding: 12,
+        borderRadius: 0,
+        padding: 8,
         backgroundColor: colors.crimsonRed,
-        width: '65%'
+        width: '50%',
+        shadowColor: 'black'
       }}
       onPress={() => {
         void onPress();
