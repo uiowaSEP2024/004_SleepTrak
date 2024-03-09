@@ -4,7 +4,7 @@ import { LoginButton } from '../components/buttons/AuthButtons';
 import { useNavigation } from '@react-navigation/native';
 import { hasOnboarded, hasValidCredentials } from '../utils/auth';
 import { SvgUri } from 'react-native-svg';
-import { colors } from '../../../common_styles/colors';
+import { colors } from '../../assets/colors';
 import { useAuth0 } from 'react-native-auth0';
 
 const WelcomeScreen: React.FC = () => {
