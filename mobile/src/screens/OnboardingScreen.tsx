@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { fetchOnboardingQuestionsForScreen } from '../utils/db';
 import { colors } from '../../assets/colors';
 import { Button, ProgressBar, RadioButton } from 'react-native-paper';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { useNavigation } from '@react-navigation/native';
 
-const TOTAL_SCREENS = 9;
+const TOTAL_SCREENS: number = 9;
 const questionAnswers: Record<string, string> = {};
 
 const YesNoQuestion: React.FC<{
   onValueChange: (newValue: string) => void;
 }> = ({ onValueChange }) => {
-  const [value, setValue] = React.useState('');
+  const [value, setValue] = useState('');
 
   const handleChange = (newValue: string) => {
     setValue(newValue);
@@ -39,8 +40,8 @@ const YesNoQuestion: React.FC<{
 const DateQuestion: React.FC<{
   onValueChange: (newValue: any) => void;
 }> = ({ onValueChange }) => {
-  const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
-  const [date, setDate] = React.useState(null);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [date, setDate] = useState(null);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -142,25 +143,23 @@ const onboardingScreenFactory = async (screenNumber: number) => {
 };
 
 const OnboardingScreen: React.FC = () => {
-  const [onboardingScreen, setOnboardingScreen] = React.useState(
+  const [onboardingScreen, setOnboardingScreen] = useState(
     <View>
       <Text>Loading...</Text>
     </View>
   );
-  const [screenNumber, setScreenNumber] = React.useState(1);
+  const [screenNumber, setScreenNumber] = useState(1);
+  const navigation = useNavigation();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (screenNumber > TOTAL_SCREENS) {
-      console.log('done');
-      console.log(questionAnswers);
-      return;
+      navigation.navigate('Home');
     }
 
     const onboardingScreenFetcher = async () => {
       const screen = await onboardingScreenFactory(screenNumber);
       setOnboardingScreen(screen);
     };
-
     void onboardingScreenFetcher();
     console.log(questionAnswers);
   }, [screenNumber]);
@@ -175,6 +174,7 @@ const OnboardingScreen: React.FC = () => {
       {onboardingScreen}
       <Button
         style={styles.nextButton}
+        disabled={false}
         onPress={() => {
           setScreenNumber(screenNumber + 1);
         }}>
