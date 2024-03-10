@@ -40,7 +40,9 @@ const WelcomeScreen: React.FC = () => {
   }, [user]);
 
   return (
-    <View style={styles.container}>
+    <View
+      style={styles.container}
+      testID="welcome-screen">
       <View style={styles.logoContainer}>
         <SvgUri
           style={styles.logo}
