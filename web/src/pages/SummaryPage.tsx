@@ -1,9 +1,9 @@
-import RecommendedSchedule from '../components/RecommendedSchedule/RecommendedSchedule';
+import RecommendedSchedules from '../components/RecommendedSchedule/RecommendedSchedules';
 
 function SummaryPage() {
   return (
     <div data-testid="summary-page">
-      <RecommendedSchedule />
+      <RecommendedSchedules />
     </div>
   );
 }
