@@ -9,6 +9,6 @@ const router = express.Router();
 router.use(auth.requireAuth);
 
 // Routes
-router.get('/create', asyncHandler(controller.create));
+router.post('/create', asyncHandler(controller.create));
 
 export default router;

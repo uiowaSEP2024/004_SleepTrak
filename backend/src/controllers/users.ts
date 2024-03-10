@@ -32,8 +32,8 @@ const search = async (req: Request, res: Response): Promise<void> => {
 const create = async (req: Request, res: Response): Promise<void> => {
   try {
     const creationParams = req.body;
-
     let userData = {
+      userId: creationParams.userId,
       first_name: creationParams.first_name,
       last_name: creationParams.last_name,
       email: creationParams.email,
