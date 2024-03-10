@@ -232,6 +232,7 @@ const OnboardingScreen: React.FC = () => {
           <ActivityIndicator
             animating={true}
             color={colors.crimsonRed}
+            testID="activity-indicator"
           />
         </View>
       );
@@ -269,6 +270,7 @@ const OnboardingScreen: React.FC = () => {
         progress={(screenNumber - 1) / TOTAL_SCREENS}
         color={colors.crimsonRed}
         style={styles.progressBar}
+        testID="progress-bar"
       />
       {onboardingScreen}
       {screenNumber <= TOTAL_SCREENS && (
