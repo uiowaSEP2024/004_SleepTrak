@@ -82,14 +82,11 @@ export const fetchOnboardingQuestionsForScreen = async (
  * @returns A Promise that resolves when all the onboarding answers are created.
  */
 export const createOnboardingAnswers = async (
-  answers: Array<{ questionId: number; answer: string; babyId: string }>
+  answers: Record<string, string>,
+  babyId: string
 ) => {
-  for (const answer of answers) {
-    await createOnboardingAnswer(
-      answer.questionId,
-      answer.answer,
-      answer.babyId
-    );
+  for (const questionId of Object.keys(answers)) {
+    await createOnboardingAnswer(questionId, answers[questionId], babyId);
   }
 };
 
@@ -101,7 +98,7 @@ export const createOnboardingAnswers = async (
  * @returns A Promise that resolves to the API response or false if there was an error.
  */
 export const createOnboardingAnswer = async (
-  questionId: number,
+  questionId: string,
   answer: string,
   babyId: string
 ) => {
@@ -124,7 +121,9 @@ export const createOnboardingAnswer = async (
               userId: (user as { sub: string }).sub,
               babyId,
               questionId,
-              answer
+              answer_text: answer,
+              answerId:
+                (user as { sub: string }).sub + '_' + babyId + '_' + questionId
             })
           }
         );
@@ -134,5 +133,62 @@ export const createOnboardingAnswer = async (
     return false;
   } catch (error) {
     console.error('Error:', error);
+  }
+};
+
+export const createUser = async (
+  firstName: string,
+  lastName: string,
+  role: string
+) => {
+  const credentials = await getUserCredentials();
+  const user = await getAuth0User();
+
+  if (user && credentials) {
+    const { sub, email } = user as { sub: string; email: string };
+    const apiResponse = await fetch(
+      process.env.EXPO_PUBLIC_API_URL + '/users/create',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${credentials.accessToken}`
+        },
+        body: JSON.stringify({
+          userId: sub,
+          first_name: firstName,
+          last_name: lastName,
+          email,
+          role
+        })
+      }
+    );
+    const response = await apiResponse.json();
+    return response;
+  }
+};
+
+export const createBaby = async (name: string, dob: string) => {
+  const credentials = await getUserCredentials();
+  const userData = await fetchUserData();
+  const user = await getAuth0User();
+
+  if (user && credentials) {
+    let babyIdx = 0;
+    if (userData) {
+      babyIdx = userData.babies.length;
+    }
+
+    const { sub } = user as { sub: string };
+    const babyId = sub + '_' + babyIdx;
+    await fetch(process.env.EXPO_PUBLIC_API_URL + '/babies/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${credentials.accessToken}`
+      },
+      body: JSON.stringify({ parentId: sub, babyId, name, dob })
+    });
+    return babyId;
   }
 };
