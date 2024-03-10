@@ -59,7 +59,7 @@ model Baby {
   dob                DateTime           @db.Date
   weight             Float?
   // We can make a medicine table if needed later
-  medicine           String
+  medicine           String?
   onboarding_answers OnboardingAnswer[]
 }
 
