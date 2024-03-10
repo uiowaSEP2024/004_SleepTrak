@@ -3,21 +3,14 @@ import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { fetchOnboardingQuestionsForScreen } from '../utils/db';
 import { colors } from '../../assets/colors';
 import { Button, ProgressBar, RadioButton } from 'react-native-paper';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 const TOTAL_SCREENS = 9;
 const questionAnswers: Record<string, string> = {};
 
-interface YesNoQuestionProps {
-  description: string;
-  questionId: number;
+const YesNoQuestion: React.FC<{
   onValueChange: (newValue: string) => void;
-}
-
-const YesNoQuestion: React.FC<YesNoQuestionProps> = ({
-  description,
-  questionId,
-  onValueChange
-}) => {
+}> = ({ onValueChange }) => {
   const [value, setValue] = React.useState('');
 
   const handleChange = (newValue: string) => {
@@ -42,6 +35,43 @@ const YesNoQuestion: React.FC<YesNoQuestionProps> = ({
     </View>
   );
 };
+
+const DateQuestion: React.FC<{
+  onValueChange: (newValue: any) => void;
+}> = ({ onValueChange }) => {
+  const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
+  const [date, setDate] = React.useState(null);
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (selectedDate: any) => {
+    setDate(selectedDate);
+    selectedDate.setHours(0, 0, 0, 0);
+    onValueChange(selectedDate.toISOString());
+    hideDatePicker();
+  };
+
+  return (
+    <View style={styles.inputContainer}>
+      <Button onPress={showDatePicker}>
+        <Text>{date ? date.toDateString() : 'Press to select date'}</Text>
+      </Button>
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+      />
+    </View>
+  );
+};
+
 const questionFactory = (
   description: string,
   type: string,
@@ -66,7 +96,7 @@ const questionFactory = (
         onChangeText={onChangeInput}
       />
     ),
-    date: <Text> date question</Text>,
+    date: <DateQuestion onValueChange={onChangeInput} />,
     number: (
       <TextInput
         style={styles.input}
@@ -75,13 +105,7 @@ const questionFactory = (
         onChangeText={onChangeInput}
       />
     ),
-    'yes-no': (
-      <YesNoQuestion
-        description={description}
-        questionId={questionId}
-        onValueChange={onChangeInput}
-      />
-    )
+    'yes-no': <YesNoQuestion onValueChange={onChangeInput} />
   };
 
   return (
