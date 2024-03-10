@@ -1,36 +1,26 @@
-import Box from '@mui/joy/Box';
 import Table from '@mui/joy/Table';
 import Sheet from '@mui/joy/Sheet';
 import ScheduleDeleteRowButton from './ScheduleDeleteRowButton';
-import ScheduleCreateButton from './ScheduleCreateButton';
-import ScheduleDeleteButton from './ScheduleDeleteButton';
 import ScheduleEditRowButton from './ScheduleEditRowButton';
+import ScheduleDeleteButton from './ScheduleDeleteButton';
+import Box from '@mui/joy/Box';
 
-function createData(name: string, time: string) {
-  return { name, time };
+interface RowData {
+  activity: string;
+  time: string;
+}
+interface RecommendedScheduleProps {
+  name: string;
+  schedule: RowData[];
 }
 
-const rows = [
-  createData('Morning Rise', '6:30 AM'),
-  createData('Morning Nap', '9:15AM - 10:45 AM'),
-  createData('Afternoon Nap', '2:15PM - 3:45 PM'),
-  createData('Get Ready for bed', '6:45 PM'),
-  createData('Asleep', '7:15 PM')
-];
-
-export default function RecommendedSchedule() {
+export default function RecommendedSchedule(props: RecommendedScheduleProps) {
   return (
-    <Box sx={{ width: '60%' }}>
+    <>
       <Box
         display="flex"
         justifyContent="space-between">
-        <h2>Recommended Schedule</h2>
-        <ScheduleCreateButton />
-      </Box>
-      <Box
-        display="flex"
-        justifyContent="space-between">
-        <h4>Schedule 1</h4>
+        <h4>{props.name}</h4>
         <ScheduleDeleteButton />
       </Box>
       <Sheet
@@ -88,7 +78,7 @@ export default function RecommendedSchedule() {
           <thead>
             <tr>
               <th style={{ width: 'var(--Table-firstColumnWidth)' }}>Event</th>
-              <th style={{ width: 200 }}>Time</th>
+              <th style={{ width: 150 }}>Time</th>
               <th
                 aria-label="last"
                 style={{
@@ -97,9 +87,9 @@ export default function RecommendedSchedule() {
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => (
-              <tr key={row.name}>
-                <td>{row.name}</td>
+            {props.schedule.map((row) => (
+              <tr key={row.activity}>
+                <td>{row.activity}</td>
                 <td>{row.time}</td>
                 <td>
                   <Box
@@ -116,6 +106,6 @@ export default function RecommendedSchedule() {
           </tbody>
         </Table>
       </Sheet>
-    </Box>
+    </>
   );
 }
