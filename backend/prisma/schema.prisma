@@ -20,7 +20,7 @@ model User {
   events             Event[]
   coach_plans        Plan[]             @relation(name: "coach_plan")
   user_plans         Plan[]             @relation(name: "client_plan")
-  Babies             Baby[]             @relation(name: "baby_parent")
+  babies             Baby[]             @relation(name: "baby_parent")
   onboarding_answers OnboardingAnswer[]
 }
 
@@ -39,7 +39,7 @@ model Plan {
   clientId  String
   coach     User       @relation(name: "coach_plan", fields: [coachId], references: [userId])
   coachId   String
-  Reminders Reminder[] @relation(name: "plan_reference")
+  reminders Reminder[] @relation(name: "plan_reference")
   Status    String
 }
 
@@ -57,27 +57,28 @@ model Baby {
   parentId           String
   name               String
   dob                DateTime           @db.Date
-  weight             Float
+  weight             Float?
   // We can make a medicine table if needed later
   medicine           String
-  Onboarding_answers OnboardingAnswer[]
+  onboarding_answers OnboardingAnswer[]
 }
 
 model OnboardingQuestion {
-  questionId        String @id
+  questionId        String             @id
   description       String
   type              String
   onboarding_screen Int
+  OnboardingAnswer  OnboardingAnswer[]
 }
 
 model OnboardingAnswer {
-  answerId    String @id
+  answerId    String             @id
   answer_text String
-  question    String
+  question    OnboardingQuestion @relation(fields: [questionId], references: [questionId])
   questionId  String
-  user        User   @relation(fields: [userId], references: [userId])
+  user        User               @relation(fields: [userId], references: [userId])
   userId      String
-  baby        Baby   @relation(fields: [babyId], references: [babyId])
+  baby        Baby               @relation(fields: [babyId], references: [babyId])
   babyId      String
 }
 
