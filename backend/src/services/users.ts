@@ -6,7 +6,7 @@ const getAll = async (): Promise<User[] | Error> => {
   try {
     const result = await prisma.user.findMany({
       include: {
-        Babies: true
+        babies: true
       }
     });
 
@@ -22,7 +22,7 @@ const get = async (userId: string): Promise<User | null | Error> => {
         userId
       },
       include: {
-        Babies: true
+        babies: true
       }
     });
 

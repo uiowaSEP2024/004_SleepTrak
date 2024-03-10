@@ -14,7 +14,7 @@ const create = async (req: Request, res: Response): Promise<void> => {
       answer_text: creationParams.answer_text,
       question: { connect: { questionId: creationParams.questionId } },
       user: { connect: { userId: creationParams.userId } },
-      baby: { connect: { babyId: creationParams.userId } }
+      baby: { connect: { babyId: creationParams.babyId } }
     };
 
     const answer = await service.create(answerData);
