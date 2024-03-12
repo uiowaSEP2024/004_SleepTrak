@@ -5,6 +5,7 @@ import LoginScreen from '../screens/AuthScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import OnboardingScreen from '../screens/OnboardingScreen';
 import EditWindowScreen from '../screens/EditWindowScreen';
+import FoodTrackingScreen from '../screens/FoodTrackingScreen';
 
 export interface RootStackParamList {
   Home: undefined;
@@ -45,6 +46,10 @@ const HomeStack = () => {
       <Stack.Screen
         name="EditWindowScreen"
         component={EditWindowScreen}
+      />
+      <Stack.Screen
+        name="FoodTrackingScreen"
+        component={FoodTrackingScreen}
       />
     </Stack.Navigator>
   );

@@ -10,6 +10,10 @@ function Home({ navigation }: { navigation: any }) {
         title="Log Sleep"
       />
       <NavigationButton
+        onPress={() => navigation.navigate('FoodTrackingScreen')}
+        title="Log Food"
+      />
+      <NavigationButton
         onPress={() => navigation.navigate('Login')}
         title="Login test"
       />
