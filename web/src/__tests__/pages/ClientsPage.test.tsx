@@ -11,14 +11,14 @@ const mockClientData = [
     first_name: 'John',
     last_name: 'Doe',
     role: 'client',
-    Babies: [{ name: 'Baby1', babyId: '1' }]
+    babies: [{ name: 'Baby1', babyId: '1' }]
   },
   {
     userId: '2',
     first_name: 'Jane',
     last_name: 'Smith',
     role: 'admin',
-    Babies: []
+    babies: []
   }
 ];
 global.fetch = jest.fn().mockResolvedValue({

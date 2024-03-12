@@ -18,7 +18,7 @@ const mockClientData = {
   id: '2',
   first_name: 'John',
   last_name: 'Doe',
-  Babies: [
+  babies: [
     {
       dob: '2023-01-01',
       babyId: '1',
@@ -104,7 +104,7 @@ describe('BabyDetailsPage', () => {
 
     await waitFor(() => {
       expect(BabyDropdown).toHaveBeenCalledWith(
-        { babies: mockClientData.Babies },
+        { babies: mockClientData.babies },
         {}
       );
     });
