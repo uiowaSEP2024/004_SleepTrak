@@ -160,13 +160,13 @@
           "duration": 214,
           "failureDetails": [],
           "failureMessages": [],
-          "fullName": "Sidebar Navigation Links renders sidebar with correct navigation text (Babies)",
+          "fullName": "Sidebar Navigation Links renders sidebar with correct navigation text (babies)",
           "invocations": 1,
           "location": { "column": 19, "line": 64 },
           "numPassingAsserts": 1,
           "retryReasons": [],
           "status": "passed",
-          "title": "renders sidebar with correct navigation text (Babies)"
+          "title": "renders sidebar with correct navigation text (babies)"
         },
         {
           "ancestorTitles": ["Sidebar Navigation Links"],
@@ -212,13 +212,13 @@
           "duration": 381,
           "failureDetails": [],
           "failureMessages": [],
-          "fullName": "Sidebar Navigation Links clicking the Babies link navigates to /babies",
+          "fullName": "Sidebar Navigation Links clicking the babies link navigates to /babies",
           "invocations": 1,
           "location": { "column": 19, "line": 77 },
           "numPassingAsserts": 1,
           "retryReasons": [],
           "status": "passed",
-          "title": "clicking the Babies link navigates to /babies"
+          "title": "clicking the babies link navigates to /babies"
         },
         {
           "ancestorTitles": ["Sidebar Navigation Links"],

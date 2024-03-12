@@ -16,7 +16,7 @@ interface User {
   id: string;
   first_name: string;
   last_name: string;
-  Babies: Baby[];
+  babies: Baby[];
 }
 
 export default function BabyDetailsPage() {
@@ -57,12 +57,12 @@ export default function BabyDetailsPage() {
     fetchData();
   }, [getAccessTokenSilently, babyId]);
 
-  if (clientData && clientData.first_name && clientData.Babies && babyData) {
+  if (clientData && clientData.first_name && clientData.babies && babyData) {
     return (
       <Box>
         <h2>{clientData.first_name + ' ' + clientData.last_name}</h2>
         <Box display="flex">
-          <BabyDropdown babies={clientData.Babies} />
+          <BabyDropdown babies={clientData.babies} />
         </Box>
         <BabyTab />
       </Box>

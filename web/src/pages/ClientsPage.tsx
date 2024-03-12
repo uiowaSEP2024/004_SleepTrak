@@ -14,7 +14,7 @@ interface User {
   first_name: string;
   last_name: string;
   role: string;
-  Babies: Baby[];
+  babies: Baby[];
 }
 
 function ClientsPage() {
@@ -32,6 +32,7 @@ function ClientsPage() {
       });
 
       const data = await response.json();
+      console.log(data);
       setUsersData(data);
     };
 
@@ -56,10 +57,10 @@ function ClientsPage() {
                 <ClientCard
                   avatarSrc="testAvatar"
                   title={object.first_name + ' ' + object.last_name}
-                  body={object.Babies.map((baby) => baby.name).join(' ')}
+                  body={object.babies.map((baby) => baby.name).join(' ')}
                   babyId={
-                    object.Babies.length > 0
-                      ? object.Babies[0].babyId || ''
+                    object.babies.length > 0
+                      ? object.babies[0].babyId || ''
                       : ''
                   }
                 />
