@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "RecommendedPlan" ALTER COLUMN "wakeWindow" SET DATA TYPE DOUBLE PRECISION;
