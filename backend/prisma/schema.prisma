@@ -96,5 +96,5 @@ model OnboardingAnswer {
 model RecommendedPlan {
   ageInMonth String @id
   numOfNaps Int
-  wakeWindow Int
+  wakeWindow Float
 }
