@@ -10,16 +10,18 @@ import { Link } from 'react-router-dom';
 
 interface ClientCardProps {
   avatarSrc: string;
-  title: string;
-  body: string;
+  clientName: string;
+  babyNames: string;
   babyId: string;
+  clientId: string;
 }
 
 const ClientCard: React.FC<ClientCardProps> = ({
   avatarSrc,
-  title,
-  body,
-  babyId
+  clientName,
+  babyNames,
+  babyId,
+  clientId
 }) => {
   return (
     <Card
@@ -34,11 +36,11 @@ const ClientCard: React.FC<ClientCardProps> = ({
           src={avatarSrc}
           sx={{ '--Avatar-size': '4rem' }}
         />
-        <Typography level="title-lg">{title}</Typography>
+        <Typography level="title-lg">{clientName}</Typography>
         <Typography
           level="body-sm"
           sx={{ maxWidth: '24ch' }}>
-          {body}
+          {babyNames}
         </Typography>
       </CardContent>
       <CardOverflow sx={{ bgcolor: 'background.level1' }}>
@@ -49,7 +51,7 @@ const ClientCard: React.FC<ClientCardProps> = ({
             <Button>Message</Button>
             <Button
               component={Link}
-              to={`/babies/${babyId}`}>
+              to={`/clients/${clientId}/babies/${babyId}`}>
               More
             </Button>
           </ButtonGroup>

@@ -45,7 +45,7 @@ function App() {
                 element={<ClientsPage />}
               />
               <Route
-                path="/babies/:babyId"
+                path="clients/:userId/babies/:babyId"
                 element={<BabyDetailsPage />}
               />
               <Route

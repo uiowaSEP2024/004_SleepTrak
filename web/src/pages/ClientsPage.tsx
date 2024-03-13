@@ -3,11 +3,7 @@ import ClientCard from '../components/ClientCard';
 import Grid from '@mui/joy/Grid';
 import Item from '@mui/joy/Grid';
 import { useEffect, useState } from 'react';
-
-interface Baby {
-  name: string;
-  babyId: string;
-}
+import { Baby } from './BabyDetailsPage';
 
 interface User {
   userId: string;
@@ -22,7 +18,7 @@ function ClientsPage() {
   const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchClientsData = async () => {
       const token = await getAccessTokenSilently();
 
       const response = await fetch('http://localhost:3000/users/all', {
@@ -32,11 +28,10 @@ function ClientsPage() {
       });
 
       const data = await response.json();
-      console.log(data);
       setUsersData(data);
     };
 
-    fetchData();
+    fetchClientsData();
   }, [getAccessTokenSilently]);
 
   // TODO: filter so that the the page only shows current user's clients
@@ -56,8 +51,9 @@ function ClientsPage() {
               <Item>
                 <ClientCard
                   avatarSrc="testAvatar"
-                  title={object.first_name + ' ' + object.last_name}
-                  body={object.babies.map((baby) => baby.name).join(' ')}
+                  clientName={object.first_name + ' ' + object.last_name}
+                  babyNames={object.babies.map((baby) => baby.name).join(' ')}
+                  clientId={object.userId}
                   babyId={
                     object.babies.length > 0
                       ? object.babies[0].babyId || ''
