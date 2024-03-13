@@ -34,10 +34,8 @@ const create = async (req: Request, res: Response): Promise<void> => {
 
     const eventData = {
       owner: { connect: { userId: creationParams.ownerId } },
-      startTime: creationParams.startTime
-        ? new Date(creationParams.startTime)
-        : null,
-      endTime: creationParams.endTime ? new Date(creationParams.endTime) : null,
+      startTime: creationParams.startTime,
+      endTime: creationParams.endTime,
       type: creationParams.type,
       foodType: creationParams.foodType ?? null,
       amount: creationParams.amount ?? null,
@@ -48,6 +46,7 @@ const create = async (req: Request, res: Response): Promise<void> => {
     const event = await service.create(eventData);
     res.json(event);
   } catch (err) {
+    console.log(err);
     res.status(500).send(ensureError(err));
   }
 };
