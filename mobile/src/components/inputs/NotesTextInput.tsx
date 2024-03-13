@@ -10,6 +10,7 @@ import type { StyleProp, ViewStyle } from 'react-native';
 
 interface NotesTextInputProps {
   style?: StyleProp<ViewStyle>;
+  onValueChange?: (newValue: string) => void;
 }
 
 const theme = {
@@ -20,10 +21,16 @@ const theme = {
   }
 };
 
-const NotesTextInput: React.FC<NotesTextInputProps> = ({ style }) => {
+const NotesTextInput: React.FC<NotesTextInputProps> = ({
+  style,
+  onValueChange
+}) => {
   const [value, setValue] = useState('');
-  const onChangeTextHandler = (text: React.SetStateAction<string>) => {
+  const onChangeTextHandler = (text: string) => {
     setValue(text);
+    if (onValueChange) {
+      onValueChange(text);
+    }
   };
 
   return (

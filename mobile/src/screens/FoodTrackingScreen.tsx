@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, TextInput } from 'react-native';
+import { View, StyleSheet, Text, TextInput, ScrollView } from 'react-native';
 import { colors } from '../../assets/colors';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { Button, SegmentedButtons } from 'react-native-paper';
 import RNPickerSelect from 'react-native-picker-select';
 import Slider from '@react-native-community/slider';
-
+import NotesTextInput from '../components/inputs/NotesTextInput';
 const foodTypes = [
   { label: 'Breast Milk', value: 'breastMilk' },
   { label: 'Formula', value: 'formula' },
@@ -14,6 +14,7 @@ const foodTypes = [
   { label: 'Soy Milk', value: 'soyMilk' },
   { label: 'Other', value: 'other' }
 ];
+
 const Divider = () => {
   return <View style={styles.divider} />;
 };
@@ -40,47 +41,22 @@ const NumericInput: React.FC<{
 
   return (
     <View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }}>
-        <Text style={{ fontSize: 20, fontWeight: '500' }}>Amount:</Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'flex-end',
-            justifyContent: 'center',
-            marginRight: '5%'
-          }}>
+      <View style={styles.row}>
+        <Text style={styles.text}>Amount:</Text>
+        <View style={styles.inputRow}>
           <TextInput
-            style={{
-              color: colors.crimsonRed,
-              width: 'auto',
-              fontSize: 20,
-              fontWeight: '500',
-              minWidth: 'auto'
-            }}
+            style={styles.textInput}
             onChangeText={handleTextChange}
             onFocus={handleFocus}
             keyboardType="numeric"
             value={value}
           />
-          <Text
-            style={{
-              marginLeft: 5,
-              color: colors.crimsonRed,
-              fontWeight: 'bold',
-              fontSize: 20
-            }}>
-            {unit === 'oz' ? 'Oz' : 'mL'}
-          </Text>
+          <Text style={styles.unitText}>{unit === 'oz' ? 'Oz' : 'mL'}</Text>
         </View>
       </View>
       <View style={{ height: '5%' }} />
       <Slider
-        style={{ width: '90%', alignSelf: 'center' }}
+        style={styles.sliderContainer}
         minimumValue={0}
         maximumValue={unit === 'oz' ? 12 : 350}
         step={unit === 'oz' ? 0.25 : 5}
@@ -91,13 +67,7 @@ const NumericInput: React.FC<{
           handleTextChange(newValue.toString());
         }}
       />
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          width: '90%',
-          alignSelf: 'center'
-        }}>
+      <View style={styles.sliderRangeContainer}>
         <Text>0</Text>
         <Text>{unit === 'oz' ? 12 : 350}</Text>
       </View>
@@ -126,15 +96,10 @@ const DateTimePicker: React.FC<{
   };
 
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-      }}>
-      <Text style={{ fontSize: 20, fontWeight: '500' }}>Start time:</Text>
+    <View style={styles.dateTimePickerContainer}>
+      <Text style={styles.text}>Start time:</Text>
       <Button onPress={showDatePicker}>
-        <Text style={{ color: colors.crimsonRed, fontSize: 20 }}>
+        <Text style={styles.dateTimePickerText}>
           {datetime
             ? datetime.toLocaleTimeString() +
               ' ' +
@@ -157,13 +122,8 @@ const FoodTypePicker: React.FC<{
   onValueChange: (newValue: any) => void;
 }> = ({ onValueChange }) => {
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-      }}>
-      <Text style={{ fontSize: 20, fontWeight: '500' }}>Type:</Text>
+    <View style={styles.foodTypePickerContainer}>
+      <Text style={styles.text}>Type:</Text>
       <RNPickerSelect
         onValueChange={onValueChange}
         items={foodTypes}
@@ -203,14 +163,11 @@ const UnitPicker: React.FC<{
           }
         }
       ]}
-      style={{
-        alignItems: 'center',
-        marginHorizontal: '20%',
-        marginVertical: 8
-      }}
+      style={styles.segmentedButtonsContainer}
     />
   );
 };
+
 const FoodTrackingScreen: React.FC = () => {
   const [unit, setUnit] = useState('oz');
   const feedData: Record<string, any> = {
@@ -220,36 +177,52 @@ const FoodTrackingScreen: React.FC = () => {
     unit: 'oz'
   };
   return (
-    <View style={styles.container}>
-      <DateTimePicker
-        onValueChange={(value) => {
-          feedData.timestamp = value;
+    <View>
+      <ScrollView style={styles.container}>
+        <DateTimePicker
+          onValueChange={(value) => {
+            feedData.timestamp = value;
+          }}
+        />
+        <Divider />
+        <FoodTypePicker
+          onValueChange={(value) => {
+            feedData.foodType = value;
+          }}
+        />
+        <Divider />
+        <View style={{ height: '15%' }}></View>
+        <UnitPicker
+          onValueChange={(value) => {
+            feedData.unit = value;
+            setUnit(value);
+          }}
+          unit={unit}
+        />
+        <View style={{ height: '15%' }}></View>
+        <NumericInput
+          onValueChange={(value) => {
+            feedData.amount = value;
+          }}
+          unit={unit}
+        />
+        <Divider />
+        <NotesTextInput
+          style={{ alignSelf: 'center' }}
+          onValueChange={(value) => {
+            feedData.note = value;
+          }}
+        />
+      </ScrollView>
+      <Button
+        mode="contained"
+        onPress={() => {
+          console.log(feedData);
         }}
-      />
-      <Divider />
-      <FoodTypePicker
-        onValueChange={(value) => {
-          feedData.foodType = value;
-        }}
-      />
-      <Divider />
-      <View style={{ height: '5%' }}></View>
-      <UnitPicker
-        onValueChange={(value) => {
-          feedData.unit = value;
-          setUnit(value);
-        }}
-        unit={unit}
-      />
-      <View style={{ height: '5%' }}></View>
-      <NumericInput
-        onValueChange={(value) => {
-          feedData.amount = value;
-          console.log(value);
-        }}
-        unit={unit}
-      />
-      <Divider />
+        style={styles.saveButtonContainer}
+        labelStyle={styles.saveButtonLabel}>
+        Save
+      </Button>
     </View>
   );
 };
@@ -257,6 +230,77 @@ const FoodTrackingScreen: React.FC = () => {
 FoodTrackingScreen.propTypes = {};
 
 const styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  text: {
+    fontSize: 20,
+    fontWeight: '500'
+  },
+  inputRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    marginRight: '5%'
+  },
+  textInput: {
+    color: colors.crimsonRed,
+    width: 'auto',
+    fontSize: 20,
+    fontWeight: '500',
+    minWidth: 'auto'
+  },
+  unitText: {
+    marginLeft: 5,
+    color: colors.crimsonRed,
+    fontWeight: 'bold',
+    fontSize: 20
+  },
+  sliderContainer: {
+    width: '90%',
+    alignSelf: 'center'
+  },
+  sliderRangeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '90%',
+    alignSelf: 'center'
+  },
+  dateTimePickerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  dateTimePickerText: {
+    color: colors.crimsonRed,
+    fontSize: 20
+  },
+  foodTypePickerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  segmentedButtonsContainer: {
+    alignItems: 'center',
+    marginHorizontal: '20%',
+    marginVertical: 8
+  },
+  saveButtonContainer: {
+    width: '90%',
+    height: '8%',
+    position: 'absolute',
+    bottom: '2%',
+    borderRadius: 25,
+    justifyContent: 'center',
+    backgroundColor: colors.crimsonRed,
+    alignSelf: 'center'
+  },
+  saveButtonLabel: {
+    color: 'white',
+    fontSize: 20
+  },
   container: {
     height: '100%',
     width: '100%',
@@ -277,7 +321,7 @@ const pickerSelectStyles = StyleSheet.create({
     paddingHorizontal: 10,
     color: colors.crimsonRed,
     fontWeight: '500',
-    paddingRight: 30 // to ensure the text is not cut off
+    paddingRight: 30
   },
   inputAndroid: {
     fontSize: 20,
@@ -285,7 +329,7 @@ const pickerSelectStyles = StyleSheet.create({
     paddingVertical: 8,
     color: colors.crimsonRed,
     fontWeight: '500',
-    paddingRight: 30 // to ensure the text is not cut off
+    paddingRight: 30
   }
 });
 
