@@ -56,6 +56,7 @@ const NumericInput: React.FC<{
             onFocus={handleFocus}
             keyboardType="numeric"
             value={value}
+            testID="numeric-input"
           />
           <Text style={styles.unitText}>{unit === 'oz' ? 'Oz' : 'mL'}</Text>
         </View>
@@ -104,7 +105,9 @@ const DateTimePicker: React.FC<{
   return (
     <View style={styles.dateTimePickerContainer}>
       <Text style={styles.text}>Start time:</Text>
-      <Button onPress={showDatePicker}>
+      <Button
+        onPress={showDatePicker}
+        testID="date-time-picker-button">
         <Text style={styles.dateTimePickerText}>
           {datetime
             ? datetime.toLocaleTimeString() +
@@ -119,6 +122,7 @@ const DateTimePicker: React.FC<{
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
         date={datetime}
+        testID="date-time-picker-modal"
       />
     </View>
   );
@@ -136,12 +140,14 @@ const FoodTypePicker: React.FC<{
   return (
     <View style={styles.foodTypePickerContainer}>
       <Text style={styles.text}>Type:</Text>
-      <RNPickerSelect
-        onValueChange={handleChange}
-        items={foodTypes}
-        style={pickerSelectStyles}
-        value={value}
-      />
+      <View testID="food-type-picker">
+        <RNPickerSelect
+          onValueChange={handleChange}
+          items={foodTypes}
+          style={pickerSelectStyles}
+          value={value}
+        />
+      </View>
     </View>
   );
 };
@@ -153,30 +159,34 @@ const UnitPicker: React.FC<{
   const [value, setValue] = useState(unit);
 
   return (
-    <SegmentedButtons
-      value={value}
-      onValueChange={(newValue) => {
-        setValue(newValue);
-        onValueChange(newValue);
-      }}
-      buttons={[
-        {
-          label: 'mL',
-          value: 'ml',
-          style: {
-            backgroundColor: value === 'ml' ? colors.lightTan : 'transparent'
+    <View testID="unit-picker">
+      <SegmentedButtons
+        value={value}
+        onValueChange={(newValue) => {
+          setValue(newValue);
+          onValueChange(newValue);
+        }}
+        buttons={[
+          {
+            label: 'mL',
+            value: 'ml',
+            style: {
+              backgroundColor: value === 'ml' ? colors.lightTan : 'transparent'
+            },
+            testID: 'unit-picker-button-ml'
+          },
+          {
+            label: 'Oz',
+            value: 'oz',
+            style: {
+              backgroundColor: value === 'oz' ? colors.lightTan : 'transparent'
+            },
+            testID: 'unit-picker-button-oz'
           }
-        },
-        {
-          label: 'Oz',
-          value: 'oz',
-          style: {
-            backgroundColor: value === 'oz' ? colors.lightTan : 'transparent'
-          }
-        }
-      ]}
-      style={styles.segmentedButtonsContainer}
-    />
+        ]}
+        style={styles.segmentedButtonsContainer}
+      />
+    </View>
   );
 };
 
