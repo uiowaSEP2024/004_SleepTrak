@@ -56,6 +56,8 @@ model Reminder {
   plan        Plan     @relation(name: "plan_reference", fields: [planId], references: [planId])
   planId      String
   description String
+  startTime DateTime  @db.Timestamptz()
+  endTime   DateTime? @db.Timestamptz()
 }
 
 model Baby {
