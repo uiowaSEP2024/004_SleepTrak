@@ -2,10 +2,16 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Text, TextInput, ScrollView } from 'react-native';
 import { colors } from '../../assets/colors';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { Button, SegmentedButtons } from 'react-native-paper';
+import {
+  ActivityIndicator,
+  Button,
+  SegmentedButtons
+} from 'react-native-paper';
 import RNPickerSelect from 'react-native-picker-select';
 import Slider from '@react-native-community/slider';
 import NotesTextInput from '../components/inputs/NotesTextInput';
+import { createEvent } from '../utils/db';
+import { useNavigation } from '@react-navigation/native';
 const foodTypes = [
   { label: 'Breast Milk', value: 'breastMilk' },
   { label: 'Formula', value: 'formula' },
@@ -121,14 +127,20 @@ const DateTimePicker: React.FC<{
 const FoodTypePicker: React.FC<{
   onValueChange: (newValue: any) => void;
 }> = ({ onValueChange }) => {
+  const [value, setValue] = useState('breastMilk');
+
+  const handleChange = (newValue: any) => {
+    onValueChange(newValue);
+    setValue(newValue);
+  };
   return (
     <View style={styles.foodTypePickerContainer}>
       <Text style={styles.text}>Type:</Text>
       <RNPickerSelect
-        onValueChange={onValueChange}
+        onValueChange={handleChange}
         items={foodTypes}
-        placeholder={{ label: 'Set type', value: null }}
         style={pickerSelectStyles}
+        value={value}
       />
     </View>
   );
@@ -169,32 +181,55 @@ const UnitPicker: React.FC<{
 };
 
 const FoodTrackingScreen: React.FC = () => {
+  const navigation = useNavigation();
   const [unit, setUnit] = useState('oz');
-  const feedData: Record<string, any> = {
+  const [isLoading, setIsLoading] = useState(false);
+  const [feedData, setFeedData] = useState({
     type: 'feed',
-    timestamp: new Date(),
+    startTime: new Date().toISOString(),
     amount: 0,
-    unit: 'oz'
+    unit: 'oz',
+    foodType: 'breastMilk',
+    note: ''
+  });
+
+  const handleSave = () => {
+    void createEvent(feedData);
+    setIsLoading(true);
+    setTimeout(() => {
+      navigation.navigate('Home');
+    }, 2000);
   };
-  return (
+
+  return isLoading ? (
+    <View style={styles.activityIndicator}>
+      <ActivityIndicator
+        animating={true}
+        color={colors.crimsonRed}
+        testID="activity-indicator"
+      />
+    </View>
+  ) : (
     <View>
       <ScrollView style={styles.container}>
         <DateTimePicker
           onValueChange={(value) => {
-            feedData.timestamp = value;
+            setFeedData((prevState) => ({ ...prevState, startTime: value }));
           }}
         />
         <Divider />
         <FoodTypePicker
           onValueChange={(value) => {
-            feedData.foodType = value;
+            console.log(value);
+            setFeedData((prevState) => ({ ...prevState, foodType: value }));
+            console.log(feedData);
           }}
         />
         <Divider />
         <View style={{ height: '15%' }}></View>
         <UnitPicker
           onValueChange={(value) => {
-            feedData.unit = value;
+            setFeedData((prevState) => ({ ...prevState, unit: value }));
             setUnit(value);
           }}
           unit={unit}
@@ -202,21 +237,22 @@ const FoodTrackingScreen: React.FC = () => {
         <View style={{ height: '15%' }}></View>
         <NumericInput
           onValueChange={(value) => {
-            feedData.amount = value;
+            setFeedData((prevState) => ({ ...prevState, amount: value }));
           }}
           unit={unit}
         />
         <Divider />
         <NotesTextInput
-          style={{ alignSelf: 'center' }}
+          style={{ alignSelf: 'center', marginVertical: 8 }}
           onValueChange={(value) => {
-            feedData.note = value;
+            setFeedData((prevState) => ({ ...prevState, note: value }));
           }}
         />
       </ScrollView>
       <Button
         mode="contained"
         onPress={() => {
+          handleSave();
           console.log(feedData);
         }}
         style={styles.saveButtonContainer}
@@ -281,6 +317,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  activityIndicator: {
+    height: '100%',
+    justifyContent: 'center'
   },
   segmentedButtonsContainer: {
     alignItems: 'center',
