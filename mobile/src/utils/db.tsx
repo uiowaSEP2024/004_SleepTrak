@@ -136,6 +136,13 @@ export const createOnboardingAnswer = async (
   }
 };
 
+/**
+ * Creates a user with the given first name, last name, and role.
+ * @param firstName - The first name of the user.
+ * @param lastName - The last name of the user.
+ * @param role - The role of the user.
+ * @returns A Promise that resolves to the response from the API.
+ */
 export const createUser = async (
   firstName: string,
   lastName: string,
@@ -168,6 +175,13 @@ export const createUser = async (
   }
 };
 
+/**
+ * Creates a new baby with the given name and date of birth.
+ *
+ * @param name - The name of the baby.
+ * @param dob - The date of birth of the baby.
+ * @returns The ID of the created baby.
+ */
 export const createBaby = async (name: string, dob: string) => {
   const credentials = await getUserCredentials();
   const userData = await fetchUserData();
@@ -193,6 +207,11 @@ export const createBaby = async (name: string, dob: string) => {
   }
 };
 
+/**
+ * Creates an event by sending a POST request to the server.
+ * @param eventData - The data of the event to be created.
+ * @returns The API response if successful, otherwise false.
+ */
 export const createEvent = async (eventData: object) => {
   try {
     const userCredentials = await getUserCredentials();
