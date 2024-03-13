@@ -192,3 +192,34 @@ export const createBaby = async (name: string, dob: string) => {
     return babyId;
   }
 };
+
+export const createEvent = async (eventData: object) => {
+  try {
+    const userCredentials = await getUserCredentials();
+    const user = await getAuth0User();
+    if (userCredentials) {
+      const accessToken = userCredentials.accessToken;
+
+      if (accessToken) {
+        const apiResponse = await fetch(
+          process.env.EXPO_PUBLIC_API_URL + '/events/create',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({
+              ownerId: (user as { sub: string }).sub,
+              ...eventData
+            })
+          }
+        );
+        return apiResponse;
+      }
+    }
+    return false;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
