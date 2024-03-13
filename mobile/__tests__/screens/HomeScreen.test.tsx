@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import Home from '../../src/screens/HomeScreen';
+import Home from '../../src/screens/TestScreen';
 
 describe('Home', () => {
   const mockNavigation = {
