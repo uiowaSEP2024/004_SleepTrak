@@ -38,7 +38,11 @@ const create = async (req: Request, res: Response): Promise<void> => {
         ? new Date(creationParams.startTime)
         : null,
       endTime: creationParams.endTime ? new Date(creationParams.endTime) : null,
-      type: creationParams.type
+      type: creationParams.type,
+      foodType: creationParams.foodType ?? null,
+      amount: creationParams.amount ?? null,
+      unit: creationParams.unit ?? null,
+      note: creationParams.note ?? null
     };
 
     const event = await service.create(eventData);
