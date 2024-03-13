@@ -56,7 +56,6 @@ model Reminder {
   plan        Plan     @relation(name: "plan_reference", fields: [planId], references: [planId])
   planId      String
   description String
-  timestamp   DateTime @db.Timestamptz()
 }
 
 model Baby {
@@ -92,3 +91,8 @@ model OnboardingAnswer {
 
 // TODO: Will do this one when we are actually building the chat out.
 // model Message {}
+model RecommendedPlan {
+  ageInMonth String @id
+  numOfNaps Int
+  wakeWindow Int
+}
