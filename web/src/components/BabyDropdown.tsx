@@ -7,12 +7,7 @@ import Option from '@mui/joy/Option';
 import Typography from '@mui/joy/Typography';
 import { getAge } from '../util/utils';
 import { useNavigate } from 'react-router-dom';
-
-interface Baby {
-  name: string;
-  dob: string;
-  babyId: string;
-}
+import { Baby } from '../pages/BabyDetailsPage';
 
 interface BabyDropdownProps {
   babies: Baby[];
@@ -30,8 +25,10 @@ const BabyDropdown: React.FC<BabyDropdownProps> = (props) => {
       | null,
     child: string | null
   ) => {
-    const babyId = babyNames.filter((baby) => baby.name === child)[0].babyId;
-    navigate(`/babies/${babyId}`);
+    const curBaby = babyNames.filter((baby) => baby.name === child)[0];
+    const parentId = curBaby.parentId;
+    const babyId = curBaby.babyId;
+    navigate(`/clients/${parentId}/babies/${babyId}`);
   };
 
   return (
