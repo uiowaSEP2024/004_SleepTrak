@@ -1,11 +1,12 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Home from '../screens/HomeScreen';
+import TestScreen from '../screens/TestScreen';
 import SleepTimer from '../screens/SleepTimerScreen';
 import LoginScreen from '../screens/AuthScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import OnboardingScreen from '../screens/OnboardingScreen';
 import EditWindowScreen from '../screens/EditWindowScreen';
 import FoodTrackingScreen from '../screens/FoodTrackingScreen';
+import HomeScreen from '../screens/HomeScreen';
 
 export interface RootStackParamList {
   Home: undefined;
@@ -25,7 +26,11 @@ const HomeStack = () => {
       screenOptions={{ headerShown: false }}>
       <Stack.Screen
         name="Home"
-        component={Home}
+        component={TestScreen}
+      />
+      <Stack.Screen
+        name="Home_actual"
+        component={HomeScreen}
       />
       <Stack.Screen
         name="Login"
