@@ -25,12 +25,20 @@ model User {
 }
 
 model Event {
-  eventId   String   @id
-  owner     User     @relation(fields: [ownerId], references: [userId])
+  eventId   String    @id @default(uuid())
+  owner     User      @relation(fields: [ownerId], references: [userId])
   ownerId   String
-  startTime DateTime @db.Timestamptz()
-  endTime   DateTime @db.Timestamptz()
+  startTime DateTime  @db.Timestamptz()
+  endTime   DateTime? @db.Timestamptz()
   type      String
+  foodType  String?
+  amount    Float?
+  note      String?
+  unit      String?
+  // We will have to link this to baby eventually,
+  //  but we first have to figure out how to handle users with multiple babies
+  // baby      Baby      @relation(fields: [babyId], references: [babyId])
+  // babyId    String
 }
 
 model Plan {
