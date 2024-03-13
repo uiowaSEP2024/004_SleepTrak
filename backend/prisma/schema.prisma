@@ -51,10 +51,13 @@ model Plan {
 model Reminder {
   reminderId  String    @id
   description String
+<<<<<<< HEAD
   planId      String
   endTime     DateTime? @db.Timestamptz(6)
   startTime   DateTime  @db.Timestamptz(6)
   plan        Plan      @relation("plan_reference", fields: [planId], references: [planId])
+=======
+>>>>>>> 3712421 (feat: add recommended plan to db)
 }
 
 model Baby {
