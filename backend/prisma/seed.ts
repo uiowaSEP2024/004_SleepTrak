@@ -287,7 +287,7 @@ async function createBabyData(clientObjects: User[]): Promise<Baby> {
       babyId: 'testID_' + getRandomNumber(0, 10000).toString(),
       name: getRandomElement(possibleNames),
       dob: new Date(
-        getRandomNumber(2018, 2024), // year
+        getRandomNumber(2022, 2024), // year
         getRandomNumber(1, 12), // month
         getRandomNumber(1, 30) // day
       ),
@@ -313,6 +313,7 @@ async function main(): Promise<void> {
       data: question
     });
   }
+  console.log('Seeding: Finished seeding questions!');
 
   // Create recommended plans
   for (const recommendedPlanData of recommendedPlansData) {
@@ -320,6 +321,7 @@ async function main(): Promise<void> {
       data: recommendedPlanData
     });
   }
+  console.log('Seeding: Finished seeding recommended plans!');
 
   // Create coaches
   const coachObjects: User[] = await Promise.all(
