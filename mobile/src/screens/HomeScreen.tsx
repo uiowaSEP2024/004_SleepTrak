@@ -66,26 +66,24 @@ const EventButtons: React.FC = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.sectionHeader}>Add Event</Text>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          width: '100%',
-          height: '40%'
-        }}>
+      <View style={styles.eventButtons}>
         <Card
-          style={{ width: '45%', height: '100%' }}
+          style={styles.eventButton}
           onPress={() => {
             navigation.navigate('SleepTimer');
           }}>
-          <Card.Title title="Sleep" />
+          <Card.Content style={styles.eventButtonContent}>
+            <Text>Sleep</Text>
+          </Card.Content>
         </Card>
         <Card
-          style={{ width: '45%', height: '100%' }}
+          style={styles.eventButton}
           onPress={() => {
-            navigation.navigate('Home');
+            navigation.navigate('FoodTrackingScreen');
           }}>
-          <Card.Title title="Feeding" />
+          <Card.Content style={styles.eventButtonContent}>
+            <Text>Feeding</Text>
+          </Card.Content>
         </Card>
       </View>
     </View>
@@ -98,7 +96,6 @@ const HomeScreen = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const userData = await fetchUserData();
-      console.log(userData);
       setUser(userData);
     };
     void fetchUser();
@@ -135,7 +132,7 @@ const styles = StyleSheet.create({
   },
   heroBox: {
     width: '95%',
-    height: '25%',
+    height: '30%',
     marginBottom: 24
   },
   container: {
@@ -150,7 +147,27 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightTan,
     marginRight: 16
   },
-  sectionHeader: { fontSize: 24, color: colors.crimsonRed, marginBottom: 16 }
+  sectionHeader: {
+    fontSize: 24,
+    color: colors.crimsonRed,
+    marginTop: 20,
+    marginBottom: 16
+  },
+  eventButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    height: '40%'
+  },
+  eventButton: {
+    width: '45%',
+    height: '100%'
+  },
+  eventButtonContent: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%'
+  }
 });
 
 export default HomeScreen;
