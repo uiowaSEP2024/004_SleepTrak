@@ -12,6 +12,7 @@ import babiesRouter from './routes/babies.js';
 import remindersRouter from './routes/reminders.js';
 import questionsRouter from './routes/questions.js';
 import answersRouter from './routes/answers.js';
+import recommendedPlanRouter from './routes/recommendedPlans.js';
 
 dotenv.config();
 
@@ -38,6 +39,7 @@ app.use('/events', eventsRouter);
 app.use('/babies', babiesRouter);
 app.use('/reminders', remindersRouter);
 app.use('/questions', questionsRouter);
+app.use('/recommended_plans', recommendedPlanRouter);
 app.use('/answers', answersRouter);
 
 export default app;
