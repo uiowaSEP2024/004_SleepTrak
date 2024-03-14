@@ -25,7 +25,7 @@ export function toggleSidebar() {
   }
 }
 
-export function getAge(dob: string): string {
+export function getAgeInMonth(dob: string): string {
   const today = new Date();
   const birthDate = new Date(dob);
 
@@ -37,5 +37,5 @@ export function getAge(dob: string): string {
     ageMonths += 12;
   }
 
-  return ageYears + 'Y ' + ageMonths + 'M';
+  return ageYears * 12 + ageMonths + 'M';
 }

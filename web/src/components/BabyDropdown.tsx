@@ -5,7 +5,7 @@ import ListItemDecorator from '@mui/joy/ListItemDecorator';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import Typography from '@mui/joy/Typography';
-import { getAge } from '../util/utils';
+import { getAgeInMonth } from '../util/utils';
 import { useNavigate } from 'react-router-dom';
 import { Baby } from '../pages/BabyDetailsPage';
 
@@ -73,7 +73,7 @@ const BabyDropdown: React.FC<BabyDropdownProps> = (props) => {
               paddingInline: '4px',
               fontSize: 'xs'
             }}>
-            {getAge(data.dob)}
+            {getAgeInMonth(data.dob)}
           </Chip>
         </Option>
       ))}
