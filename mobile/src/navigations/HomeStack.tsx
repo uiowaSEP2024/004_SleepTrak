@@ -22,14 +22,14 @@ const Stack = createNativeStackNavigator();
 const HomeStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Home_test"
       screenOptions={{ headerShown: false }}>
       <Stack.Screen
-        name="Home"
+        name="Home_test"
         component={TestScreen}
       />
       <Stack.Screen
-        name="Home_actual"
+        name="Home"
         component={HomeScreen}
       />
       <Stack.Screen

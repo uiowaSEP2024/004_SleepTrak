@@ -18,7 +18,7 @@ function TestScreen({ navigation }: { navigation: any }) {
         title="Welcome Screen"
       />
       <NavigationButton
-        onPress={() => navigation.navigate('Home_actual')}
+        onPress={() => navigation.navigate('Home')}
         title="Home screen"
       />
     </SafeAreaView>

@@ -230,9 +230,7 @@ const FoodTrackingScreen: React.FC = () => {
         <Divider />
         <FoodTypePicker
           onValueChange={(value) => {
-            console.log(value);
             setFeedData((prevState) => ({ ...prevState, foodType: value }));
-            console.log(feedData);
           }}
         />
         <Divider />
@@ -263,7 +261,6 @@ const FoodTrackingScreen: React.FC = () => {
         mode="contained"
         onPress={() => {
           handleSave();
-          console.log(feedData);
         }}
         style={styles.saveButtonContainer}
         labelStyle={styles.saveButtonLabel}>

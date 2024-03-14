@@ -8,7 +8,7 @@ function BottomTabs() {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name="Home"
+        name="Home_test"
         component={HomeStack}
       />
       <Tab.Screen
