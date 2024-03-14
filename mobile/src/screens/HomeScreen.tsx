@@ -134,14 +134,14 @@ const Notifications: React.FC = () => {
       <Text style={styles.sectionHeader}>Notifications</Text>
       <ScrollView
         horizontal={true}
-        contentContainerStyle={{ flexDirection: 'row', height: '40%' }}>
+        contentContainerStyle={{
+          flexDirection: 'row',
+          height: '40%',
+          width: '90%'
+        }}>
         <NotificationCard
-          title="Notification 1"
-          content="This is the first notification"
-        />
-        <NotificationCard
-          title="Notification 2"
-          content="This is the second notification"
+          title="Nap"
+          content="Nap scheduled for 2:00 PM"
         />
       </ScrollView>
     </View>
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start'
   },
   notificationCard: {
-    width: '60%',
+    width: '100%',
     backgroundColor: colors.lightTan,
     marginRight: 16
   },
