@@ -17,13 +17,12 @@ const latestEventsFilter = (events: any[], numEvents: number) => {
   return sortedEvents.slice(0, numEvents);
 };
 
-const EventCard: React.FC<{ event: any; key: string }> = ({ event, key }) => {
+const EventCard: React.FC<{ event: any }> = ({ event }) => {
   const date = new Date(event.startTime);
 
   return (
     <Card
       style={{ width: '100%', marginBottom: 8 }}
-      key={key}
       mode="contained">
       <Card.Content
         style={{
@@ -51,25 +50,34 @@ const UserWelcomeSign: React.FC<{ user: object }> = ({ user }) => {
 };
 
 const HeroBox: React.FC<{ events: any[] }> = ({ events }) => {
-  const [shownEvents, setShownEvents] = React.useState<any[] | null>(null);
+  const noEventsSign = (
+    <Text
+      key="no_events"
+      style={{
+        color: 'grey',
+        alignSelf: 'center',
+        marginTop: '10%',
+        fontSize: 14
+      }}>
+      No events today.
+    </Text>
+  );
+  const [shownEvents, setShownEvents] = React.useState<React.ReactNode>([
+    noEventsSign
+  ]);
   const navigation = useNavigation();
   const today = new Date();
 
   useEffect(() => {
+    let latestEvents: any[] = [];
     if (events.length > 0) {
-      const latestEvents = latestEventsFilter(events, 2);
-      const eventObjects = latestEvents.map((value, index) => {
-        console.log(value);
-        return (
-          <EventCard
-            event={value}
-            key={'event_' + index}
-          />
-        );
-      });
-      setShownEvents(eventObjects);
-    } else {
-      setShownEvents(null);
+      latestEvents = latestEventsFilter(events, 2);
+      const eventObjects = latestEvents.map((value, index) => (
+        <React.Fragment key={'event_' + index}>
+          <EventCard event={value} />
+        </React.Fragment>
+      ));
+      setShownEvents(eventObjects ?? noEventsSign);
     }
   }, [events]);
 
@@ -89,13 +97,16 @@ const HeroBox: React.FC<{ events: any[] }> = ({ events }) => {
         titleStyle={{ fontSize: 16 }}
       />
       <Card.Content style={{ flexDirection: 'column' }}>
-        {shownEvents ?? <Text>{'No events to show'}</Text>}
+        {shownEvents}
       </Card.Content>
       <Card.Actions
         style={{
           justifyContent: 'space-between',
           paddingTop: 16,
-          paddingHorizontal: 24
+          paddingHorizontal: 24,
+          position: 'absolute',
+          top: 0,
+          right: 0
         }}>
         <Text style={{ color: colors.crimsonRed }}>View all</Text>
       </Card.Actions>
