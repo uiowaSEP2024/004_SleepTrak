@@ -11,16 +11,11 @@ import Grid from '@mui/joy/Grid';
 import TimePickerField from '../TimePickerField';
 import dayjs from 'dayjs';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useParams } from 'react-router-dom';
 
 interface WakeWindowInputFieldProps {
   label: string;
   val: number;
-}
-
-interface RecommendedPlan {
-  age_in_month: string;
-  wake_windows: number;
-  num_of_naps: number;
 }
 
 function WakeWindowInputField(props: WakeWindowInputFieldProps) {
@@ -46,7 +41,6 @@ function WakeWindowInputField(props: WakeWindowInputFieldProps) {
 
 export default function ScheduleCreateButton() {
   const [open, setOpen] = React.useState<boolean>(false);
-  const [wakeWindows, setWakeWindows] = React.useState([3, 4, 3]);
   const [desiredBedTime, setDesiredBedTime] =
     React.useState<dayjs.Dayjs | null>(dayjs('2023-07-18T19:30'));
   const [earliestGetReadyTime, setEarliestGetReadyTime] =
@@ -54,9 +48,10 @@ export default function ScheduleCreateButton() {
   const [wakeUpTime, setWakeUpTime] = React.useState<dayjs.Dayjs | null>(
     dayjs('2023-07-18T06:00')
   );
-  const [recommendedPlan, setRecommendedPlan] = React.useState<RecommendedPlan>(
-    { age_in_month: '10m', wake_windows: 5, num_of_naps: 2 }
-  );
+  const [numOfNaps, setnumOfNaps] = React.useState<number>(1);
+  const [wakeWindows, setWakeWindows] = React.useState([6, 6]);
+
+  const { babyId } = useParams();
 
   const { getAccessTokenSilently } = useAuth0();
 
@@ -70,19 +65,29 @@ export default function ScheduleCreateButton() {
 
   React.useEffect(() => {
     const fetchRecommendedPlan = async () => {
-      const mockData = { age_in_month: '10m', wake_windows: 5, num_of_naps: 2 };
+      const token = await getAccessTokenSilently();
 
-      setRecommendedPlan(mockData);
-
-      // From the recommended plan data, build recommended wake windows
-      setWakeWindows(
-        Array(recommendedPlan.num_of_naps + 1).fill(
-          recommendedPlan.wake_windows
-        )
+      const clientResponse = await fetch(
+        `http://localhost:3000/recommended_plans/${babyId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
       );
+      const recommendedPlan = await clientResponse.json();
+      console.log(recommendedPlan);
+
+      if (recommendedPlan !== null) {
+        setnumOfNaps(recommendedPlan.numOfNaps);
+        setWakeWindows(
+          Array(recommendedPlan.numOfNaps + 1).fill(recommendedPlan.wakeWindow)
+        );
+      }
     };
+
     fetchRecommendedPlan();
-  }, [getAccessTokenSilently]);
+  }, [getAccessTokenSilently, babyId]);
 
   const handleSliderChange = (_event: Event, newValue: number | number[]) => {
     setWakeWindows(Array.from({ length: (newValue as number) + 1 }, () => 3));
@@ -126,7 +131,7 @@ export default function ScheduleCreateButton() {
             <Grid xs>
               <DialogContentText>Number of Naps</DialogContentText>
               <Slider
-                defaultValue={recommendedPlan.num_of_naps}
+                defaultValue={numOfNaps}
                 marks
                 max={5}
                 valueLabelDisplay="auto"
