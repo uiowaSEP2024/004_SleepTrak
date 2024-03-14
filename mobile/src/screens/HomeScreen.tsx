@@ -3,7 +3,42 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Card } from 'react-native-paper';
 import { fetchUserData } from '../utils/db';
 import { colors } from '../../assets/colors';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+
+const latestEventsFilter = (events: any[], numEvents: number) => {
+  const currentDayInMs = new Date().setHours(0, 0, 0, 0);
+
+  const filteredEvents = events.filter((event) => {
+    return new Date(event.startTime).getTime() > currentDayInMs;
+  });
+  const sortedEvents = filteredEvents.sort((a, b) => {
+    return new Date(b.startTime).getTime() - new Date(a.startTime).getTime();
+  });
+  return sortedEvents.slice(0, numEvents);
+};
+
+const EventCard: React.FC<{ event: any; key: string }> = ({ event, key }) => {
+  const date = new Date(event.startTime);
+
+  return (
+    <Card
+      style={{ width: '100%', marginBottom: 8 }}
+      key={key}
+      mode="contained">
+      <Card.Content
+        style={{
+          flexDirection: 'row',
+          height: 'auto',
+          justifyContent: 'space-between'
+        }}>
+        <Text>{event.type}</Text>
+        <Text>
+          {date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        </Text>
+      </Card.Content>
+    </Card>
+  );
+};
 
 const UserWelcomeSign: React.FC<{ user: object }> = ({ user }) => {
   return (
@@ -15,13 +50,55 @@ const UserWelcomeSign: React.FC<{ user: object }> = ({ user }) => {
   );
 };
 
-const HeroBox: React.FC = () => {
+const HeroBox: React.FC<{ events: any[] }> = ({ events }) => {
+  const [shownEvents, setShownEvents] = React.useState<any[] | null>(null);
+  const navigation = useNavigation();
+  const today = new Date();
+
+  useEffect(() => {
+    if (events.length > 0) {
+      const latestEvents = latestEventsFilter(events, 2);
+      const eventObjects = latestEvents.map((value, index) => {
+        console.log(value);
+        return (
+          <EventCard
+            event={value}
+            key={'event_' + index}
+          />
+        );
+      });
+      setShownEvents(eventObjects);
+    } else {
+      setShownEvents(null);
+    }
+  }, [events]);
+
   return (
-    <Card style={styles.heroBox}>
-      <Card.Title title="Hero Box" />
-      <Card.Content>
-        <Text>Hero Box Content</Text>
+    <Card
+      style={styles.heroBox}
+      onPress={() => {
+        navigation.navigate('Events');
+      }}>
+      <Card.Title
+        title={today.toLocaleDateString('en-US', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })}
+        titleStyle={{ fontSize: 16 }}
+      />
+      <Card.Content style={{ flexDirection: 'column' }}>
+        {shownEvents ?? <Text>{'No events to show'}</Text>}
       </Card.Content>
+      <Card.Actions
+        style={{
+          justifyContent: 'space-between',
+          paddingTop: 16,
+          paddingHorizontal: 24
+        }}>
+        <Text style={{ color: colors.crimsonRed }}>View all</Text>
+      </Card.Actions>
     </Card>
   );
 };
@@ -91,20 +168,24 @@ const EventButtons: React.FC = () => {
 };
 
 const HomeScreen = () => {
-  const [user, setUser] = React.useState({});
+  const [user, setUser] = React.useState<{ events: any[] | undefined }>({
+    events: undefined
+  });
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const userData = await fetchUserData();
-      setUser(userData);
-    };
-    void fetchUser();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchUser = async () => {
+        const userData = await fetchUserData();
+        setUser(userData);
+      };
+      void fetchUser();
+    }, [])
+  );
 
   return (
     <ScrollView contentContainerStyle={styles.topContainer}>
       <UserWelcomeSign user={user} />
-      <HeroBox />
+      <HeroBox events={user.events ?? []} />
       <Notifications />
       <EventButtons />
     </ScrollView>
