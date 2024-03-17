@@ -39,20 +39,20 @@ model Event {
 }
 
 model Plan {
-  planId    String     @id
+  planId    String     @id @default(uuid())
+  client    User       @relation(name: "client_plan", fields: [clientId], references: [userId])
   clientId  String
   coachId   String
-  Status    String
-  client    User       @relation("client_plan", fields: [clientId], references: [userId])
   coach     User       @relation("coach_plan", fields: [coachId], references: [userId])
   reminders Reminder[] @relation("plan_reference")
 }
 
+
 model Reminder {
-  reminderId  String    @id
-  description String
+  reminderId  String   @id @default(uuid())
+  plan        Plan     @relation(name: "plan_reference", fields: [planId], references: [planId])
   planId      String
-  plan        Plan      @relation("plan_reference", fields: [planId], references: [planId])
+  description String
   startTime DateTime  @db.Timestamptz()
   endTime   DateTime? @db.Timestamptz()
 }
