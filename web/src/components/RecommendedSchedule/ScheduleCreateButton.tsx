@@ -14,19 +14,28 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useParams } from 'react-router-dom';
 
 interface WakeWindowInputFieldProps {
+  index: number;
   label: string;
-  val: number;
+  wakeWindows: number[];
+  onChange: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 function WakeWindowInputField(props: WakeWindowInputFieldProps) {
-  const { val, label } = props;
+  const { index, label, wakeWindows, onChange } = props;
+  const [hours, setHours] = React.useState<number>(wakeWindows[index]);
 
+  const handleOnChange = (newHours: string) => {
+    const newHoursNum = Number(newHours);
+    wakeWindows[index] = newHoursNum;
+    onChange(wakeWindows);
+    setHours(newHoursNum);
+  };
   return (
     <TextField
       id="outlined-number"
       label={label}
       type="number"
-      defaultValue={val}
+      defaultValue={hours}
       sx={{ my: '10px' }}
       inputProps={{
         step: 0.25,
@@ -35,25 +44,29 @@ function WakeWindowInputField(props: WakeWindowInputFieldProps) {
       InputLabelProps={{
         shrink: true
       }}
+      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+        handleOnChange(event.target.value);
+      }}
     />
   );
 }
 
 export default function ScheduleCreateButton() {
   const [open, setOpen] = React.useState<boolean>(false);
-  const [desiredBedTime, setDesiredBedTime] =
-    React.useState<dayjs.Dayjs | null>(dayjs('2023-07-18T19:30'));
   const [earliestGetReadyTime, setEarliestGetReadyTime] =
-    React.useState<dayjs.Dayjs | null>(dayjs('2023-07-18T20:00'));
+    React.useState<dayjs.Dayjs | null>(dayjs('2023-01-01T19:30'));
+  const [desiredBedTime, setDesiredBedTime] =
+    React.useState<dayjs.Dayjs | null>(dayjs('2023-01-01T20:00'));
   const [wakeUpTime, setWakeUpTime] = React.useState<dayjs.Dayjs | null>(
-    dayjs('2023-07-18T06:00')
+    dayjs('2023-01-01T08:00')
   );
-  const [numOfNaps, setnumOfNaps] = React.useState<number>(1);
-  const [wakeWindows, setWakeWindows] = React.useState([6, 6]);
+  const [numOfNaps, setnumOfNaps] = React.useState<number>(2);
+  const [wakeWindows, setWakeWindows] = React.useState([3, 3, 3]);
+  // TODO: Add total hours of sleep
 
-  const { babyId } = useParams();
+  const { userId, babyId } = useParams();
 
-  const { getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently, user } = useAuth0();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -61,6 +74,69 @@ export default function ScheduleCreateButton() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleSliderChange = (_event: Event, newValue: number | number[]) => {
+    setWakeWindows(Array.from({ length: (newValue as number) + 1 }, () => 3));
+  };
+
+  const createSleepPlan = () => {
+    // Create reminders
+    const morningRise = [
+      {
+        description: 'Morning Rise',
+        startTime: wakeUpTime?.toDate()
+      }
+    ];
+
+    const naps: {
+      description: string;
+      startTime: Date | null;
+      endTime: Date | null;
+    }[] = [];
+
+    // Compute how long each nap is
+    const totalDayTime = desiredBedTime?.diff(wakeUpTime, 'hour') ?? 12;
+    const totalWakeWindows = wakeWindows.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue;
+    }, 0);
+    const napTime = (totalDayTime - totalWakeWindows) / numOfNaps;
+
+    // Create naps based on wakeUpTime, wakeWindowss, and desiredBedTime
+    let napEndTime = wakeUpTime;
+    for (let index = 0; index < wakeWindows.length - 1; index++) {
+      const napStartTime = napEndTime?.add(wakeWindows[index], 'hour') || null;
+      napEndTime = napStartTime?.add(napTime, 'hour') || null;
+      naps.push({
+        description: `Nap ${index + 1}`,
+        startTime: napStartTime?.toDate() || null,
+        endTime: napEndTime?.toDate() || null
+      });
+    }
+
+    const getReadyForBed = [
+      {
+        description: 'Get Ready for bed',
+        startTime: earliestGetReadyTime?.toDate()
+      }
+    ];
+
+    const asleep = [
+      {
+        description: 'Asleep ',
+        startTime: desiredBedTime?.toDate()
+      }
+    ];
+
+    const reminders = [...morningRise, ...naps, ...getReadyForBed, ...asleep];
+
+    const planData = {
+      clientId: userId,
+      coachId: user?.sub,
+      reminders: reminders
+    };
+
+    return planData;
   };
 
   React.useEffect(() => {
@@ -76,7 +152,6 @@ export default function ScheduleCreateButton() {
         }
       );
       const recommendedPlan = await clientResponse.json();
-      console.log(recommendedPlan);
 
       if (recommendedPlan !== null) {
         setnumOfNaps(recommendedPlan.numOfNaps);
@@ -85,13 +160,8 @@ export default function ScheduleCreateButton() {
         );
       }
     };
-
     fetchRecommendedPlan();
   }, [getAccessTokenSilently, babyId]);
-
-  const handleSliderChange = (_event: Event, newValue: number | number[]) => {
-    setWakeWindows(Array.from({ length: (newValue as number) + 1 }, () => 3));
-  };
 
   return (
     <div>
@@ -113,12 +183,21 @@ export default function ScheduleCreateButton() {
           component: 'form',
           onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
-            // TODO: handle submitting the schedule
-            console.log(desiredBedTime);
-            console.log(earliestGetReadyTime);
-            console.log(wakeUpTime);
-            console.log(wakeWindows);
 
+            const postSleepPlan = async () => {
+              const token = await getAccessTokenSilently();
+
+              await fetch(`http://localhost:3000/plans/create`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify(createSleepPlan())
+              });
+            };
+
+            postSleepPlan();
             handleClose();
           }
         }}>
@@ -138,14 +217,14 @@ export default function ScheduleCreateButton() {
                 onChange={handleSliderChange}
               />
               <TimePickerField
-                label="Desired Bed Time"
-                defaultValue={desiredBedTime}
-                onChange={setDesiredBedTime}
-              />
-              <TimePickerField
                 label="Earliest Get Ready Time for Bed"
                 defaultValue={earliestGetReadyTime}
                 onChange={setEarliestGetReadyTime}
+              />
+              <TimePickerField
+                label="Desired Bed Time"
+                defaultValue={desiredBedTime}
+                onChange={setDesiredBedTime}
               />
               <TimePickerField
                 label="Wake Up Time"
@@ -157,11 +236,12 @@ export default function ScheduleCreateButton() {
               <DialogContentText sx={{ fontSize: 14 }}>
                 Wake Windows (Hours Between Sleep)
               </DialogContentText>
-              {wakeWindows.map((elem, index) => (
+              {wakeWindows.map((_, index) => (
                 <WakeWindowInputField
-                  key={index}
+                  index={index}
                   label={`Window ${index + 1}`}
-                  val={elem}
+                  wakeWindows={wakeWindows}
+                  onChange={setWakeWindows}
                 />
               ))}
             </Grid>
