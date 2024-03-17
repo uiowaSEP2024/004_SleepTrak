@@ -35,12 +35,15 @@ const create = async (req: Request, res: Response): Promise<void> => {
     const planData = {
       client: { connect: { userId: creationParams.clientId } },
       coach: { connect: { userId: creationParams.coachId } },
-      Status: creationParams.Status
+      reminders: {
+        create: creationParams.reminders
+      }
     };
 
     const plan = await service.create(planData);
     res.json(plan);
   } catch (err) {
+    console.error('Error:', err);
     res.status(500).send(ensureError(err));
   }
 };
