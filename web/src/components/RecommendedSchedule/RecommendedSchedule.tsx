@@ -5,22 +5,35 @@ import ScheduleEditRowButton from './ScheduleEditRowButton';
 import ScheduleDeleteButton from './ScheduleDeleteButton';
 import Box from '@mui/joy/Box';
 
-interface RowData {
-  activity: string;
-  time: string;
+export interface Reminder {
+  reminderId: string;
+  planId: string;
+  description: string;
+  startTime: string;
+  endTime: string | null;
 }
+interface Plan {
+  planId: string;
+  clientId: string;
+  coachId: string;
+  reminders: Reminder[];
+}
+
 interface RecommendedScheduleProps {
   name: string;
-  schedule: RowData[];
+  schedule: Plan;
+  onChange: () => void;
 }
 
 export default function RecommendedSchedule(props: RecommendedScheduleProps) {
+  const { name, schedule, onChange } = props;
+
   return (
     <>
       <Box
         display="flex"
         justifyContent="space-between">
-        <h4>{props.name}</h4>
+        <h4>{name}</h4>
         <ScheduleDeleteButton />
       </Box>
       <Sheet
@@ -87,17 +100,20 @@ export default function RecommendedSchedule(props: RecommendedScheduleProps) {
             </tr>
           </thead>
           <tbody>
-            {props.schedule.map((row) => (
-              <tr key={row.activity}>
-                <td>{row.activity}</td>
-                <td>{row.time}</td>
+            {schedule.reminders.map((reminder) => (
+              <tr key={reminder.reminderId}>
+                <td>{reminder.description}</td>
+                <td>{reminder.startTime + ' - ' + reminder.endTime}</td>
                 <td>
                   <Box
                     sx={{
                       display: 'flex',
                       gap: 1
                     }}>
-                    <ScheduleEditRowButton />
+                    <ScheduleEditRowButton
+                      reminder={reminder}
+                      onSubmit={onChange}
+                    />
                     <ScheduleDeleteRowButton />
                   </Box>
                 </td>

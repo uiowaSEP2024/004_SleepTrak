@@ -1,21 +1,35 @@
 import Box from '@mui/joy/Box';
 import ScheduleCreateButton from './ScheduleCreateButton';
 import RecommendedSchedule from './RecommendedSchedule';
-
-interface RowData {
-  activity: string;
-  time: string;
-}
-
-const rows: RowData[] = [
-  { activity: 'Morning Rise', time: '6:30 AM' },
-  { activity: 'Morning Nap', time: '9:15AM - 10:45 AM' },
-  { activity: 'Afternoon Nap', time: '2:15PM - 3:45 PM' },
-  { activity: 'Get Ready for bed', time: '6:45 PM' },
-  { activity: 'Asleep', time: '7:15 PM' }
-];
+import { useEffect, useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function RecommendedSchedules() {
+  const [RecommendedSchedules, setRecommendedSchedules] = useState([]);
+  const [rerender, setRerender] = useState(false);
+  const { getAccessTokenSilently } = useAuth0();
+
+  const handleRerender = () => {
+    setRerender(!rerender);
+  };
+
+  useEffect(() => {
+    const fetchRecommendedSchedules = async () => {
+      const token = await getAccessTokenSilently();
+
+      const response = await fetch('http://localhost:3000/plans/all', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+      setRecommendedSchedules(data);
+    };
+
+    fetchRecommendedSchedules();
+  }, [getAccessTokenSilently, rerender]);
+
   return (
     <Box sx={{ width: '60%' }}>
       <Box
@@ -24,10 +38,13 @@ export default function RecommendedSchedules() {
         <h2>Recommended Schedule</h2>
         <ScheduleCreateButton />
       </Box>
-      <RecommendedSchedule
-        name="Schedule 1"
-        schedule={rows}
-      />
+      {RecommendedSchedules.map((schedule, index) => (
+        <RecommendedSchedule
+          name={'Schedule ' + (index + 1)}
+          schedule={schedule}
+          onChange={handleRerender}
+        />
+      ))}
     </Box>
   );
 }

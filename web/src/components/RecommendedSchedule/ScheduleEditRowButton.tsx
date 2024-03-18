@@ -8,17 +8,36 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import TimePickerField from '../TimePickerField';
 import { Checkbox, FormControlLabel } from '@mui/material';
+import { Reminder } from './RecommendedSchedule';
+import { useAuth0 } from '@auth0/auth0-react';
 
-export default function ScheduleEditRowButton() {
+interface ScheduleEditRowButtonProps {
+  reminder: Reminder;
+  onSubmit: () => void;
+}
+
+export default function ScheduleEditRowButton(
+  props: ScheduleEditRowButtonProps
+) {
+  const { reminder, onSubmit } = props;
+
   const [open, setOpen] = React.useState(false);
-  const [showEndTime, setShowEndTime] = React.useState(true);
-
+  const [showEndTime, setShowEndTime] = React.useState(
+    reminder.endTime ? true : false
+  );
+  const [startTime, setStartTime] = React.useState<dayjs.Dayjs | null>(
+    dayjs(reminder.startTime)
+  );
+  const [endTime, setEndTime] = React.useState<dayjs.Dayjs | null>(
+    dayjs(reminder.endTime)
+  );
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+    onSubmit();
   };
 
   const handleCheckboxChange = (event: {
@@ -26,6 +45,8 @@ export default function ScheduleEditRowButton() {
   }) => {
     setShowEndTime(event.target.checked);
   };
+
+  const { getAccessTokenSilently } = useAuth0();
 
   return (
     <div>
@@ -44,21 +65,43 @@ export default function ScheduleEditRowButton() {
           component: 'form',
           onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
-            // TODO: handle submitting the schedule
+            const updateReminder = async () => {
+              const token = await getAccessTokenSilently();
+
+              await fetch(
+                `http://localhost:3000/reminders/${reminder.reminderId}/update`,
+                {
+                  method: 'PUT',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                  },
+                  body: JSON.stringify({
+                    startTime: startTime,
+                    endTime: endTime
+                  })
+                }
+              );
+            };
+
+            updateReminder();
+
             handleClose();
           }
         }}>
         <DialogTitle>Edit an event</DialogTitle>
         <DialogContent>
-          <DialogContentText>Morning Rise</DialogContentText>
+          <DialogContentText>{reminder.description}</DialogContentText>
           <TimePickerField
             label="Start Time"
-            defaultValue={dayjs('2023-07-18T07:00')}
+            defaultValue={startTime}
+            onChange={setStartTime}
           />
           {showEndTime && (
             <TimePickerField
               label="End Time"
-              defaultValue={dayjs('2023-07-18T20:00')}
+              defaultValue={dayjs(endTime)}
+              onChange={setEndTime}
             />
           )}
           <FormControlLabel
