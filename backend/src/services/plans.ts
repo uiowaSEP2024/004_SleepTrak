@@ -4,7 +4,11 @@ import { ensureError } from '../utils/error.js';
 
 const getAll = async (): Promise<Plan[] | Error> => {
   try {
-    const result = await prisma.plan.findMany();
+    const result = await prisma.plan.findMany({
+      include: {
+        reminders: true
+      }
+    });
 
     return result;
   } catch (err) {
