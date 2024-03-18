@@ -114,7 +114,10 @@ export default function RecommendedSchedule(props: RecommendedScheduleProps) {
                       reminder={reminder}
                       onSubmit={onChange}
                     />
-                    <ScheduleDeleteRowButton />
+                    <ScheduleDeleteRowButton
+                      reminder={reminder}
+                      onSubmit={onChange}
+                    />
                   </Box>
                 </td>
               </tr>
