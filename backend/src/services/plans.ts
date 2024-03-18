@@ -6,7 +6,11 @@ const getAll = async (): Promise<Plan[] | Error> => {
   try {
     const result = await prisma.plan.findMany({
       include: {
-        reminders: true
+        reminders: {
+          orderBy: {
+            startTime: 'asc'
+          }
+        }
       }
     });
 
