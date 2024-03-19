@@ -4,6 +4,7 @@ import ScheduleDeleteRowButton from './ScheduleDeleteRowButton';
 import ScheduleEditRowButton from './ScheduleEditRowButton';
 import ScheduleDeleteButton from './ScheduleDeleteButton';
 import Box from '@mui/joy/Box';
+import { formatTimeTo12HourFormat } from '../../util/utils';
 
 export interface Reminder {
   reminderId: string;
@@ -106,7 +107,13 @@ export default function RecommendedSchedule(props: RecommendedScheduleProps) {
             {schedule.reminders.map((reminder) => (
               <tr key={reminder.reminderId}>
                 <td>{reminder.description}</td>
-                <td>{reminder.startTime + ' - ' + reminder.endTime}</td>
+                <td>
+                  {formatTimeTo12HourFormat(reminder.endTime) === ''
+                    ? formatTimeTo12HourFormat(reminder.startTime)
+                    : formatTimeTo12HourFormat(reminder.startTime) +
+                      ' - ' +
+                      formatTimeTo12HourFormat(reminder.endTime)}
+                </td>
                 <td>
                   <Box
                     sx={{
