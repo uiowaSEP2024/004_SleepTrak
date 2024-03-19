@@ -25,16 +25,17 @@ model User {
 }
 
 model Event {
-  eventId   String    @id @default(uuid())
-  ownerId   String
-  startTime DateTime  @db.Timestamptz(6)
-  endTime   DateTime? @db.Timestamptz(6)
-  type      String
-  amount    Float?
-  foodType  String?
-  note      String?
-  unit      String?
-  owner     User      @relation(fields: [ownerId], references: [userId])
+  eventId      String    @id @default(uuid())
+  ownerId      String
+  startTime    DateTime  @db.Timestamptz(6)
+  endTime      DateTime? @db.Timestamptz(6)
+  type         String
+  amount       Float?
+  foodType     String?
+  note         String?
+  unit         String?
+  medicineType String?
+  owner        User      @relation(fields: [ownerId], references: [userId])
 }
 
 model Plan {
