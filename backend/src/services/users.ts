@@ -24,6 +24,7 @@ const get = async (userId: string): Promise<User | null | Error> => {
       include: {
         babies: true,
         events: true
+        medicines: true
       }
     });
 
