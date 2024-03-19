@@ -12,9 +12,17 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 		70A595E5627E4F04A1C317C8 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBA09B772AA4BC882C761BF /* noop-file.swift */; };
 >>>>>>> 4e6f650 (build: clean builds)
+=======
+<<<<<<< Updated upstream
+		70A595E5627E4F04A1C317C8 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBA09B772AA4BC882C761BF /* noop-file.swift */; };
+=======
+		52150E1FE89F4A899EC03C7E /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22FBAF5E9CD48FD8EE0F4BD /* noop-file.swift */; };
+>>>>>>> Stashed changes
+>>>>>>> 70a1a53 (build: adds clean ios and android build files)
 		96905EF65AED1B983A6B3ABC /* libPods-mobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-mobile.a */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		B8DB5B81FF834396AA3EAD5D /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339BBC519CD847BC82F743E7 /* noop-file.swift */; };
@@ -22,7 +30,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+<<<<<<< Updated upstream
 		0EBA09B772AA4BC882C761BF /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "mobile/noop-file.swift"; sourceTree = "<group>"; };
+=======
+>>>>>>> Stashed changes
 		13B07F961A680F5B00A75B9A /* mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = mobile/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = mobile/AppDelegate.mm; sourceTree = "<group>"; };
@@ -33,6 +44,7 @@
 		58EEBF8E8E6FB1BC6CAF49B5 /* libPods-mobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C2E3173556A471DD304B334 /* Pods-mobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mobile.debug.xcconfig"; path = "Target Support Files/Pods-mobile/Pods-mobile.debug.xcconfig"; sourceTree = "<group>"; };
 		7A4D352CD337FB3A3BF06240 /* Pods-mobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mobile.release.xcconfig"; path = "Target Support Files/Pods-mobile/Pods-mobile.release.xcconfig"; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		9F49C34CF5964F9AB3F9D727 /* mobile-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "mobile-Bridging-Header.h"; path = "mobile/mobile-Bridging-Header.h"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = mobile/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
@@ -40,6 +52,16 @@
 =======
 		D5B71951E4044250A58E7809 /* mobile-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "mobile-Bridging-Header.h"; path = "mobile/mobile-Bridging-Header.h"; sourceTree = "<group>"; };
 >>>>>>> 4e6f650 (build: clean builds)
+=======
+		A99073FA9D774EE4994FE32E /* mobile-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "mobile-Bridging-Header.h"; path = "mobile/mobile-Bridging-Header.h"; sourceTree = "<group>"; };
+		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = mobile/SplashScreen.storyboard; sourceTree = "<group>"; };
+		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
+<<<<<<< Updated upstream
+		D5B71951E4044250A58E7809 /* mobile-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "mobile-Bridging-Header.h"; path = "mobile/mobile-Bridging-Header.h"; sourceTree = "<group>"; };
+=======
+		C22FBAF5E9CD48FD8EE0F4BD /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "mobile/noop-file.swift"; sourceTree = "<group>"; };
+>>>>>>> Stashed changes
+>>>>>>> 70a1a53 (build: adds clean ios and android build files)
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-mobile/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -67,12 +89,22 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
 <<<<<<< HEAD
+<<<<<<< HEAD
 				339BBC519CD847BC82F743E7 /* noop-file.swift */,
 				9F49C34CF5964F9AB3F9D727 /* mobile-Bridging-Header.h */,
 =======
 				0EBA09B772AA4BC882C761BF /* noop-file.swift */,
 				D5B71951E4044250A58E7809 /* mobile-Bridging-Header.h */,
 >>>>>>> 4e6f650 (build: clean builds)
+=======
+<<<<<<< Updated upstream
+				0EBA09B772AA4BC882C761BF /* noop-file.swift */,
+				D5B71951E4044250A58E7809 /* mobile-Bridging-Header.h */,
+=======
+				C22FBAF5E9CD48FD8EE0F4BD /* noop-file.swift */,
+				A99073FA9D774EE4994FE32E /* mobile-Bridging-Header.h */,
+>>>>>>> Stashed changes
+>>>>>>> 70a1a53 (build: adds clean ios and android build files)
 			);
 			name = mobile;
 			sourceTree = "<group>";
@@ -159,20 +191,36 @@
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
 <<<<<<< HEAD
+<<<<<<< HEAD
 				1A3CF45F981DFBF4BAA6541A /* [Expo] Configure project */,
 =======
 				E98B0B4EFF94E3608B1914DA /* [Expo] Configure project */,
 >>>>>>> 4e6f650 (build: clean builds)
+=======
+<<<<<<< Updated upstream
+				E98B0B4EFF94E3608B1914DA /* [Expo] Configure project */,
+=======
+				C51DCAB3C1F53E935C1677D1 /* [Expo] Configure project */,
+>>>>>>> Stashed changes
+>>>>>>> 70a1a53 (build: adds clean ios and android build files)
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
 <<<<<<< HEAD
+<<<<<<< HEAD
 				8B0A72C148958450551E6CFD /* [CP] Embed Pods Frameworks */,
 =======
 				9C5CD6362C407842AAE7CCB8 /* [CP] Embed Pods Frameworks */,
 >>>>>>> 4e6f650 (build: clean builds)
+=======
+<<<<<<< Updated upstream
+				9C5CD6362C407842AAE7CCB8 /* [CP] Embed Pods Frameworks */,
+=======
+				8A38D4E621E43423DA85A560 /* [CP] Embed Pods Frameworks */,
+>>>>>>> Stashed changes
+>>>>>>> 70a1a53 (build: adds clean ios and android build files)
 			);
 			buildRules = (
 			);
@@ -308,10 +356,18 @@
 			showEnvVarsInLog = 0;
 		};
 <<<<<<< HEAD
+<<<<<<< HEAD
 		8B0A72C148958450551E6CFD /* [CP] Embed Pods Frameworks */ = {
 =======
 		9C5CD6362C407842AAE7CCB8 /* [CP] Embed Pods Frameworks */ = {
 >>>>>>> 4e6f650 (build: clean builds)
+=======
+<<<<<<< Updated upstream
+		9C5CD6362C407842AAE7CCB8 /* [CP] Embed Pods Frameworks */ = {
+=======
+		8A38D4E621E43423DA85A560 /* [CP] Embed Pods Frameworks */ = {
+>>>>>>> Stashed changes
+>>>>>>> 70a1a53 (build: adds clean ios and android build files)
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -330,8 +386,15 @@
 			showEnvVarsInLog = 0;
 		};
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+<<<<<<< Updated upstream
+>>>>>>> 70a1a53 (build: adds clean ios and android build files)
 		E98B0B4EFF94E3608B1914DA /* [Expo] Configure project */ = {
+=======
+		C51DCAB3C1F53E935C1677D1 /* [Expo] Configure project */ = {
+>>>>>>> Stashed changes
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -362,10 +425,18 @@
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */,
 <<<<<<< HEAD
+<<<<<<< HEAD
 				B8DB5B81FF834396AA3EAD5D /* noop-file.swift in Sources */,
 =======
 				70A595E5627E4F04A1C317C8 /* noop-file.swift in Sources */,
 >>>>>>> 4e6f650 (build: clean builds)
+=======
+<<<<<<< Updated upstream
+				70A595E5627E4F04A1C317C8 /* noop-file.swift in Sources */,
+=======
+				52150E1FE89F4A899EC03C7E /* noop-file.swift in Sources */,
+>>>>>>> Stashed changes
+>>>>>>> 70a1a53 (build: adds clean ios and android build files)
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
