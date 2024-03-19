@@ -111,11 +111,19 @@ const SleepTimer: React.FC = () => {
           <TimerDisplay
             style={{ marginBottom: 40 }}
             title="Start Time:"
-            time={sleepStartTime ? sleepStartTime.toLocaleTimeString() : ''}
+            time={
+              sleepStartTime
+                ? sleepStartTime.toLocaleTimeString(undefined, options)
+                : new Date().toLocaleTimeString(undefined, options)
+            }
           />
           <TimerDisplay
             title="Stop Time:"
-            time={SleepStopTime ? SleepStopTime.toLocaleTimeString() : ''}
+            time={
+              SleepStopTime
+                ? SleepStopTime.toLocaleTimeString(undefined, options)
+                : new Date().toLocaleTimeString(undefined, options)
+            }
           />
         </View>
         <ElapsedTimeDisplay
