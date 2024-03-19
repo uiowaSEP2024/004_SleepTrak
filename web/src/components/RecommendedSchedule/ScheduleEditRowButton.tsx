@@ -13,7 +13,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 interface ScheduleEditRowButtonProps {
   reminder: Reminder;
-  onSubmit: () => void;
+  onSubmit: () => Promise<void>;
 }
 
 export default function ScheduleEditRowButton(
@@ -37,7 +37,6 @@ export default function ScheduleEditRowButton(
 
   const handleClose = () => {
     setOpen(false);
-    onSubmit();
   };
 
   const handleCheckboxChange = (event: {
@@ -82,10 +81,10 @@ export default function ScheduleEditRowButton(
                   })
                 }
               );
+
+              await onSubmit();
             };
-
             updateReminder();
-
             handleClose();
           }
         }}>

@@ -51,7 +51,12 @@ function WakeWindowInputField(props: WakeWindowInputFieldProps) {
   );
 }
 
-export default function ScheduleCreateButton() {
+interface ScheduleCreateButtonProps {
+  onSubmit: () => Promise<void>;
+}
+
+export default function ScheduleCreateButton(props: ScheduleCreateButtonProps) {
+  const { onSubmit } = props;
   const [open, setOpen] = React.useState<boolean>(false);
   const [earliestGetReadyTime, setEarliestGetReadyTime] =
     React.useState<dayjs.Dayjs | null>(dayjs('2023-01-01T19:30'));
@@ -195,8 +200,9 @@ export default function ScheduleCreateButton() {
                 },
                 body: JSON.stringify(createSleepPlan())
               });
-            };
 
+              await onSubmit();
+            };
             postSleepPlan();
             handleClose();
           }
