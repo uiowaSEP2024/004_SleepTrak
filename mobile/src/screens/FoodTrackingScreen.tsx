@@ -207,7 +207,7 @@ const FoodTrackingScreen: React.FC = () => {
     void createEvent(feedData);
     setIsLoading(true);
     setTimeout(() => {
-      navigation.navigate('Home');
+      navigation.goBack();
     }, 2000);
   };
 
