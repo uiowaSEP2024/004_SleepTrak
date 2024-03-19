@@ -10,7 +10,7 @@ const create = async (req: Request, res: Response): Promise<void> => {
     }
 
     const answerData = {
-      medicineId: creationParams.answerId,
+      medicineId: creationParams.medicineId,
       name: creationParams.name,
       user: { connect: { userId: creationParams.userId } }
     };

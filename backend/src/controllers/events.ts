@@ -40,7 +40,8 @@ const create = async (req: Request, res: Response): Promise<void> => {
       foodType: creationParams.foodType ?? null,
       amount: creationParams.amount ?? null,
       unit: creationParams.unit ?? null,
-      note: creationParams.note ?? null
+      note: creationParams.note ?? null,
+      medicineType: creationParams.medicineType ?? null
     };
 
     const event = await service.create(eventData);
