@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, TextInput, ScrollView } from 'react-native';
 import { colors } from '../../assets/colors';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -9,9 +9,8 @@ import {
 } from 'react-native-paper';
 import RNPickerSelect from 'react-native-picker-select';
 import NotesTextInput from '../components/inputs/NotesTextInput';
-import { createEvent } from '../utils/db';
+import { createEvent, createMedicine, fetchUserData } from '../utils/db';
 import { useNavigation } from '@react-navigation/native';
-const medicineTypes: any[] = [{ label: 'Advil', value: 'advil' }];
 
 const Divider = () => {
   return <View style={styles.divider} />;
@@ -105,37 +104,51 @@ const DateTimePicker: React.FC<{
 
 const MedicineTypePicker: React.FC<{
   onValueChange: (newValue: any) => void;
-}> = ({ onValueChange }) => {
+  medicines: string[];
+}> = ({ onValueChange, medicines }) => {
   const [value, setValue] = useState({
     label: 'Input new medicine..',
     value: null
   });
+  const [wantsInput, setWantsInput] = useState(true);
+  const [inputValue, setInputValue] = useState('');
 
-  const handleChange = (newValue: any) => {
+  const handleChangePicker = (newValue: any) => {
+    setWantsInput(newValue === null);
     onValueChange(newValue);
     setValue(newValue);
   };
+  const handleChangeInput = (newValue: any) => {
+    onValueChange(newValue);
+    setInputValue(newValue);
+  };
+
   return (
     <View>
       <View style={styles.medicineTypePickerContainer}>
         <Text style={styles.text}>Medicine:</Text>
         <View testID="medicine-type-picker">
           <RNPickerSelect
-            onValueChange={handleChange}
-            items={medicineTypes}
+            onValueChange={handleChangePicker}
+            items={
+              medicines.length === 0
+                ? []
+                : medicines.map((type) => ({ label: type, value: type }))
+            }
             style={pickerSelectStyles}
             value={value}
-            placeholder={{ label: 'Input new medicine..', value: null }}
+            placeholder={{ label: 'New medicine', value: null }}
           />
         </View>
       </View>
       <View>
-        {value === null && (
+        {wantsInput && (
           <TextInput
             style={styles.textInput}
-            onChangeText={handleChange}
-            value={value}
+            onChangeText={handleChangeInput}
+            value={inputValue}
             testID="medicine-type-input"
+            placeholder="Input new medicine.."
           />
         )}
       </View>
@@ -202,17 +215,41 @@ const MedicineTrackingScreen: React.FC = () => {
   const navigation = useNavigation();
   const [unit, setUnit] = useState('oz');
   const [isLoading, setIsLoading] = useState(false);
-  const [feedData, setFeedData] = useState({
-    type: 'feed',
+  const [medicineData, setMedicineData] = useState({
+    type: 'medicine',
     startTime: new Date().toISOString(),
     amount: 0,
     unit: 'oz',
-    medicineType: 'breastMilk',
+    medicineType: null,
     note: ''
   });
+  const [medicineTypes, setMedicineTypes] = useState<string[] | never[]>([]);
 
+  useEffect(() => {
+    const fetchMedicineTypes = async () => {
+      const user = await fetchUserData();
+      setMedicineTypes(
+        user.medicines.map((object: { name: string }) => object.name) ?? []
+      );
+    };
+    void fetchMedicineTypes();
+  }, []);
+
+  const checkMedicine = async () => {
+    const user = await fetchUserData();
+
+    if (!medicineTypes.includes(medicineData.medicineType)) {
+      void createMedicine(
+        user.userId + '_' + user.medicines.length,
+        medicineData.medicineType
+      );
+    }
+  };
   const handleSave = () => {
-    void createEvent(feedData);
+    void checkMedicine();
+    void createEvent(medicineData);
+
+    console.log(medicineData);
     setIsLoading(true);
     setTimeout(() => {
       navigation.navigate('Home');
@@ -232,22 +269,29 @@ const MedicineTrackingScreen: React.FC = () => {
       <ScrollView style={styles.container}>
         <DateTimePicker
           onValueChange={(value) => {
-            setFeedData((prevState) => ({ ...prevState, startTime: value }));
+            setMedicineData((prevState) => ({
+              ...prevState,
+              startTime: value
+            }));
           }}
         />
         <Divider />
         <MedicineTypePicker
           onValueChange={(value) => {
             console.log(value);
-            setFeedData((prevState) => ({ ...prevState, medicineType: value }));
-            console.log(feedData);
+            setMedicineData((prevState) => ({
+              ...prevState,
+              medicineType: value
+            }));
+            console.log(medicineData);
           }}
+          medicines={medicineTypes}
         />
         <Divider />
         <View style={{ height: '15%' }}></View>
         <UnitPicker
           onValueChange={(value) => {
-            setFeedData((prevState) => ({ ...prevState, unit: value }));
+            setMedicineData((prevState) => ({ ...prevState, unit: value }));
             setUnit(value);
           }}
           unit={unit}
@@ -255,7 +299,7 @@ const MedicineTrackingScreen: React.FC = () => {
         <View style={{ height: '15%' }}></View>
         <NumericInput
           onValueChange={(value) => {
-            setFeedData((prevState) => ({ ...prevState, amount: value }));
+            setMedicineData((prevState) => ({ ...prevState, amount: value }));
           }}
           unit={unit}
         />
@@ -263,7 +307,7 @@ const MedicineTrackingScreen: React.FC = () => {
         <NotesTextInput
           style={{ alignSelf: 'center', marginVertical: 8 }}
           onValueChange={(value) => {
-            setFeedData((prevState) => ({ ...prevState, note: value }));
+            setMedicineData((prevState) => ({ ...prevState, note: value }));
           }}
         />
       </ScrollView>
@@ -271,7 +315,7 @@ const MedicineTrackingScreen: React.FC = () => {
         mode="contained"
         onPress={() => {
           handleSave();
-          console.log(feedData);
+          console.log(medicineData);
         }}
         style={styles.saveButtonContainer}
         labelStyle={styles.saveButtonLabel}>
