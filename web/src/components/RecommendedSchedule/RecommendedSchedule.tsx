@@ -12,7 +12,7 @@ export interface Reminder {
   startTime: string;
   endTime: string | null;
 }
-interface Plan {
+export interface Plan {
   planId: string;
   clientId: string;
   coachId: string;
@@ -34,7 +34,10 @@ export default function RecommendedSchedule(props: RecommendedScheduleProps) {
         display="flex"
         justifyContent="space-between">
         <h4>{name}</h4>
-        <ScheduleDeleteButton />
+        <ScheduleDeleteButton
+          schedule={schedule}
+          onSubmit={onChange}
+        />
       </Box>
       <Sheet
         variant="outlined"

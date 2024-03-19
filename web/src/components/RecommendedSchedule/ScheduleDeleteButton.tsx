@@ -3,8 +3,19 @@ import { Button } from '@mui/joy';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
+import { Plan } from './RecommendedSchedule';
+import { useAuth0 } from '@auth0/auth0-react';
 
-export default function ScheduleDeleteButton() {
+interface ScheduleEditRowButtonProps {
+  schedule: Plan;
+  onSubmit: () => void;
+}
+
+export default function ScheduleDeleteButton(
+  props: ScheduleEditRowButtonProps
+) {
+  const { schedule, onSubmit } = props;
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -13,7 +24,10 @@ export default function ScheduleDeleteButton() {
 
   const handleClose = () => {
     setOpen(false);
+    onSubmit();
   };
+
+  const { getAccessTokenSilently } = useAuth0();
 
   return (
     <div>
@@ -30,7 +44,28 @@ export default function ScheduleDeleteButton() {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-        sx={{ zIndex: '15000' }}>
+        sx={{ zIndex: '15000' }}
+        PaperProps={{
+          component: 'form',
+          onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
+            event.preventDefault();
+            const deleteSchedule = async () => {
+              const token = await getAccessTokenSilently();
+
+              await fetch(
+                `http://localhost:3000/plans/${schedule.planId}/delete`,
+                {
+                  method: 'Delete',
+                  headers: {
+                    Authorization: `Bearer ${token}`
+                  }
+                }
+              );
+            };
+
+            deleteSchedule();
+          }
+        }}>
         <DialogTitle id="alert-dialog-title">
           {'Delete this schedule?'}
         </DialogTitle>
@@ -38,7 +73,7 @@ export default function ScheduleDeleteButton() {
           <Button onClick={handleClose}>No</Button>
           <Button
             onClick={handleClose}
-            autoFocus>
+            type="submit">
             Yes
           </Button>
         </DialogActions>
