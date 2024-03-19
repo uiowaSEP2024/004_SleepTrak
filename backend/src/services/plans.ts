@@ -35,6 +35,13 @@ const get = async (planId: string): Promise<Plan | null | Error> => {
 const search = async (searchParams: any): Promise<Plan[] | Error> => {
   try {
     const result = await prisma.plan.findMany({
+      include: {
+        reminders: {
+          orderBy: {
+            startTime: 'asc'
+          }
+        }
+      },
       where: searchParams
     });
 
