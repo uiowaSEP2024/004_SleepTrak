@@ -6,29 +6,23 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 export default function RecommendedSchedules() {
   const [RecommendedSchedules, setRecommendedSchedules] = useState([]);
-  const [rerender, setRerender] = useState(false);
   const { getAccessTokenSilently } = useAuth0();
 
-  const handleRerender = () => {
-    setRerender(!rerender);
+  const fetchRecommendedSchedules = async () => {
+    const token = await getAccessTokenSilently();
+
+    const response = await fetch('http://localhost:3000/plans/all', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    const data = await response.json();
+    setRecommendedSchedules(data);
   };
-
   useEffect(() => {
-    const fetchRecommendedSchedules = async () => {
-      const token = await getAccessTokenSilently();
-
-      const response = await fetch('http://localhost:3000/plans/all', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-
-      const data = await response.json();
-      setRecommendedSchedules(data);
-    };
-
     fetchRecommendedSchedules();
-  }, [getAccessTokenSilently, rerender]);
+  }, [getAccessTokenSilently]);
 
   return (
     <Box sx={{ width: '60%' }}>
@@ -36,13 +30,13 @@ export default function RecommendedSchedules() {
         display="flex"
         justifyContent="space-between">
         <h2>Recommended Schedule</h2>
-        <ScheduleCreateButton />
+        <ScheduleCreateButton onSubmit={fetchRecommendedSchedules} />
       </Box>
       {RecommendedSchedules.map((schedule, index) => (
         <RecommendedSchedule
           name={'Schedule ' + (index + 1)}
           schedule={schedule}
-          onChange={handleRerender}
+          onChange={fetchRecommendedSchedules}
         />
       ))}
     </Box>

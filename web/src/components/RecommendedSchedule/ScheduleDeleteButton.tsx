@@ -8,7 +8,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 interface ScheduleEditRowButtonProps {
   schedule: Plan;
-  onSubmit: () => void;
+  onSubmit: () => Promise<void>;
 }
 
 export default function ScheduleDeleteButton(
@@ -24,7 +24,6 @@ export default function ScheduleDeleteButton(
 
   const handleClose = () => {
     setOpen(false);
-    onSubmit();
   };
 
   const { getAccessTokenSilently } = useAuth0();
@@ -61,6 +60,8 @@ export default function ScheduleDeleteButton(
                   }
                 }
               );
+
+              await onSubmit();
             };
 
             deleteSchedule();

@@ -22,7 +22,7 @@ export interface Plan {
 interface RecommendedScheduleProps {
   name: string;
   schedule: Plan;
-  onChange: () => void;
+  onChange: () => Promise<void>;
 }
 
 export default function RecommendedSchedule(props: RecommendedScheduleProps) {

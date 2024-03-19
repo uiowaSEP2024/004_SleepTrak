@@ -8,7 +8,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 interface ScheduleDeleteRowButtonProps {
   reminder: Reminder;
-  onSubmit: () => void;
+  onSubmit: () => Promise<void>;
 }
 
 export default function ScheduleDeleteRowButton(
@@ -23,7 +23,6 @@ export default function ScheduleDeleteRowButton(
 
   const handleClose = () => {
     setOpen(false);
-    onSubmit();
   };
 
   const { getAccessTokenSilently } = useAuth0();
@@ -59,10 +58,10 @@ export default function ScheduleDeleteRowButton(
                   }
                 }
               );
+
+              await onSubmit();
             };
-
             deleteReminder();
-
             handleClose();
           }
         }}>
