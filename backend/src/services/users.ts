@@ -23,13 +23,14 @@ const get = async (userId: string): Promise<User | null | Error> => {
       },
       include: {
         babies: true,
-        events: true
+        events: true,
         medicines: true
       }
     });
 
     return result;
   } catch (err) {
+    console.log(err);
     throw ensureError(err);
   }
 };

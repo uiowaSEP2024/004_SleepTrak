@@ -10,6 +10,14 @@ function TestScreen({ navigation }: { navigation: any }) {
         title="Log Sleep"
       />
       <NavigationButton
+        onPress={() => navigation.navigate('FoodTrackingScreen')}
+        title="Log food"
+      />
+      <NavigationButton
+        onPress={() => navigation.navigate('MedicineTrackingScreen')}
+        title="Log medicine"
+      />
+      <NavigationButton
         onPress={() => navigation.navigate('Login')}
         title="Login test"
       />
