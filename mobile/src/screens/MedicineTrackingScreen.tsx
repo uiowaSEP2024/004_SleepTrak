@@ -252,7 +252,7 @@ const MedicineTrackingScreen: React.FC = () => {
     console.log(medicineData);
     setIsLoading(true);
     setTimeout(() => {
-      navigation.navigate('Home');
+      navigation.goBack();
     }, 2000);
   };
 
