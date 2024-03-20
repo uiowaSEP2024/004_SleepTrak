@@ -22,6 +22,7 @@ import ShowMoreButton from '../components/buttons/ShowMoreButton';
 import WindowCell from '../components/views/WindowCell';
 import SleepTypeSelector from '../components/selectors/SleepTypeSelector';
 import BasicButton from '../components/buttons/SaveButton';
+import { createEvent } from '../utils/db';
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -38,6 +39,11 @@ const SleepTimer: React.FC = () => {
   const [windows, setWindows] = useState<
     Array<{ id: string; startTime: Date; stopTime: Date; isSleep: boolean }>
   >([]);
+  const [sleepData, setSleepData] = useState({
+    startTime: new Date(),
+    endTime: new Date(),
+    type: 'nap'
+  });
   const scrollViewRef = useRef<ScrollView>(null);
   const options: Intl.DateTimeFormatOptions = {
     hour: '2-digit',
@@ -90,12 +96,14 @@ const SleepTimer: React.FC = () => {
   };
 
   const saveSleepSession = () => {
-    console.log('Save button pressed');
-    const sleepBegin = windows[0].startTime;
-    const sleepEnd = windows[windows.length - 1].stopTime;
-    console.log('Type of Sleep:', isNap ? 'Nap' : 'Night Sleep');
-    console.log('Sleep Start Time: ', sleepBegin);
-    console.log('Sleep Stop Time: ', sleepEnd);
+    const newSleepData = {
+      ...sleepData,
+      startTime: windows[0].startTime,
+      endTime: windows[windows.length - 1].stopTime,
+      type: isNap ? 'nap' : 'night_sleep'
+    };
+    setSleepData(newSleepData);
+    void createEvent(newSleepData);
   };
 
   return (
