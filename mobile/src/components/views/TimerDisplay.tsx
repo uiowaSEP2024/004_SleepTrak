@@ -45,17 +45,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginHorizontal: 30,
-    marginBottom: 25,
     borderBottomWidth: 1,
     borderBottomColor: 'grey'
   },
   title: {
     fontWeight: 'bold',
-    flex: 1
+    fontSize: 16,
+    flex: 1,
+    marginBottom: 5
   },
   time: {
     textAlign: 'right',
-    flex: 1
+    fontSize: 18,
+    flex: 1,
+    paddingRight: 5,
+    marginBottom: 5
   }
 });
 
