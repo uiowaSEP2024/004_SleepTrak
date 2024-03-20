@@ -27,7 +27,6 @@ export default function RecommendedSchedules() {
     });
 
     const data = await response.json();
-    console.log(data);
     setRecommendedSchedules(data);
   };
   useEffect(() => {
@@ -42,13 +41,17 @@ export default function RecommendedSchedules() {
         <h2>Recommended Schedule</h2>
         <ScheduleCreateButton onSubmit={fetchRecommendedSchedules} />
       </Box>
-      {RecommendedSchedules.map((schedule, index) => (
-        <RecommendedSchedule
-          name={'Schedule ' + (index + 1)}
-          schedule={schedule}
-          onChange={fetchRecommendedSchedules}
-        />
-      ))}
+      {!RecommendedSchedules.length ? (
+        <h4> This Client Does Not Have a Recommended Schuedule Yet.</h4>
+      ) : (
+        RecommendedSchedules.map((schedule, index) => (
+          <RecommendedSchedule
+            name={'Schedule ' + (index + 1)}
+            schedule={schedule}
+            onChange={fetchRecommendedSchedules}
+          />
+        ))
+      )}
     </Box>
   );
 }

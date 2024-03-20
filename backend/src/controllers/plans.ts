@@ -34,7 +34,7 @@ const create = async (req: Request, res: Response): Promise<void> => {
 
     const planData = {
       client: { connect: { userId: creationParams.clientId } },
-      coach: { connect: { userId: creationParams.coachId } },
+      coach: { connect: { userId: 'testID_91' } },
       reminders: {
         create: creationParams.reminders
       }
