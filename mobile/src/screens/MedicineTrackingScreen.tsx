@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, StyleSheet, Text, TextInput, ScrollView } from 'react-native';
 import { colors } from '../../assets/colors';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -12,29 +12,32 @@ import NotesTextInput from '../components/inputs/NotesTextInput';
 import { createEvent, createMedicine, fetchUserData } from '../utils/db';
 import { useNavigation } from '@react-navigation/native';
 
+const UPDATE_DELAY_MS = 2000;
+
 const Divider = () => {
   return <View style={styles.divider} />;
 };
-
 const NumericInput: React.FC<{
   onValueChange: (newValue: any) => void;
   unit: string;
 }> = ({ onValueChange, unit }) => {
   const [value, setValue] = useState('0.00');
 
-  const handleTextChange = (newValue: string) => {
-    // Ignore non-numeric input
-    if (!/^\d*\.?\d*$/.test(newValue)) {
-      return;
-    }
+  const handleTextChange = useCallback(
+    (newValue: string) => {
+      if (!/^\d*\.?\d*$/.test(newValue)) {
+        return;
+      }
 
-    setValue(newValue);
-    onValueChange(parseFloat(newValue));
-  };
+      setValue(newValue);
+      onValueChange(parseFloat(newValue));
+    },
+    [onValueChange]
+  );
 
-  const handleFocus = () => {
+  const handleFocus = useCallback(() => {
     setValue('');
-  };
+  }, []);
 
   return (
     <View>
@@ -62,19 +65,22 @@ const DateTimePicker: React.FC<{
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [datetime, setDatetime] = useState(new Date());
 
-  const showDatePicker = () => {
+  const showDatePicker = useCallback(() => {
     setDatePickerVisibility(true);
-  };
+  }, []);
 
-  const hideDatePicker = () => {
+  const hideDatePicker = useCallback(() => {
     setDatePickerVisibility(false);
-  };
+  }, []);
 
-  const handleConfirm = (selectedDate: any) => {
-    setDatetime(selectedDate);
-    onValueChange(selectedDate.toISOString());
-    hideDatePicker();
-  };
+  const handleConfirm = useCallback(
+    (selectedDate: any) => {
+      setDatetime(selectedDate);
+      onValueChange(selectedDate.toISOString());
+      hideDatePicker();
+    },
+    [onValueChange, hideDatePicker]
+  );
 
   return (
     <View style={styles.dateTimePickerContainer}>
@@ -113,15 +119,22 @@ const MedicineTypePicker: React.FC<{
   const [wantsInput, setWantsInput] = useState(true);
   const [inputValue, setInputValue] = useState('');
 
-  const handleChangePicker = (newValue: any) => {
-    setWantsInput(newValue === null || newValue === 'null');
-    onValueChange(newValue);
-    setValue(newValue);
-  };
-  const handleChangeInput = (newValue: any) => {
-    onValueChange(newValue);
-    setInputValue(newValue);
-  };
+  const handleChangePicker = useCallback(
+    (newValue: any) => {
+      setWantsInput(newValue === null || newValue === 'null');
+      onValueChange(newValue);
+      setValue(newValue);
+    },
+    [onValueChange]
+  );
+
+  const handleChangeInput = useCallback(
+    (newValue: any) => {
+      onValueChange(newValue);
+      setInputValue(newValue);
+    },
+    [onValueChange]
+  );
 
   return (
     <View>
@@ -162,14 +175,19 @@ const UnitPicker: React.FC<{
 }> = ({ onValueChange, unit }) => {
   const [value, setValue] = useState(unit);
 
+  const handleValueChange = useCallback(
+    (newValue: string) => {
+      setValue(newValue);
+      onValueChange(newValue);
+    },
+    [onValueChange]
+  );
+
   return (
     <View testID="unit-picker">
       <SegmentedButtons
         value={value}
-        onValueChange={(newValue) => {
-          setValue(newValue);
-          onValueChange(newValue);
-        }}
+        onValueChange={handleValueChange}
         buttons={[
           {
             label: 'mL',
@@ -220,10 +238,10 @@ const MedicineTrackingScreen: React.FC = () => {
     startTime: new Date().toISOString(),
     amount: 0,
     unit: 'oz',
-    medicineType: null,
+    medicineType: 'null',
     note: ''
   });
-  const [medicineTypes, setMedicineTypes] = useState<string[] | never[]>([]);
+  const [medicineTypes, setMedicineTypes] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchMedicineTypes = async () => {
@@ -235,6 +253,10 @@ const MedicineTrackingScreen: React.FC = () => {
     void fetchMedicineTypes();
   }, []);
 
+  const updateMedicineData = (key: string, value: any) => {
+    setMedicineData((prevState) => ({ ...prevState, [key]: value }));
+  };
+
   const checkMedicine = async () => {
     const user = await fetchUserData();
 
@@ -245,15 +267,15 @@ const MedicineTrackingScreen: React.FC = () => {
       );
     }
   };
+
   const handleSave = () => {
     void checkMedicine();
     void createEvent(medicineData);
 
-    console.log(medicineData);
     setIsLoading(true);
     setTimeout(() => {
       navigation.goBack();
-    }, 2000);
+    }, UPDATE_DELAY_MS);
   };
 
   return isLoading ? (
@@ -269,21 +291,13 @@ const MedicineTrackingScreen: React.FC = () => {
       <ScrollView style={styles.container}>
         <DateTimePicker
           onValueChange={(value) => {
-            setMedicineData((prevState) => ({
-              ...prevState,
-              startTime: value
-            }));
+            updateMedicineData('startTime', value);
           }}
         />
         <Divider />
         <MedicineTypePicker
           onValueChange={(value) => {
-            console.log(value);
-            setMedicineData((prevState) => ({
-              ...prevState,
-              medicineType: value
-            }));
-            console.log(medicineData);
+            updateMedicineData('medicineType', value);
           }}
           medicines={medicineTypes}
         />
@@ -291,7 +305,7 @@ const MedicineTrackingScreen: React.FC = () => {
         <View style={{ height: '15%' }}></View>
         <UnitPicker
           onValueChange={(value) => {
-            setMedicineData((prevState) => ({ ...prevState, unit: value }));
+            updateMedicineData('unit', value);
             setUnit(value);
           }}
           unit={unit}
@@ -299,7 +313,7 @@ const MedicineTrackingScreen: React.FC = () => {
         <View style={{ height: '15%' }}></View>
         <NumericInput
           onValueChange={(value) => {
-            setMedicineData((prevState) => ({ ...prevState, amount: value }));
+            updateMedicineData('amount', value);
           }}
           unit={unit}
         />
@@ -307,16 +321,13 @@ const MedicineTrackingScreen: React.FC = () => {
         <NotesTextInput
           style={{ alignSelf: 'center', marginVertical: 8 }}
           onValueChange={(value) => {
-            setMedicineData((prevState) => ({ ...prevState, note: value }));
+            updateMedicineData('note', value);
           }}
         />
       </ScrollView>
       <Button
         mode="contained"
-        onPress={() => {
-          handleSave();
-          console.log(medicineData);
-        }}
+        onPress={handleSave}
         style={styles.saveButtonContainer}
         labelStyle={styles.saveButtonLabel}
         testID="back-button">
@@ -325,7 +336,6 @@ const MedicineTrackingScreen: React.FC = () => {
     </View>
   );
 };
-
 MedicineTrackingScreen.propTypes = {};
 
 const styles = StyleSheet.create({
