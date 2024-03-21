@@ -5,9 +5,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import dayjs from 'dayjs';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import TimePickerField from '../TimePickerField';
-import { Checkbox, FormControlLabel } from '@mui/material';
+import { Checkbox, FormControlLabel, TextField } from '@mui/material';
 import { Reminder } from './RecommendedSchedule';
 import { useAuth0 } from '@auth0/auth0-react';
 
@@ -30,6 +29,9 @@ export default function ScheduleEditRowButton(
   );
   const [endTime, setEndTime] = React.useState<dayjs.Dayjs | null>(
     dayjs(reminder.endTime)
+  );
+  const [description, setDescription] = React.useState<string>(
+    reminder.description
   );
   const handleClickOpen = () => {
     setOpen(true);
@@ -76,6 +78,7 @@ export default function ScheduleEditRowButton(
                     Authorization: `Bearer ${token}`
                   },
                   body: JSON.stringify({
+                    description: description,
                     startTime: startTime,
                     endTime: endTime
                   })
@@ -90,7 +93,15 @@ export default function ScheduleEditRowButton(
         }}>
         <DialogTitle>Edit an event</DialogTitle>
         <DialogContent>
-          <DialogContentText>{reminder.description}</DialogContentText>
+          <TextField
+            id="outlined-controlled"
+            label="Event Name"
+            value={description}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setDescription(event.target.value);
+            }}
+            sx={{ my: 1 }}
+          />
           <TimePickerField
             label="Start Time"
             defaultValue={startTime}
