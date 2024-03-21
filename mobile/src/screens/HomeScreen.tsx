@@ -209,7 +209,7 @@ const HomeScreen = () => {
   return (
     <ScrollView
       style={{ backgroundColor: 'white' }}
-      contentInset={{ top: 0, bottom: 200, left: 0, right: 0 }}
+      contentInset={{ top: 0, bottom: 250, left: 0, right: 0 }}
       contentContainerStyle={styles.topContainer}>
       <UserWelcomeSign user={user} />
       <HeroBox events={user.events ?? []} />
