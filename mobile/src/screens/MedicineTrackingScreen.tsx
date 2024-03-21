@@ -114,7 +114,7 @@ const MedicineTypePicker: React.FC<{
   const [inputValue, setInputValue] = useState('');
 
   const handleChangePicker = (newValue: any) => {
-    setWantsInput(newValue === null);
+    setWantsInput(newValue === null || newValue === 'null');
     onValueChange(newValue);
     setValue(newValue);
   };
@@ -318,7 +318,8 @@ const MedicineTrackingScreen: React.FC = () => {
           console.log(medicineData);
         }}
         style={styles.saveButtonContainer}
-        labelStyle={styles.saveButtonLabel}>
+        labelStyle={styles.saveButtonLabel}
+        testID="back-button">
         Save
       </Button>
     </View>
