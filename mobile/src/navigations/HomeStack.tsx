@@ -8,6 +8,7 @@ import EditWindowScreen from '../screens/EditWindowScreen';
 import FoodTrackingScreen from '../screens/FoodTrackingScreen';
 import HomeScreen from '../screens/HomeScreen';
 import EventsScreen from '../screens/EventsScreen';
+import EventScreen from '../screens/EventScreen';
 
 export interface RootStackParamList {
   Home: undefined;
@@ -60,6 +61,10 @@ const HomeStack = () => {
       <Stack.Screen
         name="Events"
         component={EventsScreen}
+      />
+      <Stack.Screen
+        name="EventScreen"
+        component={EventScreen}
       />
     </Stack.Navigator>
   );
