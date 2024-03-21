@@ -7,9 +7,10 @@ import ClientCard from '../../components/ClientCard';
 describe('ClientCard component', () => {
   const mockProps = {
     avatarSrc: '/path/to/avatar.jpg',
-    title: 'Client 1',
-    body: 'Baby 1.',
-    babyId: '1'
+    clientName: 'Client 1',
+    babyNames: 'Baby 1',
+    babyId: '1',
+    clientId: '1'
   };
 
   it('renders correctly', () => {
@@ -20,7 +21,7 @@ describe('ClientCard component', () => {
     );
 
     expect(screen.getByText('Client 1')).toBeInTheDocument();
-    expect(screen.getByText('Baby 1.')).toBeInTheDocument();
+    expect(screen.getByText('Baby 1')).toBeInTheDocument();
     expect(screen.getByTestId('avatar')).toBeInTheDocument();
     expect(screen.getByText('Message')).toBeInTheDocument();
     expect(screen.getByText('More')).toBeInTheDocument();
@@ -38,6 +39,6 @@ describe('ClientCard component', () => {
     fireEvent.click(moreButton);
 
     // Assert that the URL has changed to the expected URL
-    expect(window.location.pathname).toBe(`/babies/1`);
+    expect(window.location.pathname).toBe(`/clients/1/babies/1`);
   });
 });
