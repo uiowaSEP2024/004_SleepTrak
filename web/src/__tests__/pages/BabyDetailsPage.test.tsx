@@ -7,13 +7,10 @@ import BabyDropdown from '../../components/BabyDropdown';
 // Mock Baby Dropdown Component
 jest.mock('../../components/BabyDropdown');
 
+// Mock Baby RecommendedSchedules Component
+jest.mock('../../components/RecommendedSchedule/RecommendedSchedules');
+
 // Mock API responses
-const mockBabyData = {
-  dob: '2023-01-01',
-  babyId: '1',
-  name: 'Baby A',
-  parentId: '2'
-};
 const mockClientData = {
   id: '2',
   first_name: 'John',
@@ -35,19 +32,14 @@ const mockClientData = {
 };
 
 // Mock fetch
-global.fetch = jest
-  .fn()
-  .mockResolvedValue({
-    json: async () => mockBabyData
-  })
-  .mockResolvedValue({
-    json: async () => mockClientData
-  });
+global.fetch = jest.fn().mockResolvedValue({
+  json: async () => mockClientData
+});
 
 // Mock useParams
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useParams: jest.fn().mockReturnValue({ babyId: '1' })
+  useParams: jest.fn().mockReturnValue({ userId: '1' })
 }));
 
 // Mock auth0
@@ -87,7 +79,7 @@ describe('BabyDetailsPage', () => {
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith(
-        `http://localhost:3000/babies/1`,
+        `http://localhost:3000/users/1`,
         {
           headers: {
             Authorization: 'Bearer mocked-access-token'
