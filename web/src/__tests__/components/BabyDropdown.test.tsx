@@ -16,8 +16,24 @@ const navigateMock: jest.Mock = jest.fn();
 
 describe('BabyDropdown component', () => {
   const babies = [
-    { name: 'Baby 1', dob: '2020-01-01', babyId: '1' },
-    { name: 'Baby 2', dob: '2021-02-02', babyId: '2' }
+    {
+      dob: '2023-01-15',
+      babyId: '1',
+      name: 'Baby 1',
+      parentId: '101'
+    },
+    {
+      dob: '2023-05-20',
+      babyId: '2',
+      name: 'Baby 2',
+      parentId: '101'
+    },
+    {
+      dob: '2023-09-10',
+      babyId: '3',
+      name: 'Baby 3',
+      parentId: '102'
+    }
   ];
 
   it('renders without crashing', () => {
@@ -49,6 +65,6 @@ describe('BabyDropdown component', () => {
     fireEvent.change(select, { target: { value: 'Baby 2' } });
 
     expect(getByDisplayValue('Baby 2')).toBeInTheDocument();
-    expect(navigateMock).toHaveBeenCalledWith('/babies/2');
+    expect(navigateMock).toHaveBeenCalledWith('/clients/101/babies/2');
   });
 });
