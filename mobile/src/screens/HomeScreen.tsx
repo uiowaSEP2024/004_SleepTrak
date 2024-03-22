@@ -7,9 +7,11 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 const latestEventsFilter = (events: any[], numEvents: number) => {
   const currentDayInMs = new Date().setHours(0, 0, 0, 0);
+  const endOfDayInMs = new Date().setHours(23, 59, 59, 999);
 
   const filteredEvents = events.filter((event) => {
-    return new Date(event.startTime).getTime() > currentDayInMs;
+    const eventTime = new Date(event.startTime).getTime();
+    return endOfDayInMs > eventTime && eventTime > currentDayInMs;
   });
   const sortedEvents = filteredEvents.sort((a, b) => {
     return new Date(b.startTime).getTime() - new Date(a.startTime).getTime();
