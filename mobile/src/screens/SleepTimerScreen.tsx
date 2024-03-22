@@ -117,7 +117,7 @@ const SleepTimer: React.FC = () => {
         />
         <View style={styles.timerGroup}>
           <TimerDisplay
-            style={{ marginBottom: 40 }}
+            style={{ marginBottom: 35 }}
             title="Start Time:"
             time={
               sleepStartTime
@@ -126,6 +126,7 @@ const SleepTimer: React.FC = () => {
             }
           />
           <TimerDisplay
+            style={{ marginBottom: 35 }}
             title="Stop Time:"
             time={
               SleepStopTime
@@ -133,11 +134,8 @@ const SleepTimer: React.FC = () => {
                 : new Date().toLocaleTimeString(undefined, options)
             }
           />
+          <ElapsedTimeDisplay isRunning={isRunning} />
         </View>
-        <ElapsedTimeDisplay
-          isRunning={isRunning}
-          style={{ marginVertical: 20 }}
-        />
         <TimerButton
           onStart={handleStart}
           onStop={handleStop}
