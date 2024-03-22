@@ -16,6 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigations/HomeStack';
 import TimerButton from '../components/buttons/TimerButton';
+import CribButton from '../components/buttons/CribButton';
 import TimerDisplay from '../components/views/TimerDisplay';
 import ElapsedTimeDisplay from '../components/views/ElapsedTimeDisplay';
 import ShowMoreButton from '../components/buttons/ShowMoreButton';
@@ -36,6 +37,8 @@ const SleepTimer: React.FC = () => {
   const [wakeStartTime, setWakeStartTime] = useState<Date | null>(null);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [isSleep, setIsSleep] = useState<boolean>(true);
+  const [cribStartTime, setCribStartTime] = useState<Date | null>(null);
+  const [cribStopTime, setCribStopTime] = useState<Date | null>(null);
   const [windows, setWindows] = useState<
     Array<{ id: string; startTime: Date; stopTime: Date; isSleep: boolean }>
   >([]);
@@ -95,11 +98,19 @@ const SleepTimer: React.FC = () => {
     setIsNap(newValue === 'nap');
   };
 
+  const handleCribStart = () => {
+    setCribStartTime(new Date());
+  };
+
+  const handleCribStop = () => {
+    setCribStopTime(new Date());
+  };
+
   const saveSleepSession = () => {
     const newSleepData = {
       ...sleepData,
-      startTime: windows[0].startTime,
-      endTime: windows[windows.length - 1].stopTime,
+      startTime: cribStartTime ?? windows[0].startTime,
+      endTime: cribStopTime ?? windows[windows.length - 1].stopTime,
       type: isNap ? 'nap' : 'night_sleep'
     };
     setSleepData(newSleepData);
@@ -139,12 +150,17 @@ const SleepTimer: React.FC = () => {
         <TimerButton
           onStart={handleStart}
           onStop={handleStop}
-          style={{ marginVertical: 40 }}
+          style={{ marginVertical: 20 }}
+        />
+        <CribButton
+          onStart={handleCribStart}
+          onStop={handleCribStop}
+          style={{ marginTop: 0, marginBottom: 40 }}
         />
         <ShowMoreButton
           onPress={handleShowLog}
           title="Show Log"
-          style={{ marginVertical: 30 }}
+          style={{ marginTop: 20 }}
         />
       </View>
       <View style={styles.logContainer}>
