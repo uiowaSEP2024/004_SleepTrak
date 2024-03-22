@@ -75,7 +75,10 @@ const eventsFilter = (events: any[], date: Date) => {
   return sortedEvents;
 };
 
-const EventCard: React.FC<{ event: any }> = ({ event }) => {
+const EventCard: React.FC<{ event: any; testID: string | undefined }> = ({
+  event,
+  testID
+}) => {
   const eventDate = new Date(event.startTime);
   const navigation = useNavigation();
 
@@ -85,6 +88,7 @@ const EventCard: React.FC<{ event: any }> = ({ event }) => {
 
   return (
     <Card
+      testID={testID}
       style={styles.eventCard}
       onPress={handleCardPress}>
       <Card.Title title={event.type} />
@@ -104,6 +108,7 @@ const EventList: React.FC<{ events: any[] }> = ({ events }) => {
       {events.map((event, index) => (
         <EventCard
           key={index}
+          testID={'event-' + index}
           event={event}
         />
       ))}
@@ -120,11 +125,9 @@ const EventsScreen: React.FC<{ date?: Date }> = ({ date }) => {
     setEvents(eventsFilter(user.events, currentDate));
   };
 
-  useEffect(
-    React.useCallback(() => {
-      void fetchEvents();
-    }, [currentDate])
-  );
+  useEffect(() => {
+    void fetchEvents();
+  }, [currentDate]);
 
   return (
     <View>
