@@ -36,6 +36,23 @@ model Event {
   unit         String?
   medicineType String?
   owner        User      @relation(fields: [ownerId], references: [userId])
+  cribStartTime DateTime?  @db.Timestamptz()
+  cribStopTime DateTime?  @db.Timestamptz()
+  sleepWindows SleepWindow[]
+  // We will have to link this to baby eventually,
+  //  but we first have to figure out how to handle users with multiple babies
+  // baby      Baby      @relation(fields: [babyId], references: [babyId])
+  // babyId    String
+}
+
+model SleepWindow {
+  id           String    @id @default(uuid())
+  event        Event     @relation(fields: [eventId], references: [eventId])
+  eventId      String
+  startTime    DateTime  @db.Timestamptz()
+  stopTime     DateTime  @db.Timestamptz()
+  isSleep      Boolean
+  notes        String
 }
 
 model Plan {
