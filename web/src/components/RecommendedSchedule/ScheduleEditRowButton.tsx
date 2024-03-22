@@ -126,7 +126,11 @@ export default function ScheduleEditRowButton(
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">Edit</Button>
+          <Button
+            aria-label="edit-row-submit"
+            type="submit">
+            Edit
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
