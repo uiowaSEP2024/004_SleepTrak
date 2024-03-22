@@ -123,6 +123,17 @@ function getRandomNumber(minValue: number, maxValue: number): number {
   return Math.floor(minValue + Math.random() * difference);
 }
 
+async function createOwnerData(): Promise<User> {
+  return await prisma.user.create({
+    data: {
+      userId: 'testID_' + getRandomNumber(0, 10000).toString(),
+      email: 'owner@test.com',
+      first_name: 'Owner',
+      last_name: 'Test',
+      role: 'owner'
+    }
+  });
+}
 async function createCoachData(): Promise<User> {
   return await prisma.user.create({
     data: {
@@ -179,6 +190,10 @@ async function main(): Promise<void> {
     });
   }
 
+  // Create owner
+  // @ts-expect-error we may want to use the babyObjects to seed further in the future
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  const ownerObject: User = await createOwnerData();
   // Create coaches
   const coachObjects: User[] = await Promise.all(
     Array.from({ length: TOTAL_COACHES }, createCoachData)
