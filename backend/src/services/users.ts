@@ -30,7 +30,6 @@ const get = async (userId: string): Promise<User | null | Error> => {
 
     return result;
   } catch (err) {
-    console.log(err);
     throw ensureError(err);
   }
 };

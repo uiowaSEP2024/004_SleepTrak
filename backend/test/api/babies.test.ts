@@ -91,7 +91,7 @@ testRoute({
 });
 
 // /babys/create
-const { babyId: _b, parentId: _p, ...babyProps } = baby;
+const { parentId: _p, ...babyProps } = baby;
 testRoute({
   description: 'returns created baby',
   reqData: {
@@ -231,8 +231,9 @@ testRoute({
         parent: { connect: { userId: undefined } },
         name: undefined,
         dob: null,
-        weight: undefined,
-        medicine: undefined
+        weight: null,
+        medicine: null,
+        babyId: undefined
       }
     }
   },
@@ -373,8 +374,9 @@ testRoute({
         parent: { connect: { userId: undefined } },
         name: undefined,
         dob: null,
-        weight: undefined,
-        medicine: undefined
+        weight: null,
+        medicine: null,
+        babyId: undefined
       }
     }
   },

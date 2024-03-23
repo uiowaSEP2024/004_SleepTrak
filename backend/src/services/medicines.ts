@@ -5,10 +5,8 @@ import { ensureError } from '../utils/error.js';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const create = async (answerData: any): Promise<Medicine | Error> => {
   try {
-    const result = await prisma.medicine.upsert({
-      where: { medicineId: answerData.medicineId },
-      update: answerData,
-      create: answerData
+    const result = await prisma.medicine.create({
+      data: answerData
     });
 
     return result;
