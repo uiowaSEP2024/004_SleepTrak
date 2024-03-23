@@ -16,6 +16,7 @@ const get = async (windowId: string): Promise<SleepWindow | null | Error> => {
 };
 
 const create = async (sleepWindowData: any): Promise<SleepWindow | Error> => {
+
   try {
     const newSleepWindow = await prisma.sleepWindow.create({
       data: sleepWindowData
