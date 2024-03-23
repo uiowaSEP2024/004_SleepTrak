@@ -52,7 +52,7 @@ model SleepWindow {
   startTime    DateTime  @db.Timestamptz()
   stopTime     DateTime  @db.Timestamptz()
   isSleep      Boolean
-  notes        String
+  note        String
 }
 
 model Plan {
