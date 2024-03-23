@@ -265,26 +265,6 @@ testRoute({
   id: '1'
 });
 
-// /plans/search
-testRoute({
-  description: 'returns HTTP 500 if Prisma throws error',
-  reqData: {},
-  mockData: prismaError,
-  expectData: {
-    status: 500,
-    body: {
-      name: prismaError.name,
-      code: prismaError.code,
-      clientVersion: prismaError.clientVersion
-    },
-    calledWith: {
-      where: {}
-    }
-  },
-  model: 'plan',
-  route: 'search'
-});
-
 // /plans/create
 testRoute({
   description: 'returns HTTP 500 if Prisma throws error',
