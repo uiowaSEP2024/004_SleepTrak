@@ -1,21 +1,7 @@
 import { prisma } from '../../prisma/client.js';
 import type { RecommendedPlan } from '@prisma/client';
 import { ensureError } from '../utils/error.js';
-
-function getAgeInMonth(dob: string): string {
-  const today = new Date();
-  const birthDate = new Date(dob);
-
-  let ageYears = today.getFullYear() - birthDate.getFullYear();
-  let ageMonths = today.getMonth() - birthDate.getMonth();
-
-  if (ageMonths < 0) {
-    ageYears--;
-    ageMonths += 12;
-  }
-
-  return ageYears * 12 + ageMonths + 'M';
-}
+import { getAgeInMonth } from '../utils/plansUtil.js';
 
 // Get request gets the recommended schedule by babyId.
 const get = async (babyId: string): Promise<RecommendedPlan | null | Error> => {
