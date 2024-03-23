@@ -6,21 +6,18 @@ const mockPlans: Plan[] = [
   {
     planId: '1',
     clientId: '1',
-    coachId: '1',
-    Status: 'upcoming'
+    coachId: '1'
   },
   {
     planId: '2',
     clientId: '2',
-    coachId: '2',
-    Status: 'complete'
+    coachId: '2'
   }
 ];
 const plan = {
   planId: '3',
   clientId: '3',
-  coachId: '3',
-  Status: 'cancelled'
+  coachId: '3'
 };
 
 // Happy Path Tests
@@ -54,26 +51,6 @@ testRoute({
   },
   model: 'plan',
   id: '1'
-});
-
-// /plans/search
-testRoute({
-  description: 'returns plans matching search by Status',
-  reqData: {
-    Status: 'complete'
-  },
-  mockData: mockPlans.filter((plan) => plan.Status === 'complete'),
-  expectData: {
-    status: 200,
-    body: mockPlans.filter((plan) => plan.Status === 'complete'),
-    calledWith: {
-      where: {
-        Status: 'complete'
-      }
-    }
-  },
-  model: 'plan',
-  route: 'search'
 });
 
 // /plans/create
@@ -176,26 +153,6 @@ testRoute({
   id: '5'
 });
 
-// /plans/search
-testRoute({
-  description: 'returns nothing if no plans match searched role',
-  reqData: {
-    Status: 'complete'
-  },
-  mockData: {},
-  expectData: {
-    status: 200,
-    body: {},
-    calledWith: {
-      where: {
-        Status: 'complete'
-      }
-    }
-  },
-  model: 'plan',
-  route: 'search'
-});
-
 // /plans/create
 testRoute({
   description: 'returns empty object when no data passed',
@@ -207,8 +164,7 @@ testRoute({
     calledWith: {
       data: {
         client: { connect: { userId: undefined } },
-        coach: { connect: { coachId: undefined } },
-        Status: undefined
+        coach: { connect: { coachId: undefined } }
       }
     }
   },
@@ -339,8 +295,7 @@ testRoute({
     calledWith: {
       data: {
         client: { connect: { userId: undefined } },
-        coach: { connect: { userId: undefined } },
-        Status: undefined
+        coach: { connect: { userId: undefined } }
       }
     }
   },

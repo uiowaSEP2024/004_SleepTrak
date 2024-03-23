@@ -34,7 +34,7 @@ const create = async (req: Request, res: Response): Promise<void> => {
 
     const planData = {
       client: { connect: { userId: creationParams.clientId } },
-      coach: { connect: { userId: 'testID_91' } },
+      coach: { connect: { userId: 'testID_4506' } },
       reminders: {
         create: creationParams.reminders
       }
@@ -43,7 +43,6 @@ const create = async (req: Request, res: Response): Promise<void> => {
     const plan = await service.create(planData);
     res.json(plan);
   } catch (err) {
-    console.error('Error:', err);
     res.status(500).send(ensureError(err));
   }
 };
