@@ -6,7 +6,7 @@ const get = async (windowId: string): Promise<SleepWindow | null | Error> => {
   try {
     const result = await prisma.sleepWindow.findUnique({
       where: {
-        id: windowId
+        windowId: windowId
       }
     });
     return result;
@@ -50,7 +50,7 @@ const update = async (
   try {
     const updatedSleepWindow = await prisma.sleepWindow.update({
       where: {
-        id: windowId
+        windowId: windowId
       },
       data: sleepWindowData
     });
@@ -64,7 +64,7 @@ const destroy = async (windowId: string): Promise<SleepWindow | Error> => {
   try {
     const result = await prisma.sleepWindow.delete({
       where: {
-        id: windowId
+        windowId: windowId
       }
     });
     return result;
