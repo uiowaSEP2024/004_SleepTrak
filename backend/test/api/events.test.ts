@@ -5,24 +5,39 @@ const mockEvents = [
   {
     eventId: '1',
     ownerId: '1',
-    startTime: '2022-01-01T12:00:00Z',
-    endTime: '2022-01-01T13:00:00Z',
-    type: 'nap'
+    startTime: '2022-01-01T12:00:00.000Z',
+    endTime: '2022-01-01T13:00:00.000Z',
+    type: 'nap',
+    amount: null,
+    foodType: null,
+    unit: null,
+    note: null,
+    medicineType: null
   },
   {
     eventId: '2',
     ownerId: '2',
-    startTime: '2023-01-01T12:00:00Z',
-    endTime: '2023-01-01T13:00:00Z',
-    type: 'sleep'
+    startTime: '2023-01-01T12:00:00.000Z',
+    endTime: '2023-01-01T13:00:00.000Z',
+    type: 'sleep',
+    amount: null,
+    foodType: null,
+    unit: null,
+    note: null,
+    medicineType: null
   }
 ];
 const event = {
   eventId: '3',
   ownerId: '3',
-  startTime: '2024-01-01T12:00:00Z',
-  endTime: '2024-01-01T13:00:00Z',
-  type: 'wake'
+  startTime: '2024-01-01T12:00:00.000Z',
+  endTime: '2024-01-01T13:00:00.000Z',
+  type: 'wake',
+  amount: null,
+  foodType: null,
+  unit: null,
+  note: null,
+  medicineType: null
 };
 
 // Happy Path Tests
@@ -93,8 +108,8 @@ testRoute({
     calledWith: {
       data: {
         ...eventProps,
-        startTime: new Date(event.startTime),
-        endTime: new Date(event.endTime),
+        startTime: new Date(event.startTime).toISOString(),
+        endTime: new Date(event.endTime).toISOString(),
         owner: { connect: { userId: event.ownerId } }
       }
     }
@@ -211,9 +226,14 @@ testRoute({
     calledWith: {
       data: {
         owner: { connect: { userId: undefined } },
-        startTime: null,
-        endTime: null,
-        type: undefined
+        startTime: undefined,
+        endTime: undefined,
+        type: undefined,
+        amount: null,
+        foodType: null,
+        unit: null,
+        note: null,
+        medicineType: null
       }
     }
   },
@@ -344,9 +364,14 @@ testRoute({
     calledWith: {
       data: {
         owner: { connect: { userId: undefined } },
-        startTime: null,
-        endTime: null,
-        type: undefined
+        startTime: undefined,
+        endTime: undefined,
+        type: undefined,
+        amount: null,
+        foodType: null,
+        unit: null,
+        note: null,
+        medicineType: null
       }
     }
   },
