@@ -69,7 +69,8 @@ testRoute({
       data: {
         ...planProps,
         client: { connect: { userId: plan.clientId } },
-        coach: { connect: { userId: plan.coachId } }
+        coach: { connect: { userId: plan.coachId } },
+        reminders: { create: undefined }
       }
     }
   },
@@ -166,7 +167,8 @@ testRoute({
     calledWith: {
       data: {
         client: { connect: { userId: undefined } },
-        coach: { connect: { coachId: undefined } }
+        coach: { connect: { coachId: undefined } },
+        reminders: { create: undefined }
       }
     }
   },
@@ -298,7 +300,8 @@ testRoute({
     calledWith: {
       data: {
         client: { connect: { userId: undefined } },
-        coach: { connect: { userId: undefined } }
+        coach: { connect: { userId: undefined } },
+        reminders: { create: undefined }
       }
     }
   },
