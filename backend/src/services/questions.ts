@@ -8,7 +8,7 @@ const getAll = async (): Promise<OnboardingQuestion[] | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 const get = async (
@@ -23,7 +23,7 @@ const get = async (
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 
