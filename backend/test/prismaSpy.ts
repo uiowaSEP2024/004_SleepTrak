@@ -41,6 +41,16 @@ const prismaSpy = {
     create: jest.spyOn(prisma.baby, 'create'),
     update: jest.spyOn(prisma.baby, 'update'),
     delete: jest.spyOn(prisma.baby, 'delete')
+  },
+  medicines: {
+    create: jest.spyOn(prisma.medicine, 'create')
+  },
+  questions: {
+    all: jest.spyOn(prisma.onboardingQuestion, 'findMany'),
+    get: jest.spyOn(prisma.onboardingQuestion, 'findUnique')
+  },
+  answers: {
+    create: jest.spyOn(prisma.onboardingAnswer, 'create')
   }
 };
 

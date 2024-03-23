@@ -11,7 +11,7 @@ const create = async (answerData: any): Promise<Medicine | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 
