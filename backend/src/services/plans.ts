@@ -1,5 +1,5 @@
 import { prisma } from '../../prisma/client.js';
-import type { Plan, Prisma } from '@prisma/client';
+import type { Plan } from '@prisma/client';
 import { ensureError } from '../utils/error.js';
 
 const getAll = async (): Promise<Plan[] | Error> => {
@@ -76,40 +76,23 @@ const update = async (
     throw ensureError(err);
   }
 };
-const destroy = async (
-  planId: string
-): Promise<
-  | [
-      Prisma.BatchPayload,
-      {
-        planId: string;
-        clientId: string;
-        coachId: string;
-      }
-    ]
-  | Error
-> => {
+const destroy = async (planId: string): Promise<Plan | Error> => {
   try {
-    const deleteReminders = prisma.reminder.deleteMany({
+    // delete all reminders in the plan
+    await prisma.reminder.deleteMany({
       where: {
         planId
       }
     });
 
-    const deletePlan = prisma.plan.delete({
+    const deletePlan = await prisma.plan.delete({
       where: {
         planId
       }
     });
 
-    const transaction = await prisma.$transaction([
-      deleteReminders,
-      deletePlan
-    ]);
-
-    return transaction;
+    return deletePlan;
   } catch (err) {
-    console.error(err);
     throw ensureError(err);
   }
 };
