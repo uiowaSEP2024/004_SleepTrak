@@ -29,7 +29,8 @@ testRoute({
   mockData: mockPlans,
   expectData: {
     status: 200,
-    body: mockPlans
+    body: mockPlans,
+    calledWith: { include: { reminders: { orderBy: { startTime: 'asc' } } } }
   },
   model: 'plan',
   route: 'all'
@@ -129,7 +130,8 @@ testRoute({
   mockData: {},
   expectData: {
     status: 200,
-    body: {}
+    body: {},
+    calledWith: { include: { reminders: { orderBy: { startTime: 'asc' } } } }
   },
   model: 'plan',
   route: 'all'
@@ -232,7 +234,8 @@ testRoute({
       name: prismaError.name,
       code: prismaError.code,
       clientVersion: prismaError.clientVersion
-    }
+    },
+    calledWith: { include: { reminders: { orderBy: { startTime: 'asc' } } } }
   },
   model: 'plan',
   route: 'all'
