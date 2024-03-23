@@ -47,7 +47,7 @@ model Event {
 
 model SleepWindow {
   windowId     String    @id @default(uuid())
-  id           String    @id @default(uuid())
+ (rename: SleepWindow model's id to windowId)
   event        Event     @relation(fields: [eventId], references: [eventId])
   eventId      String
   startTime    DateTime  @db.Timestamptz()
