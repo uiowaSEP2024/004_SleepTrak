@@ -12,6 +12,7 @@ import TimePickerField from '../TimePickerField';
 import dayjs from 'dayjs';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useParams } from 'react-router-dom';
+import { createSleepPlan } from '../../util/utils';
 
 interface WakeWindowInputFieldProps {
   index: number;
@@ -20,7 +21,7 @@ interface WakeWindowInputFieldProps {
   onChange: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
-function WakeWindowInputField(props: WakeWindowInputFieldProps) {
+export function WakeWindowInputField(props: WakeWindowInputFieldProps) {
   const { index, label, wakeWindows, onChange } = props;
   const [hours, setHours] = React.useState<number>(wakeWindows[index]);
 
@@ -85,65 +86,6 @@ export default function ScheduleCreateButton(props: ScheduleCreateButtonProps) {
     setWakeWindows(Array.from({ length: (newValue as number) + 1 }, () => 3));
   };
 
-  const createSleepPlan = () => {
-    // Create reminders
-    const morningRise = [
-      {
-        description: 'Morning Rise',
-        startTime: wakeUpTime?.toDate()
-      }
-    ];
-
-    const naps: {
-      description: string;
-      startTime: Date | null;
-      endTime: Date | null;
-    }[] = [];
-
-    // Compute how long each nap is
-    const totalDayTime = desiredBedTime?.diff(wakeUpTime, 'hour') ?? 12;
-    const totalWakeWindows = wakeWindows.reduce((accumulator, currentValue) => {
-      return accumulator + currentValue;
-    }, 0);
-    const napTime = (totalDayTime - totalWakeWindows) / numOfNaps;
-
-    // Create naps based on wakeUpTime, wakeWindowss, and desiredBedTime
-    let napEndTime = wakeUpTime;
-    for (let index = 0; index < wakeWindows.length - 1; index++) {
-      const napStartTime = napEndTime?.add(wakeWindows[index], 'hour') || null;
-      napEndTime = napStartTime?.add(napTime, 'hour') || null;
-      naps.push({
-        description: `Nap ${index + 1}`,
-        startTime: napStartTime?.toDate() || null,
-        endTime: napEndTime?.toDate() || null
-      });
-    }
-
-    const getReadyForBed = [
-      {
-        description: 'Get Ready for bed',
-        startTime: earliestGetReadyTime?.toDate()
-      }
-    ];
-
-    const asleep = [
-      {
-        description: 'Asleep ',
-        startTime: desiredBedTime?.toDate()
-      }
-    ];
-
-    const reminders = [...morningRise, ...naps, ...getReadyForBed, ...asleep];
-
-    const planData = {
-      clientId: userId,
-      coachId: user?.sub,
-      reminders: reminders
-    };
-
-    return planData;
-  };
-
   React.useEffect(() => {
     const fetchRecommendedPlan = async () => {
       const token = await getAccessTokenSilently();
@@ -198,7 +140,17 @@ export default function ScheduleCreateButton(props: ScheduleCreateButtonProps) {
                   'Content-Type': 'application/json',
                   Authorization: `Bearer ${token}`
                 },
-                body: JSON.stringify(createSleepPlan())
+                body: JSON.stringify(
+                  createSleepPlan(
+                    wakeUpTime,
+                    earliestGetReadyTime,
+                    desiredBedTime,
+                    wakeWindows,
+                    numOfNaps,
+                    userId,
+                    user
+                  )
+                )
               });
 
               await onSubmit();
