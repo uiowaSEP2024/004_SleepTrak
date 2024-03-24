@@ -169,9 +169,9 @@ describe('WakeWindowInputField', () => {
 
 describe('createSleepPlan', () => {
   it('generates plan data with valid input parameters', () => {
-    const wakeUpTime = dayjs('2023-01-01T08:00');
-    const earliestGetReadyTime = dayjs('2023-01-01T19:30');
-    const desiredBedTime = dayjs('2023-01-01T20:00');
+    const wakeUpTime = dayjs('2023-01-01T14:00:00.000Z');
+    const earliestGetReadyTime = dayjs('2023-01-02T01:30:00.000Z');
+    const desiredBedTime = dayjs('2023-01-02T02:00:00.000Z');
     const wakeWindows = [3, 3, 3];
     const numOfNaps = 2;
     const userId = '123';
