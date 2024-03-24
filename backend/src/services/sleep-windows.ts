@@ -1,5 +1,5 @@
 import { prisma } from '../../prisma/client.js';
-import type { SleepWindow, Prisma } from '@prisma/client';
+import type { SleepWindow } from '@prisma/client';
 import { ensureError } from '../utils/error.js';
 
 const get = async (windowId: string): Promise<SleepWindow | null | Error> => {
@@ -30,9 +30,7 @@ const getByEventId = async (
   }
 };
 
-const create = async (
-  sleepWindowData: Prisma.SleepWindowCreateInput
-): Promise<SleepWindow | Error> => {
+const create = async (sleepWindowData: any): Promise<SleepWindow | Error> => {
   try {
     const newSleepWindow = await prisma.sleepWindow.create({
       data: sleepWindowData
@@ -45,14 +43,14 @@ const create = async (
 
 const update = async (
   windowId: string,
-  sleepWindowData: Prisma.SleepWindowUpdateInput
+  sleepWindowDataToUpdate: any
 ): Promise<SleepWindow | Error> => {
   try {
     const updatedSleepWindow = await prisma.sleepWindow.update({
       where: {
         windowId: windowId
       },
-      data: sleepWindowData
+      data: sleepWindowDataToUpdate
     });
     return updatedSleepWindow;
   } catch (err) {
