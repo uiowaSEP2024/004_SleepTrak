@@ -243,6 +243,12 @@ export const createEvent = async (eventData: object) => {
   }
 };
 
+/**
+ * Creates a medicine by sending a POST request to the server.
+ * @param medicineId - The ID of the medicine.
+ * @param medicineName - The name of the medicine.
+ * @returns The API response if successful, otherwise false.
+ */
 export const createMedicine = async (
   medicineId: string,
   medicineName: string
@@ -271,5 +277,115 @@ export const createMedicine = async (
       return apiResponse;
     }
   }
-  return false;
+};
+
+/**
+ * Creates an sleep window by sending a POST request to the server.
+ * @param windowData - The data of the event to be created.
+ * @returns The API response if successful, otherwise false.
+ */
+export const createWindow = async (windowData: object) => {
+  try {
+    const userCredentials = await getUserCredentials();
+    if (userCredentials) {
+      const accessToken = userCredentials.accessToken;
+      if (accessToken) {
+        const apiResponse = await fetch(
+          process.env.EXPO_PUBLIC_API_URL + '/sleep-windows/create',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({
+              ...windowData
+            })
+          }
+        );
+        if (!apiResponse.ok) {
+          throw new Error(
+            `Failed to create window: ${await apiResponse.text()}`
+          );
+        }
+        console.log('create window api response:', apiResponse);
+        return apiResponse;
+      }
+    }
+    return false;
+  } catch (error) {
+    console.error('Error creating window 1:', error);
+    throw error;
+  }
+};
+
+/**
+ * Creates an sleep window by sending a POST request to the server.
+ * @param eventData - The data of the event to be created.
+ * @param windowsData - The data of the event to be created.
+ * @returns The API response if successful, otherwise false.
+ */
+export const createSleepEvent = async (
+  eventData: object,
+  windowsData: object[]
+) => {
+  try {
+    const userCredentials = await getUserCredentials();
+    const user = await getAuth0User();
+    if (userCredentials) {
+      const accessToken = userCredentials.accessToken;
+
+      if (accessToken) {
+        const eventResponse = await fetch(
+          process.env.EXPO_PUBLIC_API_URL + '/events/create',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({
+              ownerId: (user as { sub: string }).sub,
+              ...eventData
+            })
+          }
+        );
+
+        if (!eventResponse.ok) {
+          throw new Error(
+            `Failed to create event: ${await eventResponse.text()}`
+          );
+        }
+
+        const event = await eventResponse.json();
+
+        for (const windowData of windowsData) {
+          const windowResponse = await fetch(
+            process.env.EXPO_PUBLIC_API_URL + '/sleep-windows/create',
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${accessToken}`
+              },
+              body: JSON.stringify({
+                eventId: event.eventId,
+                ...windowData
+              })
+            }
+          );
+
+          if (!windowResponse.ok) {
+            throw new Error(
+              `Failed to create window: ${await windowResponse.text()}`
+            );
+          }
+        }
+      }
+    }
+    return false;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
 };
