@@ -23,7 +23,7 @@ import ShowMoreButton from '../components/buttons/ShowMoreButton';
 import WindowCell from '../components/views/WindowCell';
 import SleepTypeSelector from '../components/selectors/SleepTypeSelector';
 import BasicButton from '../components/buttons/SaveButton';
-import { createEvent } from '../utils/db';
+import { createSleepEvent } from '../utils/db';
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -40,7 +40,13 @@ const SleepTimer: React.FC = () => {
   const [cribStartTime, setCribStartTime] = useState<Date | null>(null);
   const [cribStopTime, setCribStopTime] = useState<Date | null>(null);
   const [windows, setWindows] = useState<
-    Array<{ id: string; startTime: Date; stopTime: Date; isSleep: boolean }>
+    Array<{
+      id: string;
+      startTime: Date;
+      stopTime: Date;
+      isSleep: boolean;
+      note: string;
+    }>
   >([]);
   const [sleepData, setSleepData] = useState({
     startTime: new Date(),
@@ -66,7 +72,8 @@ const SleepTimer: React.FC = () => {
         id: wakeStartTime.getTime().toString(),
         startTime: wakeStartTime,
         stopTime: stopTimeForLog,
-        isSleep: isSleep
+        isSleep: isSleep,
+        note: ''
       };
       setWindows([...windows, newWindow]);
     }
@@ -83,7 +90,8 @@ const SleepTimer: React.FC = () => {
         id: sleepStartTime.getTime().toString(),
         startTime: sleepStartTime,
         stopTime: stopTimeForLog,
-        isSleep: isSleep
+        isSleep: isSleep,
+        note: ''
       };
       setWindows([...windows, newWindow]);
     }
@@ -114,7 +122,8 @@ const SleepTimer: React.FC = () => {
       type: isNap ? 'nap' : 'night_sleep'
     };
     setSleepData(newSleepData);
-    void createEvent(newSleepData);
+    void createSleepEvent(newSleepData, windows);
+    setWindows([]);
   };
 
   return (
