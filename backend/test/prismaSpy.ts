@@ -51,6 +51,9 @@ const prismaSpy = {
   },
   answers: {
     create: jest.spyOn(prisma.onboardingAnswer, 'create')
+  },
+  recommended_plans: {
+    get: jest.spyOn(prisma.recommendedPlan, 'findUnique')
   }
 };
 
