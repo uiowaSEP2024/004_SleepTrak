@@ -34,6 +34,7 @@ const create = async (req: Request, res: Response): Promise<void> => {
 
     const planData = {
       client: { connect: { userId: creationParams.clientId } },
+      // TODO: Should change this into coachId after implementing coach onboarding feature
       coach: { connect: { userId: creationParams.clientId } },
       reminders: {
         create: creationParams.reminders
