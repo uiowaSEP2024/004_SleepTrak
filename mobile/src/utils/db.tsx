@@ -408,6 +408,8 @@ export const deleteWindow = async (windowId: string) => {
 };
 
 /**
+=======
+>>>>>>> 8bb686a (feat: implemented createSleepEvent which stores sleep events)
  * Creates an sleep window by sending a POST request to the server.
  * @param eventData - The data of the event to be created.
  * @param windowsData - The data of the event to be created.
