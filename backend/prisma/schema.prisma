@@ -9,64 +9,62 @@ datasource db {
 
 model User {
   userId             String             @id
+  coachId            String?
+  role               String
+  email              String             @unique
   first_name         String
   last_name          String
-  email              String             @unique
-  coach              User?              @relation(name: "client_coach", fields: [coachId], references: [userId])
-  coachId            String?
-  clients            User[]             @relation(name: "client_coach")
-  role               String
+  babies             Baby[]             @relation("baby_parent")
   events             Event[]
-  coach_plans        Plan[]             @relation(name: "coach_plan")
-  user_plans         Plan[]             @relation(name: "client_plan")
-  babies             Baby[]             @relation(name: "baby_parent")
   onboarding_answers OnboardingAnswer[]
+  user_plans         Plan[]             @relation("client_plan")
+  coach_plans        Plan[]             @relation("coach_plan")
+  coach              User?              @relation("client_coach", fields: [coachId], references: [userId])
+  clients            User[]             @relation("client_coach")
+  medicines          Medicine[]
 }
 
 model Event {
-  eventId   String    @id @default(uuid())
-  owner     User      @relation(fields: [ownerId], references: [userId])
-  ownerId   String
-  startTime DateTime  @db.Timestamptz()
-  endTime   DateTime? @db.Timestamptz()
-  type      String
-  foodType  String?
-  amount    Float?
-  note      String?
-  unit      String?
-  // We will have to link this to baby eventually,
-  //  but we first have to figure out how to handle users with multiple babies
-  // baby      Baby      @relation(fields: [babyId], references: [babyId])
-  // babyId    String
+  eventId      String    @id @default(uuid())
+  ownerId      String
+  startTime    DateTime  @db.Timestamptz(6)
+  endTime      DateTime? @db.Timestamptz(6)
+  type         String
+  amount       Float?
+  foodType     String?
+  note         String?
+  unit         String?
+  medicineType String?
+  owner        User      @relation(fields: [ownerId], references: [userId])
 }
 
 model Plan {
   planId    String     @id
-  client    User       @relation(name: "client_plan", fields: [clientId], references: [userId])
   clientId  String
-  coach     User       @relation(name: "coach_plan", fields: [coachId], references: [userId])
   coachId   String
-  reminders Reminder[] @relation(name: "plan_reference")
   Status    String
+  client    User       @relation("client_plan", fields: [clientId], references: [userId])
+  coach     User       @relation("coach_plan", fields: [coachId], references: [userId])
+  reminders Reminder[] @relation("plan_reference")
 }
 
 model Reminder {
-  reminderId  String   @id
-  plan        Plan     @relation(name: "plan_reference", fields: [planId], references: [planId])
-  planId      String
+  reminderId  String    @id
   description String
-  timestamp   DateTime @db.Timestamptz()
+  planId      String
+  endTime     DateTime? @db.Timestamptz(6)
+  startTime   DateTime  @db.Timestamptz(6)
+  plan        Plan      @relation("plan_reference", fields: [planId], references: [planId])
 }
 
 model Baby {
   babyId             String             @id
-  parent             User               @relation(name: "baby_parent", fields: [parentId], references: [userId])
   parentId           String
   name               String
   dob                DateTime           @db.Date
   weight             Float?
-  // We can make a medicine table if needed later
   medicine           String?
+  parent             User               @relation("baby_parent", fields: [parentId], references: [userId])
   onboarding_answers OnboardingAnswer[]
 }
 
@@ -81,13 +79,23 @@ model OnboardingQuestion {
 model OnboardingAnswer {
   answerId    String             @id
   answer_text String
-  question    OnboardingQuestion @relation(fields: [questionId], references: [questionId])
   questionId  String
-  user        User               @relation(fields: [userId], references: [userId])
   userId      String
-  baby        Baby               @relation(fields: [babyId], references: [babyId])
   babyId      String
+  baby        Baby               @relation(fields: [babyId], references: [babyId])
+  question    OnboardingQuestion @relation(fields: [questionId], references: [questionId])
+  user        User               @relation(fields: [userId], references: [userId])
 }
 
-// TODO: Will do this one when we are actually building the chat out.
-// model Message {}
+model RecommendedPlan {
+  ageInMonth String @id
+  numOfNaps  Int
+  wakeWindow Float
+}
+
+model Medicine {
+  medicineId String @id
+  name       String
+  user       User   @relation(fields: [userId], references: [userId])
+  userId     String
+}

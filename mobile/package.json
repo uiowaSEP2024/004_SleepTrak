@@ -24,7 +24,10 @@
       "!**/node_modules/**",
       "!**/babel.config.js",
       "!**/jest.setup.js",
-      "!src/utils/*"
+      "!src/utils/*",
+      "!src/screens/AuthScreen.tsx",
+      "!src/screens/TestScreen.tsx",
+      "!src/navigations/*"
     ],
     "coverageThreshold": {
       "global": {

@@ -176,6 +176,17 @@ const EventButtons: React.FC = () => {
           </Card.Content>
         </Card>
       </View>
+      <View style={styles.eventButtons}>
+        <Card
+          style={styles.eventButton}
+          onPress={() => {
+            navigation.navigate('MedicineTrackingScreen');
+          }}>
+          <Card.Content style={styles.eventButtonContent}>
+            <Text>Medicine</Text>
+          </Card.Content>
+        </Card>
+      </View>
     </View>
   );
 };
@@ -196,7 +207,10 @@ const HomeScreen = () => {
   );
 
   return (
-    <ScrollView contentContainerStyle={styles.topContainer}>
+    <ScrollView
+      style={{ backgroundColor: 'white' }}
+      contentInset={{ top: 0, bottom: 250, left: 0, right: 0 }}
+      contentContainerStyle={styles.topContainer}>
       <UserWelcomeSign user={user} />
       <HeroBox events={user.events ?? []} />
       <Notifications />
@@ -207,7 +221,6 @@ const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   topContainer: {
-    height: '100%',
     width: '100%',
     flexDirection: 'column',
     paddingVertical: 16,
@@ -231,7 +244,6 @@ const styles = StyleSheet.create({
   },
   container: {
     width: '100%',
-    height: 'auto',
     marginBottom: 16,
     flexDirection: 'column',
     justifyContent: 'flex-start'
@@ -250,12 +262,15 @@ const styles = StyleSheet.create({
   eventButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignContent: 'center',
     width: '100%',
-    height: '40%'
+    height: '30%',
+    marginBottom: 16,
+    paddingHorizontal: 16
   },
   eventButton: {
-    width: '45%',
-    height: '100%'
+    width: '48%',
+    borderRadius: 0
   },
   eventButtonContent: {
     alignItems: 'center',

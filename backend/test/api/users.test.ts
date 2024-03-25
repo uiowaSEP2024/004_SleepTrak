@@ -42,7 +42,7 @@ testRoute({
     body: mockUsers,
     calledWith: {
       include: {
-        Babies: true
+        babies: true
       }
     }
   },
@@ -60,7 +60,9 @@ testRoute({
     body: mockUsers.filter((user) => user.userId === '1'),
     calledWith: {
       include: {
-        Babies: true
+        babies: true,
+        events: true,
+        medicines: true
       },
       where: {
         userId: ':id'
@@ -92,7 +94,7 @@ testRoute({
 });
 
 // /users/create
-const { userId: _u, coachId: _c, ...userProps } = user;
+const { coachId: _c, ...userProps } = user;
 testRoute({
   description: 'returns created user',
   reqData: {
@@ -169,7 +171,7 @@ testRoute({
     body: {},
     calledWith: {
       include: {
-        Babies: true
+        babies: true
       }
     }
   },
@@ -187,7 +189,9 @@ testRoute({
     body: {},
     calledWith: {
       include: {
-        Babies: true
+        babies: true,
+        events: true,
+        medicines: true
       },
       where: {
         userId: ':id'
@@ -302,7 +306,7 @@ testRoute({
     },
     calledWith: {
       include: {
-        Babies: true
+        babies: true
       }
     }
   },
@@ -324,7 +328,9 @@ testRoute({
     },
     calledWith: {
       include: {
-        Babies: true
+        babies: true,
+        events: true,
+        medicines: true
       },
       where: {
         userId: ':id'

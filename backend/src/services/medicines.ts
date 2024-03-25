@@ -1,11 +1,11 @@
 import { prisma } from '../../prisma/client.js';
-import type { OnboardingAnswer } from '@prisma/client';
+import type { Medicine } from '@prisma/client';
 import { ensureError } from '../utils/error.js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const create = async (answerData: any): Promise<OnboardingAnswer | Error> => {
+const create = async (answerData: any): Promise<Medicine | Error> => {
   try {
-    const result = await prisma.onboardingAnswer.create({
+    const result = await prisma.medicine.create({
       data: answerData
     });
 

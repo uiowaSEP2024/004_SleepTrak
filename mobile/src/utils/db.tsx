@@ -242,3 +242,34 @@ export const createEvent = async (eventData: object) => {
     console.error('Error:', error);
   }
 };
+
+export const createMedicine = async (
+  medicineId: string,
+  medicineName: string
+) => {
+  const userCredentials = await getUserCredentials();
+  const user = await getAuth0User();
+  if (userCredentials) {
+    const accessToken = userCredentials.accessToken;
+
+    if (accessToken) {
+      const apiResponse = await fetch(
+        process.env.EXPO_PUBLIC_API_URL + '/medicines/create',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`
+          },
+          body: JSON.stringify({
+            userId: (user as { sub: string }).sub,
+            name: medicineName,
+            medicineId
+          })
+        }
+      );
+      return apiResponse;
+    }
+  }
+  return false;
+};

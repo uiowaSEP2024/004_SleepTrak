@@ -9,6 +9,7 @@ import FoodTrackingScreen from '../screens/FoodTrackingScreen';
 import HomeScreen from '../screens/HomeScreen';
 import EventsScreen from '../screens/EventsScreen';
 import EventScreen from '../screens/EventScreen';
+import MedicineTrackingScreen from '../screens/MedicineTrackingScreen';
 
 export interface RootStackParamList {
   Home: undefined;
@@ -61,6 +62,11 @@ const HomeStack = () => {
       <Stack.Screen
         name="Events"
         component={EventsScreen}
+        
+      />
+      <Stack.Screen
+        name="MedicineTrackingScreen"
+        component={MedicineTrackingScreen} 
       />
       <Stack.Screen
         name="EventScreen"

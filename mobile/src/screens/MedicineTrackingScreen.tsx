@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, StyleSheet, Text, TextInput, ScrollView } from 'react-native';
 import { colors } from '../../assets/colors';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -8,42 +8,36 @@ import {
   SegmentedButtons
 } from 'react-native-paper';
 import RNPickerSelect from 'react-native-picker-select';
-import Slider from '@react-native-community/slider';
 import NotesTextInput from '../components/inputs/NotesTextInput';
-import { createEvent } from '../utils/db';
+import { createEvent, createMedicine, fetchUserData } from '../utils/db';
 import { useNavigation } from '@react-navigation/native';
-const foodTypes = [
-  { label: 'Breast Milk', value: 'breastMilk' },
-  { label: 'Formula', value: 'formula' },
-  { label: 'Tube Feeding', value: 'tubeFeeding' },
-  { label: 'Cow Milk', value: 'cowMilk' },
-  { label: 'Soy Milk', value: 'soyMilk' },
-  { label: 'Other', value: 'other' }
-];
+
+const UPDATE_DELAY_MS = 2000;
 
 const Divider = () => {
   return <View style={styles.divider} />;
 };
-
 const NumericInput: React.FC<{
   onValueChange: (newValue: any) => void;
   unit: string;
 }> = ({ onValueChange, unit }) => {
   const [value, setValue] = useState('0.00');
 
-  const handleTextChange = (newValue: string) => {
-    // Ignore non-numeric input
-    if (!/^\d*\.?\d*$/.test(newValue)) {
-      return;
-    }
+  const handleTextChange = useCallback(
+    (newValue: string) => {
+      if (!/^\d*\.?\d*$/.test(newValue)) {
+        return;
+      }
 
-    setValue(newValue);
-    onValueChange(parseFloat(newValue));
-  };
+      setValue(newValue);
+      onValueChange(parseFloat(newValue));
+    },
+    [onValueChange]
+  );
 
-  const handleFocus = () => {
+  const handleFocus = useCallback(() => {
     setValue('');
-  };
+  }, []);
 
   return (
     <View>
@@ -58,25 +52,8 @@ const NumericInput: React.FC<{
             value={value}
             testID="numeric-input"
           />
-          <Text style={styles.unitText}>{unit === 'oz' ? 'Oz' : 'mL'}</Text>
+          <Text style={styles.unitText}>{unit}</Text>
         </View>
-      </View>
-      <View style={{ height: '5%' }} />
-      <Slider
-        style={styles.sliderContainer}
-        minimumValue={0}
-        maximumValue={unit === 'oz' ? 12 : 350}
-        step={unit === 'oz' ? 0.25 : 5}
-        minimumTrackTintColor={colors.crimsonRed}
-        maximumTrackTintColor={colors.lightTan}
-        value={parseFloat(value)}
-        onValueChange={(newValue) => {
-          handleTextChange(newValue.toString());
-        }}
-      />
-      <View style={styles.sliderRangeContainer}>
-        <Text>0</Text>
-        <Text>{unit === 'oz' ? 12 : 350}</Text>
       </View>
     </View>
   );
@@ -88,23 +65,26 @@ const DateTimePicker: React.FC<{
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [datetime, setDatetime] = useState(new Date());
 
-  const showDatePicker = () => {
+  const showDatePicker = useCallback(() => {
     setDatePickerVisibility(true);
-  };
+  }, []);
 
-  const hideDatePicker = () => {
+  const hideDatePicker = useCallback(() => {
     setDatePickerVisibility(false);
-  };
+  }, []);
 
-  const handleConfirm = (selectedDate: any) => {
-    setDatetime(selectedDate);
-    onValueChange(selectedDate.toISOString());
-    hideDatePicker();
-  };
+  const handleConfirm = useCallback(
+    (selectedDate: any) => {
+      setDatetime(selectedDate);
+      onValueChange(selectedDate.toISOString());
+      hideDatePicker();
+    },
+    [onValueChange, hideDatePicker]
+  );
 
   return (
     <View style={styles.dateTimePickerContainer}>
-      <Text style={styles.text}>Start time:</Text>
+      <Text style={styles.text}>Time:</Text>
       <Button
         onPress={showDatePicker}
         testID="date-time-picker-button">
@@ -128,25 +108,62 @@ const DateTimePicker: React.FC<{
   );
 };
 
-const FoodTypePicker: React.FC<{
+const MedicineTypePicker: React.FC<{
   onValueChange: (newValue: any) => void;
-}> = ({ onValueChange }) => {
-  const [value, setValue] = useState('breastMilk');
+  medicines: string[];
+}> = ({ onValueChange, medicines }) => {
+  const [value, setValue] = useState({
+    label: 'Input new medicine..',
+    value: null
+  });
+  const [wantsInput, setWantsInput] = useState(true);
+  const [inputValue, setInputValue] = useState('');
 
-  const handleChange = (newValue: any) => {
-    onValueChange(newValue);
-    setValue(newValue);
-  };
+  const handleChangePicker = useCallback(
+    (newValue: any) => {
+      setWantsInput(newValue === null || newValue === 'null');
+      onValueChange(newValue);
+      setValue(newValue);
+    },
+    [onValueChange]
+  );
+
+  const handleChangeInput = useCallback(
+    (newValue: any) => {
+      onValueChange(newValue);
+      setInputValue(newValue);
+    },
+    [onValueChange]
+  );
+
   return (
-    <View style={styles.foodTypePickerContainer}>
-      <Text style={styles.text}>Type:</Text>
-      <View testID="food-type-picker">
-        <RNPickerSelect
-          onValueChange={handleChange}
-          items={foodTypes}
-          style={pickerSelectStyles}
-          value={value}
-        />
+    <View>
+      <View style={styles.medicineTypePickerContainer}>
+        <Text style={styles.text}>Medicine:</Text>
+        <View testID="medicine-type-picker">
+          <RNPickerSelect
+            onValueChange={handleChangePicker}
+            items={
+              medicines.length === 0
+                ? []
+                : medicines.map((type) => ({ label: type, value: type }))
+            }
+            style={pickerSelectStyles}
+            value={value}
+            placeholder={{ label: 'New medicine', value: null }}
+          />
+        </View>
+      </View>
+      <View>
+        {wantsInput && (
+          <TextInput
+            style={styles.textInput}
+            onChangeText={handleChangeInput}
+            value={inputValue}
+            testID="medicine-type-input"
+            placeholder="Input new medicine.."
+          />
+        )}
       </View>
     </View>
   );
@@ -158,14 +175,19 @@ const UnitPicker: React.FC<{
 }> = ({ onValueChange, unit }) => {
   const [value, setValue] = useState(unit);
 
+  const handleValueChange = useCallback(
+    (newValue: string) => {
+      setValue(newValue);
+      onValueChange(newValue);
+    },
+    [onValueChange]
+  );
+
   return (
     <View testID="unit-picker">
       <SegmentedButtons
         value={value}
-        onValueChange={(newValue) => {
-          setValue(newValue);
-          onValueChange(newValue);
-        }}
+        onValueChange={handleValueChange}
         buttons={[
           {
             label: 'mL',
@@ -182,6 +204,23 @@ const UnitPicker: React.FC<{
               backgroundColor: value === 'oz' ? colors.lightTan : 'transparent'
             },
             testID: 'unit-picker-button-oz'
+          },
+          {
+            label: 'Drops',
+            value: 'drops',
+            style: {
+              backgroundColor:
+                value === 'drops' ? colors.lightTan : 'transparent'
+            },
+            testID: 'unit-picker-button-drops'
+          },
+          {
+            label: 'Tsp',
+            value: 'tsp',
+            style: {
+              backgroundColor: value === 'tsp' ? colors.lightTan : 'transparent'
+            },
+            testID: 'unit-picker-button-tsp'
           }
         ]}
         style={styles.segmentedButtonsContainer}
@@ -190,25 +229,53 @@ const UnitPicker: React.FC<{
   );
 };
 
-const FoodTrackingScreen: React.FC = () => {
+const MedicineTrackingScreen: React.FC = () => {
   const navigation = useNavigation();
   const [unit, setUnit] = useState('oz');
   const [isLoading, setIsLoading] = useState(false);
-  const [feedData, setFeedData] = useState({
-    type: 'feed',
+  const [medicineData, setMedicineData] = useState({
+    type: 'medicine',
     startTime: new Date().toISOString(),
     amount: 0,
     unit: 'oz',
-    foodType: 'breastMilk',
+    medicineType: 'null',
     note: ''
   });
+  const [medicineTypes, setMedicineTypes] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchMedicineTypes = async () => {
+      const user = await fetchUserData();
+      setMedicineTypes(
+        user.medicines.map((object: { name: string }) => object.name) ?? []
+      );
+    };
+    void fetchMedicineTypes();
+  }, []);
+
+  const updateMedicineData = (key: string, value: any) => {
+    setMedicineData((prevState) => ({ ...prevState, [key]: value }));
+  };
+
+  const checkMedicine = async () => {
+    const user = await fetchUserData();
+
+    if (!medicineTypes.includes(medicineData.medicineType)) {
+      void createMedicine(
+        user.userId + '_' + user.medicines.length,
+        medicineData.medicineType
+      );
+    }
+  };
 
   const handleSave = () => {
-    void createEvent(feedData);
+    void checkMedicine();
+    void createEvent(medicineData);
+
     setIsLoading(true);
     setTimeout(() => {
       navigation.goBack();
-    }, 2000);
+    }, UPDATE_DELAY_MS);
   };
 
   return isLoading ? (
@@ -224,20 +291,21 @@ const FoodTrackingScreen: React.FC = () => {
       <ScrollView style={styles.container}>
         <DateTimePicker
           onValueChange={(value) => {
-            setFeedData((prevState) => ({ ...prevState, startTime: value }));
+            updateMedicineData('startTime', value);
           }}
         />
         <Divider />
-        <FoodTypePicker
+        <MedicineTypePicker
           onValueChange={(value) => {
-            setFeedData((prevState) => ({ ...prevState, foodType: value }));
+            updateMedicineData('medicineType', value);
           }}
+          medicines={medicineTypes}
         />
         <Divider />
         <View style={{ height: '15%' }}></View>
         <UnitPicker
           onValueChange={(value) => {
-            setFeedData((prevState) => ({ ...prevState, unit: value }));
+            updateMedicineData('unit', value);
             setUnit(value);
           }}
           unit={unit}
@@ -245,7 +313,7 @@ const FoodTrackingScreen: React.FC = () => {
         <View style={{ height: '15%' }}></View>
         <NumericInput
           onValueChange={(value) => {
-            setFeedData((prevState) => ({ ...prevState, amount: value }));
+            updateMedicineData('amount', value);
           }}
           unit={unit}
         />
@@ -253,24 +321,22 @@ const FoodTrackingScreen: React.FC = () => {
         <NotesTextInput
           style={{ alignSelf: 'center', marginVertical: 8 }}
           onValueChange={(value) => {
-            setFeedData((prevState) => ({ ...prevState, note: value }));
+            updateMedicineData('note', value);
           }}
         />
       </ScrollView>
       <Button
         mode="contained"
-        onPress={() => {
-          handleSave();
-        }}
+        onPress={handleSave}
         style={styles.saveButtonContainer}
-        labelStyle={styles.saveButtonLabel}>
+        labelStyle={styles.saveButtonLabel}
+        testID="back-button">
         Save
       </Button>
     </View>
   );
 };
-
-FoodTrackingScreen.propTypes = {};
+MedicineTrackingScreen.propTypes = {};
 
 const styles = StyleSheet.create({
   row: {
@@ -320,7 +386,7 @@ const styles = StyleSheet.create({
     color: colors.crimsonRed,
     fontSize: 20
   },
-  foodTypePickerContainer: {
+  medicineTypePickerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
@@ -331,7 +397,6 @@ const styles = StyleSheet.create({
   },
   segmentedButtonsContainer: {
     alignItems: 'center',
-    marginHorizontal: '20%',
     marginVertical: 8
   },
   saveButtonContainer: {
@@ -380,4 +445,4 @@ const pickerSelectStyles = StyleSheet.create({
   }
 });
 
-export default FoodTrackingScreen;
+export default MedicineTrackingScreen;
