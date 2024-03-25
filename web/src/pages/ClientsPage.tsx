@@ -4,6 +4,7 @@ import Grid from '@mui/joy/Grid';
 import Item from '@mui/joy/Grid';
 import { useEffect, useState } from 'react';
 import { Baby } from './BabyDetailsPage';
+import API_URL from '../util/apiURL';
 
 interface User {
   userId: string;
@@ -21,7 +22,7 @@ function ClientsPage() {
     const fetchClientsData = async () => {
       const token = await getAccessTokenSilently();
 
-      const response = await fetch('http://localhost:3000/users/all', {
+      const response = await fetch(`http://${API_URL}/users/all`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
