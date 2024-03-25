@@ -4,6 +4,7 @@ import BabyTab from '../components/BabyTab';
 import Box from '@mui/system/Box';
 import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
+import API_URL from '../util/apiURL';
 
 interface Baby {
   dob: string;
@@ -30,20 +31,17 @@ export default function BabyDetailsPage() {
     const fetchData = async () => {
       const token = await getAccessTokenSilently();
 
-      const babyResponse = await fetch(
-        `http://localhost:3000/babies/${babyId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+      const babyResponse = await fetch(`http://${API_URL}/babies/${babyId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
         }
-      );
+      });
       const babyDataJson = await babyResponse.json();
       setBabyData(babyDataJson);
 
       const parentId = babyDataJson.parentId;
       const clientResponse = await fetch(
-        `http://localhost:3000/users/${parentId}`,
+        `http://${API_URL}/users/${parentId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`

@@ -5,6 +5,7 @@ import Item from '@mui/joy/Grid';
 import { useEffect, useState } from 'react';
 import { Button, styled } from '@mui/joy';
 import { Link as RouterLink } from 'react-router-dom';
+import API_URL from '../util/apiURL';
 
 // prevent the Link styling from overriding the Button highlight color
 const Link = styled(RouterLink)`
@@ -34,7 +35,7 @@ function AdminPage() {
     const fetchData = async () => {
       const token = await getAccessTokenSilently();
 
-      const response = await fetch('http://localhost:3000/users/all', {
+      const response = await fetch(`http://${API_URL}/users/all`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

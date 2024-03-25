@@ -3,6 +3,7 @@ import ClientCard from '../components/ClientCard';
 import Grid from '@mui/joy/Grid';
 import Item from '@mui/joy/Grid';
 import { useEffect, useState } from 'react';
+import API_URL from '../util/apiURL';
 
 interface Baby {
   name: string;
@@ -25,7 +26,7 @@ function ClientsPage() {
     const fetchData = async () => {
       const token = await getAccessTokenSilently();
 
-      const response = await fetch('http://localhost:3000/users/all', {
+      const response = await fetch(`http://${API_URL}/users/all`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

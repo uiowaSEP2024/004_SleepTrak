@@ -3,6 +3,7 @@ import '../../util/setupDomTests';
 import { screen, act, render, waitFor } from '@testing-library/react';
 import BabyDetailsPage from '../../pages/BabyDetailsPage';
 import BabyDropdown from '../../components/BabyDropdown';
+import API_URL from '../../util/apiURL';
 
 // Mock Baby Dropdown Component
 jest.mock('../../components/BabyDropdown');
@@ -86,14 +87,11 @@ describe('BabyDetailsPage', () => {
     });
 
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledWith(
-        `http://localhost:3000/babies/1`,
-        {
-          headers: {
-            Authorization: 'Bearer mocked-access-token'
-          }
+      expect(global.fetch).toHaveBeenCalledWith(`http://${API_URL}/babies/1`, {
+        headers: {
+          Authorization: 'Bearer mocked-access-token'
         }
-      );
+      });
     });
   });
 
