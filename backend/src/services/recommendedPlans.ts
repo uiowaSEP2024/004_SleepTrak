@@ -15,7 +15,7 @@ const get = async (babyId: string): Promise<RecommendedPlan | null | Error> => {
 
     // Check if the baby exists
     if (!baby) {
-      throw new Error(`Baby with ID ${babyId} not found`);
+      throw ensureError(new Error(`Baby with ID ${babyId} not found`));
     }
 
     // Retrieve the recommended plan by the baby's age
@@ -27,7 +27,7 @@ const get = async (babyId: string): Promise<RecommendedPlan | null | Error> => {
 
     return result;
   } catch (err) {
-    return ensureError(err);
+    throw ensureError(err);
   }
 };
 export const service = {
