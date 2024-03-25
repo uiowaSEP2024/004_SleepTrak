@@ -17,6 +17,8 @@ jest.unstable_mockModule('../../src/services/auth.js', () => ({
 // use dynamic import after for oauth mocks to work
 const app = (await import('../../src/app.js')).default;
 
+type Callback = () => void;
+
 export interface testRouteParams {
   description: string;
   reqData: object;
@@ -29,6 +31,8 @@ export interface testRouteParams {
   model: string;
   id?: string;
   route?: string;
+  before?: Callback;
+  after?: Callback;
 }
 
 function generateController(model: string): string {
@@ -72,12 +76,15 @@ export function testRoute({
   expectData,
   model,
   id,
-  route
+  route,
+  before = () => {},
+  after = () => {}
 }: testRouteParams): void {
   const controller = generateController(model);
   const url = generateURL(controller, id, route);
   describe(`Test ${url} route, controller, service, bypassing oauth & prisma`, () => {
     test(`GET ${url} ${description}`, async () => {
+      before();
       if (!route) {
         route = 'get';
       }
@@ -102,6 +109,7 @@ export function testRoute({
         expect(prismaSpy[controller][route]).toHaveBeenCalledWith(
           expectData.calledWith
         );
+        after();
       }
     });
   });
