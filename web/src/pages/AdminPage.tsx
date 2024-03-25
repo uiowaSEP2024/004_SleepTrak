@@ -3,6 +3,15 @@ import CoachCard from '../components/CoachCard';
 import Grid from '@mui/joy/Grid';
 import Item from '@mui/joy/Grid';
 import { useEffect, useState } from 'react';
+import { Button, styled } from '@mui/joy';
+import { Link as RouterLink } from 'react-router-dom';
+
+// prevent the Link styling from overriding the Button highlight color
+const Link = styled(RouterLink)`
+  &:hover {
+    color: inherit;
+  }
+`;
 
 interface Baby {
   name: string;
@@ -43,6 +52,16 @@ function AdminPage() {
   return (
     <>
       <h2>Coaches</h2>
+      <Button
+        component={Link}
+        to="/admin"
+        type="button"
+        size="sm"
+        variant="soft"
+        color="danger"
+        sx={{ m: 2 }}>
+        Authorize New Coach
+      </Button>
       <Grid
         container
         spacing={3}
