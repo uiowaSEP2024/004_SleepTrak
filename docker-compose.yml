@@ -24,6 +24,9 @@ services:
       - ./web/.env
     environment:
       - NODE_ENV=development
+    volumes:
+      - ./web:/app
+      - /app/node_modules
   db:
     build:
       context: ./backend/db
