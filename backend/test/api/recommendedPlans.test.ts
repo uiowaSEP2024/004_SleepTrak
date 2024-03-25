@@ -1,8 +1,7 @@
-// import { prisma } from '../../prisma/client.js';
 import { getAgeInMonth } from '../../src/utils/plansUtil.js';
 import { testRoute } from './common.js';
-// import { jest } from '@jest/globals';
 import prismaSpy from '../prismaSpy.js';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 const recommendedPlanMock = [
   {
@@ -52,8 +51,8 @@ const babyMockSadPath = {
 
 // Happy Path Tests
 // ============================================================================
-// recommended_plans/:id
 
+// recommended_plans/:id
 testRoute({
   description: 'returns recommended plan matching baby age',
   reqData: {},
@@ -84,8 +83,8 @@ testRoute({
 
 // Sad Path Tests
 // ============================================================================
-// recommended_plans/:id
 
+// recommended_plans/:id
 testRoute({
   description: 'returns nothing if no plan matches the baby age',
   reqData: {},
@@ -106,19 +105,57 @@ testRoute({
   }
 });
 
-// testRoute({
-//   description: 'returns nothing if baby with given baby id does not exist',
-//   reqData: {},
-//   mockData: {},
-//   expectData: {
-//     status: 200,
-//     body: {},
-//     calledWith: {
-//       where: {
-//         ageInMonth: getAgeInMonth(babyMockSadPath.dob.toString())
-//       }
-//     }
-//   },
-//   model: 'recommended_plan',
-//   id: '-1'
-// });
+testRoute({
+  description: 'returns nothing if baby with given baby id does not exist',
+  reqData: {},
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {},
+    calledWith: {
+      where: {
+        ageInMonth: getAgeInMonth(babyMockSadPath.dob.toString())
+      }
+    }
+  },
+  model: 'recommended_plan',
+  id: '-1',
+  before: () => {
+    prismaSpy.babies.get.mockResolvedValue(babyMockSadPath);
+  }
+});
+
+// Error Path Tests
+// ============================================================================
+const prismaError = new PrismaClientKnownRequestError(
+  'Error manually generated for testing',
+  {
+    code: 'P2010',
+    clientVersion: 'jest mock'
+  }
+);
+
+// recommended_plans/:id
+testRoute({
+  description: 'returns HTTP 500 if Prisma throws error',
+  reqData: {},
+  mockData: prismaError,
+  expectData: {
+    status: 500,
+    body: {
+      name: prismaError.name,
+      code: prismaError.code,
+      clientVersion: prismaError.clientVersion
+    },
+    calledWith: {
+      where: {
+        ageInMonth: getAgeInMonth(babyMockHappyPath.dob.toString())
+      }
+    }
+  },
+  model: 'recommended_plan',
+  id: '1',
+  before: () => {
+    prismaSpy.babies.get.mockResolvedValue(babyMockHappyPath);
+  }
+});
