@@ -1,7 +1,8 @@
-import { prisma } from '../../prisma/client.js';
+// import { prisma } from '../../prisma/client.js';
 import { getAgeInMonth } from '../../src/utils/plansUtil.js';
 import { testRoute } from './common.js';
-import { jest } from '@jest/globals';
+// import { jest } from '@jest/globals';
+import prismaSpy from '../prismaSpy.js';
 
 const recommendedPlanMock = [
   {
@@ -40,19 +41,18 @@ const babyMockHappyPath = {
   medicine: 'pencillin'
 };
 
-// const babyMockSadPath = {
-//   babyId: '4',
-//   parentId: '4',
-//   name: 'Sergio',
-//   dob: new Date(2000, 8, 29),
-//   weight: 80,
-//   medicine: 'pencillin'
-// };
+const babyMockSadPath = {
+  babyId: '4',
+  parentId: '4',
+  name: 'Sergio',
+  dob: new Date(2000, 8, 29),
+  weight: 80,
+  medicine: 'pencillin'
+};
 
 // Happy Path Tests
 // ============================================================================
 // recommended_plans/:id
-jest.spyOn(prisma.baby, 'findUnique').mockResolvedValue(babyMockHappyPath);
 
 testRoute({
   description: 'returns recommended plan matching baby age',
@@ -76,29 +76,35 @@ testRoute({
     }
   },
   model: 'recommended_plan',
-  id: babyMockHappyPath.babyId
+  id: babyMockHappyPath.babyId,
+  before: () => {
+    prismaSpy.babies.get.mockResolvedValue(babyMockHappyPath);
+  }
 });
 
 // Sad Path Tests
 // ============================================================================
 // recommended_plans/:id
 
-// testRoute({
-//   description: 'returns nothing if no plan matches the baby age',
-//   reqData: {},
-//   mockData: {},
-//   expectData: {
-//     status: 200,
-//     body: {},
-//     calledWith: {
-//       where: {
-//         ageInMonth: getAgeInMonth(babyMockSadPath.dob.toString())
-//       }
-//     }
-//   },
-//   model: 'recommended_plan',
-//   id: babyMockSadPath.babyId
-// });
+testRoute({
+  description: 'returns nothing if no plan matches the baby age',
+  reqData: {},
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {},
+    calledWith: {
+      where: {
+        ageInMonth: getAgeInMonth(babyMockSadPath.dob.toString())
+      }
+    }
+  },
+  model: 'recommended_plan',
+  id: babyMockSadPath.babyId,
+  before: () => {
+    prismaSpy.babies.get.mockResolvedValue(babyMockSadPath);
+  }
+});
 
 // testRoute({
 //   description: 'returns nothing if baby with given baby id does not exist',
