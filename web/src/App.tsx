@@ -10,6 +10,7 @@ import {
   ProtectedRoute
 } from './components/auth';
 import BabyDetailsPage from './pages/BabyDetailsPage';
+import AdminPage from './pages/AdminPage';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
@@ -51,6 +52,10 @@ function App() {
               <Route
                 path="messages"
                 element={<MessagesPage />}
+              />
+              <Route
+                path="admin"
+                element={<AdminPage />}
               />
             </Route>
           </Routes>
