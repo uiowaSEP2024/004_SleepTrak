@@ -14,9 +14,35 @@ import MedicineTrackingScreen from '../screens/MedicineTrackingScreen';
 export interface RootStackParamList {
   Home: undefined;
   SleepTimerScreen: undefined;
-  EditWindowScreen: { startTime: Date; stopTime: Date; isSleep: boolean };
+  EditWindowScreen: {
+    id: string;
+    startTime: Date;
+    stopTime: Date;
+    isSleep: boolean;
+    onWindowEdit: (window: {
+      id: string;
+      startTime: Date;
+      stopTime: Date;
+      isSleep: boolean;
+      note: string;
+    }) => void;
+    onWindowDelete: (id: string) => void;
+  };
   [key: string]:
-    | { startTime: Date; stopTime: Date; isSleep: boolean }
+    | {
+        id: string;
+        startTime: Date;
+        stopTime: Date;
+        isSleep: boolean;
+        onWindowEdit: (window: {
+          id: string;
+          startTime: Date;
+          stopTime: Date;
+          isSleep: boolean;
+          note: string;
+        }) => void;
+        onWindowDelete: (id: string) => void;
+      }
     | undefined;
 }
 
@@ -62,11 +88,10 @@ const HomeStack = () => {
       <Stack.Screen
         name="Events"
         component={EventsScreen}
-        
       />
       <Stack.Screen
         name="MedicineTrackingScreen"
-        component={MedicineTrackingScreen} 
+        component={MedicineTrackingScreen}
       />
       <Stack.Screen
         name="EventScreen"

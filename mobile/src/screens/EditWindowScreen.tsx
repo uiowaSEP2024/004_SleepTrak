@@ -1,16 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import type { RouteProp } from '@react-navigation/native';
 import EditTimePicker from '../components/inputs/EditTimePicker';
 import NotesTextInput from '../components/inputs/NotesTextInput';
 import BasicButton from '../components/buttons/SaveButton';
 import { colors } from '../../assets/colors';
+import { useNavigation } from '@react-navigation/native';
 
 type RootStackParamList = {
   EditWindowScreen: {
+    id: string;
     startTime: Date;
     stopTime: Date;
     isSleep: boolean;
+    onWindowEdit: (window: {
+      id: string;
+      startTime: Date;
+      stopTime: Date;
+      isSleep: boolean;
+      note: string;
+    }) => void;
+    onWindowDelete: (id: string) => void;
   };
 };
 
@@ -24,8 +34,32 @@ type Props = {
 };
 
 const EditWindowScreen: React.FC<Props> = ({ route }) => {
-  const { startTime, stopTime, isSleep } = route.params;
+  const navigation = useNavigation();
+  const { id, startTime, stopTime, isSleep, onWindowEdit, onWindowDelete } =
+    route.params;
+  const [windowNote, setWindowNote] = useState('');
+  const [newStartTime, setStartTime] = useState(startTime);
+  const [newStopTime, setStopTime] = useState(stopTime);
 
+  const handleSave = () => {
+    onWindowEdit({
+      id,
+      startTime: newStartTime,
+      stopTime: newStopTime,
+      isSleep,
+      note: windowNote
+    });
+    setTimeout(() => {
+      navigation.goBack();
+    }, 1000);
+  };
+
+  const handleDelete = () => {
+    onWindowDelete(id);
+    setTimeout(() => {
+      navigation.goBack();
+    }, 1000);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.editTimeGroup}>
@@ -33,25 +67,35 @@ const EditWindowScreen: React.FC<Props> = ({ route }) => {
           style={{ marginBottom: 30 }}
           title="Start Time"
           placeholderTime={startTime}
+          onTimeChange={(newTime) => {
+            setStartTime(newTime);
+          }}
         />
         <EditTimePicker
           title="Stop Time"
           placeholderTime={stopTime}
+          onTimeChange={(newTime) => {
+            setStopTime(newTime);
+          }}
         />
       </View>
-      <NotesTextInput />
+      <NotesTextInput
+        onValueChange={(value) => {
+          setWindowNote(value);
+        }}
+      />
       <BasicButton
         title="Save"
         style={styles.saveButton}
         onPress={() => {
-          console.log({ startTime, stopTime, isSleep });
+          handleSave();
         }}
       />
       <BasicButton
         title="Delete"
         style={styles.deleteButton}
         onPress={() => {
-          console.log({ startTime, stopTime, isSleep });
+          handleDelete();
         }}
       />
     </View>
