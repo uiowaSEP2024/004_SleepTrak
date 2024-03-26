@@ -12,16 +12,6 @@ const get = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-const getByEventId = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { eventId } = req.params;
-    const windows = await service.getByEventId(eventId);
-    res.json(windows);
-  } catch (err) {
-    res.status(500).send(ensureError(err));
-  }
-};
-
 const create = async (req: Request, res: Response): Promise<void> => {
   try {
     const creationParams = req.body;
@@ -67,7 +57,6 @@ const destroy = async (req: Request, res: Response): Promise<void> => {
 
 export const controller = {
   get,
-  getByEventId,
   create,
   update,
   destroy

@@ -10,10 +10,6 @@ router.use(auth.requireAuth);
 
 // Routes
 router.get('/:id', asyncHandler(controller.get));
-router.get(
-  '/sleep-windows/event/:eventId',
-  asyncHandler(controller.getByEventId)
-);
 router.post('/create', asyncHandler(controller.create));
 router.put('/:id/update', asyncHandler(controller.update));
 router.delete('/:id/delete', asyncHandler(controller.destroy));

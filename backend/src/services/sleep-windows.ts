@@ -15,21 +15,6 @@ const get = async (windowId: string): Promise<SleepWindow | null | Error> => {
   }
 };
 
-const getByEventId = async (
-  eventId: string
-): Promise<SleepWindow[] | Error> => {
-  try {
-    const result = await prisma.sleepWindow.findMany({
-      where: {
-        eventId: eventId
-      }
-    });
-    return result;
-  } catch (err) {
-    throw ensureError(err);
-  }
-};
-
 const create = async (sleepWindowData: any): Promise<SleepWindow | Error> => {
   try {
     const newSleepWindow = await prisma.sleepWindow.create({
@@ -73,7 +58,6 @@ const destroy = async (windowId: string): Promise<SleepWindow | Error> => {
 
 export const service = {
   get,
-  getByEventId,
   create,
   update,
   destroy
