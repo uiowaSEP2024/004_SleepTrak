@@ -60,6 +60,7 @@ function ClientsPage() {
                       ? object.babies[0].babyId || ''
                       : ''
                   }
+                  adminOptions={false}
                 />
               </Item>
             </Grid>
