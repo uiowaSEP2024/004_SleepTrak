@@ -320,6 +320,94 @@ export const createWindow = async (windowData: object) => {
 };
 
 /**
+ * Updates a sleep window by sending a PUT request to the server.
+ * @param windowData - The data of the event to be updated.
+ * @returns The API response if successful, otherwise false.
+ */
+interface WindowData {
+  windowId: string;
+  eventId: string;
+  startTime: string;
+  stopTime: string;
+  isSleep: boolean;
+  note: string;
+}
+export const updateWindow = async (windowData: WindowData) => {
+  try {
+    const userCredentials = await getUserCredentials();
+    if (userCredentials) {
+      const accessToken = userCredentials.accessToken;
+      if (accessToken) {
+        const apiResponse = await fetch(
+          process.env.EXPO_PUBLIC_API_URL +
+            '/sleep-windows/' +
+            windowData.windowId +
+            '/update',
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({
+              ...windowData
+            })
+          }
+        );
+        if (!apiResponse.ok) {
+          throw new Error(
+            `Failed to update window: ${await apiResponse.text()}`
+          );
+        }
+        return apiResponse;
+      }
+    }
+    return false;
+  } catch (error) {
+    console.error('Error updating window:', error);
+    throw error;
+  }
+};
+
+/**
+ * Deletes a sleep window by sending a DELETE request to the server.
+ * @param windowId - The ID of the window to be deleted.
+ * @returns The API response if successful, otherwise false.
+ */
+export const deleteWindow = async (windowId: string) => {
+  try {
+    const userCredentials = await getUserCredentials();
+    if (userCredentials) {
+      const accessToken = userCredentials.accessToken;
+      if (accessToken) {
+        const apiResponse = await fetch(
+          process.env.EXPO_PUBLIC_API_URL +
+            '/sleep-windows/' +
+            windowId +
+            '/delete',
+          {
+            method: 'DELETE',
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            }
+          }
+        );
+        if (!apiResponse.ok) {
+          throw new Error(
+            `Failed to delete window: ${await apiResponse.text()}`
+          );
+        }
+        return apiResponse;
+      }
+    }
+    return false;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+};
+
+/**
  * Creates an sleep window by sending a POST request to the server.
  * @param eventData - The data of the event to be created.
  * @param windowsData - The data of the event to be created.
