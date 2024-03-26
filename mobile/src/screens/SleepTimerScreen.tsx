@@ -114,6 +114,28 @@ const SleepTimer: React.FC = () => {
     setCribStopTime(new Date());
   };
 
+  const handleWindowEdit = (editedWindow: {
+    id: string;
+    startTime: Date;
+    stopTime: Date;
+    isSleep: boolean;
+    note: string;
+  }) => {
+    const windowIndex = windows.findIndex(
+      (window) => window.id === editedWindow.id
+    );
+
+    if (windowIndex !== -1) {
+      const newWindows = [...windows];
+      newWindows[windowIndex] = editedWindow;
+      setWindows(newWindows);
+    }
+  };
+
+  const handleWindowDelete = (windowId: string) => {
+    setWindows(windows.filter((window) => window.id !== windowId));
+  };
+
   const saveSleepSession = () => {
     const newSleepData = {
       ...sleepData,
@@ -122,6 +144,13 @@ const SleepTimer: React.FC = () => {
       type: isNap ? 'nap' : 'night_sleep'
     };
     setSleepData(newSleepData);
+    console.log('new sleep event!:');
+    console.log('start time:', newSleepData.startTime.toISOString());
+    console.log('end time:', newSleepData.endTime.toISOString());
+    console.log(
+      'window notes:',
+      windows.map((window) => window.note).join(', ')
+    );
     void createSleepEvent(newSleepData, windows);
     setWindows([]);
   };
@@ -175,13 +204,16 @@ const SleepTimer: React.FC = () => {
       <View style={styles.logContainer}>
         <FlatList
           data={windows}
-          renderItem={({ item: { startTime, stopTime, isSleep } }) => (
+          renderItem={({ item: { id, startTime, stopTime, isSleep } }) => (
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate('EditWindowScreen', {
+                  id,
                   startTime,
                   stopTime,
-                  isSleep
+                  isSleep,
+                  onWindowEdit: handleWindowEdit,
+                  onWindowDelete: handleWindowDelete
                 });
               }}>
               <WindowCell
