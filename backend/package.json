@@ -24,7 +24,7 @@
     "dev": "nodemon",
     "dev-docker": "nodemon -L",
     "seed": "NODE_NO_WARNINGS=1 node --loader ts-node/esm prisma/seed.ts",
-    "prisma-setup": "prisma generate && prisma migrate deploy",
+    "prisma-setup": "prisma generate && prisma migrate reset --force && prisma migrate deploy",
     "list-routes": "NODE_NO_WARNINGS=1 node --no-lazy --loader ts-node/esm ./test/list-routes.ts && cat routes.json | jq -r '.[] | \"\\(.methods[0]): \\(.path)\"'"
   },
   "dependencies": {
@@ -59,6 +59,6 @@
     "typescript": "^5.3.3"
   },
   "prisma": {
-    "seed": "yarn run seed"
+    "seed": "yarn seed"
   }
 }
