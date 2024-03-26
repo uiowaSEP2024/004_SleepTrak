@@ -7,19 +7,24 @@ import CardOverflow from '@mui/joy/CardOverflow';
 import CardActions from '@mui/joy/CardActions';
 import Typography from '@mui/joy/Typography';
 import { Link } from 'react-router-dom';
+import ClientAdminOptions from './ClientAdminOptions';
 
 interface ClientCardProps {
   avatarSrc: string;
   title: string;
   body: string;
+  userId: string;
   babyId: string;
+  adminOptions: boolean;
 }
 
 const ClientCard: React.FC<ClientCardProps> = ({
   avatarSrc,
   title,
   body,
-  babyId
+  userId,
+  babyId,
+  adminOptions
 }) => {
   return (
     <Card
@@ -54,6 +59,7 @@ const ClientCard: React.FC<ClientCardProps> = ({
             </Button>
           </ButtonGroup>
         </CardActions>
+        {adminOptions ? <ClientAdminOptions userId={userId} /> : null}
       </CardOverflow>
     </Card>
   );
