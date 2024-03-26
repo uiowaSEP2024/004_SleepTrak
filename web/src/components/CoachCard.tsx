@@ -11,9 +11,10 @@ import { Link } from 'react-router-dom';
 interface CoachCardProps {
   avatarSrc: string;
   title: string;
+  coachId: string;
 }
 
-const CoachCard: React.FC<CoachCardProps> = ({ avatarSrc, title }) => {
+const CoachCard: React.FC<CoachCardProps> = ({ avatarSrc, title, coachId }) => {
   return (
     <Card
       sx={{
@@ -37,7 +38,7 @@ const CoachCard: React.FC<CoachCardProps> = ({ avatarSrc, title }) => {
             <Button>Message</Button>
             <Button
               component={Link}
-              to={`/admin`}>
+              to={`/coaches/${coachId}`}>
               Manage
             </Button>
           </ButtonGroup>
