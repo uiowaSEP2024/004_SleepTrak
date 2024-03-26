@@ -80,11 +80,13 @@ function CoachPage() {
                   avatarSrc="testAvatar"
                   title={object.first_name + ' ' + object.last_name}
                   body={object.babies.map((baby) => baby.name).join(' ')}
+                  userId={object.userId || ''}
                   babyId={
                     object.babies.length > 0
                       ? object.babies[0].babyId || ''
                       : ''
                   }
+                  adminOptions={true}
                 />
               </Item>
             </Grid>
