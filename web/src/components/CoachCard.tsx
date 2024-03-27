@@ -7,27 +7,35 @@ import CardOverflow from '@mui/joy/CardOverflow';
 import CardActions from '@mui/joy/CardActions';
 import Typography from '@mui/joy/Typography';
 import { Link } from 'react-router-dom';
+import { SxProps } from '@mui/material';
+import { Theme } from '@mui/joy';
 
 interface CoachCardProps {
   avatarSrc: string;
   title: string;
   coachId: string;
   numClients: number;
+  sx?: SxProps<Theme>;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
 const CoachCard: React.FC<CoachCardProps> = ({
   avatarSrc,
   title,
   coachId,
-  numClients
+  numClients,
+  sx,
+  onClick
 }) => {
   return (
     <Card
       sx={{
         width: 250,
         maxWidth: '100%',
-        boxShadow: 'lg'
-      }}>
+        boxShadow: 'lg',
+        ...sx
+      }}
+      onClick={onClick}>
       <CardContent sx={{ alignItems: 'center', textAlign: 'center' }}>
         <Avatar
           data-testid="avatar"
