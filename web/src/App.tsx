@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ErrorPage from './pages/ErrorPage';
 import DashboardPage from './pages/DashboardPage';
 import Root from './components/Root';
+import UnAuthRoot from './components/UnAuthRoot';
 import ClientsPage from './pages/ClientsPage';
 import MessagesPage from './pages/Messages';
 import {
@@ -14,6 +15,7 @@ import AdminPage from './pages/AdminPage';
 import CoachPage from './pages/CoachPage';
 import NewCoachPage from './pages/NewCoachPage';
 import AssignPage from './pages/AssignPage';
+import LoginPage from './pages/LoginPage';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
@@ -36,6 +38,14 @@ function App() {
               path="*"
               element={<ErrorPage />}
             />
+            <Route
+              Component={UnAuthRoot}
+              path="/unauth">
+              <Route
+                path="/unauth/login"
+                element={<LoginPage />}
+              />
+            </Route>
             {/* if you need a route that is not auth protected, then make a <route></route> element outside of this one. */}
             <Route
               path="/"
