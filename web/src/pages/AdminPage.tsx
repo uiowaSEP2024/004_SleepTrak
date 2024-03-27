@@ -82,7 +82,7 @@ function AdminPage() {
       <Collapse in={coachOpen}>
         <Button
           component={Link}
-          to="/admin"
+          to="/coaches/new"
           type="button"
           size="sm"
           variant="soft"

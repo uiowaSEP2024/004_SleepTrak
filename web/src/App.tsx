@@ -12,6 +12,7 @@ import {
 import BabyDetailsPage from './pages/BabyDetailsPage';
 import AdminPage from './pages/AdminPage';
 import CoachPage from './pages/CoachPage';
+import NewCoachPage from './pages/NewCoachPage';
 import AssignPage from './pages/AssignPage';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -66,6 +67,10 @@ function App() {
               <Route
                 path="/coaches/:coachId"
                 element={<CoachPage />}
+              />
+              <Route
+                path="/coaches/new"
+                element={<NewCoachPage />}
               />
             </Route>
           </Routes>
