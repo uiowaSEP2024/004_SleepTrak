@@ -12,9 +12,15 @@ interface CoachCardProps {
   avatarSrc: string;
   title: string;
   coachId: string;
+  numClients: number;
 }
 
-const CoachCard: React.FC<CoachCardProps> = ({ avatarSrc, title, coachId }) => {
+const CoachCard: React.FC<CoachCardProps> = ({
+  avatarSrc,
+  title,
+  coachId,
+  numClients
+}) => {
   return (
     <Card
       sx={{
@@ -29,6 +35,7 @@ const CoachCard: React.FC<CoachCardProps> = ({ avatarSrc, title, coachId }) => {
           sx={{ '--Avatar-size': '4rem' }}
         />
         <Typography level="title-lg">{title}</Typography>
+        <Typography level="title-md">Clients: {numClients}</Typography>
       </CardContent>
       <CardOverflow sx={{ bgcolor: 'background.level1' }}>
         <CardActions buttonFlex="1">
