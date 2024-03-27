@@ -53,13 +53,13 @@ function AdminPage() {
     fetchData();
   }, [getAccessTokenSilently]);
 
-  const [coachOpen, setCoachOpen] = useState(false);
+  const [coachOpen, setCoachOpen] = useState(true);
 
   const handleCoachExpandClick = () => {
     setCoachOpen(!coachOpen);
   };
 
-  const [clientOpen, setClientOpen] = useState(false);
+  const [clientOpen, setClientOpen] = useState(true);
 
   const handleClientExpandClick = () => {
     setClientOpen(!clientOpen);
