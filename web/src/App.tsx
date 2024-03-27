@@ -12,6 +12,7 @@ import {
 import BabyDetailsPage from './pages/BabyDetailsPage';
 import AdminPage from './pages/AdminPage';
 import CoachPage from './pages/CoachPage';
+import AssignPage from './pages/AssignPage';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
@@ -47,7 +48,11 @@ function App() {
                 element={<ClientsPage />}
               />
               <Route
-                path="clients/:userId/babies/:babyId"
+                path="clients/:clientId/assign"
+                element={<AssignPage />}
+              />
+              <Route
+                path="/babies/:babyId"
                 element={<BabyDetailsPage />}
               />
               <Route
