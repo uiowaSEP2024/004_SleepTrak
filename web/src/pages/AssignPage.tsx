@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { Box, Grid } from '@mui/joy';
+import { Box, Grid, Button } from '@mui/joy';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -71,8 +71,8 @@ export default function AssignPage() {
   }, [getAccessTokenSilently]);
 
   // partial application wizardy to get the right function type for onClick
-  const handleAssign = (coachId: string) => () => {
-    const assignCoach = async (coachId: string) => {
+  const handleAssign = (coachId: string | null) => () => {
+    const assignCoach = async (coachId: string | null) => {
       const token = await getAccessTokenSilently();
 
       const response = await fetch(
@@ -135,6 +135,15 @@ export default function AssignPage() {
               </Grid>
             ))}
         </Grid>
+        <Button
+          onClick={handleAssign(null)}
+          type="button"
+          size="sm"
+          variant="soft"
+          color="danger"
+          sx={{ m: 2 }}>
+          Unassign {clientData.first_name + ' ' + clientData.last_name}
+        </Button>
       </Box>
     );
   }
