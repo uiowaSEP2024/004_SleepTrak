@@ -28,6 +28,7 @@ interface User {
   role: string;
   babies: Baby[];
   coachId?: string;
+  clients: User[];
 }
 
 function AdminPage() {
@@ -104,6 +105,11 @@ function AdminPage() {
                     avatarSrc="testAvatar"
                     title={object.first_name + ' ' + object.last_name}
                     coachId={object.userId}
+                    numClients={
+                      usersData.filter(
+                        (client) => client.coachId == object.userId
+                      ).length
+                    }
                   />
                 </Box>
               </Grid>
