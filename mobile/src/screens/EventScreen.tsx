@@ -19,7 +19,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     alignContent: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: 'white'
   },
   title: {
     fontWeight: 'bold',

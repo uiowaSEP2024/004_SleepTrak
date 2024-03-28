@@ -158,7 +158,7 @@ const SleepTimer: React.FC = () => {
   return (
     <ScrollView
       ref={scrollViewRef}
-      contentContainerStyle={{ flexGrow: 1 }}>
+      contentContainerStyle={{ flexGrow: 1, backgroundColor: 'white' }}>
       <View style={styles.timerContainer}>
         <SleepTypeSelector
           onValueChange={handleSleepTypeChange}
