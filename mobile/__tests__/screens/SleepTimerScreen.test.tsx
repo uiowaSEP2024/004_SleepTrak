@@ -1,19 +1,27 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react-native';
 import SleepTimer from '../../src/screens/SleepTimerScreen';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
 import type { RenderAPI } from '@testing-library/react-native';
 
 jest.mock('expo-font');
 jest.mock('expo-asset');
 
-const Stack = createNativeStackNavigator();
-let renderResult: RenderAPI;
+jest.mock('@react-navigation/native', () => ({
+  useNavigation: jest.fn()
+}));
 
+jest.mock('../../src/utils/db', () => ({
+  createSleepEvent: jest.fn()
+}));
+
+// const Stack = createNativeStackNavigator();
+let renderResult: RenderAPI;
 describe('SleepTimerScreen', () => {
   // Mock current time
   beforeEach(() => {
+    renderResult = render(<SleepTimer />);
+    useNavigation.mockReturnValue({ navigate: jest.fn() });
     const currentTime = new Date('2022-01-01T10:00:00');
     jest.useFakeTimers();
     jest.setSystemTime(currentTime.getTime());
@@ -21,19 +29,7 @@ describe('SleepTimerScreen', () => {
 
   afterAll(() => {
     jest.useRealTimers();
-  });
-
-  beforeEach(() => {
-    renderResult = render(
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="SleepTimer"
-            component={SleepTimer}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    );
+    jest.clearAllMocks();
   });
 
   afterEach(() => {
@@ -59,7 +55,7 @@ describe('SleepTimerScreen', () => {
   });
 
   test('Start time is correctly displayed when the Start button is pressed', async () => {
-    const { getByText, findByText } = renderResult;
+    const { getByText, findByText, findAllByText } = renderResult;
     const startButton = getByText('Start');
     await act(async () => {
       fireEvent.press(startButton);
@@ -67,8 +63,8 @@ describe('SleepTimerScreen', () => {
     });
     const stopButton = await findByText('Stop');
     expect(stopButton).toBeDefined();
-    const startTimeDisplay = await findByText(/10:00:00 AM/);
-    expect(startTimeDisplay).toBeDefined();
+    const startTimeDisplay = await findAllByText(/10:00 AM/);
+    expect(startTimeDisplay.length).toBe(2);
   });
 
   test('Stop time is correctly displayed and new window cell is created when the Stop button is pressed', async () => {
@@ -115,7 +111,7 @@ describe('SleepTimerScreen', () => {
     });
     startButton = await findByText('Start');
     expect(startButton).toBeDefined();
-    const elapsedTimeDisplay = await findByText(/Elapsed Time: 00:30:0[0-1]/);
+    const elapsedTimeDisplay = await findByText(/00:30:0[0-1]/);
     expect(elapsedTimeDisplay).toBeDefined();
   });
 

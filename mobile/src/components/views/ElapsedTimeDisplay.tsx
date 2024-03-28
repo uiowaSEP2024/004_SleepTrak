@@ -5,12 +5,10 @@
  */
 
 import React, { useEffect, useState, useRef } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import type { StyleProp, ViewStyle } from 'react-native';
+import TimerDisplay from './TimerDisplay';
 
 interface ElapsedTimeDisplayProps {
   isRunning: boolean;
-  style?: StyleProp<ViewStyle>;
 }
 
 /**
@@ -19,8 +17,7 @@ interface ElapsedTimeDisplayProps {
  * @param {boolean} props.isRunning - A boolean value that indicates whether the timer is running.
  */
 const ElapsedTimeDisplay: React.FC<ElapsedTimeDisplayProps> = ({
-  isRunning,
-  style
+  isRunning
 }) => {
   const [elapsedTime, setElapsedTime] = useState<number>(0);
 
@@ -48,9 +45,10 @@ const ElapsedTimeDisplay: React.FC<ElapsedTimeDisplayProps> = ({
   const formattedTime = formatTime(elapsedTime);
 
   return (
-    <View style={[styles.container, style]}>
-      <Text style={styles.text}>Elapsed Time: {formattedTime}</Text>
-    </View>
+    <TimerDisplay
+      title="Elapsed Time:"
+      time={formattedTime}
+    />
   );
 };
 
@@ -65,17 +63,5 @@ const formatTime = (timeInSeconds: number): string => {
 
   return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
 };
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  text: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10
-  }
-});
 
 export default ElapsedTimeDisplay;

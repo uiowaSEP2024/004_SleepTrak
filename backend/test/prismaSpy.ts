@@ -54,6 +54,13 @@ const prismaSpy = {
   },
   recommended_plans: {
     get: jest.spyOn(prisma.recommendedPlan, 'findUnique')
+  },
+  'sleep-windows': {
+    get: jest.spyOn(prisma.sleepWindow, 'findUnique'),
+    getByEventId: jest.spyOn(prisma.sleepWindow, 'findMany'),
+    create: jest.spyOn(prisma.sleepWindow, 'create'),
+    update: jest.spyOn(prisma.sleepWindow, 'update'),
+    delete: jest.spyOn(prisma.sleepWindow, 'delete')
   }
 };
 

@@ -16,12 +16,14 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../navigations/HomeStack';
 import TimerButton from '../components/buttons/TimerButton';
+import CribButton from '../components/buttons/CribButton';
 import TimerDisplay from '../components/views/TimerDisplay';
 import ElapsedTimeDisplay from '../components/views/ElapsedTimeDisplay';
 import ShowMoreButton from '../components/buttons/ShowMoreButton';
 import WindowCell from '../components/views/WindowCell';
 import SleepTypeSelector from '../components/selectors/SleepTypeSelector';
 import BasicButton from '../components/buttons/SaveButton';
+import { createSleepEvent } from '../utils/db';
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -35,9 +37,22 @@ const SleepTimer: React.FC = () => {
   const [wakeStartTime, setWakeStartTime] = useState<Date | null>(null);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [isSleep, setIsSleep] = useState<boolean>(true);
+  const [cribStartTime, setCribStartTime] = useState<Date | null>(null);
+  const [cribStopTime, setCribStopTime] = useState<Date | null>(null);
   const [windows, setWindows] = useState<
-    Array<{ id: string; startTime: Date; stopTime: Date; isSleep: boolean }>
+    Array<{
+      id: string;
+      startTime: Date;
+      stopTime: Date;
+      isSleep: boolean;
+      note: string;
+    }>
   >([]);
+  const [sleepData, setSleepData] = useState({
+    startTime: new Date(),
+    endTime: new Date(),
+    type: 'nap'
+  });
   const scrollViewRef = useRef<ScrollView>(null);
   const options: Intl.DateTimeFormatOptions = {
     hour: '2-digit',
@@ -57,7 +72,8 @@ const SleepTimer: React.FC = () => {
         id: wakeStartTime.getTime().toString(),
         startTime: wakeStartTime,
         stopTime: stopTimeForLog,
-        isSleep: isSleep
+        isSleep: isSleep,
+        note: ''
       };
       setWindows([...windows, newWindow]);
     }
@@ -74,7 +90,8 @@ const SleepTimer: React.FC = () => {
         id: sleepStartTime.getTime().toString(),
         startTime: sleepStartTime,
         stopTime: stopTimeForLog,
-        isSleep: isSleep
+        isSleep: isSleep,
+        note: ''
       };
       setWindows([...windows, newWindow]);
     }
@@ -89,19 +106,59 @@ const SleepTimer: React.FC = () => {
     setIsNap(newValue === 'nap');
   };
 
+  const handleCribStart = () => {
+    setCribStartTime(new Date());
+  };
+
+  const handleCribStop = () => {
+    setCribStopTime(new Date());
+  };
+
+  const handleWindowEdit = (editedWindow: {
+    id: string;
+    startTime: Date;
+    stopTime: Date;
+    isSleep: boolean;
+    note: string;
+  }) => {
+    const windowIndex = windows.findIndex(
+      (window) => window.id === editedWindow.id
+    );
+
+    if (windowIndex !== -1) {
+      const newWindows = [...windows];
+      newWindows[windowIndex] = editedWindow;
+      setWindows(newWindows);
+    }
+  };
+
+  const handleWindowDelete = (windowId: string) => {
+    setWindows(windows.filter((window) => window.id !== windowId));
+  };
+
   const saveSleepSession = () => {
-    console.log('Save button pressed');
-    const sleepBegin = windows[0].startTime;
-    const sleepEnd = windows[windows.length - 1].stopTime;
-    console.log('Type of Sleep:', isNap ? 'Nap' : 'Night Sleep');
-    console.log('Sleep Start Time: ', sleepBegin);
-    console.log('Sleep Stop Time: ', sleepEnd);
+    const newSleepData = {
+      ...sleepData,
+      startTime: cribStartTime ?? windows[0].startTime,
+      endTime: cribStopTime ?? windows[windows.length - 1].stopTime,
+      type: isNap ? 'nap' : 'night_sleep'
+    };
+    setSleepData(newSleepData);
+    console.log('new sleep event!:');
+    console.log('start time:', newSleepData.startTime.toISOString());
+    console.log('end time:', newSleepData.endTime.toISOString());
+    console.log(
+      'window notes:',
+      windows.map((window) => window.note).join(', ')
+    );
+    void createSleepEvent(newSleepData, windows);
+    setWindows([]);
   };
 
   return (
     <ScrollView
       ref={scrollViewRef}
-      contentContainerStyle={{ flexGrow: 1 }}>
+      contentContainerStyle={{ flexGrow: 1, backgroundColor: 'white' }}>
       <View style={styles.timerContainer}>
         <SleepTypeSelector
           onValueChange={handleSleepTypeChange}
@@ -109,40 +166,54 @@ const SleepTimer: React.FC = () => {
         />
         <View style={styles.timerGroup}>
           <TimerDisplay
-            style={{ marginBottom: 40 }}
+            style={{ marginBottom: 35 }}
             title="Start Time:"
-            time={sleepStartTime ? sleepStartTime.toLocaleTimeString() : ''}
+            time={
+              sleepStartTime
+                ? sleepStartTime.toLocaleTimeString(undefined, options)
+                : new Date().toLocaleTimeString(undefined, options)
+            }
           />
           <TimerDisplay
+            style={{ marginBottom: 35 }}
             title="Stop Time:"
-            time={SleepStopTime ? SleepStopTime.toLocaleTimeString() : ''}
+            time={
+              SleepStopTime
+                ? SleepStopTime.toLocaleTimeString(undefined, options)
+                : new Date().toLocaleTimeString(undefined, options)
+            }
           />
+          <ElapsedTimeDisplay isRunning={isRunning} />
         </View>
-        <ElapsedTimeDisplay
-          isRunning={isRunning}
-          style={{ marginVertical: 20 }}
-        />
         <TimerButton
           onStart={handleStart}
           onStop={handleStop}
-          style={{ marginVertical: 40 }}
+          style={{ marginVertical: 20 }}
+        />
+        <CribButton
+          onStart={handleCribStart}
+          onStop={handleCribStop}
+          style={{ marginTop: 0, marginBottom: 40 }}
         />
         <ShowMoreButton
           onPress={handleShowLog}
           title="Show Log"
-          style={{ marginVertical: 30 }}
+          style={{ marginTop: 20 }}
         />
       </View>
       <View style={styles.logContainer}>
         <FlatList
           data={windows}
-          renderItem={({ item: { startTime, stopTime, isSleep } }) => (
+          renderItem={({ item: { id, startTime, stopTime, isSleep } }) => (
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate('EditWindowScreen', {
+                  id,
                   startTime,
                   stopTime,
-                  isSleep
+                  isSleep,
+                  onWindowEdit: handleWindowEdit,
+                  onWindowDelete: handleWindowDelete
                 });
               }}>
               <WindowCell

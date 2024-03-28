@@ -15,12 +15,14 @@ interface EditTimePickerProps {
   title: string;
   placeholderTime: Date;
   style?: StyleProp<ViewStyle>;
+  onTimeChange: (newTime: Date) => void;
 }
 
 const EditTimePicker: React.FC<EditTimePickerProps> = ({
   title,
   placeholderTime,
-  style
+  style,
+  onTimeChange
 }) => {
   const [isPickerVisible, setPickerVisible] = useState(false);
   const [selectedTime, setSelectedTime] = useState(placeholderTime);
@@ -37,6 +39,7 @@ const EditTimePicker: React.FC<EditTimePickerProps> = ({
     console.warn('A date has been picked: ', date);
     setSelectedTime(date);
     hidePicker();
+    onTimeChange(date);
   };
 
   return (

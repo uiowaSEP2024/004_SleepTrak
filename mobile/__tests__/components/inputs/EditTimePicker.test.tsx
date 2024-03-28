@@ -18,6 +18,7 @@ describe('EditTimePicker', () => {
       <EditTimePicker
         title="Test Title"
         placeholderTime={new Date()}
+        onTimeChange={() => {}}
       />
     );
   });
