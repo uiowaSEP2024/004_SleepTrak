@@ -292,7 +292,8 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     flexDirection: 'column',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    backgroundColor: 'white'
   },
   questionContainer: {
     alignItems: 'center',
