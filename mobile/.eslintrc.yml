@@ -3,3 +3,4 @@ rules:
   '@typescript-eslint/explicit-function-return-type': off
   '@typescript-eslint/consistent-type-definitions': off
   '@typescript-eslint/no-floating-promises': ['error', { 'ignoreVoid': true }]
+  '@typescript-eslint/promise-function-async': 'off'
