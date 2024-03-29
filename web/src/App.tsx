@@ -15,18 +15,18 @@ import CoachPage from './pages/CoachPage';
 import AssignPage from './pages/AssignPage';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { domain, clientId, audience } from './util/environment';
+import { DOMAIN, CLIENT_ID, AUDIENCE } from './util/environment';
 
 function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Router>
         <Auth0ProviderWithRedirectCallback
-          domain={domain}
-          clientId={clientId}
+          domain={DOMAIN}
+          clientId={CLIENT_ID}
           authorizationParams={{
             redirect_uri: window.location.origin,
-            audience: audience
+            audience: AUDIENCE
           }}>
           <Routes>
             <Route
