@@ -15,9 +15,7 @@ import CoachPage from './pages/CoachPage';
 import AssignPage from './pages/AssignPage';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
-const domain: string = import.meta.env.VITE_AUTH0_DOMAIN!;
-const clientId: string = import.meta.env.VITE_AUTH0_CLIENT_ID!;
+import { domain, clientId, audience } from './util/environment';
 
 function App() {
   return (
@@ -28,7 +26,7 @@ function App() {
           clientId={clientId}
           authorizationParams={{
             redirect_uri: window.location.origin,
-            audience: import.meta.env.VITE_AUTH0_API_AUDIENCE
+            audience: audience
           }}>
           <Routes>
             <Route
