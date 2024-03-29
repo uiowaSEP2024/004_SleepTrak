@@ -91,4 +91,29 @@ describe('AdminPage Component', () => {
       expect(screen.getByText('Jane Doe')).toBeInTheDocument();
     });
   });
+
+  // TODO: not working, not sure how to mock the onClicks or check that collapse is working, manually tested
+  // it('changes whether the coach dropdown is open when you click the header', async () => {
+  //   act(() => {
+  //     render(
+  //       <BrowserRouter>
+  //         <AdminPage />
+  //       </BrowserRouter>
+  //     );
+  //   });
+  //
+  //   expect(screen.getByText('Authorize New Coach')).toBeVisible();
+  //   await waitFor(() => {
+  //     const select = screen.getByText('Coaches');
+  //     fireEvent.click(select);
+  //   });
+  //   expect(screen.getByText('Coaches')).toBeVisible();
+  //   expect(screen.getByText('Authorize New Coach')).not.toBeVisible();
+  //   await waitFor(() => {
+  //     const select = screen.getByText('Coaches');
+  //     fireEvent.click(select);
+  //   });
+  //   expect(screen.getByText('Coaches')).toBeVisible();
+  //   expect(screen.getByText('Authorize New Coach')).toBeVisible();
+  // });
 });
