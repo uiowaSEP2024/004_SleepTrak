@@ -24,6 +24,8 @@ import WindowCell from '../components/views/WindowCell';
 import SleepTypeSelector from '../components/selectors/SleepTypeSelector';
 import BasicButton from '../components/buttons/SaveButton';
 import { createSleepEvent } from '../utils/db';
+import { saveEvent, saveSleepWindow } from '../utils/localDb';
+import { v4 as uuidv4 } from 'uuid';
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -144,13 +146,22 @@ const SleepTimer: React.FC = () => {
       type: isNap ? 'nap' : 'night_sleep'
     };
     setSleepData(newSleepData);
-    console.log('new sleep event!:');
-    console.log('start time:', newSleepData.startTime.toISOString());
-    console.log('end time:', newSleepData.endTime.toISOString());
-    console.log(
-      'window notes:',
-      windows.map((window) => window.note).join(', ')
-    );
+    const sleepDataLocal = {
+      ...newSleepData,
+      eventId: uuidv4(),
+      startTime: newSleepData.startTime.toISOString(),
+      endTime: newSleepData.endTime.toISOString()
+    };
+    saveEvent(sleepDataLocal);
+    for (const window of windows) {
+      saveSleepWindow({
+        ...window,
+        windowId: window.id,
+        eventId: sleepDataLocal.eventId,
+        startTime: window.startTime.toISOString(),
+        stopTime: window.stopTime.toISOString()
+      });
+    }
     void createSleepEvent(newSleepData, windows);
     setWindows([]);
   };
