@@ -113,7 +113,7 @@ describe('AssignPage Component', () => {
       </Router>
     );
     await waitFor(() => {
-      expect(screen.queryByText('John Doe')).toBeInTheDocument();
+      expect(screen.getByText('John Doe')).toBeInTheDocument();
       expect(screen.queryByText('Jane Smith')).not.toBeInTheDocument();
       // The name of the coach in question is in the header but broken up
       expect(screen.queryByText('John Smith')).not.toBeInTheDocument();

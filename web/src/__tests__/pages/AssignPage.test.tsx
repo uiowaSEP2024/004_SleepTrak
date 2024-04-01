@@ -115,7 +115,7 @@ describe('AssignPage Component', () => {
       expect(screen.getByText('John Doe')).toBeInTheDocument();
       expect(screen.getByText('Jane Smith')).toBeInTheDocument();
       expect(screen.getByText('John Smith')).toBeInTheDocument();
-      expect(screen.getByText('Jane Doe')).not.toBeInTheDocument();
+      expect(screen.queryByText('Jane Doe')).not.toBeInTheDocument();
     });
   });
 });
