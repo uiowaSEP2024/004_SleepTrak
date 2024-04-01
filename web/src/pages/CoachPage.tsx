@@ -78,9 +78,9 @@ function CoachPage() {
               <Item>
                 <ClientCard
                   avatarSrc="testAvatar"
-                  title={object.first_name + ' ' + object.last_name}
-                  body={object.babies.map((baby) => baby.name).join(' ')}
-                  userId={object.userId || ''}
+                  clientName={object.first_name + ' ' + object.last_name}
+                  babyNames={object.babies.map((baby) => baby.name).join(' ')}
+                  clientId={object.userId || ''}
                   babyId={
                     object.babies.length > 0
                       ? object.babies[0].babyId || ''
