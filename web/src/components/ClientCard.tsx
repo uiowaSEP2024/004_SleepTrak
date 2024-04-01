@@ -15,7 +15,7 @@ interface ClientCardProps {
   babyNames: string;
   babyId: string;
   clientId: string;
-  adminOptions: boolean;
+  adminOptions?: boolean;
 }
 
 const ClientCard: React.FC<ClientCardProps> = ({
@@ -24,7 +24,7 @@ const ClientCard: React.FC<ClientCardProps> = ({
   babyNames,
   babyId,
   clientId,
-  adminOptions
+  adminOptions = false
 }) => {
   return (
     <Card
