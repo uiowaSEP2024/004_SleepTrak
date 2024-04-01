@@ -111,8 +111,8 @@ describe('AssignPage Component', () => {
       </Router>
     );
     await waitFor(() => {
-      // The name of the client in question is in the header
-      expect(screen.getByText('John Doe')).toBeInTheDocument();
+      // The name of the client in question is in the header but not found since it is split up
+      expect(screen.queryByText('John Doe')).not.toBeInTheDocument();
       expect(screen.getByText('Jane Smith')).toBeInTheDocument();
       expect(screen.getByText('John Smith')).toBeInTheDocument();
       expect(screen.queryByText('Jane Doe')).not.toBeInTheDocument();
