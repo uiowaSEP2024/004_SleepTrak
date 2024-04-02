@@ -140,17 +140,17 @@ export const getEvent = (eventId: string): Promise<Event | undefined> => {
   });
 };
 
-export const getSleepWindow = (
-  windowId: string
-): Promise<SleepWindow | undefined> => {
+export const getSleepWindowsForEvent = (
+  eventId: string
+): Promise<SleepWindow[] | undefined> => {
+  const db = getDatabase();
   return new Promise((resolve, reject) => {
-    const db = getDatabase();
     db.transaction((tx) => {
       tx.executeSql(
-        'SELECT * FROM SleepWindow WHERE windowId = ?',
-        [windowId],
+        'SELECT * FROM SleepWindow WHERE eventId = ?',
+        [eventId],
         (_, { rows: { _array } }) => {
-          resolve(_array[0] as SleepWindow | undefined);
+          resolve(_array as SleepWindow[] | undefined);
         },
         (_, error) => {
           reject(error);
