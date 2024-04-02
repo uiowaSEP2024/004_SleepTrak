@@ -3,7 +3,7 @@ import {
   saveEvent,
   saveSleepWindow,
   getEvent,
-  getSleepWindow
+  getSleepWindowsForEvent
 } from '../../src/utils/localDb';
 
 jest.mock('expo-sqlite', () => ({
@@ -31,6 +31,33 @@ const sleepWindow = {
   isSleep: true,
   note: 'baby cried so much'
 };
+
+const sleepWindows = [
+  {
+    windowId: '5',
+    eventId: '10',
+    startTime: '2022-01-01T14:00:00.000Z',
+    stopTime: '2022-01-01T15:00:00.000Z',
+    isSleep: true,
+    note: 'baby cried so much'
+  },
+  {
+    windowId: '6',
+    eventId: '10',
+    startTime: '2022-01-01T16:00:00.000Z',
+    stopTime: '2022-01-01T17:00:00.000Z',
+    isSleep: true,
+    note: 'baby slept well'
+  },
+  {
+    windowId: '7',
+    eventId: '11',
+    startTime: '2022-01-01T18:00:00.000Z',
+    stopTime: '2022-01-01T19:00:00.000Z',
+    isSleep: true,
+    note: 'baby woke up crying'
+  }
+];
 
 describe('localDb methods', () => {
   beforeEach(() => {
@@ -158,20 +185,23 @@ describe('localDb methods', () => {
     });
   });
 
-  describe('getSleepWindow', () => {
-    it('should retrieve a sleep window from the SleepWindow table', async () => {
+  describe('getSleepWindowsForEvent', () => {
+    it('should retrieve sleep windows for a given event id', async () => {
       mockTx.executeSql.mockImplementationOnce(
-        (query, args, successCallback) => {
+        (query, [eventId], successCallback) => {
           const unused = null;
-          successCallback(unused, { rows: { _array: [sleepWindow] } });
+          const filteredSleepWindows = sleepWindows.filter(
+            (window) => window.eventId === eventId
+          );
+          successCallback(unused, { rows: { _array: filteredSleepWindows } });
         }
       );
-      const fetchedSleepWindow = await getSleepWindow(sleepWindow.windowId);
-      expect(fetchedSleepWindow).toEqual(sleepWindow);
+      const fetchedSleepWindow = await getSleepWindowsForEvent('10');
+      expect(fetchedSleepWindow).toHaveLength(2);
     });
 
     it('should handle errors when retrieving a sleep event', async () => {
-      const windowId = 'nonExistentWindowId';
+      const eventId = 'nonExistentWindowId';
       const mockError = new Error('Failed to retrieve window');
       mockTx.executeSql.mockImplementationOnce(
         (query, params, successCallback, errorCallback) => {
@@ -179,7 +209,7 @@ describe('localDb methods', () => {
         }
       );
       try {
-        await getSleepWindow(windowId);
+        await getSleepWindowsForEvent(eventId);
       } catch (error) {
         const message = (error as Error).message;
         expect(message).toMatch('Failed to retrieve window');
