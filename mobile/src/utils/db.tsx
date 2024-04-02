@@ -469,3 +469,33 @@ export const createSleepEvent = async (
     throw error;
   }
 };
+
+export const fetchRecommendedPlan = async () => {
+  try {
+    const user = await fetchUserData();
+    const baby = user.babies[0];
+    const userCredentials = await getUserCredentials();
+
+    if (userCredentials) {
+      const accessToken = userCredentials.accessToken;
+
+      if (accessToken) {
+        const apiResponse = await fetch(
+          process.env.EXPO_PUBLIC_API_URL + '/recommended_plans/' + baby.babyId,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${accessToken}`
+            }
+          }
+        );
+        return apiResponse;
+      }
+    }
+    return false;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+};

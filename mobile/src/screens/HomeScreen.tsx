@@ -5,6 +5,7 @@ import { fetchUserData } from '../utils/db';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { colors } from '../../assets/colors';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { generateNotifications } from '../utils/notifications';
 
 const latestEventsFilter = (events: any[], numEvents: number) => {
   const currentDayInMs = new Date().setHours(0, 0, 0, 0);
@@ -134,8 +135,20 @@ const NotificationCard: React.FC<{ title: string; content: string }> = ({
   );
 };
 
-const Notifications: React.FC = () => {
-  const numberOfNotifications = 3;
+const Notifications: React.FC<{ user: any }> = (user) => {
+  const [notifications, setNotifications] = React.useState<any[]>([]);
+  const noNotificationsNotice = (
+    <View style={{ height: '100%', backgroundColor: 'blue' }}>
+      <Text style={{ color: 'grey' }}>No notifications</Text>
+    </View>
+  );
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      setNotifications(await generateNotifications(user));
+    };
+    void fetchNotifications();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.sectionHeader}>Notifications</Text>
@@ -152,13 +165,15 @@ const Notifications: React.FC = () => {
           height: '100%',
           width: '90%'
         }}>
-        {Array.from({ length: numberOfNotifications }).map((_, index) => (
-          <NotificationCard
-            key={`notification_${index}`}
-            title="Notification"
-            content="This is a notification"
-          />
-        ))}
+        {notifications.length > 0
+          ? notifications.map((notification, index) => (
+              <NotificationCard
+                key={index}
+                title={notification.title}
+                content={notification.content}
+              />
+            ))
+          : noNotificationsNotice}
       </ScrollView>
     </View>
   );
@@ -242,7 +257,7 @@ const HomeScreen = () => {
       contentContainerStyle={styles.topContainer}>
       <UserWelcomeSign user={user} />
       <HeroBox events={user.events ?? []} />
-      <Notifications />
+      <Notifications user={user} />
       <EventButtons />
     </ScrollView>
   );
