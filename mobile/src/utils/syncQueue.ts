@@ -1,5 +1,5 @@
-import { getEvent } from './localDb';
-import { createEvent } from './db';
+import { getEvent, getSleepWindowsForEvent } from './localDb';
+import { createEvent, createSleepEvent } from './db';
 
 interface SyncTask {
   id: string;
@@ -18,14 +18,20 @@ export const syncData = async () => {
   for (let i = 0; i < syncQueue.length; i++) {
     const task = syncQueue[i];
     task.status = 'syncing';
-
     try {
       const localData = await getEvent(task.id);
       if (
         localData &&
         (task.operation === 'insert' || task.operation === 'update')
       ) {
-        await createEvent(localData);
+        if (localData.type === 'nap' || localData.type === 'night sleep') {
+          const sleepWindows = await getSleepWindowsForEvent(localData.eventId);
+          if (sleepWindows && sleepWindows.length > 0) {
+            await createSleepEvent(localData, sleepWindows);
+          }
+        } else {
+          await createEvent(localData);
+        }
       }
       task.status = 'completed';
       syncQueue.splice(i, 1);
