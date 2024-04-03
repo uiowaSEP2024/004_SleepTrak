@@ -23,9 +23,8 @@ import ShowMoreButton from '../components/buttons/ShowMoreButton';
 import WindowCell from '../components/views/WindowCell';
 import SleepTypeSelector from '../components/selectors/SleepTypeSelector';
 import BasicButton from '../components/buttons/SaveButton';
-import { createSleepEvent } from '../utils/db';
 import { saveEvent, saveSleepWindow } from '../utils/localDb';
-import { v4 as uuidv4 } from 'uuid';
+import * as Crypto from 'expo-crypto';
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -138,7 +137,7 @@ const SleepTimer: React.FC = () => {
     setWindows(windows.filter((window) => window.id !== windowId));
   };
 
-  const saveSleepSession = () => {
+  const saveSleepSession = async () => {
     const newSleepData = {
       ...sleepData,
       startTime: cribStartTime ?? windows[0].startTime,
@@ -148,21 +147,21 @@ const SleepTimer: React.FC = () => {
     setSleepData(newSleepData);
     const sleepDataLocal = {
       ...newSleepData,
-      eventId: uuidv4(),
+      eventId: Crypto.randomUUID(),
       startTime: newSleepData.startTime.toISOString(),
       endTime: newSleepData.endTime.toISOString()
     };
-    saveEvent(sleepDataLocal);
-    for (const window of windows) {
+    await saveEvent(sleepDataLocal);
+    const windowPromises = windows.map((window) =>
       saveSleepWindow({
         ...window,
         windowId: window.id,
         eventId: sleepDataLocal.eventId,
         startTime: window.startTime.toISOString(),
         stopTime: window.stopTime.toISOString()
-      });
-    }
-    void createSleepEvent(newSleepData, windows);
+      })
+    );
+    await Promise.all(windowPromises);
     setWindows([]);
   };
 
@@ -238,7 +237,9 @@ const SleepTimer: React.FC = () => {
         />
         <BasicButton
           onPress={() => {
-            saveSleepSession();
+            saveSleepSession().catch((error) => {
+              console.error('Error saving sleep session:', error);
+            });
           }}
           title="Save Log"
           style={{ marginTop: 20, marginBottom: 40 }}
