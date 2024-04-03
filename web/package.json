@@ -20,6 +20,7 @@
     "@mui/material": "^5.15.10",
     "@mui/x-date-pickers": "^6.19.6",
     "@testing-library/dom": "^9.3.4",
+    "@twilio/conversations": "^2.5.0",
     "cross-env": "5.0.5",
     "dayjs": "^1.11.10",
     "eslint-plugin-react": "^7.33.2",
