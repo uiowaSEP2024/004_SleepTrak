@@ -4,7 +4,13 @@ To start a development server locally, run
 
     yarn expo start
 
-You might need to do `install yarn` first
+You might need to do `yarn install` first
+
+### Dev build
+
+    yarn expo prebuild --clean
+    yarn run ios
+    yarn run andriod
 
 ## Simulator
 
