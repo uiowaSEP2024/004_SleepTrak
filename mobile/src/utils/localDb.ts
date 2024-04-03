@@ -71,53 +71,59 @@ export const initializeDatabase = () => {
   });
 };
 
-export const saveEvent = (event: Event) => {
+export const saveEvent = (event: Event): Promise<void> => {
   const db = getDatabase();
-  db.transaction((tx) => {
-    try {
-      tx.executeSql(
-        'INSERT INTO Event (eventId, ownerId, startTime, endTime, type, amount, foodType, note, unit, medicineType, cribStartTime, cribStopTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        [
-          event.eventId,
-          event.ownerId ?? null,
-          event.startTime,
-          event.endTime ?? null,
-          event.type,
-          event.amount ?? null,
-          event.foodType ?? null,
-          event.note ?? null,
-          event.unit ?? null,
-          event.medicineType ?? null,
-          event.cribStartTime ?? null,
-          event.cribStopTime ?? null
-        ]
-      );
-    } catch (error) {
-      console.error('Error saving event:', error);
-      throw new Error('Failed to save event');
-    }
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      try {
+        tx.executeSql(
+          'INSERT INTO Event (eventId, ownerId, startTime, endTime, type, amount, foodType, note, unit, medicineType, cribStartTime, cribStopTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+          [
+            event.eventId,
+            event.ownerId ?? null,
+            event.startTime,
+            event.endTime ?? null,
+            event.type,
+            event.amount ?? null,
+            event.foodType ?? null,
+            event.note ?? null,
+            event.unit ?? null,
+            event.medicineType ?? null,
+            event.cribStartTime ?? null,
+            event.cribStopTime ?? null
+          ]
+        );
+        resolve();
+      } catch (error) {
+        console.error('Error saving event:', error);
+        reject(new Error('Failed to save event'));
+      }
+    });
   });
 };
 
-export const saveSleepWindow = (sleepWindow: SleepWindow) => {
+export const saveSleepWindow = (sleepWindow: SleepWindow): Promise<void> => {
   const db = getDatabase();
-  db.transaction((tx) => {
-    try {
-      tx.executeSql(
-        'INSERT INTO SleepWindow (windowId, eventId, startTime, stopTime, isSleep, note) VALUES (?, ?, ?, ?, ?, ?)',
-        [
-          sleepWindow.windowId,
-          sleepWindow.eventId,
-          sleepWindow.startTime,
-          sleepWindow.stopTime,
-          sleepWindow.isSleep ? 1 : 0,
-          sleepWindow.note ?? null
-        ]
-      );
-    } catch (error) {
-      console.error('Error saving sleep window:', error);
-      throw new Error('Failed to save sleep window');
-    }
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      try {
+        tx.executeSql(
+          'INSERT INTO SleepWindow (windowId, eventId, startTime, stopTime, isSleep, note) VALUES (?, ?, ?, ?, ?, ?)',
+          [
+            sleepWindow.windowId,
+            sleepWindow.eventId,
+            sleepWindow.startTime,
+            sleepWindow.stopTime,
+            sleepWindow.isSleep ? 1 : 0,
+            sleepWindow.note ?? null
+          ]
+        );
+        resolve();
+      } catch (error) {
+        console.error('Error saving sleep window:', error);
+        reject(new Error('Failed to save sleep window'));
+      }
+    });
   });
 };
 
