@@ -1,6 +1,7 @@
 import express from 'express';
 import { auth } from '../services/auth.js';
-import { jwt } from 'twilio';
+import pkg from 'twilio';
+const { jwt } = pkg;
 
 const router = express.Router();
 
