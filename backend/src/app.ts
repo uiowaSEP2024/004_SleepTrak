@@ -16,6 +16,7 @@ import medicinesRouter from './routes/medicines.js';
 import recommendedPlanRouter from './routes/recommendedPlans.js';
 import sleepWindowRouter from './routes/sleep-windows.js';
 import filesRouter from './routes/files.js';
+import twilioRouter from './routes/twilio.js';
 
 dotenv.config();
 
@@ -47,5 +48,6 @@ app.use('/answers', answersRouter);
 app.use('/medicines', medicinesRouter);
 app.use('/files', filesRouter);
 app.use('/sleep-windows', sleepWindowRouter);
+app.use('/twilio', twilioRouter);
 
 export default app;
