@@ -4,7 +4,7 @@ import ErrorPage from './pages/ErrorPage';
 import DashboardPage from './pages/DashboardPage';
 import Root from './components/Root';
 import ClientsPage from './pages/ClientsPage';
-import MessagesPage from './pages/Messages';
+import ChatPage from './pages/ChatPage';
 import {
   Auth0ProviderWithRedirectCallback,
   ProtectedRoute
@@ -55,7 +55,7 @@ function App() {
               />
               <Route
                 path="messages"
-                element={<MessagesPage />}
+                element={<ChatPage />}
               />
               <Route
                 path="admin"
