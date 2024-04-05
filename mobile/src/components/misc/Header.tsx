@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { SvgUri } from 'react-native-svg';
 import { colors } from '../../../assets/colors';
 import { type NativeStackHeaderProps } from '@react-navigation/native-stack';
@@ -10,30 +10,30 @@ const BackButton: React.FC<{ navigation: any }> = ({ navigation }) => {
     <TouchableOpacity onPress={() => navigation.goBack()}>
       <Ionicons
         name="arrow-back"
-        size={24}
-        color="black"
+        size={32}
+        color="grey"
       />
     </TouchableOpacity>
   );
 };
-const HomeButton: React.FC<{ navigation: any }> = ({ navigation }) => {
+const ProfileButton: React.FC<{ navigation: any }> = ({ navigation }) => {
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-      <Ionicons
-        name="home"
-        size={24}
-        color="black"
+    <TouchableOpacity onPress={() => navigation.navigate('Home_test')}>
+      <MaterialCommunityIcons
+        name="account-outline"
+        size={32}
+        color="grey"
       />
     </TouchableOpacity>
   );
 };
 const SettingsButton: React.FC<{ navigation: any }> = ({ navigation }) => {
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('Home-test')}>
+    <TouchableOpacity onPress={() => navigation.navigate('Setting')}>
       <Ionicons
-        name="settings"
-        size={24}
-        color="black"
+        name="settings-outline"
+        size={32}
+        color="grey"
       />
     </TouchableOpacity>
   );
@@ -50,11 +50,11 @@ const Header: React.FC<NativeStackHeaderProps> = ({
       {back ? (
         <BackButton navigation={navigation} />
       ) : (
-        <HomeButton navigation={navigation} />
+        <ProfileButton navigation={navigation} />
       )}
       <SvgUri
-        width="50%"
-        height="50%"
+        width="70%"
+        height="70%"
         style={styles.logo}
         uri={
           'https://camilasleep.com/wp-content/uploads/2021/05/Group-194-1.svg'
@@ -80,8 +80,9 @@ const styles = StyleSheet.create({
   logo: {
     alignSelf: 'center',
     justifyContent: 'center',
-    fill: colors.lightTan, // Throws a warning, because this is an SVG property, but it is ok.
-    stroke: colors.lightTan
+    fill: colors.tan, // Throws a warning, because this is an SVG property, but it is ok.
+    stroke: colors.tan
   }
 });
+
 export default Header;

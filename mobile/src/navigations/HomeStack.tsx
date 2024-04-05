@@ -11,6 +11,7 @@ import EventsScreen from '../screens/EventsScreen';
 import EventScreen from '../screens/EventScreen';
 import MedicineTrackingScreen from '../screens/MedicineTrackingScreen';
 import Header from '../components/misc/Header';
+import SettingScreen from '../screens/SettingScreen';
 
 export interface RootStackParamList {
   Home: undefined;
@@ -52,7 +53,7 @@ const Stack = createNativeStackNavigator();
 const HomeStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Home_test"
+      initialRouteName="Home"
       screenOptions={{
         headerShown: true,
         header: Header
@@ -102,6 +103,10 @@ const HomeStack = () => {
       <Stack.Screen
         name="EventScreen"
         component={EventScreen}
+      />
+      <Stack.Screen
+        name="Setting"
+        component={SettingScreen}
       />
     </Stack.Navigator>
   );
