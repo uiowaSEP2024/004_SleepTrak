@@ -10,6 +10,7 @@ import HomeScreen from '../screens/HomeScreen';
 import EventsScreen from '../screens/EventsScreen';
 import EventScreen from '../screens/EventScreen';
 import MedicineTrackingScreen from '../screens/MedicineTrackingScreen';
+import Header from '../components/misc/Header';
 
 export interface RootStackParamList {
   Home: undefined;
@@ -52,7 +53,10 @@ const HomeStack = () => {
   return (
     <Stack.Navigator
       initialRouteName="Home_test"
-      screenOptions={{ headerShown: false }}>
+      screenOptions={{
+        headerShown: true,
+        header: Header
+      }}>
       <Stack.Screen
         name="Home_test"
         component={TestScreen}
@@ -72,10 +76,12 @@ const HomeStack = () => {
       <Stack.Screen
         name="Welcome"
         component={WelcomeScreen}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Onboarding"
         component={OnboardingScreen}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="EditWindowScreen"
