@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Card } from 'react-native-paper';
 import { fetchUserData } from '../utils/db';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { colors } from '../../assets/colors';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
@@ -45,7 +46,7 @@ const UserWelcomeSign: React.FC<{ user: object }> = ({ user }) => {
   return (
     <Text style={styles.welcomeSign}>
       {user
-        ? 'Hi ' + (user as { first_name?: string }).first_name + '!'
+        ? 'Hi, ' + (user as { first_name?: string }).first_name + '!'
         : 'Hello!'}
     </Text>
   );
@@ -86,6 +87,7 @@ const HeroBox: React.FC<{ events: any[] }> = ({ events }) => {
   return (
     <Card
       style={styles.heroBox}
+      mode="contained"
       onPress={() => {
         navigation.navigate('Events');
       }}>
@@ -121,7 +123,9 @@ const NotificationCard: React.FC<{ title: string; content: string }> = ({
   content
 }) => {
   return (
-    <Card style={styles.notificationCard}>
+    <Card
+      mode="contained"
+      style={styles.notificationCard}>
       <Card.Title title={title} />
       <Card.Content>
         <Text>{content}</Text>
@@ -131,22 +135,56 @@ const NotificationCard: React.FC<{ title: string; content: string }> = ({
 };
 
 const Notifications: React.FC = () => {
+  const numberOfNotifications = 3;
   return (
     <View style={styles.container}>
       <Text style={styles.sectionHeader}>Notifications</Text>
       <ScrollView
         horizontal={true}
+        contentInset={{
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 225 * numberOfNotifications
+        }}
         contentContainerStyle={{
           flexDirection: 'row',
-          height: '40%',
+          height: '100%',
           width: '90%'
         }}>
-        <NotificationCard
-          title="Nap"
-          content="Nap scheduled for 2:00 PM"
-        />
+        {Array.from({ length: numberOfNotifications }).map((_, index) => (
+          <NotificationCard
+            key={`notification_${index}`}
+            title="Notification"
+            content="This is a notification"
+          />
+        ))}
       </ScrollView>
     </View>
+  );
+};
+
+const EventButtonCard: React.FC<{
+  title: string;
+  icon: string;
+  onPress: () => void;
+}> = ({ title, icon, onPress }) => {
+  return (
+    <Card
+      style={styles.eventButton}
+      mode="contained"
+      onPress={onPress}>
+      <Card.Content style={styles.eventButtonContent}>
+        <Text style={{ fontSize: 24, color: colors.textGray, marginBottom: 8 }}>
+          {title}
+        </Text>
+        <MaterialCommunityIcons
+          name={icon}
+          size={40}
+          color={colors.textGray}
+        />
+      </Card.Content>
+    </Card>
   );
 };
 
@@ -157,35 +195,26 @@ const EventButtons: React.FC = () => {
     <View style={styles.container}>
       <Text style={styles.sectionHeader}>Add Event</Text>
       <View style={styles.eventButtons}>
-        <Card
-          style={styles.eventButton}
+        <EventButtonCard
+          title="Sleep"
+          icon="power-sleep"
           onPress={() => {
             navigation.navigate('SleepTimer');
-          }}>
-          <Card.Content style={styles.eventButtonContent}>
-            <Text>Sleep</Text>
-          </Card.Content>
-        </Card>
-        <Card
-          style={styles.eventButton}
+          }}></EventButtonCard>
+        <EventButtonCard
+          title="Feeding"
+          icon="baby-bottle"
           onPress={() => {
             navigation.navigate('FoodTrackingScreen');
-          }}>
-          <Card.Content style={styles.eventButtonContent}>
-            <Text>Feeding</Text>
-          </Card.Content>
-        </Card>
+          }}></EventButtonCard>
       </View>
       <View style={styles.eventButtons}>
-        <Card
-          style={styles.eventButton}
+        <EventButtonCard
+          title="Medicine"
+          icon="medical-bag"
           onPress={() => {
             navigation.navigate('MedicineTrackingScreen');
-          }}>
-          <Card.Content style={styles.eventButtonContent}>
-            <Text>Medicine</Text>
-          </Card.Content>
-        </Card>
+          }}></EventButtonCard>
       </View>
     </View>
   );
@@ -224,40 +253,48 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'column',
     paddingVertical: 16,
-    paddingHorizontal: 24,
+    paddingHorizontal: '7%',
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: 'white'
   },
   welcomeSign: {
-    fontSize: 36,
+    fontSize: 32,
     fontWeight: '500',
     alignSelf: 'flex-start',
-    marginBottom: '10%',
+    marginBottom: '5%',
     letterSpacing: 0.5,
+    paddingLeft: 14,
     color: colors.crimsonRed
   },
   heroBox: {
-    width: '95%',
+    width: '100%',
     height: '30%',
-    marginBottom: 24
+    marginBottom: 12,
+    borderRadius: 48,
+    padding: 16,
+    backgroundColor: colors.lightPurple
   },
   container: {
     width: '100%',
-    marginBottom: 16,
+    marginBottom: 0,
     flexDirection: 'column',
     justifyContent: 'flex-start'
   },
   notificationCard: {
     width: '100%',
     backgroundColor: colors.lightTan,
-    marginRight: 16
+    marginRight: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    borderRadius: 48
   },
   sectionHeader: {
-    fontSize: 24,
+    fontSize: 20,
     color: colors.crimsonRed,
     marginTop: 20,
-    marginBottom: 16
+    marginBottom: 16,
+    paddingLeft: 14
   },
   eventButtons: {
     flexDirection: 'row',
@@ -265,12 +302,14 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     width: '100%',
     height: '30%',
-    marginBottom: 16,
     paddingHorizontal: 16
   },
   eventButton: {
     width: '48%',
-    borderRadius: 0
+    height: '90%',
+    borderRadius: 0,
+    backgroundColor: colors.lightTan,
+    elevation: 10
   },
   eventButtonContent: {
     alignItems: 'center',
