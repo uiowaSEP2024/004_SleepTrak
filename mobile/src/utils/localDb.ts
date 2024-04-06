@@ -1,4 +1,5 @@
 import * as SQLite from 'expo-sqlite';
+import type { LocalEvent, LocalSleepWindow } from './interfaces';
 
 let localDb: SQLite.SQLiteDatabase;
 
@@ -8,30 +9,6 @@ export const getDatabase = () => {
   }
   return localDb;
 };
-
-interface Event {
-  eventId: string;
-  ownerId?: string;
-  startTime: string;
-  endTime?: string;
-  type: string;
-  amount?: number;
-  foodType?: string;
-  note?: string;
-  unit?: string;
-  medicineType?: string;
-  cribStartTime?: string;
-  cribStopTime?: string;
-}
-
-interface SleepWindow {
-  windowId: string;
-  eventId: string;
-  startTime: string;
-  stopTime: string;
-  isSleep: boolean;
-  note?: string;
-}
 
 export const initializeDatabase = () => {
   const db = getDatabase();
@@ -71,7 +48,7 @@ export const initializeDatabase = () => {
   });
 };
 
-export const saveEvent = (event: Event): Promise<void> => {
+export const saveEvent = (event: LocalEvent): Promise<void> => {
   const db = getDatabase();
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
@@ -102,7 +79,9 @@ export const saveEvent = (event: Event): Promise<void> => {
   });
 };
 
-export const saveSleepWindow = (sleepWindow: SleepWindow): Promise<void> => {
+export const saveSleepWindow = (
+  sleepWindow: LocalSleepWindow
+): Promise<void> => {
   const db = getDatabase();
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
@@ -120,14 +99,13 @@ export const saveSleepWindow = (sleepWindow: SleepWindow): Promise<void> => {
         );
         resolve();
       } catch (error) {
-        console.error('Error saving sleep window:', error);
         reject(new Error('Failed to save sleep window'));
       }
     });
   });
 };
 
-export const getEvent = (eventId: string): Promise<Event | undefined> => {
+export const getEvent = (eventId: string): Promise<LocalEvent | undefined> => {
   const db = getDatabase();
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
@@ -135,7 +113,7 @@ export const getEvent = (eventId: string): Promise<Event | undefined> => {
         'SELECT * FROM Event WHERE eventId = ?',
         [eventId],
         (_, { rows: { _array } }) => {
-          resolve(_array[0] as Event | undefined);
+          resolve(_array[0] as LocalEvent | undefined);
         },
         (_, error) => {
           reject(error);
@@ -148,21 +126,26 @@ export const getEvent = (eventId: string): Promise<Event | undefined> => {
 
 export const getSleepWindowsForEvent = (
   eventId: string
-): Promise<SleepWindow[] | undefined> => {
+): Promise<LocalSleepWindow[] | undefined> => {
   const db = getDatabase();
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
-      tx.executeSql(
-        'SELECT * FROM SleepWindow WHERE eventId = ?',
-        [eventId],
-        (_, { rows: { _array } }) => {
-          resolve(_array as SleepWindow[] | undefined);
-        },
-        (_, error) => {
-          reject(error);
-          return true;
-        }
-      );
+      try {
+        tx.executeSql(
+          'SELECT * FROM SleepWindow WHERE eventId = ?',
+          [eventId],
+          (_, { rows: { _array } }) => {
+            resolve(_array as LocalSleepWindow[] | undefined);
+          },
+          (_, error) => {
+            reject(error);
+            return true;
+          }
+        );
+      } catch (error) {
+        console.error('Error fetching sleep window:', error);
+        reject(new Error('Failed to fetch sleep window'));
+      }
     });
   });
 };
