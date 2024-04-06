@@ -1,5 +1,5 @@
 import { getAuth0User, getUserCredentials } from './auth';
-
+import type { LocalSleepWindow } from './interfaces';
 /**
  * Fetches user data from the API.
  * @returns {Promise<object | boolean>} The user data if successful, otherwise false.
@@ -324,15 +324,7 @@ export const createWindow = async (windowData: object) => {
  * @param windowData - The data of the event to be updated.
  * @returns The API response if successful, otherwise false.
  */
-interface WindowData {
-  windowId: string;
-  eventId: string;
-  startTime: string;
-  stopTime: string;
-  isSleep: boolean;
-  note: string;
-}
-export const updateWindow = async (windowData: WindowData) => {
+export const updateWindow = async (windowData: LocalSleepWindow) => {
   try {
     const userCredentials = await getUserCredentials();
     if (userCredentials) {
