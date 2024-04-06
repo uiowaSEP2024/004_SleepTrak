@@ -1,5 +1,5 @@
 import { getEvent, getSleepWindowsForEvent } from './localDb';
-import { createEvent, createSleepEvent } from './db';
+import { createSleepEventFromLocal, createEventFromLocal } from './bridge';
 
 interface SyncTask {
   id: string;
@@ -24,13 +24,16 @@ export const syncData = async () => {
         localData &&
         (task.operation === 'insert' || task.operation === 'update')
       ) {
-        if (localData.type === 'nap' || localData.type === 'night sleep') {
+        if (localData.type === 'nap' || localData.type === 'night_sleep') {
           const sleepWindows = await getSleepWindowsForEvent(localData.eventId);
-          if (sleepWindows && sleepWindows.length > 0) {
-            await createSleepEvent(localData, sleepWindows);
+          if (!sleepWindows) {
+            throw new Error(
+              `No sleep windows found for event with id ${localData.eventId}`
+            );
           }
+          await createSleepEventFromLocal(localData, sleepWindows);
         } else {
-          await createEvent(localData);
+          await createEventFromLocal(localData);
         }
       }
       task.status = 'completed';

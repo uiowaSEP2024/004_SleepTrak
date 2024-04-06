@@ -24,6 +24,7 @@ import WindowCell from '../components/views/WindowCell';
 import SleepTypeSelector from '../components/selectors/SleepTypeSelector';
 import BasicButton from '../components/buttons/SaveButton';
 import { saveEvent, saveSleepWindow } from '../utils/localDb';
+import { addToSyncQueue, syncData } from '../utils/syncQueue';
 import * as Crypto from 'expo-crypto';
 
 type NavigationProp = NativeStackNavigationProp<
@@ -140,28 +141,82 @@ const SleepTimer: React.FC = () => {
   const saveSleepSession = async () => {
     const newSleepData = {
       ...sleepData,
-      startTime: cribStartTime ?? windows[0].startTime,
-      endTime: cribStopTime ?? windows[windows.length - 1].stopTime,
-      type: isNap ? 'nap' : 'night_sleep'
+      startTime: windows[0].startTime,
+      endTime: windows[windows.length - 1].stopTime,
+      type: isNap ? 'nap' : 'night_sleep',
+      cribStartTime: cribStartTime,
+      cribStopTime: cribStopTime
     };
     setSleepData(newSleepData);
     const sleepDataLocal = {
       ...newSleepData,
       eventId: Crypto.randomUUID(),
-      startTime: newSleepData.startTime.toISOString(),
-      endTime: newSleepData.endTime.toISOString()
+      startTime:
+        newSleepData.startTime instanceof Date
+          ? newSleepData.startTime.toISOString()
+          : '',
+      endTime:
+        newSleepData.endTime instanceof Date
+          ? newSleepData.endTime.toISOString()
+          : '',
+      cribStartTime:
+        newSleepData.cribStartTime instanceof Date
+          ? newSleepData.cribStartTime.toISOString()
+          : '',
+      cribStopTime:
+        newSleepData.cribStopTime instanceof Date
+          ? newSleepData.cribStopTime.toISOString()
+          : ''
     };
-    await saveEvent(sleepDataLocal);
-    const windowPromises = windows.map((window) =>
-      saveSleepWindow({
+    try {
+      await saveEvent(sleepDataLocal);
+    } catch (error) {
+      console.error('Error in saveEvent:', error);
+    }
+
+    try {
+      addToSyncQueue({
+        id: sleepDataLocal.eventId,
+        operation: 'insert',
+        data: sleepDataLocal,
+        status: 'pending'
+      });
+    } catch (error) {
+      console.error('Error in addToSyncQueue (event):', error);
+    }
+
+    const windowPromises = windows.map((window) => {
+      const windowData = {
         ...window,
         windowId: window.id,
         eventId: sleepDataLocal.eventId,
         startTime: window.startTime.toISOString(),
         stopTime: window.stopTime.toISOString()
-      })
-    );
-    await Promise.all(windowPromises);
+      };
+      try {
+        addToSyncQueue({
+          id: windowData.windowId,
+          operation: 'insert',
+          data: windowData,
+          status: 'pending'
+        });
+      } catch (error) {
+        console.error('Error in addToSyncQueue (window):', error);
+      }
+      return saveSleepWindow(windowData);
+    });
+
+    try {
+      await Promise.all(windowPromises);
+    } catch (error) {
+      console.error('Error in saveSleepWindow:', error);
+    }
+
+    try {
+      await syncData();
+    } catch (error) {
+      console.error('Error in syncData:', error);
+    }
     setWindows([]);
   };
 
@@ -238,7 +293,7 @@ const SleepTimer: React.FC = () => {
         <BasicButton
           onPress={() => {
             saveSleepSession().catch((error) => {
-              console.error('Error saving sleep session:', error);
+              console.error('[]Error saving sleep session:', error);
             });
           }}
           title="Save Log"
