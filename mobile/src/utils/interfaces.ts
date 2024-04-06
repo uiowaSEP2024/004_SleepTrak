@@ -19,7 +19,6 @@ export interface LocalEvent {
 
 export interface LocalSleepWindow {
   windowId: string;
-  event: Event;
   eventId: string;
   startTime: string;
   stopTime: string;
@@ -45,7 +44,6 @@ export interface RemoteEvent {
 
 export interface RemoteSleepWindow {
   windowId: string;
-  event: Event;
   eventId: string;
   startTime: Date;
   stopTime: Date;
