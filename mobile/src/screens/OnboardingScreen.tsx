@@ -22,7 +22,7 @@ import {
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { useNavigation } from '@react-navigation/native';
 
-const TOTAL_SCREENS: number = 9;
+const TOTAL_SCREENS: number = 13;
 const questionAnswers: Record<string, string> = {};
 
 type Question = {
@@ -257,7 +257,7 @@ const OnboardingScreen: React.FC = () => {
     if (screenNumber > TOTAL_SCREENS) {
       void onboardingWrapUp().then(() => {
         setTimeout(() => {
-          navigation.navigate('Home');
+          navigation.navigate('BottomTabs');
         }, 2000); // Delay for 2 seconds to allow database to update
       });
     }
