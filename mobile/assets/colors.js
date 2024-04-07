@@ -9,9 +9,12 @@ export const colors = {
   silverGrey: '#9B9A9A',
   crimsonRed: '#D75447',
   peachyOrange: '#F89D6C',
-  lightTan: '#F5D6A8',
+  lightTan: '#fff4e3',
+  tan: '#F5D6A8',
   softLavender: '#D5C1D6',
-  palePink: '#F5E0ED'
+  palePink: '#F5E0ED',
+  lightPurple: '#f7f3f9',
+  textGray: '#545454'
 };
 
 export const hexToRGBA = (hex, alpha) => {
