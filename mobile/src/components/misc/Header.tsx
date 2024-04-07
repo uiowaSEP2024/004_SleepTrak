@@ -45,9 +45,10 @@ const Header: React.FC<NativeStackHeaderProps> = ({
   options,
   back
 }) => {
+  const routeName = route.name;
   return (
     <View style={styles.headerContainer}>
-      {back ? (
+      {back && routeName !== 'Home' ? (
         <BackButton navigation={navigation} />
       ) : (
         <ProfileButton navigation={navigation} />

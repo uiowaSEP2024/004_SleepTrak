@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { useAuth0 } from 'react-native-auth0';
 import { Button, Text } from 'react-native-paper';
 import { colors } from '../../../assets/colors';
@@ -20,21 +20,23 @@ export const LoginButton = () => {
   };
 
   return (
-    <Button
+    <TouchableOpacity
       style={{
-        borderRadius: 0,
-        padding: 8,
+        borderRadius: 32,
         backgroundColor: colors.crimsonRed,
-        width: '50%',
-        shadowColor: 'black'
+        width: '70%',
+        height: 60,
+        shadowColor: 'black',
+        alignItems: 'center',
+        justifyContent: 'center'
       }}
       onPress={() => {
         void onPress();
       }}>
-      <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>
+      <Text style={{ color: 'white', fontSize: 28, letterSpacing: 2 }}>
         Log In
       </Text>
-    </Button>
+    </TouchableOpacity>
   );
 };
 

@@ -2,8 +2,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TestScreen from '../screens/TestScreen';
 import SleepTimer from '../screens/SleepTimerScreen';
 import LoginScreen from '../screens/AuthScreen';
-import WelcomeScreen from '../screens/WelcomeScreen';
-import OnboardingScreen from '../screens/OnboardingScreen';
 import EditWindowScreen from '../screens/EditWindowScreen';
 import FoodTrackingScreen from '../screens/FoodTrackingScreen';
 import HomeScreen from '../screens/HomeScreen';
@@ -53,7 +51,7 @@ const Stack = createNativeStackNavigator();
 const HomeStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName={'Home_test'}
       screenOptions={{
         headerShown: true,
         header: Header
@@ -73,16 +71,6 @@ const HomeStack = () => {
       <Stack.Screen
         name="SleepTimer"
         component={SleepTimer}
-      />
-      <Stack.Screen
-        name="Welcome"
-        component={WelcomeScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Onboarding"
-        component={OnboardingScreen}
-        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="EditWindowScreen"

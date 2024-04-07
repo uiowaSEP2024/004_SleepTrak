@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { LoginButton } from '../components/buttons/AuthButtons';
 import { useNavigation } from '@react-navigation/native';
 import { hasOnboarded, hasValidCredentials } from '../utils/auth';
@@ -18,7 +18,7 @@ const WelcomeScreen: React.FC = () => {
         const onboarded = await hasOnboarded();
 
         if (onboarded) {
-          navigation.navigate('Home');
+          navigation.navigate('BottomTabs');
         } else {
           navigation.navigate('Onboarding');
         }
@@ -52,6 +52,10 @@ const WelcomeScreen: React.FC = () => {
         />
       </View>
       <View style={styles.buttonContainer}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Hello! </Text>
+          <Text style={styles.title}>Please log in to begin</Text>
+        </View>
         <LoginButton />
       </View>
     </View>
@@ -72,35 +76,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: '50%',
-    backgroundColor: colors.crimsonRed,
+    backgroundColor: 'white',
     height: '25%',
-    width: '75%'
+    width: '85%'
   },
   buttonContainer: {
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 8,
     height: '35%'
   },
   title: {
-    fontWeight: 'bold',
-    fontSize: 48,
-    color: colors.crimsonRed,
-    marginTop: '20%',
-    marginBottom: '30%'
+    letterSpacing: 2,
+    fontSize: 18,
+    alignSelf: 'center'
+  },
+  titleContainer: {
+    marginBottom: '25%',
+    alignContent: 'center'
   },
   logo: {
     alignSelf: 'center',
     justifyContent: 'center',
-    fill: 'white', // Throws a warning, because this is an SVG property, but it is ok.
-    stroke: 'white'
-  },
-  LoginButton: {
-    backgroundColor: colors.crimsonRed,
-    fontSize: 24,
-    color: 'white',
-    width: '100%',
-    flex: 2
+    fill: colors.crimsonRed, // Throws a warning, because this is an SVG property, but it is ok.
+    stroke: colors.crimsonRed
   }
 });
 
