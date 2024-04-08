@@ -143,18 +143,15 @@ export default function ChatPage() {
 
   useEffect(() => {
     setSelectedConversation(state.conversations[0]);
+    console.log(state.conversations);
   }, [state.conversations]);
 
-  return (
-    <>
-      <ConversationAdder
-        conversationsClient={
-          conversationsClient
-            ? conversationsClient
-            : new ConversationsClient(state.token)
-        }
-      />
-      {conversationContent?.items.map((message) => <div>{message.body}</div>)}
-    </>
-  );
+  if (conversationsClient) {
+    return (
+      <>
+        <ConversationAdder conversationsClient={conversationsClient} />
+        {conversationContent?.items.map((message) => <div>{message.body}</div>)}
+      </>
+    );
+  }
 }
