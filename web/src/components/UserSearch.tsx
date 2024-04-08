@@ -11,7 +11,7 @@ interface User {
   email: string;
 }
 
-export default function UserSearch(handleChange: () => void) {
+export default function UserSearch(onChange: (user: User | null) => void) {
   const [usersData, setUsersData] = useState<User[]>([]);
   const { getAccessTokenSilently } = useAuth0();
 
@@ -31,6 +31,10 @@ export default function UserSearch(handleChange: () => void) {
 
     fetchClientsData();
   }, [getAccessTokenSilently]);
+
+  const handleChange = (event: React.SyntheticEvent, newUser: User | null) => {
+    onChange(newUser);
+  };
 
   return (
     <Autocomplete
