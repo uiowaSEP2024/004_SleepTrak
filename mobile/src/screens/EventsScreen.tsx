@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { ScrollView, View, Text, StyleSheet } from 'react-native';
 import React, { useEffect } from 'react';
 import { Card, IconButton } from 'react-native-paper';
 import { colors } from '../../assets/colors';
@@ -119,7 +119,7 @@ const EventCard: React.FC<{ event: any; testID: string | undefined }> = ({
 
 const EventList: React.FC<{ events: any[] }> = ({ events }) => {
   return (
-    <View style={styles.eventList}>
+    <ScrollView style={styles.eventList}>
       {events.map((event, index) => (
         <EventCard
           key={index}
@@ -127,7 +127,7 @@ const EventList: React.FC<{ events: any[] }> = ({ events }) => {
           event={event}
         />
       ))}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -163,6 +163,10 @@ const EventsScreen: React.FC<{ date?: Date }> = ({ date }) => {
 export default EventsScreen;
 
 const styles = StyleSheet.create({
+  topContainer: {
+    backgroundColor: 'white',
+    height: '100%'
+  },
   headerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -180,6 +184,7 @@ const styles = StyleSheet.create({
     padding: 0
   },
   eventList: {
-    margin: 10
+    margin: 10,
+    height: '100%'
   }
 });

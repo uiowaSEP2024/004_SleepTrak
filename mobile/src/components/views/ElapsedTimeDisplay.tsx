@@ -5,7 +5,7 @@
  */
 
 import React, { useEffect, useState, useRef } from 'react';
-import TimerDisplay from './TimerDisplay';
+import { Text } from 'react-native';
 
 interface ElapsedTimeDisplayProps {
   isRunning: boolean;
@@ -45,10 +45,13 @@ const ElapsedTimeDisplay: React.FC<ElapsedTimeDisplayProps> = ({
   const formattedTime = formatTime(elapsedTime);
 
   return (
-    <TimerDisplay
-      title="Elapsed Time:"
-      time={formattedTime}
-    />
+    // <TimerDisplay
+    //   title="Elapsed Time:"
+    //   time={formattedTime}
+    // />
+    <Text style={{ fontSize: 48, alignSelf: 'center', letterSpacing: 4 }}>
+      {formattedTime}
+    </Text>
   );
 };
 

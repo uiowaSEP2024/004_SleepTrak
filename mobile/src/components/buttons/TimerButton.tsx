@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
-import { TouchableRipple, Icon, Text } from 'react-native-paper';
+import { TouchableRipple, Icon } from 'react-native-paper';
 import { colors } from '../../../assets/colors';
 
 interface TimerButtonProps {
@@ -42,15 +42,15 @@ const TimerButton: React.FC<TimerButtonProps> = ({
     <TouchableRipple
       onPress={handlePress}
       style={[styles.container, style]}>
-      <View style={styles.buttonContent}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>{isTimerRunning ? 'Stop' : 'Start'}</Text>
-        </View>
-        <View style={styles.iconContainer}>
-          <Icon
-            source={isTimerRunning ? 'stop' : 'play'}
-            size={30}
-          />
+      <View style={styles.innerContainer}>
+        <View style={styles.buttonContent}>
+          <View style={styles.iconContainer}>
+            <Icon
+              source={isTimerRunning ? 'stop' : 'play'}
+              size={96}
+              color="white"
+            />
+          </View>
         </View>
       </View>
     </TouchableRipple>
@@ -59,9 +59,17 @@ const TimerButton: React.FC<TimerButtonProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+    width: 200,
+    height: 200,
+    borderRadius: 120,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.crimsonRed
+  },
+  innerContainer: {
+    width: 160,
+    height: 160,
+    borderRadius: 120,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'transparent'
@@ -73,8 +81,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'column',
     alignItems: 'center',
-    borderRadius: 60,
-    backgroundColor: colors.crimsonRed
+    borderRadius: 120,
+    backgroundColor: colors.crimsonRed,
+    borderWidth: 3,
+    borderColor: 'white'
   },
   titleContainer: {
     alignItems: 'center',

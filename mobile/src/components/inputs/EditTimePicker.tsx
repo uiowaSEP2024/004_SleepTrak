@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Text,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Dimensions
-} from 'react-native';
+import { Text, StyleSheet, View, TouchableOpacity } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { Icon } from 'react-native-paper';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -79,7 +73,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: Dimensions.get('window').width * 0.8,
+    width: '86%',
     justifyContent: 'space-between',
     marginBottom: 25,
     borderBottomWidth: 1,

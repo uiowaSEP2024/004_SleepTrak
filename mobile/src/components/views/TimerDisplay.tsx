@@ -44,13 +44,13 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginHorizontal: 30,
+    marginHorizontal: 0,
     borderBottomWidth: 1,
     borderBottomColor: 'grey'
   },
   title: {
-    fontWeight: 'bold',
-    fontSize: 16,
+    fontWeight: '500',
+    fontSize: 20,
     flex: 1,
     marginBottom: 5
   },
