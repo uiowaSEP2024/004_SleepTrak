@@ -302,7 +302,7 @@ const MedicineTrackingScreen: React.FC = () => {
       />
     </View>
   ) : (
-    <View>
+    <View style={styles.topContainer}>
       <ScrollView style={styles.container}>
         <DateTimePicker
           onValueChange={(value) => {
@@ -436,7 +436,8 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     backgroundColor: 'white',
-    padding: 16
+    paddingVertical: 16,
+    paddingHorizontal: '7%'
   },
   divider: {
     marginVertical: 8,

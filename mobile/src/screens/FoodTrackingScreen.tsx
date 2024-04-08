@@ -369,7 +369,8 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     backgroundColor: 'white',
-    padding: 16
+    paddingVertical: 16,
+    paddingHorizontal: '7%'
   },
   divider: {
     marginVertical: 8,
