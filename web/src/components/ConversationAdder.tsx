@@ -1,18 +1,11 @@
-import { FormControl, Box, Button } from '@mui/joy';
-import { useEffect, useState } from 'react';
+import { Box, Button } from '@mui/joy';
+import { useState } from 'react';
 import {
   Conversation,
   Client as ConversationsClient
 } from '@twilio/conversations';
 import UserSearch from '../components/UserSearch';
-
-interface User {
-  userId: string;
-  first_name: string;
-  last_name: string;
-  role: string;
-  email: string;
-}
+import { User } from '@prisma/client';
 
 interface ConversationAdderProps {
   conversationsClient: ConversationsClient;
