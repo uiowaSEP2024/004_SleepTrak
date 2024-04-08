@@ -5,10 +5,10 @@ import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import CoachCard from '../components/CoachCard';
 import API_URL from '../util/apiURL';
-import { User } from '@prisma/client';
+import { UserWithBabies } from '../types/schemaExtensions';
 
 export default function AssignPage() {
-  const [clientData, setClientData] = useState<User | null>(null);
+  const [clientData, setClientData] = useState<UserWithBabies | null>(null);
   const { clientId } = useParams();
 
   const navigate = useNavigate();

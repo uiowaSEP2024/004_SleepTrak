@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { Button, styled } from '@mui/joy';
 import { Link as RouterLink } from 'react-router-dom';
 import API_URL from '../util/apiURL';
-import { User, Baby } from '@prisma/client';
+import { UserWithBabies } from '../types/schemaExtensions';
 
 // prevent the Link styling from overriding the Button highlight color
 const Link = styled(RouterLink)`
@@ -18,7 +18,7 @@ const Link = styled(RouterLink)`
 `;
 
 function AdminPage() {
-  const [usersData, setUsersData] = useState<User[]>([]);
+  const [usersData, setUsersData] = useState<UserWithBabies[]>([]);
   const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
