@@ -44,6 +44,7 @@ const ConversationAdder: React.FC<ConversationAdderProps> = ({
       await newConversation.add(selectedUser.userId);
     } catch {
       console.log(`Failed to add ${selectedUser.userId}`);
+      newConversation.delete();
     }
     console.log(newConversation);
   };
