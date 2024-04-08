@@ -41,7 +41,6 @@ const ProfileScreen: React.FC = () => {
     React.useCallback(() => {
       const fetchUser = async () => {
         const userData = await fetchUserData();
-        console.log(Object.keys(userData));
         setUser(userData);
       };
       void fetchUser();
@@ -84,7 +83,7 @@ const ProfileScreen: React.FC = () => {
     </ScrollView>
   ) : (
     <View style={styles.container}>
-      <Text style={styles.title}>No event found</Text>
+      <Text style={styles.title}>Looking for data...</Text>
     </View>
   );
 };

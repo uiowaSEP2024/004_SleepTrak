@@ -3,6 +3,7 @@ import { TouchableOpacity, View } from 'react-native';
 import { useAuth0 } from 'react-native-auth0';
 import { Button, Text } from 'react-native-paper';
 import { colors } from '../../../assets/colors';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 
 const auth0Audience = process.env.EXPO_PUBLIC_AUTH0_AUDIENCE ?? '';
 
@@ -42,10 +43,17 @@ export const LoginButton = () => {
 
 export const LogoutButton = (style?: any) => {
   const { clearSession } = useAuth0();
-
+  const navigation = useNavigation();
   const onPress = async () => {
     try {
       await clearSession();
+      // Reset the navigation stack to the Welcome screen
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'Welcome' }]
+        })
+      );
     } catch (e) {
       console.log(e);
     }
