@@ -22,7 +22,6 @@ const ConversationAdder: React.FC<ConversationAdderProps> = ({
   conversationsClient
 }) => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  // const handleSubmit = () => {
 
   const handleUserSearchSelection = (user: User | null) => {
     setSelectedUser(user);
