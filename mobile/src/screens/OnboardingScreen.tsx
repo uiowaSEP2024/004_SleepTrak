@@ -21,7 +21,8 @@ import {
 } from 'react-native-paper';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { useNavigation } from '@react-navigation/native';
-
+import { SvgUri } from 'react-native-svg';
+import { Ionicons } from '@expo/vector-icons';
 const TOTAL_SCREENS: number = 13;
 const questionAnswers: Record<string, string> = {};
 
@@ -51,14 +52,22 @@ const RadioButtonOption: React.FC<{
       onPress={() => {
         onValueChange(value);
       }}
-      style={styles.optionContainer}>
+      style={{
+        ...styles.inputContainer,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 16
+      }}>
+      <Text style={{ color, fontWeight, fontSize: 20 }}>
+        {value[0].toUpperCase() + value.slice(1)}
+      </Text>
       <RadioButton
         value={value}
         status={isSelected ? 'checked' : 'unchecked'}
         color={color}
         disabled={true}
       />
-      <Text style={{ color, fontWeight, fontSize: 20 }}>{value}</Text>
     </TouchableOpacity>
   );
 };
@@ -73,22 +82,20 @@ const YesNoQuestion: React.FC<{
   };
 
   return (
-    <View style={styles.inputContainer}>
+    <View>
       <RadioButton.Group
         onValueChange={handleChange}
         value={value}>
-        <View style={styles.groupContainer}>
-          <RadioButtonOption
-            value="yes"
-            selectedValue={value}
-            onValueChange={handleChange}
-          />
-          <RadioButtonOption
-            value="no"
-            selectedValue={value}
-            onValueChange={handleChange}
-          />
-        </View>
+        <RadioButtonOption
+          value="yes"
+          selectedValue={value}
+          onValueChange={handleChange}
+        />
+        <RadioButtonOption
+          value="no"
+          selectedValue={value}
+          onValueChange={handleChange}
+        />
       </RadioButton.Group>
     </View>
   );
@@ -116,17 +123,19 @@ const DateQuestion: React.FC<{
   };
 
   return (
-    <View style={{ ...styles.inputContainer, flexDirection: 'row' }}>
-      <Button onPress={showDatePicker}>
-        <Text>{date ? date.toDateString() : 'Press to select date'}</Text>
-      </Button>
+    <TouchableOpacity
+      style={{ ...styles.inputContainer, flexDirection: 'row' }}
+      onPress={showDatePicker}>
+      <Text style={{ color: colors.crimsonRed }}>
+        {date ? date.toDateString() : 'Press to select date'}
+      </Text>
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="date"
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
       />
-    </View>
+    </TouchableOpacity>
   );
 };
 const TextInputQuestion: React.FC<{
@@ -140,7 +149,7 @@ const TextInputQuestion: React.FC<{
 
   return (
     <TextInput
-      style={styles.input}
+      style={styles.inputContainer}
       placeholder={placeholder}
       keyboardType={keyboardType}
       onChangeText={handleChange}
@@ -159,7 +168,7 @@ const LargeTextInputQuestion: React.FC<{
 
   return (
     <TextInput
-      style={styles.input}
+      style={styles.inputContainer}
       placeholder={placeholder}
       keyboardType={keyboardType}
       onChangeText={handleChange}
@@ -196,13 +205,14 @@ const questionFactory = (
   return (
     <View
       key={questionId.toString()}
-      style={{ marginBottom: '10%' }}>
+      style={{ marginBottom: '10%', marginTop: '25%' }}>
       <View style={styles.questionContainer}>
+        <Text style={styles.questionNumberText}>
+          {'Question ' + questionId}
+        </Text>
         <Text style={styles.questionText}>{description}</Text>
       </View>
-      <View style={styles.inputContainer}>
-        <QuestionComponent {...questionProps} />
-      </View>
+      <QuestionComponent {...questionProps} />
     </View>
   );
 };
@@ -217,6 +227,54 @@ const onboardingScreenFactory = async (screenNumber: number) => {
   );
 
   return <View style={styles.topQuestionContainer}>{questionComponents}</View>;
+};
+
+const PageButtons: React.FC<{ screenNumber: number; setScreenNumber: any }> = ({
+  screenNumber,
+  setScreenNumber
+}) => {
+  return (
+    screenNumber <= TOTAL_SCREENS && (
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          position: 'absolute',
+          bottom: '3%',
+          left: 0,
+          right: 0,
+          justifyContent: 'space-between',
+          paddingHorizontal: '30%'
+        }}>
+        <TouchableOpacity
+          disabled={screenNumber === 1}
+          onPress={() => {
+            setScreenNumber(screenNumber - 1);
+          }}>
+          <Ionicons
+            name="chevron-back"
+            size={32}
+            color={screenNumber === 1 ? 'gray' : 'black'}
+          />
+        </TouchableOpacity>
+        <Text>
+          {' '}
+          {screenNumber} of {TOTAL_SCREENS}{' '}
+        </Text>
+        <TouchableOpacity
+          disabled={screenNumber === TOTAL_SCREENS}
+          onPress={() => {
+            setScreenNumber(screenNumber + 1);
+          }}>
+          <Ionicons
+            name="chevron-forward"
+            size={32}
+            color={screenNumber === TOTAL_SCREENS ? 'gray' : 'black'}
+          />
+        </TouchableOpacity>
+      </View>
+    )
+  );
 };
 
 const OnboardingScreen: React.FC = () => {
@@ -272,17 +330,26 @@ const OnboardingScreen: React.FC = () => {
         style={styles.progressBar}
         testID="progress-bar"
       />
+      <SvgUri
+        style={styles.logo}
+        uri={
+          'https://camilasleep.com/wp-content/uploads/2021/05/Logo-Camila.svg'
+        }
+      />
       {onboardingScreen}
-      {screenNumber <= TOTAL_SCREENS && (
+      {screenNumber === TOTAL_SCREENS && (
         <Button
-          style={styles.nextButton}
-          disabled={false}
           onPress={() => {
             setScreenNumber(screenNumber + 1);
-          }}>
-          <Text style={styles.nextText}>Next</Text>
+          }}
+          style={styles.submitButton}>
+          <Text style={{ color: 'white', fontSize: 20 }}> Submit </Text>
         </Button>
       )}
+      <PageButtons
+        screenNumber={screenNumber}
+        setScreenNumber={setScreenNumber}
+      />
     </View>
   );
 };
@@ -298,19 +365,37 @@ const styles = StyleSheet.create({
   questionContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.crimsonRed,
+    backgroundColor: 'white',
     width: 'auto',
     padding: 8
   },
   questionText: {
     alignItems: 'center',
     justifyContent: 'center',
-    color: 'white',
-    fontSize: 20
+    color: 'black',
+    fontSize: 24
+  },
+  questionNumberText: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: colors.textGray,
+    fontSize: 12,
+    marginBottom: 6
   },
   inputContainer: {
+    marginTop: '10%',
+    width: '80%',
+    alignSelf: 'center',
     alignItems: 'flex-start',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    borderRadius: 32,
+    padding: 24,
+    elevation: 2,
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.35,
+    shadowRadius: 8
   },
   input: {
     marginTop: 8,
@@ -327,16 +412,6 @@ const styles = StyleSheet.create({
     height: 10,
     marginBottom: 8
   },
-  nextButton: {
-    width: '90%',
-    backgroundColor: colors.crimsonRed,
-    marginTop: 8,
-    color: 'white',
-    alignSelf: 'center',
-    position: 'absolute',
-    bottom: '3%',
-    padding: 8
-  },
   nextText: {
     color: 'white',
     fontSize: 20,
@@ -346,16 +421,19 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center'
   },
-  groupContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    width: '85%',
-    marginTop: '10%'
+  logo: {
+    marginTop: '20%',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    fill: colors.crimsonRed, // Throws a warning, because this is an SVG property, but it is ok.
+    stroke: colors.crimsonRed
   },
-  optionContainer: {
-    flexDirection: 'row',
-    alignItems: 'center'
+  submitButton: {
+    width: '40%',
+    alignSelf: 'center',
+    borderRadius: 32,
+    padding: 8,
+    backgroundColor: colors.crimsonRed
   }
 });
 
