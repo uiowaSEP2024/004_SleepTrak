@@ -18,7 +18,7 @@ const BackButton: React.FC<{ navigation: any }> = ({ navigation }) => {
 };
 const ProfileButton: React.FC<{ navigation: any }> = ({ navigation }) => {
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('Home_test')}>
+    <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
       <MaterialCommunityIcons
         name="account-outline"
         size={32}

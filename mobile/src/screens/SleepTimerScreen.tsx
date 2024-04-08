@@ -279,15 +279,6 @@ const SleepTimer: React.FC = () => {
           )}
           keyExtractor={(window) => window.id}
         />
-        {/* <BasicButton
-          onPress={() => {
-            saveSleepSession().catch((error) => {
-              console.error('Error saving sleep event:', error);
-            });
-          }}
-          title="Save Log"
-          style={{ marginTop: 20, marginBottom: 40, width: '100%'}}
-        /> */}
       </View>
     </ScrollView>
   );

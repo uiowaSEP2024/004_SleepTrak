@@ -10,6 +10,7 @@ import EventScreen from '../screens/EventScreen';
 import MedicineTrackingScreen from '../screens/MedicineTrackingScreen';
 import Header from '../components/misc/Header';
 import SettingScreen from '../screens/SettingScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 export interface RootStackParamList {
   Home: undefined;
@@ -95,6 +96,10 @@ const HomeStack = () => {
       <Stack.Screen
         name="Setting"
         component={SettingScreen}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
       />
     </Stack.Navigator>
   );
