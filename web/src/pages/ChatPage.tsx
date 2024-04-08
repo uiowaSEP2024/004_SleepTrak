@@ -6,6 +6,7 @@ import {
   Client as ConversationsClient
 } from '@twilio/conversations';
 import { GetUserInfo } from '../components/auth';
+import ConversationAdder from '../components/ConversationAdder';
 import API_URL from '../util/apiURL';
 import { useAuth0 } from '@auth0/auth0-react';
 
@@ -30,6 +31,9 @@ export default function ChatPage() {
     selectedConversationSid: '',
     newMessage: ''
   });
+
+  const [conversationsClient, setConversationsClient] =
+    useState<ConversationsClient | null>(null);
 
   const { getAccessTokenSilently } = useAuth0();
 
@@ -63,7 +67,10 @@ export default function ChatPage() {
       return;
     }
     const initClient = () => {
-      const conversationsClient = new ConversationsClient(state.token);
+      setConversationsClient(new ConversationsClient(state.token));
+      if (!conversationsClient) {
+        return;
+      }
       conversationsClient.on('connectionStateChanged', (clientState) => {
         if (clientState === 'connecting')
           setState((prevState) => ({
@@ -127,7 +134,6 @@ export default function ChatPage() {
   >(undefined);
 
   useEffect(() => {
-    console.log('getting messages');
     const fetchContent = async () => {
       const content = await selectedConversation?.getMessages();
       setConversationContent(content);
@@ -141,6 +147,13 @@ export default function ChatPage() {
 
   return (
     <>
+      <ConversationAdder
+        conversationsClient={
+          conversationsClient
+            ? conversationsClient
+            : new ConversationsClient(state.token)
+        }
+      />
       {conversationContent?.items.map((message) => <div>{message.body}</div>)}
     </>
   );
