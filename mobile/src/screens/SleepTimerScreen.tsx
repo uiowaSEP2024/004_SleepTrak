@@ -74,7 +74,7 @@ const SleepTimer: React.FC = () => {
         id: wakeStartTime.getTime().toString(),
         startTime: wakeStartTime,
         stopTime: stopTimeForLog,
-        isSleep: isSleep,
+        isSleep,
         note: ''
       };
       setWindows([...windows, newWindow]);
@@ -92,7 +92,7 @@ const SleepTimer: React.FC = () => {
         id: sleepStartTime.getTime().toString(),
         startTime: sleepStartTime,
         stopTime: stopTimeForLog,
-        isSleep: isSleep,
+        isSleep,
         note: ''
       };
       setWindows([...windows, newWindow]);
