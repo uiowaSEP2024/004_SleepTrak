@@ -5,10 +5,10 @@ import Box from '@mui/system/Box';
 import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import API_URL from '../util/apiURL';
-import { User, Baby } from '@prisma/client';
+import { UserWithBabies } from '../types/schemaExtensions';
 
 export default function BabyDetailsPage() {
-  const [clientData, setClientData] = useState<User | null>(null);
+  const [clientData, setClientData] = useState<UserWithBabies | null>(null);
 
   const { getAccessTokenSilently } = useAuth0();
   const { userId } = useParams(); // Access the userId from the route parameters
