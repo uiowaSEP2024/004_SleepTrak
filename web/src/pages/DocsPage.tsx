@@ -1,5 +1,7 @@
+import FileUploadButton from '../components/FileUploadButton';
+
 function DocsPage() {
-  return <h2 data-testid="docs-page">TODO: Docs Page</h2>;
+  return <FileUploadButton />;
 }
 
 export default DocsPage;
