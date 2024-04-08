@@ -98,7 +98,7 @@ describe('ClientsPage Component', () => {
       );
     });
     await waitFor(() => {
-      expect(screen.getByText('Baby1')).toBeInTheDocument();
+      expect(screen.getByText('Baby A')).toBeInTheDocument();
     });
   });
 });
