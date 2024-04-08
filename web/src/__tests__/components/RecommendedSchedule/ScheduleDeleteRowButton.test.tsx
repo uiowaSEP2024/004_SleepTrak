@@ -7,8 +7,8 @@ const mockReminder = {
   reminderId: '1',
   planId: '1',
   description: 'Reminder 1',
-  startTime: '2024-02-27T08:00:00.000Z',
-  endTime: '2024-02-27T08:30:00.000Z'
+  startTime: new Date('2024-02-27T08:00:00.000Z'),
+  endTime: new Date('2024-02-27T08:30:00.000Z')
 };
 
 const onSubmitMock = jest.fn();

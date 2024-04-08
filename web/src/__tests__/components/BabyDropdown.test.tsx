@@ -3,6 +3,7 @@ import '../../util/setupDomTests';
 import { fireEvent, render } from '@testing-library/react';
 import BabyDropdown from '../../components/BabyDropdown';
 import { BrowserRouter, useNavigate } from 'react-router-dom';
+import { Baby } from '@prisma/client';
 
 // Mock navigate and useNavigate from react-router-dom
 jest.mock('react-router-dom', () => ({
@@ -15,24 +16,30 @@ const navigateMock: jest.Mock = jest.fn();
 (useNavigate as jest.Mock).mockImplementation(() => navigateMock);
 
 describe('BabyDropdown component', () => {
-  const babies = [
+  const babies: Baby[] = [
     {
-      dob: '2023-01-15',
+      dob: new Date('2023-01-15'),
       babyId: '1',
       name: 'Baby 1',
-      parentId: '101'
+      parentId: '101',
+      weight: 8,
+      medicine: ''
     },
     {
-      dob: '2023-05-20',
+      dob: new Date('2023-05-20'),
       babyId: '2',
       name: 'Baby 2',
-      parentId: '101'
+      parentId: '101',
+      weight: 8,
+      medicine: ''
     },
     {
-      dob: '2023-09-10',
+      dob: new Date('2023-09-10'),
       babyId: '3',
       name: 'Baby 3',
-      parentId: '102'
+      parentId: '102',
+      weight: 8,
+      medicine: ''
     }
   ];
 
