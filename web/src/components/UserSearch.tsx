@@ -11,7 +11,11 @@ interface User {
   email: string;
 }
 
-export default function UserSearch(onChange: (user: User | null) => void) {
+interface UserSearchProps {
+  onChange: (user: User | null) => void;
+}
+
+const UserSearch: React.FC<UserSearchProps> = ({ onChange }) => {
   const [usersData, setUsersData] = useState<User[]>([]);
   const { getAccessTokenSilently } = useAuth0();
 
@@ -32,7 +36,7 @@ export default function UserSearch(onChange: (user: User | null) => void) {
     fetchClientsData();
   }, [getAccessTokenSilently]);
 
-  const handleChange = (event: React.SyntheticEvent, newUser: User | null) => {
+  const handleChange = (_: React.SyntheticEvent, newUser: User | null) => {
     onChange(newUser);
   };
 
@@ -46,4 +50,6 @@ export default function UserSearch(onChange: (user: User | null) => void) {
       options={usersData}
     />
   );
-}
+};
+
+export default UserSearch;
