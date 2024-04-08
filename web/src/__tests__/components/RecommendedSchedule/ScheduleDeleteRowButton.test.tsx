@@ -2,9 +2,8 @@ import '@testing-library/jest-dom';
 import '../../../util/setupDomTests';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import ScheduleDeleteRowButton from '../../../components/RecommendedSchedule/ScheduleDeleteRowButton';
-import { Reminder } from '../../../components/RecommendedSchedule/RecommendedSchedule';
 
-const mockReminder: Reminder = {
+const mockReminder = {
   reminderId: '1',
   planId: '1',
   description: 'Reminder 1',
