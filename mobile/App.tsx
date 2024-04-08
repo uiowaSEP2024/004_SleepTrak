@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import BottomTabs from './src/navigations/MainNavigator';
 import { Auth0Provider } from 'react-native-auth0';
 import { initializeDatabase } from './src/utils/localDb';
 import { SafeAreaView } from 'react-native';
+import { colors } from './assets/colors';
+import MainStack from './src/navigations/MainStack';
 
 const auth0Domain = process.env.EXPO_PUBLIC_AUTH0_DOMAIN ?? '';
 const auth0ClientId = process.env.EXPO_PUBLIC_AUTH0_CLIENT_ID ?? '';
@@ -13,14 +14,17 @@ export default function App() {
     initializeDatabase();
   }, []);
   return (
-    <Auth0Provider
-      domain={auth0Domain}
-      clientId={auth0ClientId}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-        <NavigationContainer>
-          <BottomTabs />
-        </NavigationContainer>
+    <Fragment>
+      <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
+      <SafeAreaView style={{ flex: 1, backgroundColor: colors.crimsonRed }}>
+        <Auth0Provider
+          domain={auth0Domain}
+          clientId={auth0ClientId}>
+          <NavigationContainer>
+            <MainStack />
+          </NavigationContainer>
+        </Auth0Provider>
       </SafeAreaView>
-    </Auth0Provider>
+    </Fragment>
   );
 }
