@@ -2,6 +2,20 @@ import { prisma } from '../../prisma/client.js';
 import type { File } from '@prisma/client';
 import { ensureError } from '../utils/error.js';
 
+const get = async (fileId: string): Promise<File | null | Error> => {
+  try {
+    const result = await prisma.file.findUnique({
+      where: {
+        fileId
+      }
+    });
+
+    return result;
+  } catch (err) {
+    throw ensureError(err);
+  }
+};
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const create = async (fileData: any): Promise<File | Error> => {
   try {
@@ -27,19 +41,20 @@ const search = async (searchParams: any): Promise<File[] | Error> => {
 
 const destroy = async (fileId: string): Promise<File | Error> => {
   try {
-    const deletePlan = await prisma.file.delete({
+    const deleteFile = await prisma.file.delete({
       where: {
         fileId
       }
     });
 
-    return deletePlan;
+    return deleteFile;
   } catch (err) {
     throw ensureError(err);
   }
 };
 
 export const service = {
+  get,
   create,
   search,
   destroy
