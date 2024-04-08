@@ -22,6 +22,7 @@ model User {
   coach              User?              @relation("client_coach", fields: [coachId], references: [userId])
   clients            User[]             @relation("client_coach")
   medicines          Medicine[]
+  files              File[]
 }
 
 model Event {
@@ -72,6 +73,14 @@ model Reminder {
   description String
   startTime DateTime  @db.Timestamptz()
   endTime   DateTime? @db.Timestamptz()
+}
+
+model File {
+  fileId    String       @id @default(uuid())
+  filename  String
+  url      String
+  user    User         @relation(fields: [userId], references: [userId])
+  userId  String
 }
 
 model Baby {
