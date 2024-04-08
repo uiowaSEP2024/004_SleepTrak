@@ -50,7 +50,7 @@ function App() {
                 element={<AssignPage />}
               />
               <Route
-                path="/babies/:babyId"
+                path="clients/:userId/babies/:babyId"
                 element={<BabyDetailsPage />}
               />
               <Route
