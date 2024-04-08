@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { Button, styled } from '@mui/joy';
 import { Link as RouterLink } from 'react-router-dom';
 import API_URL from '../util/apiURL';
+import { User, Baby } from '@prisma/client';
 
 // prevent the Link styling from overriding the Button highlight color
 const Link = styled(RouterLink)`
@@ -15,21 +16,6 @@ const Link = styled(RouterLink)`
     color: inherit;
   }
 `;
-
-interface Baby {
-  name: string;
-  babyId: string;
-}
-
-interface User {
-  userId: string;
-  first_name: string;
-  last_name: string;
-  role: string;
-  babies: Baby[];
-  coachId?: string;
-  clients: User[];
-}
 
 function AdminPage() {
   const [usersData, setUsersData] = useState<User[]>([]);

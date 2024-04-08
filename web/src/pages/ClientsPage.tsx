@@ -3,16 +3,8 @@ import ClientCard from '../components/ClientCard';
 import Grid from '@mui/joy/Grid';
 import Item from '@mui/joy/Grid';
 import { useEffect, useState } from 'react';
-import { Baby } from './BabyDetailsPage';
 import API_URL from '../util/apiURL';
-
-interface User {
-  userId: string;
-  first_name: string;
-  last_name: string;
-  role: string;
-  babies: Baby[];
-}
+import { User } from '@prisma/client';
 
 function ClientsPage() {
   const [usersData, setUsersData] = useState<User[]>([]);

@@ -5,23 +5,7 @@ import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import CoachCard from '../components/CoachCard';
 import API_URL from '../util/apiURL';
-
-interface Baby {
-  dob: string;
-  babyId: string;
-  name: string;
-  parentId: string;
-}
-
-interface User {
-  userId: string;
-  first_name: string;
-  last_name: string;
-  role: string;
-  babies: Baby[];
-  coachId?: string;
-  clients: User[];
-}
+import { User } from '@prisma/client';
 
 export default function AssignPage() {
   const [clientData, setClientData] = useState<User | null>(null);

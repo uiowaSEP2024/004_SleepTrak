@@ -7,7 +7,7 @@ import Option from '@mui/joy/Option';
 import Typography from '@mui/joy/Typography';
 import { getAgeInMonth } from '../util/utils';
 import { useNavigate } from 'react-router-dom';
-import { Baby } from '../pages/BabyDetailsPage';
+import { Baby } from '@prisma/client';
 
 interface BabyDropdownProps {
   babies: Baby[];
