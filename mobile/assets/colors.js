@@ -14,6 +14,8 @@ export const colors = {
   softLavender: '#D5C1D6',
   palePink: '#F5E0ED',
   lightPurple: '#f7f3f9',
+  veryLightPurple: '#f7f3fa',
+  veryLightTan: 'fff4e3',
   textGray: '#545454',
   paleOrange: '#F89D6C'
 };
