@@ -28,6 +28,20 @@ export function toggleSidebar() {
   }
 }
 
+export function getAgeInMonthFromDob(dob: Date): string {
+  const today = new Date();
+
+  let ageYears = today.getFullYear() - dob.getFullYear();
+  let ageMonths = today.getMonth() - dob.getMonth();
+
+  if (ageMonths < 0) {
+    ageYears--;
+    ageMonths += 12;
+  }
+
+  return ageYears * 12 + ageMonths + 'M';
+}
+
 export function getAgeInMonth(dob: string): string {
   const today = new Date();
   const birthDate = new Date(dob);

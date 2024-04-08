@@ -6,6 +6,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import CoachCard from '../components/CoachCard';
 import API_URL from '../util/apiURL';
 import { UserWithBabies } from '../types/schemaExtensions';
+import { User } from '@prisma/client';
 
 export default function AssignPage() {
   const [clientData, setClientData] = useState<UserWithBabies | null>(null);

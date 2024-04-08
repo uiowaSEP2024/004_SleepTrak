@@ -4,10 +4,10 @@ import Grid from '@mui/joy/Grid';
 import Item from '@mui/joy/Grid';
 import { useEffect, useState } from 'react';
 import API_URL from '../util/apiURL';
-import { User } from '@prisma/client';
+import { UserWithBabies } from '../types/schemaExtensions';
 
 function ClientsPage() {
-  const [usersData, setUsersData] = useState<User[]>([]);
+  const [usersData, setUsersData] = useState<UserWithBabies[]>([]);
   const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
