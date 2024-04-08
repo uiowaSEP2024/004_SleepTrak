@@ -11,7 +11,7 @@ interface SleepTypeSelectorProps {
 
 const SleepTypeSelector: React.FC<SleepTypeSelectorProps> = (props) => {
   const { style } = props;
-  const [value, setValue] = React.useState('');
+  const [value, setValue] = React.useState('nap');
 
   return (
     <SegmentedButtons
@@ -45,8 +45,7 @@ const SleepTypeSelector: React.FC<SleepTypeSelectorProps> = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    marginHorizontal: 30
+    alignItems: 'center'
   }
 });
 

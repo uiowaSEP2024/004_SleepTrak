@@ -38,11 +38,8 @@ const CribButton: React.FC<CribButtonProps> = ({ onStart, onStop, style }) => {
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 100,
     padding: 10,
-    borderWidth: 3,
-    width: Dimensions.get('window').width * 0.5,
-    borderColor: colors.deepBlue
+    width: Dimensions.get('window').width * 0.5
   },
   buttonContent: {
     flexDirection: 'row',

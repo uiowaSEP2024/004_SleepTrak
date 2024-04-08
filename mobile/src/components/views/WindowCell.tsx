@@ -44,10 +44,10 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width * 0.8
   },
   sleep: {
-    backgroundColor: colors.peachyOrange
+    backgroundColor: colors.veryLightPurple
   },
   awake: {
-    backgroundColor: colors.lightTan
+    backgroundColor: colors.veryLightTan
   },
   title: {
     fontSize: 20,

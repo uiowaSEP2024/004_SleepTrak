@@ -160,7 +160,7 @@ const MedicineTypePicker: React.FC<{
       <View>
         {wantsInput && (
           <TextInput
-            style={styles.textInput}
+            style={{ ...styles.textInput, marginBottom: 8 }}
             onChangeText={handleChangeInput}
             value={inputValue}
             testID="medicine-type-input"
@@ -302,7 +302,7 @@ const MedicineTrackingScreen: React.FC = () => {
       />
     </View>
   ) : (
-    <View style={styles.topContainer}>
+    <View>
       <ScrollView style={styles.container}>
         <DateTimePicker
           onValueChange={(value) => {
@@ -440,7 +440,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: '7%'
   },
   divider: {
-    marginVertical: 8,
+    marginBottom: 0,
     borderBottomColor: 'grey',
     borderBottomWidth: 1
   }

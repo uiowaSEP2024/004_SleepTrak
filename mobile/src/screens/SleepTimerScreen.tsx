@@ -22,10 +22,12 @@ import ElapsedTimeDisplay from '../components/views/ElapsedTimeDisplay';
 import ShowMoreButton from '../components/buttons/ShowMoreButton';
 import WindowCell from '../components/views/WindowCell';
 import SleepTypeSelector from '../components/selectors/SleepTypeSelector';
-import BasicButton from '../components/buttons/SaveButton';
 import { saveEvent, saveSleepWindow } from '../utils/localDb';
 import { addToSyncQueue, syncData } from '../utils/syncQueue';
 import { localize } from '../utils/bridge';
+import { createSleepEvent } from '../utils/db';
+import { Button } from 'react-native-paper';
+import { colors } from '../../assets/colors';
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -196,11 +198,15 @@ const SleepTimer: React.FC = () => {
   return (
     <ScrollView
       ref={scrollViewRef}
-      contentContainerStyle={{ flexGrow: 1, backgroundColor: 'white' }}>
+      contentContainerStyle={{
+        flexGrow: 1,
+        backgroundColor: 'white',
+        paddingHorizontal: '7%'
+      }}>
       <View style={styles.timerContainer}>
         <SleepTypeSelector
           onValueChange={handleSleepTypeChange}
-          style={{ marginVertical: 40 }}
+          style={{ marginTop: 20, marginBottom: 10 }}
         />
         <View style={styles.timerGroup}>
           <TimerDisplay
@@ -213,7 +219,7 @@ const SleepTimer: React.FC = () => {
             }
           />
           <TimerDisplay
-            style={{ marginBottom: 35 }}
+            style={{ marginBottom: 45 }}
             title="Stop Time:"
             time={
               SleepStopTime
@@ -226,13 +232,23 @@ const SleepTimer: React.FC = () => {
         <TimerButton
           onStart={handleStart}
           onStop={handleStop}
-          style={{ marginVertical: 20 }}
+          style={{ marginTop: '15%' }}
         />
         <CribButton
           onStart={handleCribStart}
           onStop={handleCribStop}
-          style={{ marginTop: 0, marginBottom: 40 }}
+          style={{ marginTop: 0, marginBottom: 10, marginLeft: '60%' }}
         />
+        <Button
+          mode="contained"
+          onPress={() => {
+            saveSleepSession();
+            navigation.goBack();
+          }}
+          style={styles.saveButtonContainer}
+          labelStyle={styles.saveButtonLabel}>
+          Save Log
+        </Button>
         <ShowMoreButton
           onPress={handleShowLog}
           title="Show Log"
@@ -263,15 +279,15 @@ const SleepTimer: React.FC = () => {
           )}
           keyExtractor={(window) => window.id}
         />
-        <BasicButton
+        {/* <BasicButton
           onPress={() => {
             saveSleepSession().catch((error) => {
               console.error('Error saving sleep event:', error);
             });
           }}
           title="Save Log"
-          style={{ marginTop: 20, marginBottom: 40 }}
-        />
+          style={{ marginTop: 20, marginBottom: 40, width: '100%'}}
+        /> */}
       </View>
     </ScrollView>
   );
@@ -283,11 +299,25 @@ const styles = StyleSheet.create({
   },
   timerGroup: {
     flexDirection: 'column',
-    alignItems: 'center',
-    marginVertical: 20
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    marginTop: 20
   },
   logContainer: {
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: '10%'
+  },
+  saveButtonContainer: {
+    width: '100%',
+    height: '7%',
+    borderRadius: 25,
+    justifyContent: 'center',
+    backgroundColor: colors.crimsonRed,
+    alignSelf: 'center'
+  },
+  saveButtonLabel: {
+    color: 'white',
+    fontSize: 20
   }
 });
 
