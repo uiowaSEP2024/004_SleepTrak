@@ -4,6 +4,7 @@ import { screen, act, render, waitFor } from '@testing-library/react';
 import BabyDetailsPage from '../../pages/BabyDetailsPage';
 import BabyDropdown from '../../components/BabyDropdown';
 import API_URL from '../../util/apiURL';
+import { UserWithBabies } from '../../types/schemaExtensions';
 
 // Mock Baby Dropdown Component
 jest.mock('../../components/BabyDropdown');
@@ -20,22 +21,29 @@ jest.mock('../../util/environment.ts', () => ({
 }));
 
 // Mock API responses
-const mockClientData = {
-  id: '2',
+const mockClientData: UserWithBabies = {
+  userId: '2',
+  coachId: '3',
+  email: 'johndoe@test.com',
+  role: 'client',
   first_name: 'John',
   last_name: 'Doe',
   babies: [
     {
-      dob: '2023-01-01',
+      dob: new Date('2023-01-01'),
       babyId: '1',
       name: 'Baby A',
-      parentId: '12345'
+      parentId: '12345',
+      weight: 8,
+      medicine: ''
     },
     {
-      dob: '2023-02-15',
+      dob: new Date('2023-02-15'),
       babyId: '2',
       name: 'Baby B',
-      parentId: '12345'
+      parentId: '12345',
+      weight: 8,
+      medicine: ''
     }
   ]
 };

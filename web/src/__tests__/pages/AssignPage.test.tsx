@@ -4,37 +4,63 @@ import { screen, render, waitFor } from '@testing-library/react';
 import AssignPage from '../../pages/AssignPage';
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import API_URL from '../../util/apiURL';
+import { UserWithBabies } from '../../types/schemaExtensions';
 
 // Mock fetch
-const mockUserData = [
+const mockUserData: UserWithBabies[] = [
   {
     userId: '1',
     coachId: '3',
     first_name: 'John',
     last_name: 'Doe',
     role: 'client',
-    babies: [{ name: 'Baby1', babyId: '1' }]
+    email: 'johndoe@test.com',
+    babies: [
+      {
+        dob: new Date('2023-01-01'),
+        babyId: '1',
+        name: 'Baby A',
+        parentId: '12345',
+        weight: 8,
+        medicine: ''
+      }
+    ]
   },
   {
     userId: '2',
+    coachId: null,
     first_name: 'Jane',
     last_name: 'Smith',
     role: 'coach',
-    clients: []
+    email: 'janesmith@test.com',
+    babies: []
   },
   {
     userId: '3',
+    coachId: null,
     first_name: 'John',
     last_name: 'Smith',
     role: 'coach',
-    clients: ['1']
+    email: 'johnsmith@test.com',
+    babies: []
   },
   {
     userId: '4',
+    coachId: null,
     first_name: 'Jane',
     last_name: 'Doe',
     role: 'client',
-    babies: [{ name: 'Baby1', babyId: '1' }]
+    email: 'janedoe@test.com',
+    babies: [
+      {
+        dob: new Date('2023-01-01'),
+        babyId: '1',
+        name: 'Baby A',
+        parentId: '12345',
+        weight: 8,
+        medicine: ''
+      }
+    ]
   }
 ];
 

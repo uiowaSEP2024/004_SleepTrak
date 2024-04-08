@@ -2,6 +2,7 @@ import '@testing-library/jest-dom';
 import '../../../util/setupDomTests';
 import { render, screen } from '@testing-library/react';
 import RecommendedSchedule from '../../../components/RecommendedSchedule/RecommendedSchedule';
+import { PlanWithReminders } from '../../../types/schemaExtensions';
 
 // Mock ScheduleCreateButton, ScheduleDeleteButton, ScheduleEditRowButton, and ScheduleDeleteRowButton
 
@@ -19,7 +20,7 @@ jest.mock(
 );
 
 describe('RecommendedSchedule', () => {
-  const sampleSchedule = {
+  const sampleSchedule: PlanWithReminders = {
     name: 'Schedule 1',
     schedule: {
       planId: 'sample-plan-id',
@@ -30,7 +31,7 @@ describe('RecommendedSchedule', () => {
           reminderId: '1',
           planId: 'sample-plan-id',
           description: 'Morning Rise',
-          startTime: '06:30',
+          startTime: new Date('2024-04-08T06:30:00+0000'),
           endTime: null
         },
         {
@@ -38,13 +39,13 @@ describe('RecommendedSchedule', () => {
           planId: 'sample-plan-id',
           description: 'Nap 1',
           startTime: '09:15',
-          endTime: '10:45'
+          endTime: new Date('2024-04-08T10:45:00+0000')
         },
         {
           reminderId: '3',
           planId: 'sample-plan-id',
           description: 'Asleep',
-          startTime: '20:00',
+          startTime: new Date('2024-04-08T20:00:00+0000'),
           endTime: null
         }
       ]
