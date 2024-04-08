@@ -2,14 +2,7 @@ import { Autocomplete } from '@mui/joy';
 import { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { API_URL } from '../util/environment';
-
-interface User {
-  userId: string;
-  first_name: string;
-  last_name: string;
-  role: string;
-  email: string;
-}
+import { User } from '@prisma/client';
 
 interface UserSearchProps {
   onChange: (user: User | null) => void;
