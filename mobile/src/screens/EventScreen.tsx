@@ -18,13 +18,16 @@ const EventScreen: React.FC = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
+    paddingTop: 8,
     alignContent: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white'
+    justifyContent: 'flex-start',
+    backgroundColor: 'white',
+    height: '100%'
   },
   title: {
     fontWeight: 'bold',
-    color: 'black'
+    color: 'black',
+    alignSelf: 'center'
   }
 });
 

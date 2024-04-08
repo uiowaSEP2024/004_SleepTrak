@@ -14,7 +14,8 @@ export const colors = {
   softLavender: '#D5C1D6',
   palePink: '#F5E0ED',
   lightPurple: '#f7f3f9',
-  textGray: '#545454'
+  textGray: '#545454',
+  paleOrange: '#F89D6C'
 };
 
 export const hexToRGBA = (hex, alpha) => {
