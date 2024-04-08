@@ -5,20 +5,7 @@ import Box from '@mui/system/Box';
 import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import API_URL from '../util/apiURL';
-
-export interface Baby {
-  dob: string;
-  babyId: string;
-  name: string;
-  parentId: string;
-}
-
-interface User {
-  id: string;
-  first_name: string;
-  last_name: string;
-  babies: Baby[];
-}
+import { User, Baby } from '@prisma/client';
 
 export default function BabyDetailsPage() {
   const [clientData, setClientData] = useState<User | null>(null);

@@ -5,20 +5,7 @@ import Item from '@mui/joy/Grid';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import API_URL from '../util/apiURL';
-
-interface Baby {
-  name: string;
-  babyId: string;
-}
-
-interface User {
-  userId: string;
-  first_name: string;
-  last_name: string;
-  role: string;
-  babies: Baby[];
-  coachId?: string;
-}
+import { User } from '@prisma/client';
 
 function CoachPage() {
   const [usersData, setUsersData] = useState<User[]>([]);

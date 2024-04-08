@@ -3,7 +3,7 @@ import { Button } from '@mui/joy';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import { Reminder } from './RecommendedSchedule';
+import { Reminder } from '@prisma/client';
 import { useAuth0 } from '@auth0/auth0-react';
 
 interface ScheduleDeleteRowButtonProps {
