@@ -15,5 +15,6 @@ router.use(auth.requireAuth);
 
 // Routes
 router.post('/create', upload.single('file'), asyncHandler(controller.create));
+router.post('/search', asyncHandler(controller.search));
 
 export default router;

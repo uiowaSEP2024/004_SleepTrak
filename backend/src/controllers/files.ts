@@ -39,6 +39,17 @@ const create = async (
   }
 };
 
+const search = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const searchParams = req.body;
+    const files = await service.search(searchParams);
+    res.json(files);
+  } catch (err) {
+    res.status(500).send(ensureError(err));
+  }
+};
+
 export const controller = {
-  create
+  create,
+  search
 };

@@ -14,6 +14,18 @@ const create = async (fileData: any): Promise<File | Error> => {
   }
 };
 
+const search = async (searchParams: any): Promise<File[] | Error> => {
+  try {
+    const result = await prisma.file.findMany({
+      where: searchParams
+    });
+    return result;
+  } catch (err) {
+    throw ensureError(err);
+  }
+};
+
 export const service = {
-  create
+  create,
+  search
 };
