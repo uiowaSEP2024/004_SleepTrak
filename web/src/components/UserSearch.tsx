@@ -1,7 +1,15 @@
 import { Autocomplete } from '@mui/joy';
 import { useState, useEffect } from 'react';
-import { User, useAuth0 } from '@auth0/auth0-react';
+import { useAuth0 } from '@auth0/auth0-react';
 import { API_URL } from '../util/environment';
+
+interface User {
+  userId: string;
+  first_name: string;
+  last_name: string;
+  role: string;
+  email: string;
+}
 
 export default function UserSearch(handleChange: () => void) {
   const [usersData, setUsersData] = useState<User[]>([]);
@@ -28,9 +36,10 @@ export default function UserSearch(handleChange: () => void) {
     <Autocomplete
       onChange={handleChange}
       placeholder="Search Users"
-      options={usersData.map(
-        (user) => user.first_name + ' ' + user.last_name + ' ' + user.email
-      )}
+      getOptionLabel={(user) =>
+        user.first_name + ' ' + user.last_name + ' ' + user.email
+      }
+      options={usersData}
     />
   );
 }
