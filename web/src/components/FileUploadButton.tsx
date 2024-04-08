@@ -18,7 +18,12 @@ const VisuallyHiddenInput = styled('input')({
   width: 1
 });
 
-export default function FileUploadButton() {
+export interface FileUploadButtonProps {
+  onUpload: () => Promise<void>;
+}
+
+export default function FileUploadButton(props: FileUploadButtonProps) {
+  const { onUpload } = props;
   const { getAccessTokenSilently } = useAuth0();
   const { babyId } = useParams();
 
@@ -41,11 +46,12 @@ export default function FileUploadButton() {
           },
           body: formData
         });
+        await onUpload();
       } catch (error) {
         console.error('Error uploading file:', error);
       }
     };
-
+    onUpload;
     postFile();
   };
 

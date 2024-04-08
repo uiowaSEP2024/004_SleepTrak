@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
@@ -10,9 +9,9 @@ import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import FolderIcon from '@mui/icons-material/Folder';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { File } from '../pages/DocsPage';
 import { Link } from 'react-router-dom';
+import FileDeleteButton from './FileDeleteButton';
 
 const Demo = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper
@@ -20,10 +19,11 @@ const Demo = styled('div')(({ theme }) => ({
 
 export interface FilesListProps {
   files: File[];
+  onChange: () => Promise<void>;
 }
 
 export default function filesList(props: FilesListProps) {
-  const { files } = props;
+  const { files, onChange } = props;
   return (
     <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
       <Grid
@@ -44,7 +44,10 @@ export default function filesList(props: FilesListProps) {
                   <IconButton
                     edge="end"
                     aria-label="delete">
-                    <DeleteIcon />
+                    <FileDeleteButton
+                      fileId={file.fileId}
+                      onChange={onChange}
+                    />
                   </IconButton>
                 }>
                 <ListItemAvatar>
