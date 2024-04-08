@@ -56,7 +56,7 @@ global.fetch = jest.fn().mockResolvedValue({
 // Mock useParams
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useParams: jest.fn().mockReturnValue({ userId: '1' })
+  useParams: jest.fn().mockReturnValue({ userId: mockClientData.userId })
 }));
 
 // Mock auth0
@@ -75,7 +75,11 @@ describe('BabyDetailsPage', () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByText('John Doe')).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          mockClientData.first_name + ' ' + mockClientData.last_name
+        )
+      ).toBeInTheDocument();
     });
   });
 
@@ -95,11 +99,14 @@ describe('BabyDetailsPage', () => {
     });
 
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledWith(`http://${API_URL}/babies/1`, {
-        headers: {
-          Authorization: 'Bearer mocked-access-token'
+      expect(global.fetch).toHaveBeenCalledWith(
+        `http://${API_URL}/users/${mockClientData.userId}`,
+        {
+          headers: {
+            Authorization: 'Bearer mocked-access-token'
+          }
         }
-      });
+      );
     });
   });
 
