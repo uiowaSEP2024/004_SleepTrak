@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 export interface File {
-  fildId: string;
+  fileId: string;
   filename: string;
   url: string;
 }
@@ -15,35 +15,37 @@ function DocsPage() {
   const { getAccessTokenSilently } = useAuth0();
   const { babyId } = useParams(); // Access the userId from the route parameters
 
-  useEffect(() => {
-    const fetchFilesData = async () => {
-      const token = await getAccessTokenSilently();
+  const fetchFilesData = async () => {
+    const token = await getAccessTokenSilently();
 
-      const searchParams = {
-        babyId
-      };
-
-      const response = await fetch('http://localhost:3000/files/search', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(searchParams)
-      });
-
-      const data = await response.json();
-      setFiles(data);
-      console.log(data);
+    const searchParams = {
+      babyId
     };
 
+    const response = await fetch('http://localhost:3000/files/search', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(searchParams)
+    });
+
+    const data = await response.json();
+    setFiles(data);
+  };
+
+  useEffect(() => {
     fetchFilesData();
   }, [getAccessTokenSilently, babyId]);
 
   return (
     <>
-      <FileUploadButton />
-      <FilesList files={files} />
+      <FileUploadButton onUpload={fetchFilesData} />
+      <FilesList
+        files={files}
+        onChange={fetchFilesData}
+      />
     </>
   );
 }
