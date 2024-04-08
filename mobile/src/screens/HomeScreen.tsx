@@ -33,7 +33,7 @@ const EventCard: React.FC<{ event: any }> = ({ event }) => {
           height: 'auto',
           justifyContent: 'space-between'
         }}>
-        <Text>{event.type}</Text>
+        <Text>{event.type[0].toUpperCase() + event.type.slice(1)}</Text>
         <Text>
           {date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </Text>

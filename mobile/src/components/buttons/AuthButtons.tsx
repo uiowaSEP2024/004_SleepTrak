@@ -40,7 +40,7 @@ export const LoginButton = () => {
   );
 };
 
-export const LogoutButton = () => {
+export const LogoutButton = (style?: any) => {
   const { clearSession } = useAuth0();
 
   const onPress = async () => {
@@ -52,13 +52,21 @@ export const LogoutButton = () => {
   };
 
   return (
-    <Button
+    <TouchableOpacity
+      style={style.style}
       onPress={() => {
         void onPress();
       }}>
-      {' '}
-      Log Out{' '}
-    </Button>
+      <Text
+        style={{
+          color: style.style.color,
+          fontSize: style.style.fontSize ?? 10,
+          letterSpacing: 2,
+          alignSelf: 'center'
+        }}>
+        Log Out
+      </Text>
+    </TouchableOpacity>
   );
 };
 
