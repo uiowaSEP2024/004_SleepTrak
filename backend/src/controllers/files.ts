@@ -1,4 +1,4 @@
-import type { Response } from 'express';
+import type { Request, Response } from 'express';
 import { service } from '../services/files.js';
 import { ensureError } from '../utils/error.js';
 import AWS from 'aws-sdk';
@@ -49,7 +49,19 @@ const search = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+const destroy = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+
+    const file = await service.destroy(id);
+    res.json(file);
+  } catch (err) {
+    res.status(500).send(ensureError(err));
+  }
+};
+
 export const controller = {
   create,
-  search
+  search,
+  destroy
 };
