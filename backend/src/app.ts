@@ -15,6 +15,7 @@ import answersRouter from './routes/answers.js';
 import medicinesRouter from './routes/medicines.js';
 import recommendedPlanRouter from './routes/recommendedPlans.js';
 import sleepWindowRouter from './routes/sleep-windows.js';
+import filesRouter from './routes/files.js';
 
 dotenv.config();
 
@@ -44,6 +45,7 @@ app.use('/questions', questionsRouter);
 app.use('/recommended_plans', recommendedPlanRouter);
 app.use('/answers', answersRouter);
 app.use('/medicines', medicinesRouter);
+app.use('/files', filesRouter);
 app.use('/sleep-windows', sleepWindowRouter);
 
 export default app;
