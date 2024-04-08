@@ -20,36 +20,37 @@ jest.mock(
 );
 
 describe('RecommendedSchedule', () => {
-  const sampleSchedule: PlanWithReminders = {
+  const samplePlan: PlanWithReminders = {
+    planId: 'sample-plan-id',
+    clientId: 'sample-client-id',
+    coachId: 'sample-coach-id',
+    reminders: [
+      {
+        reminderId: '1',
+        planId: 'sample-plan-id',
+        description: 'Morning Rise',
+        startTime: new Date('2024-04-08T06:30:00+0000'),
+        endTime: null
+      },
+      {
+        reminderId: '2',
+        planId: 'sample-plan-id',
+        description: 'Nap 1',
+        startTime: new Date('2024-04-08T09:45:00+0000'),
+        endTime: new Date('2024-04-08T10:45:00+0000')
+      },
+      {
+        reminderId: '3',
+        planId: 'sample-plan-id',
+        description: 'Asleep',
+        startTime: new Date('2024-04-08T20:00:00+0000'),
+        endTime: null
+      }
+    ]
+  };
+  const sampleSchedule = {
     name: 'Schedule 1',
-    schedule: {
-      planId: 'sample-plan-id',
-      clientId: 'sample-client-id',
-      coachId: 'sample-coach-id',
-      reminders: [
-        {
-          reminderId: '1',
-          planId: 'sample-plan-id',
-          description: 'Morning Rise',
-          startTime: new Date('2024-04-08T06:30:00+0000'),
-          endTime: null
-        },
-        {
-          reminderId: '2',
-          planId: 'sample-plan-id',
-          description: 'Nap 1',
-          startTime: '09:15',
-          endTime: new Date('2024-04-08T10:45:00+0000')
-        },
-        {
-          reminderId: '3',
-          planId: 'sample-plan-id',
-          description: 'Asleep',
-          startTime: new Date('2024-04-08T20:00:00+0000'),
-          endTime: null
-        }
-      ]
-    },
+    schedule: samplePlan,
     onChange: jest.fn() // Mocked onChange function
   };
 
