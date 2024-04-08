@@ -2,21 +2,12 @@ import '@testing-library/jest-dom';
 import '../../../util/setupDomTests';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import ScheduleDeleteButton from '../../../components/RecommendedSchedule/ScheduleDeleteButton';
-import { Plan } from '../../../components/RecommendedSchedule/RecommendedSchedule';
 
-const mockPlan: Plan = {
+const mockPlan = {
   planId: '1',
   clientId: '1',
   coachId: '1',
-  reminders: [
-    {
-      reminderId: '1',
-      planId: '1',
-      description: 'Reminder 1',
-      startTime: '2024-02-27T08:00:00.000Z',
-      endTime: '2024-02-27T08:30:00.000Z'
-    }
-  ]
+  reminders: []
 };
 
 // Mock auth0
