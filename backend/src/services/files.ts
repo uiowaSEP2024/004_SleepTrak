@@ -25,7 +25,22 @@ const search = async (searchParams: any): Promise<File[] | Error> => {
   }
 };
 
+const destroy = async (fileId: string): Promise<File | Error> => {
+  try {
+    const deletePlan = await prisma.file.delete({
+      where: {
+        fileId
+      }
+    });
+
+    return deletePlan;
+  } catch (err) {
+    throw ensureError(err);
+  }
+};
+
 export const service = {
   create,
-  search
+  search,
+  destroy
 };
