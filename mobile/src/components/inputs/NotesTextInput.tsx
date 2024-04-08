@@ -52,7 +52,12 @@ const NotesTextInput: React.FC<NotesTextInputProps> = ({
 
 const styles = {
   textInputContainer: {
-    width: Dimensions.get('window').width * 0.8
+    width: Dimensions.get('window').width * 0.8,
+    shadowOffset: { width: 0, height: 2 },
+    shadowColor: 'black',
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    borderWidth: 0
   },
   input: {
     height: 160
