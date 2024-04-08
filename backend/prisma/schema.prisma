@@ -22,7 +22,6 @@ model User {
   coach              User?              @relation("client_coach", fields: [coachId], references: [userId])
   clients            User[]             @relation("client_coach")
   medicines          Medicine[]
-  files              File[]
 }
 
 model Event {
@@ -79,8 +78,8 @@ model File {
   fileId    String       @id @default(uuid())
   filename  String
   url      String
-  user    User         @relation(fields: [userId], references: [userId])
-  userId  String
+  baby    Baby         @relation(fields: [babyId], references: [babyId])
+  babyId  String
 }
 
 model Baby {
@@ -92,6 +91,7 @@ model Baby {
   medicine           String?
   parent             User               @relation("baby_parent", fields: [parentId], references: [userId])
   onboarding_answers OnboardingAnswer[]
+  files              File[]
 }
 
 model OnboardingQuestion {
