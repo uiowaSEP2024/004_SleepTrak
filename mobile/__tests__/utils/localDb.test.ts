@@ -90,8 +90,8 @@ describe('localDb methods', () => {
   });
 
   describe('saveEvent', () => {
-    it('should insert event into Event table', () => {
-      saveEvent(event);
+    it('should insert event into Event table', async () => {
+      await saveEvent(event);
       expect(mockTx.executeSql).toHaveBeenCalledTimes(1);
       expect(mockTx.executeSql).toHaveBeenCalledWith(
         'INSERT INTO Event (eventId, ownerId, startTime, endTime, type, amount, foodType, note, unit, medicineType, cribStartTime, cribStopTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
@@ -112,22 +112,20 @@ describe('localDb methods', () => {
       );
     });
 
-    it('should handle errors when saving event', () => {
+    it('should handle errors when saving event', async () => {
       const mockError = new Error('Failed to execute SQL query');
       mockTx.executeSql.mockImplementationOnce(
         (query, args, successCallback, errorCallback) => {
           errorCallback(mockError);
         }
       );
-      expect(() => {
-        saveEvent(event);
-      }).toThrowError('Failed to save event');
+      await expect(saveEvent(event)).rejects.toThrow('Failed to save event');
     });
   });
 
   describe('saveSleepWindow', () => {
-    it('should insert sleep window into the SleepWindow table', () => {
-      saveSleepWindow(sleepWindow);
+    it('should insert sleep window into the SleepWindow table', async () => {
+      await saveSleepWindow(sleepWindow);
       expect(mockTx.executeSql).toHaveBeenCalledTimes(1);
       expect(mockTx.executeSql).toHaveBeenCalledWith(
         'INSERT INTO SleepWindow (windowId, eventId, startTime, stopTime, isSleep, note) VALUES (?, ?, ?, ?, ?, ?)',
@@ -142,16 +140,16 @@ describe('localDb methods', () => {
       );
     });
 
-    it('should handle errors when saving sleep window', () => {
+    it('should handle errors when saving sleep window', async () => {
       const mockError = new Error('Failed to execute SQL query');
       mockTx.executeSql.mockImplementationOnce(
         (query, args, successCallback, errorCallback) => {
           errorCallback(mockError);
         }
       );
-      expect(() => {
-        saveSleepWindow(sleepWindow);
-      }).toThrowError('Failed to save sleep window');
+      await expect(saveSleepWindow(sleepWindow)).rejects.toThrow(
+        'Failed to save sleep window'
+      );
     });
   });
 
