@@ -309,7 +309,10 @@ const styles = StyleSheet.create({
     height: '90%',
     borderRadius: 0,
     backgroundColor: colors.lightTan,
-    elevation: 10
+    shadowOffset: { width: 0, height: 2 },
+    shadowColor: 'black',
+    shadowOpacity: 0.2,
+    shadowRadius: 4
   },
   eventButtonContent: {
     alignItems: 'center',

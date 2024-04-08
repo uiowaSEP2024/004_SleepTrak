@@ -79,7 +79,8 @@ const EventCard: React.FC<{ event: any; testID: string | undefined }> = ({
   event,
   testID
 }) => {
-  const eventDate = new Date(event.startTime);
+  const eventStartDate = new Date(event.startTime);
+  const eventEndDate = new Date(event.endTime);
   const navigation = useNavigation();
 
   const handleCardPress = () => {
@@ -91,13 +92,27 @@ const EventCard: React.FC<{ event: any; testID: string | undefined }> = ({
       testID={testID}
       style={styles.eventCard}
       onPress={handleCardPress}>
-      <Card.Title title={event.type} />
+      <Card.Title
+        title={event.type.charAt(0).toUpperCase() + event.type.slice(1)}
+      />
       <Card.Content>
-        <Text>{eventDate.toLocaleTimeString()}</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <Text>
+            {new Intl.DateTimeFormat('default', {
+              hour: '2-digit',
+              minute: '2-digit'
+            }).format(eventStartDate)}{' '}
+            {event.type === 'sleep' || event.type === 'nap'
+              ? ' - ' +
+                new Intl.DateTimeFormat('default', {
+                  hour: '2-digit',
+                  minute: '2-digit'
+                }).format(eventEndDate)
+              : ' '}
+          </Text>
+          <Text style={{ color: colors.crimsonRed }}>View More</Text>
+        </View>
       </Card.Content>
-      <Card.Actions>
-        <Text style={{ color: colors.crimsonRed }}>View More</Text>
-      </Card.Actions>
     </Card>
   );
 };
@@ -135,7 +150,13 @@ const EventsScreen: React.FC<{ date?: Date }> = ({ date }) => {
         date={currentDate}
         setDate={setDate}
       />
-      <EventList events={events} />
+      {events.length !== 0 ? (
+        <EventList events={events} />
+      ) : (
+        <Text style={{ alignSelf: 'center', marginTop: '5%', color: 'gray' }}>
+          No events today
+        </Text>
+      )}
     </View>
   );
 };
@@ -156,7 +177,7 @@ const styles = StyleSheet.create({
   },
   eventCard: {
     margin: 10,
-    padding: 10
+    padding: 0
   },
   eventList: {
     margin: 10
