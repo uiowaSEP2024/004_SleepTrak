@@ -5,7 +5,7 @@ import ScheduleEditRowButton from './ScheduleEditRowButton';
 import ScheduleDeleteButton from './ScheduleDeleteButton';
 import Box from '@mui/joy/Box';
 import { formatDateTo12HourFormat } from '../../util/utils';
-import { Plan, Reminder } from '@prisma/client';
+import { PlanWithReminders } from '../../types/schemaExtensions';
 
 interface RecommendedScheduleProps {
   name: string;

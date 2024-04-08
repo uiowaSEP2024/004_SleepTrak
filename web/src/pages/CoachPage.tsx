@@ -6,9 +6,10 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import API_URL from '../util/apiURL';
 import { User } from '@prisma/client';
+import { UserWithBabies } from '../types/schemaExtensions';
 
 function CoachPage() {
-  const [usersData, setUsersData] = useState<User[]>([]);
+  const [usersData, setUsersData] = useState<UserWithBabies[]>([]);
   const [coachData, setCoachData] = useState<User | null>(null);
   const { coachId } = useParams();
 
