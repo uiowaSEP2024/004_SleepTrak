@@ -11,7 +11,7 @@ jest.mock('@react-navigation/native', () => ({
   useNavigation: jest.fn()
 }));
 
-jest.mock('../../src/utils/localDB', () => ({
+jest.mock('../../src/utils/localDb', () => ({
   saveEvent: jest.fn(),
   saveSleepWindow: jest.fn()
 }));

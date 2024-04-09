@@ -14,7 +14,7 @@ jest.mock('../../src/utils/db', () => ({
   createMedicine: jest.fn()
 }));
 
-jest.mock('../../src/utils/localDB', () => ({
+jest.mock('../../src/utils/localDb', () => ({
   saveEvent: jest.fn()
 }));
 
