@@ -324,6 +324,7 @@ export const createWindow = async (windowData: object) => {
  * @param windowData - The data of the event to be updated.
  * @returns The API response if successful, otherwise false.
  */
+
 export const updateWindow = async (windowData: LocalSleepWindow) => {
   try {
     const userCredentials = await getUserCredentials();

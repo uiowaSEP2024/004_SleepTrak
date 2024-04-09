@@ -3,8 +3,13 @@ import ClientCard from '../components/ClientCard';
 import Grid from '@mui/joy/Grid';
 import Item from '@mui/joy/Grid';
 import { useEffect, useState } from 'react';
-import { Baby } from './BabyDetailsPage';
+import { useParams } from 'react-router-dom';
 import API_URL from '../util/apiURL';
+
+interface Baby {
+  name: string;
+  babyId: string;
+}
 
 interface User {
   userId: string;
@@ -12,14 +17,31 @@ interface User {
   last_name: string;
   role: string;
   babies: Baby[];
+  coachId?: string;
 }
 
-function ClientsPage() {
+function CoachPage() {
   const [usersData, setUsersData] = useState<User[]>([]);
+  const [coachData, setCoachData] = useState<User | null>(null);
+  const { coachId } = useParams();
+
   const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
-    const fetchClientsData = async () => {
+    const fetchCoachData = async () => {
+      const token = await getAccessTokenSilently();
+
+      const coachResponse = await fetch(`http://${API_URL}/users/${coachId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      const coachDataJson = await coachResponse.json();
+      setCoachData(coachDataJson);
+    };
+
+    fetchCoachData();
+    const fetchUsersData = async () => {
       const token = await getAccessTokenSilently();
 
       const response = await fetch(`http://${API_URL}/users/all`, {
@@ -29,22 +51,26 @@ function ClientsPage() {
       });
 
       const data = await response.json();
+      console.log(data);
       setUsersData(data);
     };
 
-    fetchClientsData();
-  }, [getAccessTokenSilently]);
+    fetchUsersData();
+  }, [getAccessTokenSilently, coachId]);
 
   // TODO: filter so that the the page only shows current user's clients
   return (
     <>
-      <h2>Clients</h2>
+      <h2>
+        Clients of {coachData?.first_name} {coachData?.last_name}
+      </h2>
       <Grid
         container
         spacing={3}
         sx={{ flexGrow: 1 }}>
         {usersData
           .filter((object) => object.role == 'client')
+          .filter((object) => object?.coachId == coachId)
           .map((object, index) => (
             <Grid
               xs="auto"
@@ -54,13 +80,13 @@ function ClientsPage() {
                   avatarSrc="testAvatar"
                   clientName={object.first_name + ' ' + object.last_name}
                   babyNames={object.babies.map((baby) => baby.name).join(' ')}
-                  clientId={object.userId}
+                  clientId={object.userId || ''}
                   babyId={
                     object.babies.length > 0
                       ? object.babies[0].babyId || ''
                       : ''
                   }
-                  adminOptions={false}
+                  adminOptions={true}
                 />
               </Item>
             </Grid>
@@ -70,4 +96,4 @@ function ClientsPage() {
   );
 }
 
-export default ClientsPage;
+export default CoachPage;

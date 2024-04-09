@@ -3,6 +3,7 @@ import '../../util/setupDomTests';
 import { screen, act, render, waitFor } from '@testing-library/react';
 import ClientsPage from '../../pages/ClientsPage';
 import { BrowserRouter } from 'react-router-dom';
+import API_URL from '../../util/apiURL';
 
 // Mock fetch
 const mockClientData = [
@@ -25,6 +26,14 @@ global.fetch = jest.fn().mockResolvedValue({
   json: async () => mockClientData
 });
 
+// Mock environment variables
+jest.mock('../../util/environment.ts', () => ({
+  API_URL: 'localhost:3000',
+  DOMAIN: 'auth0domain',
+  CLIENT_ID: 'auth0clientid',
+  AUDIENCE: 'test-test'
+}));
+
 // Mock auth0
 jest.mock('@auth0/auth0-react', () => ({
   ...jest.requireActual('@auth0/auth0-react'),
@@ -44,14 +53,11 @@ describe('ClientsPage Component', () => {
       );
     });
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledWith(
-        'http://localhost:3000/users/all',
-        {
-          headers: {
-            Authorization: 'Bearer mocked-access-token'
-          }
+      expect(global.fetch).toHaveBeenCalledWith(`http://${API_URL}/users/all`, {
+        headers: {
+          Authorization: 'Bearer mocked-access-token'
         }
-      );
+      });
     });
   });
 

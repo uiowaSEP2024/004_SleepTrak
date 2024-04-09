@@ -1,0 +1,123 @@
+import '@testing-library/jest-dom';
+import '../../util/setupDomTests';
+import { screen, render, waitFor } from '@testing-library/react';
+import CoachPage from '../../pages/CoachPage';
+import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
+import API_URL from '../../util/apiURL';
+
+// Mock fetch
+const mockUserData = [
+  {
+    userId: '1',
+    coachId: '3',
+    first_name: 'John',
+    last_name: 'Doe',
+    role: 'client',
+    babies: [{ name: 'Baby1', babyId: '1' }]
+  },
+  {
+    userId: '2',
+    first_name: 'Jane',
+    last_name: 'Smith',
+    role: 'coach',
+    clients: []
+  },
+  {
+    userId: '3',
+    first_name: 'John',
+    last_name: 'Smith',
+    role: 'coach',
+    clients: ['1']
+  },
+  {
+    userId: '4',
+    first_name: 'Jane',
+    last_name: 'Doe',
+    role: 'client',
+    babies: [{ name: 'Baby1', babyId: '1' }]
+  }
+];
+
+const coachId = '3';
+const route = `/coaches/${coachId}`;
+
+beforeEach(() => {
+  global.fetch = jest
+    .fn()
+    .mockResolvedValueOnce({
+      json: () =>
+        Promise.resolve(
+          mockUserData.filter((object) => object.userId == coachId)
+        )
+    })
+    .mockResolvedValueOnce({
+      json: () => Promise.resolve(mockUserData)
+    });
+});
+
+// Mock environment variables
+jest.mock('../../util/environment.ts', () => ({
+  API_URL: 'localhost:3000',
+  DOMAIN: 'auth0domain',
+  CLIENT_ID: 'auth0clientid',
+  AUDIENCE: 'test-test'
+}));
+
+// Mock auth0
+jest.mock('@auth0/auth0-react', () => ({
+  ...jest.requireActual('@auth0/auth0-react'),
+  useAuth0: jest.fn().mockReturnValue({
+    isAuthenticated: true,
+    getAccessTokenSilently: jest.fn().mockResolvedValue('mocked-access-token')
+  })
+}));
+
+describe('AssignPage Component', () => {
+  it('fetches data correctly', async () => {
+    render(
+      <Router initialEntries={[route]}>
+        <Routes>
+          <Route
+            path="/coaches/:coachId"
+            element={<CoachPage />}
+          />
+        </Routes>
+      </Router>
+    );
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledWith(
+        `http://${API_URL}/users/${coachId}`,
+        {
+          headers: {
+            Authorization: 'Bearer mocked-access-token'
+          }
+        }
+      );
+      expect(global.fetch).toHaveBeenCalledWith(`http://${API_URL}/users/all`, {
+        headers: {
+          Authorization: 'Bearer mocked-access-token'
+        }
+      });
+    });
+  });
+
+  it('filters and renders coaches only', async () => {
+    render(
+      <Router initialEntries={[route]}>
+        <Routes>
+          <Route
+            path="/coaches/:coachId"
+            element={<CoachPage />}
+          />
+        </Routes>
+      </Router>
+    );
+    await waitFor(() => {
+      expect(screen.getByText('John Doe')).toBeInTheDocument();
+      expect(screen.queryByText('Jane Smith')).not.toBeInTheDocument();
+      // The name of the coach in question is in the header but broken up
+      expect(screen.queryByText('John Smith')).not.toBeInTheDocument();
+      expect(screen.queryByText('Jane Doe')).not.toBeInTheDocument();
+    });
+  });
+});

@@ -19,7 +19,6 @@ jest.mock('../../src/utils/localDB', () => ({
 jest.mock('../../src/utils/syncQueue', () => ({
   addToSyncQueue: jest.fn(),
   syncData: jest.fn()
-}));
 
 // const Stack = createNativeStackNavigator();
 let renderResult: RenderAPI;

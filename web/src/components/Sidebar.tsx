@@ -11,6 +11,7 @@ import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import QuestionAnswerRoundedIcon from '@mui/icons-material/QuestionAnswerRounded';
+import SupervisorIcon from '@mui/icons-material/SupervisorAccount';
 import PersonIcon from '@mui/icons-material/Person';
 import ColorSchemeToggle from '../util/ColorSchemeToggle';
 import { closeSidebar } from '../util/utils';
@@ -142,6 +143,17 @@ export default function Sidebar() {
                   variant="solid">
                   4
                 </Chip>
+              </ListItemButton>
+            </ListItem>
+            <ListItem>
+              <ListItemButton
+                role="menuitem"
+                component={Link}
+                to="/admin">
+                <SupervisorIcon />
+                <ListItemContent>
+                  <Typography level="title-sm">Admin</Typography>
+                </ListItemContent>
               </ListItemButton>
             </ListItem>
           </List>

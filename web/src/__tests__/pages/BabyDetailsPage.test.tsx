@@ -3,12 +3,21 @@ import '../../util/setupDomTests';
 import { screen, act, render, waitFor } from '@testing-library/react';
 import BabyDetailsPage from '../../pages/BabyDetailsPage';
 import BabyDropdown from '../../components/BabyDropdown';
+import API_URL from '../../util/apiURL';
 
 // Mock Baby Dropdown Component
 jest.mock('../../components/BabyDropdown');
 
 // Mock Baby RecommendedSchedules Component
 jest.mock('../../components/RecommendedSchedule/RecommendedSchedules');
+
+// Mock environment variables
+jest.mock('../../util/environment.ts', () => ({
+  API_URL: 'localhost:3000',
+  DOMAIN: 'auth0domain',
+  CLIENT_ID: 'auth0clientid',
+  AUDIENCE: 'test-test'
+}));
 
 // Mock API responses
 const mockClientData = {
@@ -78,14 +87,11 @@ describe('BabyDetailsPage', () => {
     });
 
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledWith(
-        `http://localhost:3000/users/1`,
-        {
-          headers: {
-            Authorization: 'Bearer mocked-access-token'
-          }
+      expect(global.fetch).toHaveBeenCalledWith(`http://${API_URL}/babies/1`, {
+        headers: {
+          Authorization: 'Bearer mocked-access-token'
         }
-      );
+      });
     });
   });
 
