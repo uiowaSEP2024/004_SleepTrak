@@ -1,6 +1,7 @@
 import {
   localSleepWindowToRemote,
   localEventToRemote,
+  localize,
   createSleepEventFromLocal,
   createEventFromLocal
 } from '../../src/utils/bridge';
@@ -112,6 +113,20 @@ describe('bridge methods', () => {
     });
   });
 
+  describe('localize', () => {
+    it('should convert Date objects to ISO strings', () => {
+      const date = new Date();
+      const data = { date };
+      const result = localize(data);
+      expect(result.date).toEqual(date.toISOString());
+    });
+    it('should add an eventId if it does not exist', () => {
+      const data = { name: 'Test' };
+      const result = localize(data);
+      expect(result).toHaveProperty('eventId');
+    });
+  });
+
   describe('createSleepEventFromLocal', () => {
     beforeEach(() => {
       jest.resetAllMocks();
@@ -135,6 +150,20 @@ describe('bridge methods', () => {
       await expect(
         createSleepEventFromLocal(mockLocalEvent, mockLocalSleepWindows)
       ).rejects.toThrow();
+    });
+
+    it('should throw an error if event creation fails', async () => {
+      mockedGetUserCredentials.mockResolvedValue({ accessToken: 'testToken' });
+      mockedGetAuth0User.mockResolvedValue({ sub: 'testSub' });
+      const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
+      const mockResponse = {
+        ok: false,
+        text: jest.fn().mockResolvedValue('Error message')
+      };
+      mockFetch.mockResolvedValue(mockResponse as any);
+      await expect(
+        createSleepEventFromLocal(mockLocalEvent, mockLocalSleepWindows)
+      ).rejects.toThrow('Failed to create event: Error message');
     });
 
     it('should throw an error if sleep window creation fails', async () => {
