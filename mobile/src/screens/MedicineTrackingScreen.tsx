@@ -9,7 +9,10 @@ import {
 } from 'react-native-paper';
 import RNPickerSelect from 'react-native-picker-select';
 import NotesTextInput from '../components/inputs/NotesTextInput';
-import { createEvent, createMedicine, fetchUserData } from '../utils/db';
+import { createMedicine, fetchUserData } from '../utils/db';
+import { saveEvent } from '../utils/localDb';
+import { localize } from '../utils/bridge';
+import { addToSyncQueue, syncData } from '../utils/syncQueue';
 import { useNavigation } from '@react-navigation/native';
 
 const UPDATE_DELAY_MS = 2000;
@@ -268,14 +271,26 @@ const MedicineTrackingScreen: React.FC = () => {
     }
   };
 
-  const handleSave = () => {
-    void checkMedicine();
-    void createEvent(medicineData);
-
-    setIsLoading(true);
-    setTimeout(() => {
-      navigation.goBack();
-    }, UPDATE_DELAY_MS);
+  const handleSave = async () => {
+    try {
+      const localMedicineEvent = localize(medicineData);
+      void checkMedicine();
+      await saveEvent(localMedicineEvent);
+      addToSyncQueue({
+        id: localMedicineEvent.eventId,
+        operation: 'insert',
+        data: localMedicineEvent,
+        status: 'pending'
+      });
+      await syncData();
+    } catch (error) {
+      console.error('Error saving event', error);
+    } finally {
+      setIsLoading(true);
+      setTimeout(() => {
+        navigation.goBack();
+      }, UPDATE_DELAY_MS);
+    }
   };
 
   return isLoading ? (
@@ -327,7 +342,11 @@ const MedicineTrackingScreen: React.FC = () => {
       </ScrollView>
       <Button
         mode="contained"
-        onPress={handleSave}
+        onPress={() => {
+          handleSave().catch((error) => {
+            console.error('Error saving medicine event:', error);
+          });
+        }}
         style={styles.saveButtonContainer}
         labelStyle={styles.saveButtonLabel}
         testID="back-button">
