@@ -10,7 +10,9 @@ import {
 import RNPickerSelect from 'react-native-picker-select';
 import Slider from '@react-native-community/slider';
 import NotesTextInput from '../components/inputs/NotesTextInput';
-import { createEvent } from '../utils/db';
+import { saveEvent } from '../utils/localDb';
+import { localize } from '../utils/bridge';
+import { addToSyncQueue, syncData } from '../utils/syncQueue';
 import { useNavigation } from '@react-navigation/native';
 const foodTypes = [
   { label: 'Breast Milk', value: 'breastMilk' },
@@ -203,12 +205,25 @@ const FoodTrackingScreen: React.FC = () => {
     note: ''
   });
 
-  const handleSave = () => {
-    void createEvent(feedData);
-    setIsLoading(true);
-    setTimeout(() => {
-      navigation.goBack();
-    }, 2000);
+  const handleSave = async () => {
+    try {
+      const localFeedEvent = localize(feedData);
+      await saveEvent(localFeedEvent);
+      addToSyncQueue({
+        id: localFeedEvent.eventId,
+        operation: 'insert',
+        data: localFeedEvent,
+        status: 'pending'
+      });
+      await syncData();
+    } catch (error) {
+      console.error('Error saving event', error);
+    } finally {
+      setIsLoading(true);
+      setTimeout(() => {
+        navigation.goBack();
+      }, 2000);
+    }
   };
 
   return isLoading ? (
@@ -260,7 +275,9 @@ const FoodTrackingScreen: React.FC = () => {
       <Button
         mode="contained"
         onPress={() => {
-          handleSave();
+          handleSave().catch((error) => {
+            console.error('Error saving food event:', error);
+          });
         }}
         style={styles.saveButtonContainer}
         labelStyle={styles.saveButtonLabel}>
