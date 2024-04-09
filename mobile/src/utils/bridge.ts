@@ -5,7 +5,7 @@ import type {
   RemoteSleepWindow
 } from './interfaces';
 import { getUserCredentials, getAuth0User } from './auth';
-
+import * as Crypto from 'expo-crypto';
 /**
  * Converts a LocalSleepWindow to a RemoteSleepWindow
  * @param localSleepWindow
@@ -46,6 +46,25 @@ export async function localEventToRemote(
       : undefined,
     sleepWindows
   };
+}
+
+/**
+ * Converts event data's Date objects to ISO strings and add temporary eventId
+ * @param eventData
+ * @returns localized eventData
+ */
+export function localize(eventData: any) {
+  const localizedData = { ...eventData };
+  for (const key in localizedData) {
+    if (localizedData[key] instanceof Date) {
+      localizedData[key] = localizedData[key].toISOString();
+    }
+  }
+  // Add a temporary eventId to save to local
+  if (!localizedData.eventId) {
+    localizedData.eventId = Crypto.randomUUID();
+  }
+  return localizedData;
 }
 
 /**
