@@ -5,6 +5,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import { Plan } from '@prisma/client';
 import { useAuth0 } from '@auth0/auth0-react';
+import API_URL from '../../util/apiURL';
 
 interface ScheduleEditRowButtonProps {
   schedule: Plan;
@@ -51,15 +52,12 @@ export default function ScheduleDeleteButton(
             const deleteSchedule = async () => {
               const token = await getAccessTokenSilently();
 
-              await fetch(
-                `http://localhost:3000/plans/${schedule.planId}/delete`,
-                {
-                  method: 'Delete',
-                  headers: {
-                    Authorization: `Bearer ${token}`
-                  }
+              await fetch(`http://${API_URL}/plans/${schedule.planId}/delete`, {
+                method: 'Delete',
+                headers: {
+                  Authorization: `Bearer ${token}`
                 }
-              );
+              });
 
               await onSubmit();
             };

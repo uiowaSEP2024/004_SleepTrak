@@ -3,6 +3,7 @@ import FileUploadButton from '../components/FileUploadButton';
 import FilesList from '../components/FilesList';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import API_URL from '../util/apiURL';
 
 export interface File {
   fileId: string;
@@ -22,7 +23,7 @@ function DocsPage() {
       babyId
     };
 
-    const response = await fetch('http://localhost:3000/files/search', {
+    const response = await fetch(`http://${API_URL}/files/search`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

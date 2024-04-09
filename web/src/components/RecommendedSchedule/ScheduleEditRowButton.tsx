@@ -9,6 +9,7 @@ import TimePickerField from '../TimePickerField';
 import { Checkbox, FormControlLabel, TextField } from '@mui/material';
 import { Reminder } from '@prisma/client';
 import { useAuth0 } from '@auth0/auth0-react';
+import API_URL from '../../util/apiURL';
 
 interface ScheduleEditRowButtonProps {
   reminder: Reminder;
@@ -70,7 +71,7 @@ export default function ScheduleEditRowButton(
               const token = await getAccessTokenSilently();
 
               await fetch(
-                `http://localhost:3000/reminders/${reminder.reminderId}/update`,
+                `http://${API_URL}/reminders/${reminder.reminderId}/update`,
                 {
                   method: 'PUT',
                   headers: {

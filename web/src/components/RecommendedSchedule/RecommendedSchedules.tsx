@@ -4,6 +4,7 @@ import RecommendedSchedule from './RecommendedSchedule';
 import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useParams } from 'react-router-dom';
+import API_URL from '../../util/apiURL';
 
 export default function RecommendedSchedules() {
   const [RecommendedSchedules, setRecommendedSchedules] = useState([]);
@@ -17,7 +18,7 @@ export default function RecommendedSchedules() {
       clientId: userId
     };
 
-    const response = await fetch('http://localhost:3000/plans/search', {
+    const response = await fetch(`http://${API_URL}/plans/search`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

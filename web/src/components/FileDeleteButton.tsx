@@ -5,6 +5,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import { useAuth0 } from '@auth0/auth0-react';
 import DeleteIcon from '@mui/icons-material/Delete';
+import API_URL from '../util/apiURL';
 
 interface FileDeleteButtonProps {
   fileId: string;
@@ -41,7 +42,7 @@ export default function FileDeleteButton(props: FileDeleteButtonProps) {
             const deleteReminder = async () => {
               const token = await getAccessTokenSilently();
 
-              await fetch(`http://localhost:3000/files/${fileId}/delete`, {
+              await fetch(`http://${API_URL}/files/${fileId}/delete`, {
                 method: 'Delete',
                 headers: {
                   Authorization: `Bearer ${token}`
