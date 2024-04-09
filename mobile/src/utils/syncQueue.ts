@@ -8,7 +8,7 @@ interface SyncTask {
   status: 'pending' | 'syncing' | 'completed' | 'failed';
 }
 
-const syncQueue: SyncTask[] = [];
+export const syncQueue: SyncTask[] = [];
 
 export const addToSyncQueue = (task: SyncTask) => {
   syncQueue.push(task);
