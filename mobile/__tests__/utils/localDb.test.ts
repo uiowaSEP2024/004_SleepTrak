@@ -206,13 +206,7 @@ describe('localDb methods', () => {
           errorCallback(undefined, mockError);
         }
       );
-      try {
-        await getSleepWindowsForEvent(eventId);
-      } catch (error) {
-        const message = (error as Error).message;
-        expect(message).toMatch('Failed to retrieve window');
-        expect(error).toBe(mockError);
-      }
+      await expect(getSleepWindowsForEvent(eventId)).rejects.toEqual(mockError);
     });
   });
 });
