@@ -13,6 +13,7 @@ import dayjs from 'dayjs';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useParams } from 'react-router-dom';
 import { createSleepPlan } from '../../util/utils';
+import API_URL from '../../util/apiURL';
 
 interface WakeWindowInputFieldProps {
   index: number;
@@ -91,7 +92,7 @@ export default function ScheduleCreateButton(props: ScheduleCreateButtonProps) {
       const token = await getAccessTokenSilently();
 
       const clientResponse = await fetch(
-        `http://localhost:3000/recommended_plans/${babyId}`,
+        `http://${API_URL}/recommended_plans/${babyId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -134,7 +135,7 @@ export default function ScheduleCreateButton(props: ScheduleCreateButtonProps) {
             const postSleepPlan = async () => {
               const token = await getAccessTokenSilently();
 
-              await fetch(`http://localhost:3000/plans/create`, {
+              await fetch(`http://${API_URL}/plans/create`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',

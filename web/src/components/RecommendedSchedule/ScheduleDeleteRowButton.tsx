@@ -5,6 +5,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import { Reminder } from '@prisma/client';
 import { useAuth0 } from '@auth0/auth0-react';
+import API_URL from '../../util/apiURL';
 
 interface ScheduleDeleteRowButtonProps {
   reminder: Reminder;
@@ -50,7 +51,7 @@ export default function ScheduleDeleteRowButton(
               const token = await getAccessTokenSilently();
 
               await fetch(
-                `http://localhost:3000/reminders/${reminder.reminderId}/delete`,
+                `http://${API_URL}/reminders/${reminder.reminderId}/delete`,
                 {
                   method: 'Delete',
                   headers: {
