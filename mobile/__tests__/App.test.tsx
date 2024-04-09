@@ -6,6 +6,15 @@ import App from '../App';
 jest.mock('react-native-auth0', () => ({
   Auth0Provider: ({ children }: { children: React.ReactNode }) => children
 }));
+jest.mock('expo-sqlite', () => {
+  const mockDB = {
+    transaction: jest.fn()
+    // Add any other methods that you use from the SQLite database
+  };
+  return {
+    openDatabase: () => mockDB
+  };
+});
 
 jest.mock('../src/navigations/MainNavigator', () => {
   return {

@@ -2,7 +2,8 @@ import React from 'react';
 import { render, fireEvent, waitFor, act } from '@testing-library/react-native';
 import MedicineTrackingScreen from '../../src/screens/MedicineTrackingScreen';
 import { useNavigation } from '@react-navigation/native';
-import { fetchUserData, createMedicine, createEvent } from '../../src/utils/db';
+import { fetchUserData, createMedicine } from '../../src/utils/db';
+import { saveEvent } from '../../src/utils/localDb';
 
 jest.mock('@react-navigation/native', () => ({
   useNavigation: jest.fn()
@@ -10,8 +11,21 @@ jest.mock('@react-navigation/native', () => ({
 
 jest.mock('../../src/utils/db', () => ({
   fetchUserData: jest.fn(),
-  createMedicine: jest.fn(),
-  createEvent: jest.fn()
+  createMedicine: jest.fn()
+}));
+
+jest.mock('../../src/utils/localDB', () => ({
+  saveEvent: jest.fn()
+}));
+
+jest.mock('../../src/utils/syncQueue', () => ({
+  addToSyncQueue: jest.fn(),
+  syncData: jest.fn()
+}));
+
+jest.mock('../../src/utils/auth', () => ({
+  getUserCredentials: jest.fn(),
+  getAuth0User: jest.fn()
 }));
 
 describe('MedicineTrackingScreen', () => {
@@ -32,7 +46,7 @@ describe('MedicineTrackingScreen', () => {
     const { getByText } = render(<MedicineTrackingScreen />);
     fireEvent.press(getByText('Save'));
     await waitFor(() => {
-      expect(createEvent).toHaveBeenCalled();
+      expect(saveEvent).toHaveBeenCalled();
     });
   });
 
@@ -89,7 +103,7 @@ describe('MedicineTrackingScreen', () => {
       });
     });
   });
-  it('calls createEvent  when save button is pressed', async () => {
+  it('calls saveEvent  when save button is pressed', async () => {
     const { getByText, getByTestId } = render(<MedicineTrackingScreen />);
     const medicineTypeInput = getByTestId('medicine-type-input');
     const numericInput = getByTestId('numeric-input');
@@ -99,7 +113,7 @@ describe('MedicineTrackingScreen', () => {
       fireEvent.changeText(numericInput, '10');
       fireEvent.press(getByText('Save'));
       await waitFor(() => {
-        expect(createEvent).toHaveBeenCalled();
+        expect(saveEvent).toHaveBeenCalled();
       });
     });
   });
