@@ -5,7 +5,7 @@ import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { useNavigation } from '@react-navigation/native';
 import { saveEvent } from '../../src/utils/localDb';
 
-jest.mock('../../src/utils/localDB', () => ({
+jest.mock('../../src/utils/localDb', () => ({
   saveEvent: jest.fn()
 }));
 
