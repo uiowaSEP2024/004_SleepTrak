@@ -112,8 +112,9 @@ export const createSleepEventFromLocal = async (
           }
         }
       }
+    } else {
+      throw new Error('User credentials are not available');
     }
-    return false;
   } catch (error) {
     console.error('Error:', error);
     throw error;
@@ -149,11 +150,17 @@ export const createEventFromLocal = async (eventData: LocalEvent) => {
             })
           }
         );
+        if (!apiResponse.ok) {
+          throw new Error(
+            'Failed to create event: ' + (await apiResponse.text())
+          );
+        }
         return apiResponse;
       }
     }
     return false;
   } catch (error) {
     console.error('Error:', error);
+    throw error;
   }
 };
