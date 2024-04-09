@@ -21,6 +21,11 @@ jest.mock('../../src/utils/syncQueue', () => ({
   syncData: jest.fn()
 }));
 
+jest.mock('../../src/utils/auth', () => ({
+  getUserCredentials: jest.fn(),
+  getAuth0User: jest.fn()
+}));
+
 // const Stack = createNativeStackNavigator();
 let renderResult: RenderAPI;
 describe('SleepTimerScreen', () => {
