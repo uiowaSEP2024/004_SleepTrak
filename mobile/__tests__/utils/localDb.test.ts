@@ -3,7 +3,8 @@ import {
   saveEvent,
   saveSleepWindow,
   getEvent,
-  getSleepWindowsForEvent
+  getSleepWindowsForEvent,
+  deleteEvent
 } from '../../src/utils/localDb';
 
 jest.mock('expo-sqlite', () => ({
@@ -207,6 +208,29 @@ describe('localDb methods', () => {
         }
       );
       await expect(getSleepWindowsForEvent(eventId)).rejects.toEqual(mockError);
+    });
+  });
+
+  describe('deleteEvent', () => {
+    it('should delete an event from the Event table', async () => {
+      const eventId = '1';
+      await deleteEvent(eventId);
+      expect(mockTx.executeSql).toHaveBeenCalledTimes(1);
+      expect(mockTx.executeSql).toHaveBeenCalledWith(
+        'DELETE FROM Event WHERE eventId = ?',
+        [eventId]
+      );
+    });
+
+    it('should handle errors when deleting an event', async () => {
+      const eventId = 'nonExistentEventId';
+      const mockError = new Error('Failed to delete event');
+      mockTx.executeSql.mockImplementationOnce(
+        (query, params, successCallback, errorCallback) => {
+          errorCallback(undefined, mockError);
+        }
+      );
+      await expect(deleteEvent(eventId)).rejects.toEqual(mockError);
     });
   });
 });
