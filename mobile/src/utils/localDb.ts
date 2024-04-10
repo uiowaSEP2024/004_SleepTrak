@@ -149,3 +149,19 @@ export const getSleepWindowsForEvent = (
     });
   });
 };
+
+export const deleteEvent = (eventId: string): Promise<void> => {
+  const db = getDatabase();
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      try {
+        tx.executeSql('DELETE FROM Event WHERE eventId = ?', [eventId]);
+        tx.executeSql('DELETE FROM SleepWindow WHERE eventId = ?', [eventId]);
+        resolve();
+      } catch (error) {
+        console.error('Error deleting event:', error);
+        reject(new Error('Failed to delete event'));
+      }
+    });
+  });
+};

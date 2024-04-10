@@ -1,4 +1,4 @@
-import { getEvent, getSleepWindowsForEvent } from './localDb';
+import { getEvent, getSleepWindowsForEvent, deleteEvent } from './localDb';
 import { createSleepEventFromLocal, createEventFromLocal } from './bridge';
 
 interface SyncTask {
@@ -39,6 +39,7 @@ export const syncData = async () => {
       task.status = 'completed';
       syncQueue.splice(i, 1);
       i--;
+      await deleteEvent(task.id);
     } catch (error) {
       task.status = 'failed';
     }
