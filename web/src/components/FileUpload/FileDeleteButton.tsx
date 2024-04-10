@@ -5,7 +5,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import { useAuth0 } from '@auth0/auth0-react';
 import DeleteIcon from '@mui/icons-material/Delete';
-import API_URL from '../util/apiURL';
+import API_URL from '../../util/apiURL';
 
 interface FileDeleteButtonProps {
   fileId: string;

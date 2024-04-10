@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import FileUploadButton from '../components/FileUploadButton';
-import FilesList from '../components/FilesList';
+import FileUploadButton from '../components/FileUpload/FileUploadButton';
+import FilesList from '../components/FileUpload/FilesList';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import API_URL from '../util/apiURL';
