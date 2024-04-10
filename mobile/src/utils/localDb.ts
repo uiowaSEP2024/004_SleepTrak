@@ -48,6 +48,7 @@ export const initializeDatabase = () => {
   });
 };
 
+/* eslint-disable @typescript-eslint/promise-function-async */
 export const saveEvent = (event: LocalEvent): Promise<void> => {
   const db = getDatabase();
   return new Promise((resolve, reject) => {
