@@ -4,25 +4,12 @@ import ScheduleDeleteRowButton from './ScheduleDeleteRowButton';
 import ScheduleEditRowButton from './ScheduleEditRowButton';
 import ScheduleDeleteButton from './ScheduleDeleteButton';
 import Box from '@mui/joy/Box';
-import { formatTimeTo12HourFormat } from '../../util/utils';
-
-export interface Reminder {
-  reminderId: string;
-  planId: string;
-  description: string;
-  startTime: string;
-  endTime: string | null;
-}
-export interface Plan {
-  planId: string;
-  clientId: string;
-  coachId: string;
-  reminders: Reminder[];
-}
+import { formatDateTo12HourFormat } from '../../util/utils';
+import { PlanWithReminders } from '../../types/schemaExtensions';
 
 interface RecommendedScheduleProps {
   name: string;
-  schedule: Plan;
+  schedule: PlanWithReminders;
   onChange: () => Promise<void>;
 }
 
@@ -108,11 +95,11 @@ export default function RecommendedSchedule(props: RecommendedScheduleProps) {
               <tr key={reminder.reminderId}>
                 <td>{reminder.description}</td>
                 <td>
-                  {formatTimeTo12HourFormat(reminder.endTime) === ''
-                    ? formatTimeTo12HourFormat(reminder.startTime)
-                    : formatTimeTo12HourFormat(reminder.startTime) +
+                  {formatDateTo12HourFormat(reminder.endTime) === ''
+                    ? formatDateTo12HourFormat(reminder.startTime)
+                    : formatDateTo12HourFormat(reminder.startTime) +
                       ' - ' +
-                      formatTimeTo12HourFormat(reminder.endTime)}
+                      formatDateTo12HourFormat(reminder.endTime)}
                 </td>
                 <td>
                   <Box

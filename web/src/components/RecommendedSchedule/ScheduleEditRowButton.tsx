@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import DialogContent from '@mui/material/DialogContent';
 import TimePickerField from '../TimePickerField';
 import { Checkbox, FormControlLabel, TextField } from '@mui/material';
-import { Reminder } from './RecommendedSchedule';
+import { Reminder } from '@prisma/client';
 import { useAuth0 } from '@auth0/auth0-react';
 
 interface ScheduleEditRowButtonProps {

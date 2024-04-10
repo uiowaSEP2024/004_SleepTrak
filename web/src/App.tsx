@@ -10,22 +10,23 @@ import {
   ProtectedRoute
 } from './components/auth';
 import BabyDetailsPage from './pages/BabyDetailsPage';
+import AdminPage from './pages/AdminPage';
+import CoachPage from './pages/CoachPage';
+import AssignPage from './pages/AssignPage';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
-const domain: string = import.meta.env.VITE_AUTH0_DOMAIN!;
-const clientId: string = import.meta.env.VITE_AUTH0_CLIENT_ID!;
+import { DOMAIN, CLIENT_ID, AUDIENCE } from './util/environment';
 
 function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Router>
         <Auth0ProviderWithRedirectCallback
-          domain={domain}
-          clientId={clientId}
+          domain={DOMAIN}
+          clientId={CLIENT_ID}
           authorizationParams={{
             redirect_uri: window.location.origin,
-            audience: import.meta.env.VITE_AUTH0_API_AUDIENCE
+            audience: AUDIENCE
           }}>
           <Routes>
             <Route
@@ -45,12 +46,24 @@ function App() {
                 element={<ClientsPage />}
               />
               <Route
-                path="clients/:userId/babies/:babyId"
+                path="clients/:clientId/assign"
+                element={<AssignPage />}
+              />
+              <Route
+                path="/babies/:babyId"
                 element={<BabyDetailsPage />}
               />
               <Route
                 path="messages"
                 element={<MessagesPage />}
+              />
+              <Route
+                path="admin"
+                element={<AdminPage />}
+              />
+              <Route
+                path="/coaches/:coachId"
+                element={<CoachPage />}
               />
             </Route>
           </Routes>

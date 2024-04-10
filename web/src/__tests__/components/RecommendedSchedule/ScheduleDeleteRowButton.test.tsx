@@ -2,14 +2,13 @@ import '@testing-library/jest-dom';
 import '../../../util/setupDomTests';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import ScheduleDeleteRowButton from '../../../components/RecommendedSchedule/ScheduleDeleteRowButton';
-import { Reminder } from '../../../components/RecommendedSchedule/RecommendedSchedule';
 
-const mockReminder: Reminder = {
+const mockReminder = {
   reminderId: '1',
   planId: '1',
   description: 'Reminder 1',
-  startTime: '2024-02-27T08:00:00.000Z',
-  endTime: '2024-02-27T08:30:00.000Z'
+  startTime: new Date('2024-02-27T08:00:00.000Z'),
+  endTime: new Date('2024-02-27T08:30:00.000Z')
 };
 
 const onSubmitMock = jest.fn();

@@ -3,6 +3,8 @@ import '../../util/setupDomTests';
 import { screen, act, render, waitFor } from '@testing-library/react';
 import BabyDetailsPage from '../../pages/BabyDetailsPage';
 import BabyDropdown from '../../components/BabyDropdown';
+import API_URL from '../../util/apiURL';
+import { UserWithBabies } from '../../types/schemaExtensions';
 
 // Mock Baby Dropdown Component
 jest.mock('../../components/BabyDropdown');
@@ -10,23 +12,38 @@ jest.mock('../../components/BabyDropdown');
 // Mock Baby RecommendedSchedules Component
 jest.mock('../../components/RecommendedSchedule/RecommendedSchedules');
 
+// Mock environment variables
+jest.mock('../../util/environment.ts', () => ({
+  API_URL: 'localhost:3000',
+  DOMAIN: 'auth0domain',
+  CLIENT_ID: 'auth0clientid',
+  AUDIENCE: 'test-test'
+}));
+
 // Mock API responses
-const mockClientData = {
-  id: '2',
+const mockClientData: UserWithBabies = {
+  userId: '2',
+  coachId: '3',
+  email: 'johndoe@test.com',
+  role: 'client',
   first_name: 'John',
   last_name: 'Doe',
   babies: [
     {
-      dob: '2023-01-01',
+      dob: new Date('2023-01-01'),
       babyId: '1',
       name: 'Baby A',
-      parentId: '12345'
+      parentId: '12345',
+      weight: 8,
+      medicine: ''
     },
     {
-      dob: '2023-02-15',
+      dob: new Date('2023-02-15'),
       babyId: '2',
       name: 'Baby B',
-      parentId: '12345'
+      parentId: '12345',
+      weight: 8,
+      medicine: ''
     }
   ]
 };
@@ -37,9 +54,13 @@ global.fetch = jest.fn().mockResolvedValue({
 });
 
 // Mock useParams
+const useParamsMock = jest
+  .fn()
+  .mockReturnValue({ userId: mockClientData.userId });
+
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useParams: jest.fn().mockReturnValue({ userId: '1' })
+  useParams: () => useParamsMock()
 }));
 
 // Mock auth0
@@ -58,7 +79,11 @@ describe('BabyDetailsPage', () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByText('John Doe')).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          mockClientData.first_name + ' ' + mockClientData.last_name
+        )
+      ).toBeInTheDocument();
     });
   });
 
@@ -79,7 +104,7 @@ describe('BabyDetailsPage', () => {
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith(
-        `http://localhost:3000/users/1`,
+        `http://${API_URL}/users/${mockClientData.userId}`,
         {
           headers: {
             Authorization: 'Bearer mocked-access-token'

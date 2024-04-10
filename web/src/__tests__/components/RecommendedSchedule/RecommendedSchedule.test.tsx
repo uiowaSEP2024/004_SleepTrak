@@ -2,6 +2,7 @@ import '@testing-library/jest-dom';
 import '../../../util/setupDomTests';
 import { render, screen } from '@testing-library/react';
 import RecommendedSchedule from '../../../components/RecommendedSchedule/RecommendedSchedule';
+import { PlanWithReminders } from '../../../types/schemaExtensions';
 
 // Mock ScheduleCreateButton, ScheduleDeleteButton, ScheduleEditRowButton, and ScheduleDeleteRowButton
 
@@ -19,36 +20,37 @@ jest.mock(
 );
 
 describe('RecommendedSchedule', () => {
+  const samplePlan: PlanWithReminders = {
+    planId: 'sample-plan-id',
+    clientId: 'sample-client-id',
+    coachId: 'sample-coach-id',
+    reminders: [
+      {
+        reminderId: '1',
+        planId: 'sample-plan-id',
+        description: 'Morning Rise',
+        startTime: new Date('2024-04-08T06:30:00+0000'),
+        endTime: null
+      },
+      {
+        reminderId: '2',
+        planId: 'sample-plan-id',
+        description: 'Nap 1',
+        startTime: new Date('2024-04-08T09:45:00+0000'),
+        endTime: new Date('2024-04-08T10:45:00+0000')
+      },
+      {
+        reminderId: '3',
+        planId: 'sample-plan-id',
+        description: 'Asleep',
+        startTime: new Date('2024-04-08T20:00:00+0000'),
+        endTime: null
+      }
+    ]
+  };
   const sampleSchedule = {
     name: 'Schedule 1',
-    schedule: {
-      planId: 'sample-plan-id',
-      clientId: 'sample-client-id',
-      coachId: 'sample-coach-id',
-      reminders: [
-        {
-          reminderId: '1',
-          planId: 'sample-plan-id',
-          description: 'Morning Rise',
-          startTime: '06:30',
-          endTime: null
-        },
-        {
-          reminderId: '2',
-          planId: 'sample-plan-id',
-          description: 'Nap 1',
-          startTime: '09:15',
-          endTime: '10:45'
-        },
-        {
-          reminderId: '3',
-          planId: 'sample-plan-id',
-          description: 'Asleep',
-          startTime: '20:00',
-          endTime: null
-        }
-      ]
-    },
+    schedule: samplePlan,
     onChange: jest.fn() // Mocked onChange function
   };
 

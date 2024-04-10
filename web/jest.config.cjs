@@ -4,7 +4,13 @@ module.exports = {
   testEnvironment: 'jsdom',
   collectCoverage: true,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
-  collectCoverageFrom: ['src/components/**/*.{ts,tsx}'],
+  collectCoverageFrom: [
+    'src/components/**/*.{ts,tsx}',
+    'src/pages/**/*.{ts,tsx}',
+    'src/util/utils.ts',
+    'src/util/ColorSchemeToggle.tsx',
+    'src/App.tsx'
+  ],
   coverageThreshold: {
     global: {
       lines: 75

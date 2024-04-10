@@ -7,44 +7,43 @@ import CardOverflow from '@mui/joy/CardOverflow';
 import CardActions from '@mui/joy/CardActions';
 import Typography from '@mui/joy/Typography';
 import { Link } from 'react-router-dom';
-import ClientAdminOptions from './ClientAdminOptions';
+import { SxProps } from '@mui/material';
+import { Theme } from '@mui/joy';
 
-interface ClientCardProps {
+interface CoachCardProps {
   avatarSrc: string;
-  clientName: string;
-  babyNames: string;
-  babyId: string;
-  clientId: string;
-  adminOptions?: boolean;
+  title: string;
+  coachId: string;
+  numClients: number;
+  sx?: SxProps<Theme>;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
-const ClientCard: React.FC<ClientCardProps> = ({
+const CoachCard: React.FC<CoachCardProps> = ({
   avatarSrc,
-  clientName,
-  babyNames,
-  babyId,
-  clientId,
-  adminOptions = false
+  title,
+  coachId,
+  numClients,
+  sx,
+  onClick
 }) => {
   return (
     <Card
       sx={{
         width: 250,
         maxWidth: '100%',
-        boxShadow: 'lg'
-      }}>
+        boxShadow: 'lg',
+        ...sx
+      }}
+      onClick={onClick}>
       <CardContent sx={{ alignItems: 'center', textAlign: 'center' }}>
         <Avatar
           data-testid="avatar"
           src={avatarSrc}
           sx={{ '--Avatar-size': '4rem' }}
         />
-        <Typography level="title-lg">{clientName}</Typography>
-        <Typography
-          level="body-sm"
-          sx={{ maxWidth: '24ch' }}>
-          {babyNames}
-        </Typography>
+        <Typography level="title-lg">{title}</Typography>
+        <Typography level="title-md">Clients: {numClients}</Typography>
       </CardContent>
       <CardOverflow sx={{ bgcolor: 'background.level1' }}>
         <CardActions buttonFlex="1">
@@ -54,15 +53,14 @@ const ClientCard: React.FC<ClientCardProps> = ({
             <Button>Message</Button>
             <Button
               component={Link}
-              to={`/clients/${clientId}/babies/${babyId}`}>
-              More
+              to={`/coaches/${coachId}`}>
+              Manage
             </Button>
           </ButtonGroup>
         </CardActions>
-        {adminOptions ? <ClientAdminOptions userId={clientId} /> : null}
       </CardOverflow>
     </Card>
   );
 };
 
-export default ClientCard;
+export default CoachCard;
