@@ -8,7 +8,7 @@ import API_URL from '../util/apiURL';
 function DocsPage() {
   const [files, setFiles] = useState([]);
   const { getAccessTokenSilently } = useAuth0();
-  const { babyId } = useParams(); // Access the userId from the route parameters
+  const { babyId } = useParams();
 
   const fetchFilesData = async () => {
     const token = await getAccessTokenSilently();
