@@ -1,9 +1,14 @@
 import { addToSyncQueue, syncQueue, syncData } from '../../src/utils/syncQueue';
-import { getEvent, getSleepWindowsForEvent } from '../../src/utils/localDb';
+import {
+  getEvent,
+  getSleepWindowsForEvent,
+  deleteEvent
+} from '../../src/utils/localDb';
 
 jest.mock('../../src/utils/localDb', () => ({
   getEvent: jest.fn(),
-  getSleepWindowsForEvent: jest.fn()
+  getSleepWindowsForEvent: jest.fn(),
+  deleteEvent: jest.fn()
 }));
 jest.mock('../../src/utils/auth', () => ({
   getUserCredentials: jest.fn(),
@@ -105,6 +110,14 @@ describe('Sync Queue', () => {
       mockedGetSleepWindowsForEvent.mockResolvedValue(mockLocalSleepWindows);
       await syncData();
       expect(syncQueue).not.toContain(mockSleepTask);
+    });
+
+    it('should delete event from local db after syncing', async () => {
+      addToSyncQueue(mockTask);
+      mockedGetEvent.mockResolvedValue(mockLocalEvent);
+      mockedGetSleepWindowsForEvent.mockResolvedValue([]);
+      await syncData();
+      expect(deleteEvent).toHaveBeenCalledWith(mockTask.id);
     });
 
     it('should throw error when no sleep windows found', async () => {
