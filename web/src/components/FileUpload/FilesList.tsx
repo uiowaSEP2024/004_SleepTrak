@@ -9,7 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import FolderIcon from '@mui/icons-material/Folder';
-import { File } from '../../pages/DocsPage';
+import { File } from '@prisma/client';
 import { Link } from 'react-router-dom';
 import FileDeleteButton from './FileDeleteButton';
 
