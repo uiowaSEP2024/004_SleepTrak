@@ -5,12 +5,6 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import API_URL from '../util/apiURL';
 
-export interface File {
-  fileId: string;
-  filename: string;
-  url: string;
-}
-
 function DocsPage() {
   const [files, setFiles] = useState([]);
   const { getAccessTokenSilently } = useAuth0();
