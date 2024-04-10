@@ -2,7 +2,7 @@ import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { ChangeEvent, useState } from 'react';
-import API_URL from '../util/apiURL';
+import API_URL from '../../util/apiURL';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useParams } from 'react-router-dom';
 import DialogActions from '@mui/material/DialogActions';
