@@ -45,6 +45,7 @@ const ConversationAdder: React.FC<ConversationAdderProps> = ({
   async function hasConversationWith(user: User) {
     const paginator = await conversationsClient.getSubscribedConversations();
     const conversations: Conversation[] = [];
+    conversations.concat(paginator.items);
     while (paginator.hasNextPage) {
       conversations.concat(paginator.items);
     }
