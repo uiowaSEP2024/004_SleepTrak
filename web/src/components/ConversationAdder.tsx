@@ -39,23 +39,20 @@ const ConversationAdder: React.FC<ConversationAdderProps> = ({
       console.log(`Failed to add ${selectedUser.userId}`);
       newConversation.delete();
     }
-    console.log(newConversation);
   };
 
   async function hasConversationWith(user: User) {
     const paginator = await conversationsClient.getSubscribedConversations();
     const conversations: Conversation[] = [];
-    conversations.concat(paginator.items);
+    conversations.push(...paginator.items);
     while (paginator.hasNextPage) {
-      conversations.concat(paginator.items);
+      conversations.push(...paginator.items);
     }
     const participants = (
       await Promise.all(
         conversations.map((conversation) => conversation.getParticipants())
       )
     ).flat();
-    console.log(participants);
-    console.log(user);
     const hasConversation = participants.some(
       (participant) => participant.identity == user.userId
     );
