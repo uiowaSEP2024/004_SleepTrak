@@ -54,9 +54,13 @@ global.fetch = jest.fn().mockResolvedValue({
 });
 
 // Mock useParams
+const useParamsMock = jest
+  .fn()
+  .mockReturnValue({ userId: mockClientData.userId });
+
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useParams: jest.fn().mockReturnValue({ userId: mockClientData.userId })
+  useParams: () => useParamsMock()
 }));
 
 // Mock auth0
