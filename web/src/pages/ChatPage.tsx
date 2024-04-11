@@ -37,9 +37,20 @@ export default function ChatPage() {
 
   const { getAccessTokenSilently } = useAuth0();
 
+  const [authToken, setAuthToken] = useState<string>('');
   useEffect(() => {
+    const getAuthToken = async () => {
+      const token = await getAccessTokenSilently();
+      setAuthToken(token);
+    };
+    getAuthToken();
+  }, [getAccessTokenSilently]);
+  useEffect(() => {
+  useEffect(() => {
+    if (authToken === '') {
+      return;
+    }
     const getToken = async () => {
-      const authToken = await getAccessTokenSilently();
       const response = await fetch(
         encodeURI(`http://${API_URL}/twilio/token?identity=${state.identity}`),
         {
@@ -53,7 +64,7 @@ export default function ChatPage() {
     };
 
     getToken();
-  }, [state.identity, state.token, getAccessTokenSilently]);
+  }, [state.identity, state.token, authToken]);
 
   const setToken = (newToken: string) => {
     setState((prevState) => ({
