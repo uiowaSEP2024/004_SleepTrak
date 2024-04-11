@@ -21,6 +21,14 @@ jest.mock('@auth0/auth0-react', () => ({
   })
 }));
 
+// Mock environment variables
+jest.mock('../../../util/environment.ts', () => ({
+  API_URL: 'localhost:3000',
+  DOMAIN: 'auth0domain',
+  CLIENT_ID: 'auth0clientid',
+  AUDIENCE: 'test-test'
+}));
+
 // Mock useParams
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),

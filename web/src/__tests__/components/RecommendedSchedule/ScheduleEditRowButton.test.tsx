@@ -27,6 +27,14 @@ jest.mock('@auth0/auth0-react', () => ({
   })
 }));
 
+// Mock environment variables
+jest.mock('../../../util/environment.ts', () => ({
+  API_URL: 'localhost:3000',
+  DOMAIN: 'auth0domain',
+  CLIENT_ID: 'auth0clientid',
+  AUDIENCE: 'test-test'
+}));
+
 global.fetch = jest.fn();
 
 describe('ScheduleEditButton component', () => {
