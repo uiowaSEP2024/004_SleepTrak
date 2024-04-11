@@ -14,7 +14,7 @@ const upload = multer({ storage });
 router.use(auth.requireAuth);
 
 // Routes
-router.get('/all', asyncHandler(controller.get));
+router.get('/:id', asyncHandler(controller.get));
 router.post('/create', upload.single('file'), asyncHandler(controller.create));
 router.post('/search', asyncHandler(controller.search));
 router.delete('/:id/delete', asyncHandler(controller.destroy));
