@@ -3,15 +3,20 @@ import '../../util/setupDomTests';
 import { render, fireEvent } from '@testing-library/react';
 import BabyTab from '../../components/BabyTab';
 
-// Mock the RecommendedSchedules component
-jest.mock(
-  '../../components/RecommendedSchedule/RecommendedSchedules',
-  () => () => (
-    <div data-testid="mocked-recommended-schedules">
-      Mocked RecommendedSchedules
-    </div>
-  )
-);
+// Mock the Summary page
+jest.mock('../../pages/SummaryPage', () => () => (
+  <div data-testid="mocked-summary-page">Mocked Summary</div>
+));
+
+// Mock the LogPage page
+jest.mock('../../pages/LogPage', () => () => (
+  <div data-testid="mocked-log-page">Mocked Log</div>
+));
+
+// Mock the DocsPage page
+jest.mock('../../pages/DocsPage', () => () => (
+  <div data-testid="mocked-docs-page">Mocked Docs</div>
+));
 
 describe('BabyTab component', () => {
   it('renders correctly', () => {
@@ -24,10 +29,10 @@ describe('BabyTab component', () => {
   it('switches tabs correctly', () => {
     const { getByText, getByTestId } = render(<BabyTab />);
     fireEvent.click(getByText('Summary'));
-    expect(getByTestId('mocked-recommended-schedules')).toBeInTheDocument();
+    expect(getByTestId('mocked-summary-page')).toBeInTheDocument();
     fireEvent.click(getByText('Log'));
-    expect(getByTestId('log-page')).toBeInTheDocument();
+    expect(getByTestId('mocked-log-page')).toBeInTheDocument();
     fireEvent.click(getByText('Docs'));
-    expect(getByTestId('docs-page')).toBeInTheDocument();
+    expect(getByTestId('mocked-docs-page')).toBeInTheDocument();
   });
 });
