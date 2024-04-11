@@ -15,7 +15,7 @@
   "jest": {
     "preset": "jest-expo",
     "transformIgnorePatterns": [
-      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg|uuid)"
     ],
     "collectCoverage": true,
     "collectCoverageFrom": [
@@ -24,7 +24,8 @@
       "!**/node_modules/**",
       "!**/babel.config.js",
       "!**/jest.setup.js",
-      "!src/utils/*",
+      "!src/utils/db.tsx",
+      "!src/utils/auth.tsx",
       "!src/screens/AuthScreen.tsx",
       "!src/screens/TestScreen.tsx",
       "!src/navigations/*"
@@ -43,7 +44,9 @@
     "@react-navigation/native": "^6.1.10",
     "@react-navigation/native-stack": "^6.9.18",
     "@react-navigation/stack": "^6.3.28",
-    "expo": "~50.0.8",
+    "expo": "^50.0.14",
+    "expo-crypto": "^12.8.1",
+    "expo-sqlite": "~13.4.0",
     "expo-status-bar": "~1.11.1",
     "jest": "^29.7.0",
     "jest-expo": "^50.0.2",
@@ -65,6 +68,7 @@
     "@types/jest": "^29.5.12",
     "@types/react": "^18.2.55",
     "@types/react-test-renderer": "^18.0.7",
+    "@types/uuid": "^9.0.8",
     "cross-env": "5.0.5",
     "react-test-renderer": "^18.2.0"
   }

@@ -2,20 +2,34 @@ import React from 'react';
 // import { NumericInput, DateTimePicker, FoodTypePicker, UnitPicker, FoodTrackingScreen } from '../../src/screens/FoodTrackingScreen';
 import FoodTrackingScreen from '../../src/screens/FoodTrackingScreen';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
-import { createEvent } from '../../src/utils/db';
 import { useNavigation } from '@react-navigation/native';
+import { saveEvent } from '../../src/utils/localDb';
 
-jest.mock('../../src/utils/db', () => ({
-  createEvent: jest.fn()
+jest.mock('../../src/utils/localDb', () => ({
+  saveEvent: jest.fn()
+}));
+
+jest.mock('../../src/utils/syncQueue', () => ({
+  addToSyncQueue: jest.fn(),
+  syncData: jest.fn()
+}));
+
+jest.mock('../../src/utils/auth', () => ({
+  getUserCredentials: jest.fn(),
+  getAuth0User: jest.fn()
 }));
 jest.mock('@react-navigation/native', () => ({
   useNavigation: jest.fn()
+}));
+jest.mock('../../src/utils/auth', () => ({
+  getUserCredentials: jest.fn(),
+  getAuth0User: jest.fn()
 }));
 
 describe('FoodTrackingScreen', () => {
   beforeEach(() => {
     useNavigation.mockReturnValue({ navigate: jest.fn() });
-    createEvent.mockResolvedValue(true);
+    saveEvent.mockResolvedValue(true);
   });
 
   afterEach(() => {
@@ -34,7 +48,7 @@ describe('FoodTrackingScreen', () => {
     fireEvent.press(getByText('Save'));
 
     await waitFor(() => {
-      expect(createEvent).toHaveBeenCalledTimes(1);
+      expect(saveEvent).toHaveBeenCalledTimes(1);
     });
   });
 

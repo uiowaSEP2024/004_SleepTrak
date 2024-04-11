@@ -23,7 +23,9 @@ import ShowMoreButton from '../components/buttons/ShowMoreButton';
 import WindowCell from '../components/views/WindowCell';
 import SleepTypeSelector from '../components/selectors/SleepTypeSelector';
 import BasicButton from '../components/buttons/SaveButton';
-import { createSleepEvent } from '../utils/db';
+import { saveEvent, saveSleepWindow } from '../utils/localDb';
+import { addToSyncQueue, syncData } from '../utils/syncQueue';
+import { localize } from '../utils/bridge';
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -136,23 +138,59 @@ const SleepTimer: React.FC = () => {
     setWindows(windows.filter((window) => window.id !== windowId));
   };
 
-  const saveSleepSession = () => {
+  const saveSleepSession = async () => {
     const newSleepData = {
       ...sleepData,
-      startTime: cribStartTime ?? windows[0].startTime,
-      endTime: cribStopTime ?? windows[windows.length - 1].stopTime,
-      type: isNap ? 'nap' : 'night_sleep'
+      startTime: windows[0].startTime,
+      endTime: windows[windows.length - 1].stopTime,
+      type: isNap ? 'nap' : 'night_sleep',
+      cribStartTime: cribStartTime,
+      cribStopTime: cribStopTime
     };
     setSleepData(newSleepData);
-    console.log('new sleep event!:');
-    console.log('start time:', newSleepData.startTime.toISOString());
-    console.log('end time:', newSleepData.endTime.toISOString());
-    console.log(
-      'window notes:',
-      windows.map((window) => window.note).join(', ')
-    );
-    void createSleepEvent(newSleepData, windows);
-    setWindows([]);
+    try {
+      const sleepDataLocal = localize(newSleepData);
+      await saveEvent(sleepDataLocal);
+      addToSyncQueue({
+        id: sleepDataLocal.eventId,
+        operation: 'insert',
+        data: sleepDataLocal,
+        status: 'pending'
+      });
+
+      const windowPromises = windows.map((window) => {
+        const windowData = {
+          ...window,
+          windowId: window.id,
+          eventId: sleepDataLocal.eventId,
+          startTime: window.startTime.toISOString(),
+          stopTime: window.stopTime.toISOString()
+        };
+        try {
+          addToSyncQueue({
+            id: windowData.windowId,
+            operation: 'insert',
+            data: windowData,
+            status: 'pending'
+          });
+        } catch (error) {
+          console.error('Error in addToSyncQueue (window):', error);
+        }
+        return saveSleepWindow(windowData);
+      });
+
+      try {
+        await Promise.all(windowPromises);
+      } catch (error) {
+        console.error('Error in saveSleepWindow:', error);
+      }
+      await syncData();
+    } catch (error) {
+      console.error('Error in saveEvent:', error);
+    } finally {
+      setWindows([]);
+      navigation.goBack();
+    }
   };
 
   return (
@@ -227,7 +265,9 @@ const SleepTimer: React.FC = () => {
         />
         <BasicButton
           onPress={() => {
-            saveSleepSession();
+            saveSleepSession().catch((error) => {
+              console.error('Error saving sleep event:', error);
+            });
           }}
           title="Save Log"
           style={{ marginTop: 20, marginBottom: 40 }}

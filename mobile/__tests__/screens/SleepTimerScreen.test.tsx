@@ -11,8 +11,19 @@ jest.mock('@react-navigation/native', () => ({
   useNavigation: jest.fn()
 }));
 
-jest.mock('../../src/utils/db', () => ({
-  createSleepEvent: jest.fn()
+jest.mock('../../src/utils/localDb', () => ({
+  saveEvent: jest.fn(),
+  saveSleepWindow: jest.fn()
+}));
+
+jest.mock('../../src/utils/syncQueue', () => ({
+  addToSyncQueue: jest.fn(),
+  syncData: jest.fn()
+}));
+
+jest.mock('../../src/utils/auth', () => ({
+  getUserCredentials: jest.fn(),
+  getAuth0User: jest.fn()
 }));
 
 // const Stack = createNativeStackNavigator();
