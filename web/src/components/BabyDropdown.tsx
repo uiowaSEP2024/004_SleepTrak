@@ -73,7 +73,7 @@ const BabyDropdown: React.FC<BabyDropdownProps> = (props) => {
               paddingInline: '4px',
               fontSize: 'xs'
             }}>
-            {getAgeInMonthFromDob(data.dob)}
+            {getAgeInMonthFromDob(new Date(data.dob))}
           </Chip>
         </Option>
       ))}
