@@ -45,7 +45,22 @@ export default function ChatPage() {
     };
     getAuthToken();
   }, [getAccessTokenSilently]);
+  const [currUser, setCurrUser] = useState<User | null>(null);
   useEffect(() => {
+    const getCurrUser = async () => {
+      const response = await fetch(
+        `http://${API_URL}/users/${state.identity}`,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`
+          }
+        }
+      );
+      const data = await response.json();
+      setCurrUser(data);
+    };
+    getCurrUser();
+  }, [state.identity, authToken]);
   useEffect(() => {
     if (authToken === '') {
       return;
@@ -137,6 +152,35 @@ export default function ChatPage() {
     initClient();
   }, [state.token, state.conversations]);
 
+  const [contacts, setContacts] = useState<User[]>([]);
+  useEffect(() => {
+    if (!currUser) {
+      return;
+    }
+    const fetchContactsData = async () => {
+      const response = await fetch(`http://${API_URL}/users/all`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+      });
+      const data = await response.json();
+      if (currUser.role == 'coach') {
+        setContacts(
+          data.filter((user: User) => {
+            return (
+              user.coachId === state.identity ||
+              (user.role != 'client' && user.userId != state.identity)
+            );
+          })
+        );
+      } else if (currUser.role == 'owner') {
+        setContacts(data.filter((user: User) => user.userId != state.identity));
+        // setContacts(data);
+      }
+    };
+
+    fetchContactsData();
+  }, [state.identity, currUser, authToken]);
   const [selectedConversation, setSelectedConversation] =
     useState<Conversation | null>(null);
 
