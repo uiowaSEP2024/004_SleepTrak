@@ -12,6 +12,14 @@ jest.mock('@auth0/auth0-react', () => ({
   })
 }));
 
+// Mock environment variables
+jest.mock('../../../util/environment.ts', () => ({
+  API_URL: 'localhost:3000',
+  DOMAIN: 'auth0domain',
+  CLIENT_ID: 'auth0clientid',
+  AUDIENCE: 'test-test'
+}));
+
 // Mock the RecommendedSchedule component
 jest.mock('../../../components/RecommendedSchedule/RecommendedSchedule', () => {
   return jest.fn().mockImplementation(({ name }) => {

@@ -4,8 +4,15 @@ import { render, screen } from '@testing-library/react';
 import RecommendedSchedule from '../../../components/RecommendedSchedule/RecommendedSchedule';
 import { PlanWithReminders } from '../../../types/schemaExtensions';
 
-// Mock ScheduleCreateButton, ScheduleDeleteButton, ScheduleEditRowButton, and ScheduleDeleteRowButton
+// Mock environment variables
+jest.mock('../../../util/environment.ts', () => ({
+  API_URL: 'localhost:3000',
+  DOMAIN: 'auth0domain',
+  CLIENT_ID: 'auth0clientid',
+  AUDIENCE: 'test-test'
+}));
 
+// Mock ScheduleCreateButton, ScheduleDeleteButton, ScheduleEditRowButton, and ScheduleDeleteRowButton
 jest.mock(
   '../../../components/RecommendedSchedule/ScheduleDeleteButton',
   () => () => <button>Delete Schedule</button>
