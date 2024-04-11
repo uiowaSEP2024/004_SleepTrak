@@ -61,6 +61,12 @@ const prismaSpy = {
     create: jest.spyOn(prisma.sleepWindow, 'create'),
     update: jest.spyOn(prisma.sleepWindow, 'update'),
     delete: jest.spyOn(prisma.sleepWindow, 'delete')
+  },
+  files: {
+    get: jest.spyOn(prisma.file, 'findUnique'),
+    search: jest.spyOn(prisma.file, 'findMany'),
+    create: jest.spyOn(prisma.file, 'create'),
+    delete: jest.spyOn(prisma.file, 'delete')
   }
 };
 

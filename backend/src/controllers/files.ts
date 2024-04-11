@@ -29,6 +29,7 @@ const create = async (
   res: Response
 ): Promise<void> => {
   try {
+    // Upload to S3
     const params: AWS.S3.PutObjectRequest = {
       Bucket: process.env.AWS_S3_BUCKET_NAME ?? 'NO_BUCKET_NAME_IN_ENV',
       Key: req.file.originalname,
@@ -36,6 +37,7 @@ const create = async (
     };
     const data = await s3.upload(params).promise();
 
+    // Generate prisma db
     const fileData = {
       filename: data.Key,
       url: data.Location,
