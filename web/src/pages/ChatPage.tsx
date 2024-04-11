@@ -200,12 +200,44 @@ export default function ChatPage() {
     setSelectedConversation(state.conversations[0]);
     console.log(state.conversations);
   }, [state.conversations]);
+  const [messageContent, setMessageContent] = useState<string>('');
+  const handleChangeMessageContent = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setMessageContent(event.target.value);
+  };
 
+  const handleSubmitMessage = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
+    if (messageContent === '') {
+      return;
+    }
+    setMessageContent('');
+
+    console.log(selectedConversation);
+    await selectedConversation?.sendMessage(messageContent);
+  };
   if (conversationsClient) {
     return (
       <>
         <ConversationAdder conversationsClient={conversationsClient} />
         {conversationContent?.items.map((message) => <div>{message.body}</div>)}
+        <form onSubmit={handleSubmitMessage}>
+          <Input
+            placeholder="Type your message..."
+            value={messageContent}
+            onChange={handleChangeMessageContent}
+            endDecorator={
+              <Button
+                type="submit"
+                variant="plain">
+                <SendIcon />
+              </Button>
+            }
+          />
+        </form>
       </>
     );
   }
