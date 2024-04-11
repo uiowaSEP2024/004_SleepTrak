@@ -6,9 +6,12 @@ import {
   Client as ConversationsClient
 } from '@twilio/conversations';
 import { GetUserInfo } from '../components/auth';
+import { Input, Button, List, ListItem, Box } from '@mui/joy';
+import SendIcon from '@mui/icons-material/Send';
 import ConversationAdder from '../components/ConversationAdder';
 import API_URL from '../util/apiURL';
 import { useAuth0 } from '@auth0/auth0-react';
+import { User } from '@prisma/client';
 
 interface ConversationsState {
   identity: string;
@@ -18,7 +21,6 @@ interface ConversationsState {
   conversationsReady: boolean;
   conversations: Conversation[];
   selectedConversationSid: string;
-  newMessage: string;
 }
 export default function ChatPage() {
   const [state, setState] = useState<ConversationsState>({
@@ -28,8 +30,7 @@ export default function ChatPage() {
     statusString: '',
     conversationsReady: false,
     conversations: [],
-    selectedConversationSid: '',
-    newMessage: ''
+    selectedConversationSid: ''
   });
 
   const [conversationsClient, setConversationsClient] =
@@ -45,6 +46,7 @@ export default function ChatPage() {
     };
     getAuthToken();
   }, [getAccessTokenSilently]);
+
   const [currUser, setCurrUser] = useState<User | null>(null);
   useEffect(() => {
     const getCurrUser = async () => {
@@ -61,6 +63,7 @@ export default function ChatPage() {
     };
     getCurrUser();
   }, [state.identity, authToken]);
+
   useEffect(() => {
     if (authToken === '') {
       return;
@@ -181,6 +184,7 @@ export default function ChatPage() {
 
     fetchContactsData();
   }, [state.identity, currUser, authToken]);
+
   const [selectedConversation, setSelectedConversation] =
     useState<Conversation | null>(null);
 
@@ -196,10 +200,17 @@ export default function ChatPage() {
     fetchContent();
   }, [selectedConversation]);
 
-  useEffect(() => {
-    setSelectedConversation(state.conversations[0]);
-    console.log(state.conversations);
-  }, [state.conversations]);
+  // relies on the property that we only have one conversation between any two users
+  const handleSelectConversation = (uid: string) => {
+    setSelectedConversation(
+      state.conversations.filter(async (conversation) => {
+        (await conversation.getParticipants()).some((participant) => {
+          participant.identity === uid;
+        });
+      })[0]
+    );
+  };
+
   const [messageContent, setMessageContent] = useState<string>('');
   const handleChangeMessageContent = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -219,10 +230,43 @@ export default function ChatPage() {
     console.log(selectedConversation);
     await selectedConversation?.sendMessage(messageContent);
   };
+
   if (conversationsClient) {
     return (
       <>
         <ConversationAdder conversationsClient={conversationsClient} />
+        <Box sx={{ display: 'flex', height: '80vh' }}>
+          <List sx={{ overflow: 'auto' }}>
+            {contacts.map((contact) => (
+              <ListItem key={contact.userId}>
+                <Button
+                  onClick={() => {
+                    handleSelectConversation(contact.userId);
+                  }}
+                  variant="outlined"
+                  sx={{
+                    width: '100%',
+                    justifyContent: 'flex-start',
+                    '&:hover': {
+                      backgroundColor: 'action.hover'
+                    }
+                  }}>
+                  {contact.first_name + ' ' + contact.last_name}
+                </Button>
+              </ListItem>
+            ))}
+          </List>
+          <Box sx={{ width: '80vw' }}>
+            <List>
+              <ListItem key="header">Conversation</ListItem>
+              {conversationContent?.items.map((message) => (
+                <ListItem key={message.index}>
+                  {message.author + ': ' + message.body}
+                </ListItem>
+              ))}
+            </List>
+          </Box>
+        </Box>
         {conversationContent?.items.map((message) => <div>{message.body}</div>)}
         <form onSubmit={handleSubmitMessage}>
           <Input
