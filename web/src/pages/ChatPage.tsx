@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Conversation,
   Message,
@@ -6,13 +6,15 @@ import {
   Client as ConversationsClient
 } from '@twilio/conversations';
 import { GetUserInfo } from '../components/auth';
-import { Input, Button, List, ListItem, Box } from '@mui/joy';
+import { Input, Button, List, ListItem, Box, Typography } from '@mui/joy';
 import SendIcon from '@mui/icons-material/Send';
 import ConversationAdder from '../components/ConversationAdder';
 import API_URL from '../util/apiURL';
 import { useAuth0 } from '@auth0/auth0-react';
 import { User } from '@prisma/client';
+import { getName } from '../util/utils';
 import { getPaginatorItems, hasParticipant } from '../util/twilioUtils';
+import { colors } from '../../public/colors';
 
 interface ConversationsState {
   identity: string;
@@ -251,12 +253,26 @@ export default function ChatPage() {
     setConversationContent(messagePaginator);
   };
 
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'auto' });
+  }, [conversationContent]);
+
   if (conversationsClient) {
     return (
       <>
         <ConversationAdder conversationsClient={conversationsClient} />
-        <Box sx={{ display: 'flex', height: '80vh' }}>
-          <List sx={{ overflow: 'auto' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            height: '80vh',
+            width: '80vw',
+            border: 2,
+            borderRadius: 5,
+            boxShadow: 'lg',
+            borderColor: colors.silverGrey
+          }}>
+          <List sx={{ overflow: 'auto', marginTop: 2, marginBottom: 2 }}>
             {contacts.map((contact) => (
               <ListItem key={contact.userId}>
                 <Button
@@ -271,37 +287,92 @@ export default function ChatPage() {
                       backgroundColor: 'action.hover'
                     }
                   }}>
-                  {contact.first_name + ' ' + contact.last_name}
+                  {getName(contact)}
                 </Button>
               </ListItem>
             ))}
           </List>
-          <Box sx={{ width: '80vw' }}>
-            <List>
-              <ListItem key="header">Conversation</ListItem>
+          <Box
+            sx={{
+              width: '80%',
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column'
+            }}>
+            <Typography
+              variant="outlined"
+              level="title-md"
+              sx={{
+                margin: 0.5,
+                padding: 1,
+                borderRadius: 5
+              }}>
+              {!selectedUser
+                ? 'Please select a User to view Conversation'
+                : !selectedConversation
+                  ? 'No Pre-existing Conversation with ' + getName(selectedUser)
+                  : 'Conversation with ' + getName(selectedUser)}
+            </Typography>
+            <List sx={{ overflow: 'auto', marginTop: 2, marginBottom: 2 }}>
               {conversationContent?.items.map((message) => (
-                <ListItem key={message.index}>
-                  {message.author + ': ' + message.body}
+                <ListItem
+                  key={message.index}
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems:
+                      message.author === state.identity
+                        ? 'flex-end'
+                        : 'flex-start'
+                  }}>
+                  <Box
+                    sx={{
+                      padding: 2,
+                      border: 1,
+                      borderRadius: 5,
+                      backgroundColor:
+                        message.author === state.identity
+                          ? 'primary.main'
+                          : 'grey.300',
+                      borderColor:
+                        message.author === state.identity
+                          ? colors.palePink
+                          : colors.paleOrange,
+                      maxWidth: '80%',
+                      wordWrap: 'break-word'
+                    }}>
+                    <Typography>{message.body}</Typography>
+                  </Box>
                 </ListItem>
               ))}
+              <div ref={messagesEndRef} />
             </List>
+            <Box
+              sx={{
+                marginTop: 'auto',
+                marginBottom: 2,
+                width: '100%'
+              }}>
+              <form onSubmit={handleSubmitMessage}>
+                <Input
+                  sx={{
+                    width: '100%'
+                  }}
+                  placeholder="Type your message..."
+                  value={messageContent}
+                  onChange={handleChangeMessageContent}
+                  endDecorator={
+                    <Button
+                      type="submit"
+                      variant="plain">
+                      <SendIcon />
+                    </Button>
+                  }
+                />
+              </form>
+            </Box>
           </Box>
         </Box>
-        {conversationContent?.items.map((message) => <div>{message.body}</div>)}
-        <form onSubmit={handleSubmitMessage}>
-          <Input
-            placeholder="Type your message..."
-            value={messageContent}
-            onChange={handleChangeMessageContent}
-            endDecorator={
-              <Button
-                type="submit"
-                variant="plain">
-                <SendIcon />
-              </Button>
-            }
-          />
-        </form>
       </>
     );
   }
