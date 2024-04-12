@@ -32,8 +32,12 @@ const Item = ({ title, value }: { title: string; value: string }) => {
 
 const EventScreen: React.FC = ({ route, navigation }) => {
   const { event } = route.params;
-  const startTime = new Date(event.startTime);
-  const endTime = new Date(event.endTime);
+  let startTime: any = null;
+  let endTime: any = null;
+  if (event) {
+    startTime = new Date(event.startTime);
+    endTime = new Date(event.endTime);
+  }
 
   return event ? (
     <ScrollView contentContainerStyle={styles.container}>

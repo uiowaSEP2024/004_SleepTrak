@@ -40,6 +40,7 @@ const TimerButton: React.FC<TimerButtonProps> = ({
 
   return (
     <TouchableRipple
+      testID={isTimerRunning ? 'stop-button' : 'start-button'}
       onPress={handlePress}
       style={[styles.container, style]}>
       <View style={styles.innerContainer}>

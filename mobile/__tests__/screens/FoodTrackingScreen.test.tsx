@@ -5,6 +5,9 @@ import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { useNavigation } from '@react-navigation/native';
 import { saveEvent } from '../../src/utils/localDb';
 
+jest.mock('expo-font');
+jest.mock('expo-asset');
+
 jest.mock('../../src/utils/localDb', () => ({
   saveEvent: jest.fn()
 }));

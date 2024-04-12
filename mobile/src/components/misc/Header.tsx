@@ -7,7 +7,9 @@ import { type NativeStackHeaderProps } from '@react-navigation/native-stack';
 
 const BackButton: React.FC<{ navigation: any }> = ({ navigation }) => {
   return (
-    <TouchableOpacity onPress={() => navigation.goBack()}>
+    <TouchableOpacity
+      testID="back-button"
+      onPress={() => navigation.goBack()}>
       <Ionicons
         name="arrow-back"
         size={32}
@@ -18,7 +20,9 @@ const BackButton: React.FC<{ navigation: any }> = ({ navigation }) => {
 };
 const ProfileButton: React.FC<{ navigation: any }> = ({ navigation }) => {
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+    <TouchableOpacity
+      testID="profile-button"
+      onPress={() => navigation.navigate('Profile')}>
       <MaterialCommunityIcons
         name="account-outline"
         size={32}
@@ -29,7 +33,9 @@ const ProfileButton: React.FC<{ navigation: any }> = ({ navigation }) => {
 };
 const SettingsButton: React.FC<{ navigation: any }> = ({ navigation }) => {
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('Setting')}>
+    <TouchableOpacity
+      testID="settings-button"
+      onPress={() => navigation.navigate('Setting')}>
       <Ionicons
         name="settings-outline"
         size={32}
@@ -47,7 +53,9 @@ const Header: React.FC<NativeStackHeaderProps> = ({
 }) => {
   const routeName = route.name;
   return (
-    <View style={styles.headerContainer}>
+    <View
+      testID="header-container"
+      style={styles.headerContainer}>
       {back && routeName !== 'Home' ? (
         <BackButton navigation={navigation} />
       ) : (
