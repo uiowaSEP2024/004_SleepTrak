@@ -6,6 +6,7 @@ import {
 } from '@twilio/conversations';
 import UserSearch from '../components/UserSearch';
 import { User } from '@prisma/client';
+import { getPaginatorItems } from '../util/twilioUtils';
 
 interface ConversationAdderProps {
   conversationsClient: ConversationsClient;
@@ -43,11 +44,7 @@ const ConversationAdder: React.FC<ConversationAdderProps> = ({
 
   async function hasConversationWith(user: User) {
     const paginator = await conversationsClient.getSubscribedConversations();
-    const conversations: Conversation[] = [];
-    conversations.push(...paginator.items);
-    while (paginator.hasNextPage) {
-      conversations.push(...paginator.items);
-    }
+    const conversations: Conversation[] = getPaginatorItems(paginator);
     const participants = (
       await Promise.all(
         conversations.map((conversation) => conversation.getParticipants())
