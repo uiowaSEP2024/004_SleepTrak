@@ -491,11 +491,43 @@ export const fetchRecommendedPlan = async () => {
           }
         );
         return apiResponse;
-      }
+        }
     }
     return false;
   } catch (error) {
     console.error('Error:', error);
     throw error;
+  }
+};
+
+/**
+ * Fetches the events for the user.
+ * @param userId - The ID of the user.
+ * @returns The API response if successful, otherwise false.
+ */
+export const fetchEvents = async () => {
+  try {
+    const userCredentials = await getUserCredentials();
+    const user = await getAuth0User();
+    if (userCredentials) {
+      const accessToken = userCredentials.accessToken;
+      const { sub } = user as { sub: string };
+      const userId = sub;
+      if (accessToken) {
+        const apiResponse = await fetch(
+          `${process.env.EXPO_PUBLIC_API_URL}/events/user/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            }
+          }
+        );
+        const events = await apiResponse.json();
+        return events;
+      }
+    }
+    return false;
+  } catch (error) {
+    console.error('Error:', error);
   }
 };
