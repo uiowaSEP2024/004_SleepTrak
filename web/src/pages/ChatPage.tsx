@@ -203,8 +203,8 @@ export default function ChatPage() {
 
   useEffect(() => {
     const fetchContent = async () => {
-      const content = await selectedConversation?.getMessages();
-      setConversationContent(content);
+      const messagePaginator = await selectedConversation?.getMessages();
+      setConversationContent(messagePaginator);
     };
     fetchContent();
   }, [selectedConversation]);
@@ -238,6 +238,8 @@ export default function ChatPage() {
 
     console.log(selectedConversation);
     await selectedConversation?.sendMessage(messageContent);
+    const messagePaginator = await selectedConversation?.getMessages();
+    setConversationContent(messagePaginator);
   };
 
   if (conversationsClient) {
