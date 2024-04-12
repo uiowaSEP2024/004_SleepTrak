@@ -12,6 +12,7 @@ import ConversationAdder from '../components/ConversationAdder';
 import API_URL from '../util/apiURL';
 import { useAuth0 } from '@auth0/auth0-react';
 import { User } from '@prisma/client';
+import { getPaginatorItems, hasParticipant } from '../util/twilioUtils';
 
 interface ConversationsState {
   identity: string;
@@ -210,13 +211,14 @@ export default function ChatPage() {
   }, [selectedConversation]);
 
   // relies on the property that we only have one conversation between any two users
-  const handleSelectConversation = (uid: string) => {
-    setSelectedConversation(
-      state.conversations.filter(async (conversation) => {
-        (await conversation.getParticipants()).some((participant) => {
-          participant.identity === uid;
-        });
-      })[0]
+  const handleSelectConversation = async (uid: string) => {
+    await Promise.all(
+      state.conversations.map(async (conversation) => {
+        // filters for conversations with uid as participant
+        return (await hasParticipant(conversation, uid)) ? conversation : null;
+      })
+    ).then((conversations) =>
+      setSelectedConversation(conversations.filter(Boolean)[0])
     );
   };
 
