@@ -29,6 +29,10 @@ function TestScreen({ navigation }: { navigation: any }) {
         onPress={() => navigation.navigate('Home')}
         title="Home screen"
       />
+      <NavigationButton
+        onPress={() => navigation.navigate('StatisticsScreen')}
+        title="Statistics Screen"
+      />
     </SafeAreaView>
   );
 }

@@ -12,6 +12,7 @@ import Header from '../components/misc/Header';
 import SettingScreen from '../screens/SettingScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SleepPlanScreen from '../screens/SleepPlan';
+import StatisticsScreen from '../screens/StatisticsScreen';
 
 export interface RootStackParamList {
   Home: undefined;
