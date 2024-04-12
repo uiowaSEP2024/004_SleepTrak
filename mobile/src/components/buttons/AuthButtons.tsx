@@ -67,8 +67,8 @@ export const LogoutButton = (style?: any) => {
       }}>
       <Text
         style={{
-          color: style.style.color,
-          fontSize: style.style.fontSize ?? 10,
+          color: style.style ? style.style.color : 'black',
+          fontSize: style.style ? style.style.fontSize : 10,
           letterSpacing: 2,
           alignSelf: 'center'
         }}>
