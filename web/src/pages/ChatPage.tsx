@@ -49,6 +49,7 @@ export default function ChatPage() {
 
   const [currUser, setCurrUser] = useState<User | null>(null);
   useEffect(() => {
+    if (!authToken) return;
     const getCurrUser = async () => {
       const response = await fetch(
         `http://${API_URL}/users/${state.identity}`,
@@ -65,9 +66,7 @@ export default function ChatPage() {
   }, [state.identity, authToken]);
 
   useEffect(() => {
-    if (authToken === '') {
-      return;
-    }
+    if (!authToken) return;
     const getToken = async () => {
       const response = await fetch(
         encodeURI(`http://${API_URL}/twilio/token?identity=${state.identity}`),
@@ -92,14 +91,27 @@ export default function ChatPage() {
   };
 
   useEffect(() => {
-    if (!state.token) {
-      return;
-    }
-    const initClient = () => {
+    if (!state.token) return;
+    const createClient = () => {
       setConversationsClient(new ConversationsClient(state.token));
-      if (!conversationsClient) {
-        return;
-      }
+    };
+    createClient();
+  }, [state.token]);
+
+  useEffect(() => {
+    const initClient = async () => {
+      if (!conversationsClient) return;
+      const subscribedConversationsPaginator =
+        await conversationsClient.getSubscribedConversations();
+      const subscribedConversations = getPaginatorItems(
+        subscribedConversationsPaginator
+      );
+      console.log(subscribedConversations);
+      setState((prevState) => ({
+        ...prevState,
+        conversations: subscribedConversations
+      }));
+
       conversationsClient.on('connectionStateChanged', (clientState) => {
         if (clientState === 'connecting')
           setState((prevState) => ({
@@ -153,7 +165,7 @@ export default function ChatPage() {
     };
 
     initClient();
-  }, [state.token, state.conversations]);
+  }, [conversationsClient]);
 
   const [contacts, setContacts] = useState<User[]>([]);
   useEffect(() => {
