@@ -6,7 +6,7 @@ import {
 } from '@twilio/conversations';
 import UserSearch from '../components/UserSearch';
 import { User } from '@prisma/client';
-import { getPaginatorItems } from '../util/twilioUtils';
+import { getPaginatorItems, makeConversation } from '../util/twilioUtils';
 
 interface ConversationAdderProps {
   conversationsClient: ConversationsClient;
@@ -31,15 +31,7 @@ const ConversationAdder: React.FC<ConversationAdderProps> = ({
       console.log('Already have conversation with user');
       return;
     }
-    const newConversation: Conversation =
-      await conversationsClient.createConversation();
-    await newConversation.join();
-    try {
-      await newConversation.add(selectedUser.userId);
-    } catch {
-      console.log(`Failed to add ${selectedUser.userId}`);
-      newConversation.delete();
-    }
+    makeConversation(conversationsClient, selectedUser.userId);
   };
 
   async function hasConversationWith(user: User) {
