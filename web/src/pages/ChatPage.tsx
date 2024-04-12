@@ -169,9 +169,7 @@ export default function ChatPage() {
 
   const [contacts, setContacts] = useState<User[]>([]);
   useEffect(() => {
-    if (!currUser) {
-      return;
-    }
+    if (!currUser || !authToken) return;
     const fetchContactsData = async () => {
       const response = await fetch(`http://${API_URL}/users/all`, {
         headers: {
@@ -190,7 +188,6 @@ export default function ChatPage() {
         );
       } else if (currUser.role == 'owner') {
         setContacts(data.filter((user: User) => user.userId != state.identity));
-        // setContacts(data);
       }
     };
 
