@@ -15,6 +15,12 @@ jest.mock('../../src/utils/db', () => {
   };
 });
 
+jest.mock('../../src/utils/notifications', () => {
+  return {
+    generateNotifications: jest.fn(async () => await Promise.resolve([]))
+  };
+});
+
 const Stack = createStackNavigator();
 
 describe('HomeScreen', () => {
@@ -52,7 +58,7 @@ describe('HomeScreen', () => {
     await act(async () => {
       expect(fetchUserData).toHaveBeenCalledTimes(1);
       expect(getByText('View all')).toBeTruthy();
-      expect(getByText('Notifications')).toBeTruthy();
+      expect(getByText('Next Up')).toBeTruthy();
       expect(getByText('Add Event')).toBeTruthy();
       expect(getByText('Sleep')).toBeTruthy();
       expect(getByText('Feeding')).toBeTruthy();
