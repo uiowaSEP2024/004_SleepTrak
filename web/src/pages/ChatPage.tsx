@@ -195,6 +195,7 @@ export default function ChatPage() {
     fetchContactsData();
   }, [state.identity, currUser, authToken]);
 
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [selectedConversation, setSelectedConversation] =
     useState<Conversation | null>(null);
 
@@ -220,6 +221,13 @@ export default function ChatPage() {
     ).then((conversations) =>
       setSelectedConversation(conversations.filter(Boolean)[0])
     );
+    const response = await fetch(`http://${API_URL}/users/${uid}`, {
+      headers: {
+        Authorization: `Bearer ${authToken}`
+      }
+    });
+    const data = await response.json();
+    setSelectedUser(data);
   };
 
   const [messageContent, setMessageContent] = useState<string>('');
@@ -238,7 +246,6 @@ export default function ChatPage() {
     }
     setMessageContent('');
 
-    console.log(selectedConversation);
     await selectedConversation?.sendMessage(messageContent);
     const messagePaginator = await selectedConversation?.getMessages();
     setConversationContent(messagePaginator);
