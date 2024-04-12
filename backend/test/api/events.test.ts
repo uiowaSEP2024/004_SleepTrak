@@ -280,6 +280,25 @@ testRoute({
   route: 'delete'
 });
 
+// /events/user/:userId
+testRoute({
+  description: 'return events matching :od',
+  reqData: {},
+  mockData: mockEvents.filter((event) => event.ownerId === '1'),
+  expectData: {
+    status: 200,
+    body: mockEvents.filter((event) => event.ownerId === '1'),
+    calledWith: {
+      where: {
+        ownerId: ':id'
+      }
+    }
+  },
+  model: 'event',
+  route: 'user',
+  id: '1'
+});
+
 // Error Path Tests
 // ============================================================================
 
@@ -424,4 +443,27 @@ testRoute({
   model: 'event',
   id: '1',
   route: 'delete'
+});
+
+// /events/user/:userId
+testRoute({
+  description: 'returns HTTP 500 if Prisma throws error',
+  reqData: {},
+  mockData: prismaError,
+  expectData: {
+    status: 500,
+    body: {
+      name: prismaError.name,
+      code: prismaError.code,
+      clientVersion: prismaError.clientVersion
+    },
+    calledWith: {
+      where: {
+        ownerId: ':id'
+      }
+    }
+  },
+  model: 'event',
+  route: 'user',
+  id: '1'
 });

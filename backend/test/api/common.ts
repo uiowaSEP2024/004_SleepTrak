@@ -43,7 +43,12 @@ function generateController(model: string): string {
 }
 
 function generateHTTPMethod(route: string): string {
-  if (route === 'get' || route === 'all' || route === 'search') {
+  if (
+    route === 'get' ||
+    route === 'all' ||
+    route === 'search' ||
+    route === 'user'
+  ) {
     return 'get';
   } else if (route === 'create') {
     return 'post';
@@ -57,7 +62,11 @@ function generateHTTPMethod(route: string): string {
 
 function generateURL(controller: string, id?: string, route?: string): string {
   if (controller && id && route) {
-    return `/${controller}/:id/${route}`;
+    if (route === 'user') {
+      return `/${controller}/${route}/:id`;
+    } else {
+      return `/${controller}/:id/${route}`;
+    }
   }
   if (controller && id) {
     return `/${controller}/:id`;
