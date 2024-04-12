@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import type { User, Baby } from '@prisma/client';
+import type { User, Baby, Event, SleepWindow } from '@prisma/client';
+// import { v4 as uuidv4 } from 'uuid';
 
 const prisma = new PrismaClient();
 const TOTAL_CLIENTS: number = 30;
@@ -244,6 +245,125 @@ const recommendedPlansData = [
   }
 ];
 
+// Events
+const MY_OWNER_ID = 'auth0|65f9e9bb0ad102735d5131b3'; // Haruko's test account
+
+// Generates sleep windows
+async function createWindows(
+  eventId,
+  startTime,
+  stopTime,
+  windowNum
+): Promise<SleepWindow[]> {
+  const windows: SleepWindow[] = [];
+  let currentStartTime = new Date(startTime);
+  let currentEndTime = new Date(startTime);
+  let isSleep = true;
+
+  for (let i = 0; i < windowNum; i++) {
+    const remainingTime =
+      (new Date(stopTime).getTime() - currentEndTime.getTime()) / 60000;
+    const maxInterval = Math.min(remainingTime / (windowNum - i), 240);
+    const interval = getRandomNumber(30, maxInterval);
+    currentEndTime.setMinutes(currentEndTime.getMinutes() + interval);
+    if (i === windowNum - 1) {
+      currentEndTime = new Date(stopTime);
+    }
+    const window = await prisma.sleepWindow.create({
+      data: {
+        windowId: 'testID_' + getRandomNumber(0, 10000).toString(),
+        eventId: eventId,
+        startTime: currentStartTime,
+        stopTime: currentEndTime,
+        isSleep: ((isSleep = !isSleep), !isSleep),
+        note: 'note'
+      }
+    });
+    windows.push(window);
+    currentStartTime = new Date(currentEndTime);
+  }
+  return windows;
+}
+
+async function createNightSleepEvent(
+  eventId,
+  startTime,
+  endTime,
+  cribStartTime = startTime,
+  cribStopTime = endTime
+): Promise<Event> {
+  const event = await prisma.event.create({
+    data: {
+      eventId: eventId,
+      ownerId: MY_OWNER_ID,
+      startTime: startTime,
+      endTime: endTime,
+      type: 'night_sleep',
+      cribStartTime: cribStartTime,
+      cribStopTime: cribStopTime
+    }
+  });
+  return event;
+}
+
+async function createNapEvent(
+  eventId,
+  startTime,
+  endTime,
+  cribStartTime = startTime,
+  cribStopTime = endTime
+): Promise<Event> {
+  const event = await prisma.event.create({
+    data: {
+      eventId: eventId,
+      ownerId: MY_OWNER_ID,
+      startTime: startTime,
+      endTime: endTime,
+      type: 'nap',
+      cribStartTime: cribStartTime,
+      cribStopTime: cribStopTime
+    }
+  });
+  return event;
+}
+
+async function createFeedEvent(startTime): Promise<Event> {
+  return await prisma.event.create({
+    data: {
+      eventId: 'testID_' + getRandomNumber(0, 10000).toString(),
+      ownerId: MY_OWNER_ID,
+      startTime: startTime,
+      type: 'feed',
+      amount: getRandomFloat(1, 10),
+      foodType: getRandomElement([
+        'breast milk',
+        'formula',
+        'tubeFeeding',
+        'cowMilk',
+        'soyMilk',
+        'other'
+      ]),
+      note: 'note',
+      unit: getRandomElement(['oz', 'ml'])
+    }
+  });
+}
+
+async function createMedicineEvent(startTime): Promise<Event> {
+  return await prisma.event.create({
+    data: {
+      eventId: 'testID_' + getRandomNumber(0, 10000).toString(),
+      ownerId: MY_OWNER_ID,
+      startTime: startTime,
+      type: 'medicine',
+      amount: getRandomFloat(1, 5),
+      medicineType: getRandomElement(['Advil', 'NyQuil', 'DayQuil']),
+      unit: getRandomElement(['oz', 'ml']),
+      note: 'note'
+    }
+  });
+}
+
 function getRandomElement<T>(list: T[]): T {
   if (list.length === 0) {
     throw new Error('Error: The array is empty.');
@@ -256,6 +376,20 @@ function getRandomElement<T>(list: T[]): T {
 function getRandomNumber(minValue: number, maxValue: number): number {
   const difference = Math.abs(maxValue - minValue);
   return Math.floor(minValue + Math.random() * difference);
+}
+
+function getRandomOddNumber(minValue: number, maxValue: number): number {
+  let num;
+  do {
+    const difference = Math.abs(maxValue - minValue);
+    num = Math.floor(minValue + Math.random() * difference);
+  } while (num % 2 === 0);
+  return num;
+}
+
+function getRandomFloat(minValue: number, maxValue: number): number {
+  const difference = Math.abs(maxValue - minValue);
+  return minValue + Math.random() * difference;
 }
 
 async function createOwnerData(): Promise<User> {
@@ -346,10 +480,21 @@ async function main(): Promise<void> {
 
   // Create users
   const clientObjects: User[] = await Promise.all(
-    Array.from(
-      { length: TOTAL_CLIENTS },
-      async () => await createClientData(coachObjects)
-    )
+    Array.from({ length: TOTAL_CLIENTS }, async (_, i) => {
+      if (i === 0) {
+        return await prisma.user.create({
+          data: {
+            userId: MY_OWNER_ID,
+            email: 'harooks@gmail.com',
+            first_name: 'Haruko',
+            last_name: 'Test',
+            role: 'client'
+          }
+        });
+      } else {
+        return await createClientData(coachObjects);
+      }
+    })
   );
   console.log('Seeding: Finished seeding clients!');
 
@@ -363,6 +508,113 @@ async function main(): Promise<void> {
     )
   );
   console.log('Seeding: Finished seeding babies!');
+
+  // Create events
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - 7);
+  const events: Event[] = [];
+  for (let i = 0; i < 7; i++) {
+    // create feed events
+    const numFeedEvents = getRandomNumber(2, 6);
+    for (let j = 0; j < numFeedEvents; j++) {
+      const startTime = new Date(startDate);
+      startTime.setHours(getRandomNumber(9, 17));
+      startTime.setMinutes(getRandomNumber(0, 59));
+      events.push(await createFeedEvent(startTime));
+    }
+
+    // create medicine events
+    const numMedicineEvents = getRandomNumber(1, 3);
+    for (let j = 0; j < numMedicineEvents; j++) {
+      const startTime = new Date(startDate);
+      startTime.setHours(getRandomNumber(9, 17));
+      startTime.setMinutes(getRandomNumber(0, 59));
+      events.push(await createMedicineEvent(startTime));
+    }
+
+    // create nap events
+    try {
+      const numNapEvents = getRandomNumber(2, 5);
+      let prevEndTime = new Date(startDate);
+      for (let j = 0; j < numNapEvents; j++) {
+        const eventId =
+          'testID_' + getRandomNumber(0, 10000).toString() + '_' + j;
+        const startTime = new Date(prevEndTime);
+        startTime.setHours(getRandomNumber(9, 17));
+        startTime.setMinutes(getRandomNumber(0, 59));
+        const endTime = new Date(startTime);
+        endTime.setHours(getRandomNumber(startTime.getHours(), 18));
+        endTime.setMinutes(getRandomNumber(startTime.getMinutes(), 59));
+        const cribStartTime = new Date(startTime);
+        cribStartTime.setMinutes(
+          cribStartTime.getMinutes() - getRandomNumber(5, 40)
+        );
+        const cribStopTime = new Date(endTime);
+        cribStopTime.setMinutes(
+          cribStopTime.getMinutes() + getRandomNumber(5, 30)
+        );
+        events.push(
+          await createNapEvent(
+            eventId,
+            startTime,
+            endTime,
+            cribStartTime,
+            cribStopTime
+          )
+        );
+        await createWindows(
+          eventId,
+          startTime,
+          endTime,
+          getRandomOddNumber(1, 6)
+        );
+        prevEndTime = new Date(endTime);
+      }
+    } catch (error) {
+      console.error('error seeding nap', error);
+    }
+
+    // create night sleep event
+    // start between 6-9pm to 5-9am next day
+    try {
+      const eventId =
+        'testID_' + getRandomNumber(0, 10000).toString() + '_' + i;
+      const startTime = new Date(startDate);
+      startTime.setHours(getRandomNumber(18, 20));
+      startTime.setMinutes(getRandomNumber(0, 59));
+      const endTime = new Date(startDate);
+      endTime.setDate(endTime.getDate() + 1);
+      endTime.setHours(getRandomNumber(5, 9));
+      endTime.setMinutes(getRandomNumber(0, 59));
+      const cribStartTime = new Date(startTime);
+      cribStartTime.setMinutes(
+        cribStartTime.getMinutes() - getRandomNumber(5, 40)
+      );
+      const cribStopTime = new Date(endTime);
+      cribStopTime.setMinutes(
+        cribStopTime.getMinutes() + getRandomNumber(5, 40)
+      );
+      events.push(
+        await createNightSleepEvent(
+          eventId,
+          startTime,
+          endTime,
+          startTime,
+          endTime
+        )
+      );
+      await createWindows(
+        eventId,
+        startTime,
+        endTime,
+        getRandomOddNumber(1, 8)
+      );
+    } catch (error) {
+      console.error('error seeding night sleep', error);
+    }
+    startDate.setDate(startDate.getDate() + 1); // next day
+  }
+  console.log('Seeding: Finished seeding events!');
 }
 
 main()
