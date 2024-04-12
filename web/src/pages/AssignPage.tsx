@@ -6,6 +6,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import CoachCard from '../components/CoachCard';
 import API_URL from '../util/apiURL';
 import { UserWithBabies } from '../types/schemaExtensions';
+import { getName } from '../util/utils';
 
 export default function AssignPage() {
   const [clientData, setClientData] = useState<UserWithBabies | null>(null);
@@ -79,9 +80,7 @@ export default function AssignPage() {
   if (clientData && clientData.first_name && clientData.babies) {
     return (
       <Box>
-        <h2>
-          Reassign {clientData.first_name + ' ' + clientData.last_name} To:
-        </h2>
+        <h2>Reassign {getName(clientData)} To:</h2>
         <Grid
           container
           spacing={3}
@@ -101,7 +100,7 @@ export default function AssignPage() {
                       }
                     }}
                     avatarSrc="testAvatar"
-                    title={object.first_name + ' ' + object.last_name}
+                    title={getName(object)}
                     coachId={object.userId}
                     numClients={
                       usersData.filter(
@@ -120,7 +119,7 @@ export default function AssignPage() {
           variant="soft"
           color="danger"
           sx={{ m: 2 }}>
-          Unassign {clientData.first_name + ' ' + clientData.last_name}
+          Unassign {getName(clientData)}
         </Button>
       </Box>
     );

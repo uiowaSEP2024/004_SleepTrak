@@ -9,6 +9,7 @@ import { Button, styled } from '@mui/joy';
 import { Link as RouterLink } from 'react-router-dom';
 import API_URL from '../util/apiURL';
 import { UserWithBabies } from '../types/schemaExtensions';
+import { getName } from '../util/utils';
 
 // prevent the Link styling from overriding the Button highlight color
 const Link = styled(RouterLink)`
@@ -89,7 +90,7 @@ function AdminPage() {
                 <Box>
                   <CoachCard
                     avatarSrc="testAvatar"
-                    title={object.first_name + ' ' + object.last_name}
+                    title={getName(object)}
                     coachId={object.userId}
                     numClients={
                       usersData.filter(
@@ -129,7 +130,7 @@ function AdminPage() {
                 <Box>
                   <ClientCard
                     avatarSrc="testAvatar"
-                    clientName={object.first_name + ' ' + object.last_name}
+                    clientName={getName(object)}
                     babyNames={object.babies.map((baby) => baby.name).join(' ')}
                     clientId={object.userId || ''}
                     babyId={

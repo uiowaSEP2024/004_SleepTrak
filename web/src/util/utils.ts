@@ -1,4 +1,5 @@
 import { User } from '@auth0/auth0-react';
+import { User as UserModel } from '@prisma/client';
 import dayjs from 'dayjs';
 
 export function openSidebar() {
@@ -157,4 +158,9 @@ export const createSleepPlan = (
   };
 
   return planData;
+};
+
+export const getName = (user: UserModel | null): string => {
+  if (!user) return '';
+  return user.first_name + ' ' + user.last_name;
 };

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { API_URL } from '../util/environment';
 import { User } from '@prisma/client';
+import { getName } from '../util/utils';
 
 interface UserSearchProps {
   onChange: (user: User | null) => void;
@@ -37,9 +38,7 @@ const UserSearch: React.FC<UserSearchProps> = ({ onChange }) => {
     <Autocomplete
       onChange={handleChange}
       placeholder="Search Users"
-      getOptionLabel={(user) =>
-        user.first_name + ' ' + user.last_name + ' ' + user.email
-      }
+      getOptionLabel={(user) => getName(user) + ' ' + user.email}
       options={usersData}
     />
   );

@@ -5,6 +5,7 @@ import Item from '@mui/joy/Grid';
 import { useEffect, useState } from 'react';
 import API_URL from '../util/apiURL';
 import { UserWithBabies } from '../types/schemaExtensions';
+import { getName } from '../util/utils';
 
 function ClientsPage() {
   const [usersData, setUsersData] = useState<UserWithBabies[]>([]);
@@ -44,7 +45,7 @@ function ClientsPage() {
               <Item>
                 <ClientCard
                   avatarSrc="testAvatar"
-                  clientName={object.first_name + ' ' + object.last_name}
+                  clientName={getName(object)}
                   babyNames={object.babies.map((baby) => baby.name).join(' ')}
                   clientId={object.userId}
                   babyId={

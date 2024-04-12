@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import API_URL from '../util/apiURL';
 import { User } from '@prisma/client';
 import { UserWithBabies } from '../types/schemaExtensions';
+import { getName } from '../util/utils';
 
 function CoachPage() {
   const [usersData, setUsersData] = useState<UserWithBabies[]>([]);
@@ -66,7 +67,7 @@ function CoachPage() {
               <Item>
                 <ClientCard
                   avatarSrc="testAvatar"
-                  clientName={object.first_name + ' ' + object.last_name}
+                  clientName={getName(object)}
                   babyNames={object.babies.map((baby) => baby.name).join(' ')}
                   clientId={object.userId || ''}
                   babyId={
