@@ -41,7 +41,7 @@ describe('WelcomeScreen', () => {
 
     await act(async () => {});
 
-    expect(navigate).toHaveBeenCalledWith('Home');
+    expect(navigate).toHaveBeenCalledWith('BottomTabs');
   });
 
   it('navigates to Onboarding if user has not onboarded', async () => {

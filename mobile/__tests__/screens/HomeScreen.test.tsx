@@ -6,6 +6,9 @@ import HomeScreen from '../../src/screens/HomeScreen';
 import { fetchUserData } from '../../src/utils/db';
 import { Text } from 'react-native';
 
+jest.mock('expo-font');
+jest.mock('expo-asset');
+
 jest.mock('../../src/utils/db', () => {
   return {
     fetchUserData: jest.fn()

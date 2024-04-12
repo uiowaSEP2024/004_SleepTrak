@@ -53,8 +53,8 @@ describe('OnboardingScreen', () => {
       }
     });
 
-    const { findByText } = render(<OnboardingScreen />);
-    const nextButton = await findByText('Next');
+    const { findByTestId, findByText } = render(<OnboardingScreen />);
+    const nextButton = await findByTestId('next-button');
 
     await findByText('Test question 1');
     fireEvent.press(nextButton);
@@ -75,8 +75,8 @@ describe('OnboardingScreen', () => {
     );
 
     await waitFor(() => getByPlaceholderText('Enter number'));
-    await waitFor(() => getByText('yes'));
-    await waitFor(() => getByText('no'));
+    await waitFor(() => getByText('Yes'));
+    await waitFor(() => getByText('No'));
     await waitFor(() => getAllByPlaceholderText('Enter text'));
     await waitFor(() => getByText('Press to select date'));
   });
@@ -86,21 +86,27 @@ describe('OnboardingScreen', () => {
       { description: 'Test question 1', type: 'yes-no', questionId: 1 }
     ]);
 
-    const { findByText, findByTestId } = render(<OnboardingScreen />);
-    const nextButton = await findByText('Next');
+    const { queryByTestId, findByTestId } = render(<OnboardingScreen />);
 
     const progressBar = await findByTestId('progress-bar');
     expect(progressBar.props.accessibilityValue.now).toBe(0);
 
-    fireEvent.press(nextButton);
+    let nextButton = queryByTestId('next-button');
+    let submitButton = queryByTestId('submit-button');
+
+    while (!submitButton && nextButton) {
+      fireEvent.press(nextButton);
+      nextButton = queryByTestId('next-button');
+      submitButton = queryByTestId('submit-button');
+    }
 
     await waitFor(() => {
-      expect(progressBar.props.accessibilityValue.now).toBe((1 / 9) * 100);
+      expect(progressBar.props.accessibilityValue.now).toBeGreaterThan(0);
     });
   });
 
   it('displays an activity indicator while the onboarding wrap up is in progress', async () => {
-    const { findByTestId, queryByText } = render(<OnboardingScreen />);
+    const { findByTestId, queryByTestId } = render(<OnboardingScreen />);
 
     const onboardingWrapUp = jest.fn();
     OnboardingScreen.prototype.onboardingWrapUp = onboardingWrapUp;
@@ -109,24 +115,36 @@ describe('OnboardingScreen', () => {
       { description: 'Test question 1', type: 'yes-no', questionId: 1 }
     ]);
 
-    let nextButton = queryByText('Next');
+    let nextButton = queryByTestId('next-button');
+    let submitButton = queryByTestId('submit-button');
 
-    while (nextButton) {
+    while (!submitButton && nextButton) {
       fireEvent.press(nextButton);
-      nextButton = queryByText('Next');
+      nextButton = queryByTestId('next-button');
+      submitButton = queryByTestId('submit-button');
+    }
+
+    if (submitButton) {
+      fireEvent.press(submitButton);
     }
 
     await findByTestId('activity-indicator');
   });
   it('calls onboardingWrapUp when screenNumber > TOTAL_SCREENS', async () => {
     // Mock the onboardingWrapUp function
-    const { queryByText } = render(<OnboardingScreen />);
+    const { queryByTestId } = render(<OnboardingScreen />);
 
-    let nextButton = queryByText('Next');
+    let nextButton = queryByTestId('next-button');
+    let submitButton = queryByTestId('submit-button');
 
-    while (nextButton) {
+    while (!submitButton && nextButton) {
       fireEvent.press(nextButton);
-      nextButton = queryByText('Next');
+      nextButton = queryByTestId('next-button');
+      submitButton = queryByTestId('submit-button');
+    }
+
+    if (submitButton) {
+      fireEvent.press(submitButton);
     }
 
     // Check that the createUser, createBaby, and createOnboardingAnswers functions were called

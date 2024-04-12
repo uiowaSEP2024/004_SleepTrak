@@ -247,6 +247,7 @@ const PageButtons: React.FC<{ screenNumber: number; setScreenNumber: any }> = ({
           paddingHorizontal: '30%'
         }}>
         <TouchableOpacity
+          testID="back-button"
           disabled={screenNumber === 1}
           onPress={() => {
             setScreenNumber(screenNumber - 1);
@@ -262,6 +263,7 @@ const PageButtons: React.FC<{ screenNumber: number; setScreenNumber: any }> = ({
           {screenNumber} of {TOTAL_SCREENS}{' '}
         </Text>
         <TouchableOpacity
+          testID="next-button"
           disabled={screenNumber === TOTAL_SCREENS}
           onPress={() => {
             setScreenNumber(screenNumber + 1);
@@ -339,6 +341,7 @@ const OnboardingScreen: React.FC = () => {
       {onboardingScreen}
       {screenNumber === TOTAL_SCREENS && (
         <Button
+          testID="submit-button"
           onPress={() => {
             setScreenNumber(screenNumber + 1);
           }}

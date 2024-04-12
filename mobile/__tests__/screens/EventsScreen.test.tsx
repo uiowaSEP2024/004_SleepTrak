@@ -143,9 +143,9 @@ describe('Events Screen', () => {
 
     // Check that the events are displayed correctly
     await waitFor(() => {
-      expect(getByTestId('event-0').props.children[0].props.title).toBe('feed');
+      expect(getByTestId('event-0').props.children[0].props.title).toBe('Feed');
       expect(getByTestId('event-1').props.children[0].props.title).toBe(
-        'sleep'
+        'Sleep'
       );
     });
   });
