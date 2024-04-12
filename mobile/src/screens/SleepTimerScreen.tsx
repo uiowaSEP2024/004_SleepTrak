@@ -25,7 +25,6 @@ import SleepTypeSelector from '../components/selectors/SleepTypeSelector';
 import { saveEvent, saveSleepWindow } from '../utils/localDb';
 import { addToSyncQueue, syncData } from '../utils/syncQueue';
 import { localize } from '../utils/bridge';
-import { createSleepEvent } from '../utils/db';
 import { Button } from 'react-native-paper';
 import { colors } from '../../assets/colors';
 
@@ -146,8 +145,8 @@ const SleepTimer: React.FC = () => {
       startTime: windows[0].startTime,
       endTime: windows[windows.length - 1].stopTime,
       type: isNap ? 'nap' : 'night_sleep',
-      cribStartTime: cribStartTime,
-      cribStopTime: cribStopTime
+      cribStartTime,
+      cribStopTime
     };
     setSleepData(newSleepData);
     try {
@@ -160,7 +159,7 @@ const SleepTimer: React.FC = () => {
         status: 'pending'
       });
 
-      const windowPromises = windows.map((window) => {
+      const windowPromises = windows.map(async (window) => {
         const windowData = {
           ...window,
           windowId: window.id,
@@ -178,7 +177,7 @@ const SleepTimer: React.FC = () => {
         } catch (error) {
           console.error('Error in addToSyncQueue (window):', error);
         }
-        return saveSleepWindow(windowData);
+        await saveSleepWindow(windowData);
       });
 
       try {
@@ -242,8 +241,7 @@ const SleepTimer: React.FC = () => {
         <Button
           mode="contained"
           onPress={() => {
-            saveSleepSession();
-            navigation.goBack();
+            void saveSleepSession();
           }}
           style={styles.saveButtonContainer}
           labelStyle={styles.saveButtonLabel}>
