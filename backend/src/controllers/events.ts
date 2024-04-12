@@ -72,6 +72,15 @@ const destroy = async (req: Request, res: Response): Promise<void> => {
     res.status(500).send(ensureError(err));
   }
 };
+const getByUserId = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { userId } = req.params;
+    const events = await service.getByUserId(userId);
+    res.json(events);
+  } catch (err) {
+    res.status(500).send(ensureError(err));
+  }
+};
 
 export const controller = {
   getAll,
@@ -79,5 +88,6 @@ export const controller = {
   search,
   create,
   update,
-  destroy
+  destroy,
+  getByUserId
 };

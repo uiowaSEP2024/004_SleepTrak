@@ -74,6 +74,19 @@ const destroy = async (eventId: string): Promise<Event | Error> => {
     throw ensureError(err);
   }
 };
+const getByUserId = async (userId: string): Promise<Event[] | Error> => {
+  try {
+    const result = await prisma.event.findMany({
+      where: {
+        ownerId: userId
+      }
+    });
+
+    return result;
+  } catch (err) {
+    throw ensureError(err);
+  }
+};
 
 export const service = {
   getAll,
@@ -81,5 +94,6 @@ export const service = {
   search,
   create,
   update,
-  destroy
+  destroy,
+  getByUserId
 };

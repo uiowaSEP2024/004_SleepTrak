@@ -15,5 +15,6 @@ router.get('/:id', asyncHandler(controller.get));
 router.post('/create', asyncHandler(controller.create));
 router.put('/:id/update', asyncHandler(controller.update));
 router.delete('/:id/delete', asyncHandler(controller.destroy));
+router.get('/user/:userId', asyncHandler(controller.getByUserId));
 
 export default router;
