@@ -16,7 +16,8 @@ const prismaSpy = {
     search: jest.spyOn(prisma.event, 'findMany'),
     create: jest.spyOn(prisma.event, 'create'),
     update: jest.spyOn(prisma.event, 'update'),
-    delete: jest.spyOn(prisma.event, 'delete')
+    delete: jest.spyOn(prisma.event, 'delete'),
+    user: jest.spyOn(prisma.event, 'findMany')
   },
   plans: {
     all: jest.spyOn(prisma.plan, 'findMany'),
