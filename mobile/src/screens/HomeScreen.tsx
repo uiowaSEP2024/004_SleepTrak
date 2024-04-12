@@ -119,7 +119,7 @@ const HeroBox: React.FC<{ events: any[] }> = ({ events }) => {
   );
 };
 
-const NotificationCard: React.FC<{ title: string; content: string }> = ({
+const NotificationCard: React.FC<{ title: string; content: any }> = ({
   title,
   content
 }) => {
@@ -127,19 +127,30 @@ const NotificationCard: React.FC<{ title: string; content: string }> = ({
     <Card
       mode="contained"
       style={styles.notificationCard}>
-      <Card.Title title={title} />
-      <Card.Content>
-        <Text>{content}</Text>
+      <Card.Content
+        style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+        <Text style={{ fontSize: 16, letterSpacing: 2 }}>
+          {' '}
+          {title} scheduled for{' '}
+          {content.toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit'
+          })}
+          .
+        </Text>
       </Card.Content>
     </Card>
   );
 };
 
 const Notifications: React.FC<{ user: any }> = (user) => {
+  const navigation = useNavigation();
   const [notifications, setNotifications] = React.useState<any[]>([]);
   const noNotificationsNotice = (
-    <View style={{ height: '100%', backgroundColor: 'blue' }}>
-      <Text style={{ color: 'grey' }}>No notifications</Text>
+    <View style={{ height: 40 }}>
+      <Text style={{ color: 'grey', alignSelf: 'center' }}>
+        No plan notifications.
+      </Text>
     </View>
   );
   useEffect(() => {
@@ -147,34 +158,44 @@ const Notifications: React.FC<{ user: any }> = (user) => {
       setNotifications(await generateNotifications(user));
     };
     void fetchNotifications();
-  }, []);
+  }, [user]);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.sectionHeader}>Notifications</Text>
-      <ScrollView
-        horizontal={true}
-        contentInset={{
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 225 * numberOfNotifications
-        }}
-        contentContainerStyle={{
-          flexDirection: 'row',
-          height: '100%',
-          width: '90%'
-        }}>
-        {notifications.length > 0
-          ? notifications.map((notification, index) => (
-              <NotificationCard
-                key={index}
-                title={notification.title}
-                content={notification.content}
-              />
-            ))
-          : noNotificationsNotice}
-      </ScrollView>
+      <View style={styles.sectionHeaderContainer}>
+        <Text style={styles.sectionHeader}>Next Up</Text>
+        <Text
+          style={{
+            marginRight: 16,
+            marginBottom: 16,
+            fontSize: 14,
+            color: colors.crimsonRed
+          }}
+          onPress={() => {
+            navigation.navigate('SleepPlan');
+          }}>
+          View Plan
+        </Text>
+      </View>
+      {notifications.length > 0 ? (
+        <ScrollView
+          horizontal={true}
+          contentContainerStyle={{
+            flexDirection: 'row',
+            height: '100%',
+            width: '100%'
+          }}>
+          {notifications.map((notification, index) => (
+            <NotificationCard
+              key={index}
+              title={notification.title}
+              content={notification.time}
+            />
+          ))}
+        </ScrollView>
+      ) : (
+        noNotificationsNotice
+      )}
     </View>
   );
 };
@@ -303,6 +324,12 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 16,
     borderRadius: 48
+  },
+  sectionHeaderContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end'
   },
   sectionHeader: {
     fontSize: 20,
