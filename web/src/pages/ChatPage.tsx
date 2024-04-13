@@ -117,7 +117,6 @@ export default function ChatPage() {
       const subscribedConversations = getPaginatorItems(
         subscribedConversationsPaginator
       );
-      console.log(subscribedConversations);
       setState((prevState) => ({
         ...prevState,
         conversations: subscribedConversations
