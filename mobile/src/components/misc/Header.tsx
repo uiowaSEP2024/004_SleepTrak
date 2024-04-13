@@ -56,7 +56,7 @@ const Header: React.FC<NativeStackHeaderProps> = ({
     <View
       testID="header-container"
       style={styles.headerContainer}>
-      {back && routeName !== 'Home' ? (
+      {back && routeName !== 'Home' && routeName !== 'StatisticsScreen' ? (
         <BackButton navigation={navigation} />
       ) : (
         <ProfileButton navigation={navigation} />
