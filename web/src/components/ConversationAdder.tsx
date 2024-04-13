@@ -1,12 +1,9 @@
 import { Box, Button } from '@mui/joy';
 import { useState } from 'react';
-import {
-  Conversation,
-  Client as ConversationsClient
-} from '@twilio/conversations';
+import { Client as ConversationsClient } from '@twilio/conversations';
 import UserSearch from '../components/UserSearch';
 import { User } from '@prisma/client';
-import { getPaginatorItems, makeConversation } from '../util/twilioUtils';
+import { hasConversationWith, makeConversation } from '../util/twilioUtils';
 
 interface ConversationAdderProps {
   conversationsClient: ConversationsClient;
@@ -27,26 +24,12 @@ const ConversationAdder: React.FC<ConversationAdderProps> = ({
       console.log('No user selected');
       return;
     }
-    if (await hasConversationWith(selectedUser)) {
+    if (await hasConversationWith(conversationsClient, selectedUser)) {
       console.log('Already have conversation with user');
       return;
     }
     makeConversation(conversationsClient, selectedUser.userId);
   };
-
-  async function hasConversationWith(user: User) {
-    const paginator = await conversationsClient.getSubscribedConversations();
-    const conversations: Conversation[] = getPaginatorItems(paginator);
-    const participants = (
-      await Promise.all(
-        conversations.map((conversation) => conversation.getParticipants())
-      )
-    ).flat();
-    const hasConversation = participants.some(
-      (participant) => participant.identity == user.userId
-    );
-    return hasConversation;
-  }
 
   return (
     <>

@@ -3,6 +3,7 @@ import {
   Client as ConversationsClient,
   Paginator
 } from '@twilio/conversations';
+import { User } from '@prisma/client';
 
 export const getPaginatorItems = <T>(paginator: Paginator<T>) => {
   const items: T[] = [];
@@ -34,4 +35,21 @@ export const hasParticipant = async (
   return (await conversation.getParticipants()).some(
     (participant) => participant.identity === uid
   );
+};
+
+export const hasConversationWith = async (
+  conversationsClient: ConversationsClient,
+  user: User
+) => {
+  const paginator = await conversationsClient.getSubscribedConversations();
+  const conversations: Conversation[] = getPaginatorItems(paginator);
+  const participants = (
+    await Promise.all(
+      conversations.map((conversation) => conversation.getParticipants())
+    )
+  ).flat();
+  const hasConversation = participants.some(
+    (participant) => participant.identity == user.userId
+  );
+  return hasConversation;
 };
