@@ -164,3 +164,25 @@ export const getName = (user: UserModel | null): string => {
   if (!user) return '';
   return user.first_name + ' ' + user.last_name;
 };
+
+export const readableDate = (date: Date | null): string => {
+  if (!date) return '';
+  const currentDate = new Date();
+  let readableDate = '';
+  if (currentDate.getFullYear() !== date.getFullYear()) {
+    readableDate += date.getFullYear() + ' ';
+  }
+  if (currentDate.getMonth() !== date.getMonth()) {
+    readableDate += date.getMonth() + ' ';
+  }
+  if (currentDate.getDate() !== date.getDate()) {
+    readableDate += date.getDate() + ' ';
+  }
+  if (date.getHours() > 12) {
+    readableDate += date.getHours() - 12 + ':' + date.getMinutes() + ' pm';
+  } else {
+    readableDate += date.getHours() + ':' + date.getMinutes() + ' am';
+  }
+
+  return readableDate;
+};
