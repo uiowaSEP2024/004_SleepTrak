@@ -502,7 +502,6 @@ export const fetchRecommendedPlan = async () => {
 
 /**
  * Fetches the events for the user.
- * @param userId - The ID of the user.
  * @returns The API response if successful, otherwise false.
  */
 export const fetchEvents = async () => {
