@@ -23,6 +23,30 @@ function calculateDurationInMinutes(date1: Date, date2: Date): number {
   return diffMinutes;
 }
 
+function formatTime(minutes: number): string {
+  let hours = Math.floor(minutes / 60);
+  const remainingMinutes = Math.floor(minutes % 60);
+  let period = 'AM';
+  if (hours >= 12) {
+    period = 'PM';
+    if (hours > 12) {
+      hours -= 12;
+    }
+  } else if (hours === 0) {
+    hours = 12;
+  }
+  const minutesStr =
+    remainingMinutes < 10 ? '0' + remainingMinutes : remainingMinutes;
+  return `${hours}:${minutesStr} ${period}`;
+}
+
+function formatDuration(minutes: number): string {
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = Math.floor(minutes % 60);
+
+  return `${hours} h ${remainingMinutes} m`;
+}
+
 // const IntervalSegment: React.FC = () => {
 //   const [selectedInterval, setSelectedInterval] = React.useState('day');
 //   return (
@@ -102,26 +126,26 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ route }) => {
     nightSleepAverageStartTime =
       events.reduce((acc, event) => {
         const startTime = new Date(event.startTime);
-        return acc + startTime.getHours() * 60 + startTime.getMinutes();
+        return acc + startTime.getUTCHours() * 60 + startTime.getUTCMinutes();
       }, 0) / events.length;
     nightSleepAverageEndTime =
       events.reduce((acc, event) => {
         if (event.endTime) {
           const endTime = new Date(event.endTime);
-          return acc + endTime.getHours() * 60 + endTime.getMinutes();
+          return acc + endTime.getUTCHours() * 60 + endTime.getUTCMinutes();
         }
         return acc;
       }, 0) / events.length;
-    averageNumberOfWakings =
-      events.reduce((acc, event) => {
-        if (event.sleepWindows) {
-          const awakeWindows = event.sleepWindows.filter(
-            (window) => !window.isSleep
-          );
-          return acc + awakeWindows.length;
-        }
-        return acc;
-      }, 0) / events.length;
+    averageNumberOfWakings = events.reduce((acc, event) => {
+      if (event.sleepWindows) {
+        const awakeWindows = event.sleepWindows.filter(
+          (window) => !window.isSleep
+        );
+        console.log(awakeWindows.length);
+        return acc + awakeWindows.length;
+      }
+      return acc;
+    }, 0); // / events.length;
   } else if (events[0].type === 'nap') {
     // Nap Stats
     averageNapTime =
@@ -207,17 +231,13 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ route }) => {
 
   return (
     <View>
-      {/* <Text>Statistic Screen</Text>
-      {events.map((event, index) => (
-        <Text key={index}>{event.startTime}</Text>
-      ))} */}
       {events?.[0]?.type === 'night_sleep' ? (
         <>
           <Text style={styles.title}>Night Sleep Statistics</Text>
           <StatisticCard
             statistics={{
-              'Average Bed Time': nightSleepAverageEndTime,
-              'Average Wake up Time': nightSleepAverageStartTime,
+              'Average Bed Time': formatTime(nightSleepAverageStartTime),
+              'Average Wake up Time': formatTime(nightSleepAverageEndTime),
               'Average Wakings per Night': averageNumberOfWakings
             }}
           />
@@ -227,19 +247,19 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ route }) => {
           <Text style={styles.title}>Nap Statistics</Text>
           <StatisticCard
             statistics={{
-              'Average Nap Time': averageNapTime,
-              'Average Nap Time (Sleep)': averageNapSleep,
-              'Average Number of Nap per Day': averageNumberOfNaps
+              'Average Nap Time': formatDuration(averageNapTime),
+              'Average Nap Time (Sleep)': formatDuration(averageNapSleep),
+              'Average Number of Nap per Day': Math.round(averageNumberOfNaps)
             }}
           />
         </>
       ) : (
         <>
-          <Text>Feed Statistics</Text>
+          <Text style={styles.title}>Feed Statistics</Text>
           <StatisticCard
             statistics={{
-              'Average Number of Feed per Day': averageFeedNumber,
-              'Average Number of Feed at Night': averageNightFeed
+              'Average Number of Feed per Day': Math.round(averageFeedNumber),
+              'Average Number of Feed at Night': Math.round(averageNightFeed)
             }}
           />
         </>
@@ -274,8 +294,8 @@ const styles = StyleSheet.create({
     marginTop: 16,
     marginHorizontal: 20,
     padding: 16,
-    borderRadius: 48,
-    height: '50%'
+    borderRadius: 48
+    // height: '50%'
   },
   statisticType: {}
 });
