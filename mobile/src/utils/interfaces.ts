@@ -39,7 +39,7 @@ export interface RemoteEvent {
   medicineType?: string | null;
   cribStartTime?: Date | null;
   cribStopTime?: Date | null;
-  sleepWindows: RemoteSleepWindow[];
+  sleepWindows?: RemoteSleepWindow[];
 }
 
 export interface RemoteSleepWindow {
