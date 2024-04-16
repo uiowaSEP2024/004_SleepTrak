@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 import type { RouteProp } from '@react-navigation/native';
 import type { StatisticStackParamList } from '../navigations/StatisticStack';
-import { Card } from 'react-native-paper';
+import { Card, SegmentedButtons } from 'react-native-paper';
 import { colors } from '../../assets/colors';
 import type { RemoteEvent } from '../utils/interfaces';
+import { Dimensions } from 'react-native';
+import { BarChart } from 'react-native-chart-kit';
+import { format } from 'date-fns';
 
 type StatisticScreenRouteProp = RouteProp<
   StatisticStackParamList,
@@ -47,31 +50,154 @@ function formatDuration(minutes: number): string {
   return `${hours} h ${remainingMinutes} m`;
 }
 
-// const IntervalSegment: React.FC = () => {
-//   const [selectedInterval, setSelectedInterval] = React.useState('day');
-//   return (
-//       <SegmentedButtons
-//         value={selectedInterval}
-//         onValueChange={setSelectedInterval}
-//         buttons={[
-//           {
-//             value: 'day',
-//             label: 'D',
-//           },
-//           {
-//             value: 'week',
-//             label: 'W',
-//           },
-//           {
-//             value: 'month',
-//             label: 'M'
-//           }
-//         ]}
-//         style={styles.segmentButton}
-//       />
-//   );
-// };
+type IntervalSegmentProps = {
+  onIntervalChange: (interval: string) => void;
+};
 
+const IntervalSegment: React.FC<IntervalSegmentProps> = ({onIntervalChange}) => {
+  const [selectedInterval, setSelectedInterval] = React.useState('day');
+
+  useEffect(() => {
+    onIntervalChange(selectedInterval);
+   }, [selectedInterval, onIntervalChange]);
+
+  return (
+      <SegmentedButtons
+        value={selectedInterval}
+        onValueChange={setSelectedInterval}
+        buttons={[
+          {
+            value: 'day',
+            label: 'D',
+          },
+          {
+            value: 'week',
+            label: 'W',
+          },
+          {
+            value: 'month',
+            label: 'M'
+          }
+        ]}
+        style={styles.segmentButton}
+      />
+  );
+};
+
+type BarChartComponentProps = {
+  eventsData: number[];
+  label: string[];
+  width: number;
+  ylabel: string;
+  ysuffix: string;
+};
+
+const BarChartComponent: React.FC<BarChartComponentProps> = ({ label, eventsData, width, ylabel, ysuffix}) => {
+  const data = {
+    labels: label,
+    datasets: [
+      {
+        data: eventsData
+      }
+    ]
+  };
+  return (
+    <BarChart
+      data={data}
+      width={Dimensions.get('window').width}
+      height={220}
+      yAxisLabel={ylabel}
+      yAxisSuffix={ysuffix}
+      chartConfig={{
+        backgroundGradientFrom: colors.crimsonRed,
+        backgroundGradientTo: colors.crimsonRed,
+        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+        barPercentage: 0.4
+      }}
+      style={{ marginVertical: 8 }}
+    />
+  );
+}
+
+// const BarChartComponent: React.FC<BarChartComponentProps> = ({ eventsData, interval }) => {
+//   let labels: string[] = [];
+//   let values: number[] = [];
+//   const today = new Date();
+//   const oneWeekAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+//   const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+//   eventsData.forEach(event => {
+//     if (event.sleepWindows) {
+//       event.sleepWindows.forEach(window => {
+//         if (!window.isSleep) {
+//           const windowDate = new Date(window.startTime);
+//           let index: number;
+
+//           switch (interval) {
+//             case 'day':
+//               if (format(windowDate, 'yyyy-MM-dd') === format(today, 'yyyy-MM-dd')) {
+//                 index = labels.indexOf(format(today, 'yyyy-MM-dd'));
+//                 if (index === -1) {
+//                   labels.push(format(today, 'yyyy-MM-dd'));
+//                   values.push(1);
+//                 } else {
+//                   values[index]++;
+//                 }
+//               }
+//               break;
+//             case 'week':
+//               if (windowDate >= oneWeekAgo && windowDate <= today) {
+//                 const weekday = format(windowDate, 'eee');
+//                 index = labels.indexOf(weekday);
+//                 if (index === -1) {
+//                   labels.push(weekday);
+//                   values.push(1);
+//                 } else {
+//                   values[index]++;
+//                 }
+//               }
+//               break;
+//             case 'month':
+//               if (windowDate >= startOfMonth && windowDate <= today) {
+//                 index = labels.indexOf(format(windowDate, 'yyyy-MM-dd'));
+//                 if (index === -1) {
+//                   labels.push('');
+//                   values.push(1);
+//                 } else {
+//                   values[index]++;
+//                 }
+//               }
+//               break;
+//           }
+//         }
+//       });
+//     }
+//   });
+//   const data = {
+//     labels,
+//     datasets: [
+//       {
+//         data: values
+//       }
+//     ]
+//   };
+//   return (
+//     <BarChart
+//       data={data}
+//       width={400}
+//       height={220}
+//       yAxisLabel=""
+//       yAxisSuffix=""
+//       chartConfig={{
+//         backgroundGradientFrom: colors.crimsonRed,
+//         backgroundGradientTo: colors.crimsonRed,
+//         color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+//         barPercentage: 0.5
+//       }}
+//       style={{ marginVertical: 8 }}
+//     />
+//   );
+// }
 type StatisticCardProps = {
   statistics: Record<string, string | number>;
   style?: {
@@ -105,6 +231,7 @@ const StatisticCard: React.FC<StatisticCardProps> = ({ statistics, style }) => (
 );
 
 const StatisticScreen: React.FC<StatisticScreenProps> = ({ route }) => {
+  const [interval, setInterval] = React.useState('day');
   const { events } = route.params;
   if (!events || events.length === 0) {
     return (
@@ -113,6 +240,81 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ route }) => {
       </View>
     );
   }
+  // Calculation for Bar Chart
+  const today = new Date();
+  const oneWeekAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+  const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  let awakeWindowLabels: string[] = [];
+  let awakeWindowValues: number[] = [];
+  let barWidth = 200;
+  let ylabel = '';
+  let ysuffix = '';
+  // Initialize labels and values
+  if (interval === 'week') {
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - i);
+      awakeWindowLabels.push(format(date, 'eee'));
+      awakeWindowValues.push(0);
+    }
+  } else if (interval === 'month') {
+    const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+    const lastDayOfMonth = new Date(nextMonth.getFullYear(), nextMonth.getMonth(), 0).getDate();
+    for (let i = 0; i < lastDayOfMonth; i++) {
+      const date = new Date(today.getFullYear(), today.getMonth(), i + 1);
+      if ((i + 1) % 5 === 0 || (i + 1) === 1) {
+        awakeWindowLabels.push(format(date, 'dd'));
+      } else {
+        awakeWindowLabels.push('');
+      }
+      awakeWindowValues.push(0);
+    }
+  }
+  // Awake Windows for Night Sleeps
+  events.forEach(event => {
+    if (event.sleepWindows) {
+      event.sleepWindows.forEach(window => {
+        if (!window.isSleep) {
+          let windowDate = new Date(window.startTime)
+          if (windowDate.getHours() < 7) {
+            windowDate = new Date(windowDate.getTime() - 1000 * 60 * 60 * 24);
+          }
+          let index: number;
+          switch (interval) {
+            case 'day':
+              if (format(windowDate, 'yyyy-MM-dd') === format(today, 'yyyy-MM-dd')) {
+                index = awakeWindowLabels.indexOf(format(today, 'yyyy-MM-dd'));
+                if (index === -1) {
+                  awakeWindowLabels.push(format(today, 'yyyy-MM-dd'));
+                  awakeWindowValues.push(1);
+                } else {
+                  awakeWindowValues[index]++;
+                }
+              }
+              break;
+            case 'week':
+              if (windowDate >= oneWeekAgo && windowDate <= today) {
+                const weekday = format(windowDate, 'eee');
+                const index = awakeWindowLabels.indexOf(weekday);
+                if (index !== -1) {
+                  awakeWindowValues[index]++;
+                }
+              }
+              break;
+            case 'month':
+              if (windowDate >= startOfMonth && windowDate <= today) {
+                const dayOfMonth = format(windowDate, 'dd');
+                const index = awakeWindowLabels.indexOf(dayOfMonth);
+                if (index !== -1) {
+                  awakeWindowValues[index]++;
+                }
+              }
+              break;
+          }
+        }
+      })
+    }
+  });
+  // Calculation for Statistics Summary
   let nightSleepAverageStartTime = 0;
   let nightSleepAverageEndTime = 0;
   let averageNumberOfWakings = 0;
@@ -141,11 +343,10 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ route }) => {
         const awakeWindows = event.sleepWindows.filter(
           (window) => !window.isSleep
         );
-        console.log(awakeWindows.length);
         return acc + awakeWindows.length;
       }
       return acc;
-    }, 0); // / events.length;
+    }, 0) / events.length;
   } else if (events[0].type === 'nap') {
     // Nap Stats
     averageNapTime =
@@ -234,11 +435,13 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ route }) => {
       {events?.[0]?.type === 'night_sleep' ? (
         <>
           <Text style={styles.title}>Night Sleep Statistics</Text>
+          <IntervalSegment onIntervalChange={setInterval} />
+          <BarChartComponent eventsData={awakeWindowValues} label={awakeWindowLabels} width={barWidth} ylabel={ylabel} ysuffix={ysuffix } />
           <StatisticCard
             statistics={{
               'Average Bed Time': formatTime(nightSleepAverageStartTime),
               'Average Wake up Time': formatTime(nightSleepAverageEndTime),
-              'Average Wakings per Night': averageNumberOfWakings
+              'Average Wakings per Night': Math.round(averageNumberOfWakings)
             }}
           />
         </>
