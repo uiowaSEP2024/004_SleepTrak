@@ -79,6 +79,9 @@ const getByUserId = async (userId: string): Promise<Event[] | Error> => {
     const result = await prisma.event.findMany({
       where: {
         ownerId: userId
+      },
+      include: {
+        sleepWindows: true
       }
     });
 
