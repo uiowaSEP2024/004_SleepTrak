@@ -69,15 +69,27 @@ const IntervalSegment: React.FC<IntervalSegmentProps> = ({
       buttons={[
         {
           value: 'day',
-          label: 'D'
+          label: 'Day',
+          style: {
+            backgroundColor:
+              selectedInterval === 'day' ? colors.lightTan : 'transparent'
+          }
         },
         {
           value: 'week',
-          label: 'W'
+          label: 'Week',
+          style: {
+            backgroundColor:
+              selectedInterval === 'week' ? colors.lightTan : 'transparent'
+          }
         },
         {
           value: 'month',
-          label: 'M'
+          label: 'Month',
+          style: {
+            backgroundColor:
+              selectedInterval === 'month' ? colors.lightTan : 'transparent'
+          }
         }
       ]}
       style={styles.segmentButton}
@@ -175,16 +187,16 @@ const StatisticCard: React.FC<StatisticCardProps> = ({ statistics, style }) => (
     style={[styles.card, style?.card]}
     mode="contained">
     <Card.Title
-      title="Summary"
-      titleStyle={[{ fontSize: 20 }, style?.title]}
+      title="Average Summary"
+      titleStyle={styles.summaryCardTitle}
     />
     <Card.Content style={[{ justifyContent: 'space-between' }, style?.content]}>
       {Object.entries(statistics).map(([label, value]) => (
         <View
           key={label}
           style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text style={style?.label}>{label}</Text>
-          <Text style={style?.value}>{value}</Text>
+          <Text style={styles.summaryCardLabel}>{label}</Text>
+          <Text style={styles.summaryCardValue}>{value}</Text>
         </View>
       ))}
     </Card.Content>
@@ -197,7 +209,9 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ route }) => {
   if (!events || events.length === 0) {
     return (
       <View style={styles.container}>
-        <Text>There are no events to display</Text>
+        <Text style={styles.noEventText}>
+          There are no statistics to display yet
+        </Text>
       </View>
     );
   }
@@ -211,31 +225,38 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ route }) => {
   const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
   const awakeWindowLabels: string[] = [];
   const awakeWindowValues: number[] = [];
-  // Initialize labels and values
-  if (interval === 'week') {
-    for (let i = 6; i >= 0; i--) {
-      const date = new Date(
-        today.getFullYear(),
-        today.getMonth(),
-        today.getDate() - i
-      );
-      awakeWindowLabels.push(format(date, 'eee'));
-      awakeWindowValues.push(0);
-    }
-  } else if (interval === 'month') {
-    const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
-    const lastDayOfMonth = new Date(
-      nextMonth.getFullYear(),
-      nextMonth.getMonth(),
-      0
-    ).getDate();
-    for (let i = 0; i < lastDayOfMonth; i++) {
-      const date = new Date(today.getFullYear(), today.getMonth(), i + 1);
-      awakeWindowLabels.push(format(date, 'dd'));
-      awakeWindowValues.push(0);
+  const napPerDayLabels: string[] = [];
+  const napPerDayValues: number[] = [];
+
+  function initializeLabelsAndValues(label: string[], value: number[]) {
+    if (interval === 'week') {
+      for (let i = 6; i >= 0; i--) {
+        const date = new Date(
+          today.getFullYear(),
+          today.getMonth(),
+          today.getDate() - i
+        );
+        label.push(format(date, 'eee'));
+        value.push(0);
+      }
+    } else if (interval === 'month') {
+      const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+      const lastDayOfMonth = new Date(
+        nextMonth.getFullYear(),
+        nextMonth.getMonth(),
+        0
+      ).getDate();
+      for (let i = 0; i < lastDayOfMonth; i++) {
+        const date = new Date(today.getFullYear(), today.getMonth(), i + 1);
+        label.push(format(date, 'dd'));
+        value.push(0);
+      }
     }
   }
-  // Awake Windows for Night Sleeps
+
+  initializeLabelsAndValues(awakeWindowLabels, awakeWindowValues);
+  initializeLabelsAndValues(napPerDayLabels, napPerDayValues);
+
   events.forEach((event) => {
     if (event.sleepWindows) {
       event.sleepWindows.forEach((window) => {
@@ -282,6 +303,43 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ route }) => {
       });
     }
   });
+  // Naps per Day
+  events.forEach((event) => {
+    const eventDate = new Date(event.startTime);
+    let index: number;
+    switch (interval) {
+      case 'day':
+        if (format(eventDate, 'yyyy-MM-dd') === format(today, 'yyyy-MM-dd')) {
+          index = napPerDayLabels.indexOf(format(today, 'yyyy-MM-dd'));
+          if (index === -1) {
+            napPerDayLabels.push(format(today, 'yyyy-MM-dd'));
+            napPerDayValues.push(1);
+          } else {
+            napPerDayValues[index]++;
+          }
+        }
+        break;
+      case 'week':
+        if (eventDate >= oneWeekAgo && eventDate <= today) {
+          const weekday = format(eventDate, 'eee');
+          const index = napPerDayLabels.indexOf(weekday);
+          if (index !== -1) {
+            napPerDayValues[index]++;
+          }
+        }
+        break;
+      case 'month':
+        if (eventDate >= startOfMonth && eventDate <= today) {
+          const dayOfMonth = format(eventDate, 'dd').padStart(2, '0');
+          const index = napPerDayLabels.indexOf(dayOfMonth);
+          if (index !== -1) {
+            napPerDayValues[index]++;
+          }
+        }
+        break;
+    }
+  });
+
   // Calculation for Statistics Summary
   let nightSleepAverageStartTime = 0;
   let nightSleepAverageEndTime = 0;
@@ -333,11 +391,13 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ route }) => {
           const sleepWindows = event.sleepWindows.filter(
             (window) => window.isSleep
           );
+          let totalDuration = 0;
           for (let i = 0; i < sleepWindows.length; i++) {
             const startTime = new Date(sleepWindows[i].startTime);
             const endTime = new Date(sleepWindows[i].stopTime);
-            acc += calculateDurationInMinutes(startTime, endTime);
+            totalDuration += calculateDurationInMinutes(startTime, endTime);
           }
+          acc += totalDuration;
         }
         return acc;
       }, 0) / events.length;
@@ -402,42 +462,57 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ route }) => {
   return (
     <View>
       {events?.[0]?.type === 'night_sleep' ? (
-        <>
+        <View style={styles.container}>
           <Text style={styles.title}>Night Sleep Statistics</Text>
           <IntervalSegment onIntervalChange={setInterval} />
-          <CustomBarChart
-            values={awakeWindowValues}
-            labels={awakeWindowLabels}
-          />
+          <Text style={styles.graphTitle}>Number of Wakings per Night</Text>
+          {awakeWindowLabels.length === 0 ? (
+            <Text style={styles.noEventText}>No night sleep recorded yet</Text>
+          ) : (
+            <CustomBarChart
+              values={awakeWindowValues}
+              labels={awakeWindowLabels}
+            />
+          )}
           <StatisticCard
             statistics={{
-              'Average Bed Time': formatTime(nightSleepAverageStartTime),
-              'Average Wake up Time': formatTime(nightSleepAverageEndTime),
-              'Average Wakings per Night': Math.round(averageNumberOfWakings)
+              'Bed Time': formatTime(nightSleepAverageStartTime),
+              'Wake up Time': formatTime(nightSleepAverageEndTime),
+              'Wakings per Night': Math.round(averageNumberOfWakings)
             }}
           />
-        </>
+        </View>
       ) : events[0].type === 'nap' ? (
-        <>
+        <View style={styles.container}>
           <Text style={styles.title}>Nap Statistics</Text>
+          <IntervalSegment onIntervalChange={setInterval} />
+          <Text style={styles.graphTitle}>Number of Naps per Day</Text>
+          {napPerDayValues.length === 0 ? (
+            <Text style={styles.noEventText}>No naps recorded yet</Text>
+          ) : (
+            <CustomBarChart
+              values={napPerDayValues}
+              labels={napPerDayLabels}
+            />
+          )}
           <StatisticCard
             statistics={{
-              'Average Nap Time': formatDuration(averageNapTime),
-              'Average Nap Time (Sleep)': formatDuration(averageNapSleep),
-              'Average Number of Nap per Day': Math.round(averageNumberOfNaps)
+              'Nap Time': formatDuration(averageNapTime),
+              'Nap Time (Sleep)': formatDuration(averageNapSleep),
+              'Number of Nap per Day': Math.round(averageNumberOfNaps)
             }}
           />
-        </>
+        </View>
       ) : (
-        <>
+        <View style={styles.container}>
           <Text style={styles.title}>Feed Statistics</Text>
           <StatisticCard
             statistics={{
-              'Average Number of Feed per Day': Math.round(averageFeedNumber),
-              'Average Number of Feed at Night': Math.round(averageNightFeed)
+              'Number of Feed per Day': Math.round(averageFeedNumber),
+              'Number of Feed at Night': Math.round(averageNightFeed)
             }}
           />
-        </>
+        </View>
       )}
     </View>
   );
@@ -445,15 +520,16 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ route }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
+    // flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    height: '100%',
     alignItems: 'center'
   },
   segmentButton: {
-    // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 100,
+    marginHorizontal: 40,
     marginVertical: 8
   },
   title: {
@@ -465,14 +541,39 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     color: colors.crimsonRed
   },
+  graphTitle: {
+    fontSize: 18,
+    fontWeight: '500',
+    paddingLeft: 20,
+    paddingTop: 20,
+    color: colors.crimsonRed
+  },
   card: {
-    marginTop: 16,
+    marginTop: 20,
     marginHorizontal: 20,
     padding: 16,
-    borderRadius: 48
-    // height: '50%'
+    borderRadius: 48,
+    backgroundColor: colors.lightTan
   },
-  statisticType: {}
+  summaryCardTitle: {
+    fontSize: 20,
+    marginBottom: 10,
+    color: colors.textGray
+  },
+  summaryCardLabel: {
+    fontSize: 16,
+    color: colors.textGray
+  },
+  summaryCardValue: {
+    fontSize: 16,
+    color: colors.textGray,
+    fontWeight: 'bold',
+    marginLeft: 60
+  },
+  noEventText: {
+    fontSize: 16,
+    marginVertical: 40
+  }
 });
 
 export default StatisticScreen;
