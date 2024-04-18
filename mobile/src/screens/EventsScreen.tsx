@@ -1,25 +1,10 @@
 import { ScrollView, View, Text, StyleSheet } from 'react-native';
 import React, { useEffect } from 'react';
-import { Card, IconButton } from 'react-native-paper';
+import { Card } from 'react-native-paper';
 import { colors } from '../../assets/colors';
 import { fetchUserData } from '../utils/db';
 import { useNavigation } from '@react-navigation/native';
-
-const ArrowButton: React.FC<{
-  direction: string;
-  onPress: any;
-  testID: string;
-}> = ({ direction, onPress, testID }) => {
-  return (
-    <IconButton
-      testID={testID}
-      icon={`arrow-${direction}`}
-      iconColor={'white'}
-      size={24}
-      onPress={onPress}
-    />
-  );
-};
+import { TransitionHeader } from '../components/misc/TransitionHeader';
 
 const DateHeader: React.FC<{ date: Date; setDate: any }> = ({
   date,
@@ -36,12 +21,9 @@ const DateHeader: React.FC<{ date: Date; setDate: any }> = ({
   };
 
   return (
-    <View style={styles.headerContainer}>
-      <ArrowButton
-        testID="date-back-button"
-        direction="left"
-        onPress={handleDateBack}
-      />
+    <TransitionHeader
+      onBack={handleDateBack}
+      onForward={handleDateForward}>
       <Text
         testID="date-header"
         style={styles.dateHeader}>
@@ -52,12 +34,7 @@ const DateHeader: React.FC<{ date: Date; setDate: any }> = ({
           day: 'numeric'
         })}
       </Text>
-      <ArrowButton
-        testID="date-forward-button"
-        direction="right"
-        onPress={handleDateForward}
-      />
-    </View>
+    </TransitionHeader>
   );
 };
 
