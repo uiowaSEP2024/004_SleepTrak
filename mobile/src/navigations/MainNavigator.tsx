@@ -3,8 +3,8 @@ import HomeStack from './HomeStack';
 import { colors } from '../../assets/colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import TestScreen from '../screens/TestScreen';
-import StatisticStack from './StatisticStack';
 import EventsScreen from '../screens/EventsScreen';
+import StatisticsScreen from '../screens/StatisticsScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -49,7 +49,7 @@ function BottomTabs() {
       />
       <Tab.Screen
         name="Statistics"
-        component={StatisticStack}
+        component={StatisticsScreen}
         options={{
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
