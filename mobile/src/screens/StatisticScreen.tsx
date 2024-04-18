@@ -1,20 +1,14 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
-import type { RouteProp } from '@react-navigation/native';
-import type { StatisticStackParamList } from '../navigations/StatisticStack';
 import { Card, SegmentedButtons } from 'react-native-paper';
 import { colors } from '../../assets/colors';
 import type { RemoteEvent } from '../utils/interfaces';
 import { BarChart, Grid, XAxis, YAxis } from 'react-native-svg-charts';
 import { format } from 'date-fns';
 
-type StatisticScreenRouteProp = RouteProp<
-  StatisticStackParamList,
-  'StatisticScreen'
->;
 interface StatisticScreenProps {
-  route: StatisticScreenRouteProp;
+  events: RemoteEvent[];
 }
 
 function calculateDurationInMinutes(date1: Date, date2: Date): number {
@@ -203,9 +197,8 @@ const StatisticCard: React.FC<StatisticCardProps> = ({ statistics, style }) => (
   </Card>
 );
 
-const StatisticScreen: React.FC<StatisticScreenProps> = ({ route }) => {
+const StatisticScreen: React.FC<StatisticScreenProps> = ({ events }) => {
   const [interval, setInterval] = React.useState('day');
-  const { events } = route.params;
   if (!events || events.length === 0) {
     return (
       <View style={styles.container}>
@@ -463,7 +456,6 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ route }) => {
     <View>
       {events?.[0]?.type === 'night_sleep' ? (
         <View style={styles.container}>
-          <Text style={styles.title}>Night Sleep Statistics</Text>
           <IntervalSegment onIntervalChange={setInterval} />
           <Text style={styles.graphTitle}>Number of Wakings per Night</Text>
           {awakeWindowLabels.length === 0 ? (
@@ -478,13 +470,12 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ route }) => {
             statistics={{
               'Bed Time': formatTime(nightSleepAverageStartTime),
               'Wake up Time': formatTime(nightSleepAverageEndTime),
-              'Wakings per Night': Math.round(averageNumberOfWakings)
+              'Wakings per Night': Math.round(averageNumberOfWakings * 10) / 10
             }}
           />
         </View>
       ) : events[0].type === 'nap' ? (
         <View style={styles.container}>
-          <Text style={styles.title}>Nap Statistics</Text>
           <IntervalSegment onIntervalChange={setInterval} />
           <Text style={styles.graphTitle}>Number of Naps per Day</Text>
           {napPerDayValues.length === 0 ? (
@@ -499,13 +490,12 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ route }) => {
             statistics={{
               'Nap Time': formatDuration(averageNapTime),
               'Nap Time (Sleep)': formatDuration(averageNapSleep),
-              'Number of Nap per Day': Math.round(averageNumberOfNaps)
+              'Number of Nap per Day': Math.round(averageNumberOfNaps * 10) / 10
             }}
           />
         </View>
       ) : (
         <View style={styles.container}>
-          <Text style={styles.title}>Feed Statistics</Text>
           <StatisticCard
             statistics={{
               'Number of Feed per Day': Math.round(averageFeedNumber),
@@ -530,7 +520,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 40,
-    marginVertical: 8
+    marginTop: 20
   },
   title: {
     fontSize: 28,
