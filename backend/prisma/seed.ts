@@ -1,11 +1,12 @@
 import { PrismaClient } from '@prisma/client';
-import type { User, Baby, Event, SleepWindow } from '@prisma/client';
+import type { User, Baby, Event } from '@prisma/client';
 // import { v4 as uuidv4 } from 'uuid';
 
 const prisma = new PrismaClient();
 const TOTAL_CLIENTS: number = 30;
 const TOTAL_BABIES: number = 40;
 const TOTAL_COACHES: number = 5;
+const TOTAL_DAYS: number = 20;
 const possibleNames: string[] = [
   'Valentina',
   'Camila',
@@ -254,35 +255,41 @@ async function createWindows(
   startTime,
   stopTime,
   windowNum
-): Promise<SleepWindow[]> {
-  const windows: SleepWindow[] = [];
+): Promise<void> {
+  // generate length of windows
+  const totalDuration = (stopTime.getTime() - startTime.getTime()) / 60000;
+  const minWindowLength = (totalDuration / windowNum) * 0.5;
+  const maxWindowLength = (totalDuration / windowNum) * 1.5;
+  const windowLengths: number[] = [];
+  let remaining = totalDuration;
+  for (let i = 0; i < windowNum - 1; i++) {
+    const maxLength = Math.min(
+      remaining - minWindowLength * (windowNum - i - 1),
+      maxWindowLength
+    );
+    const length = getRandomNumber(minWindowLength, maxLength);
+    windowLengths.push(length);
+    remaining -= length;
+  }
+  windowLengths.push(remaining);
+  // create windows
   let currentStartTime = new Date(startTime);
-  let currentEndTime = new Date(startTime);
-  let isSleep = true;
-
   for (let i = 0; i < windowNum; i++) {
-    const remainingTime =
-      (new Date(stopTime).getTime() - currentEndTime.getTime()) / 60000;
-    const maxInterval = Math.min(remainingTime / (windowNum - i), 240);
-    const interval = getRandomNumber(30, maxInterval);
-    currentEndTime.setMinutes(currentEndTime.getMinutes() + interval);
-    if (i === windowNum - 1) {
-      currentEndTime = new Date(stopTime);
-    }
-    const window = await prisma.sleepWindow.create({
+    const currentEndTime = new Date(
+      currentStartTime.getTime() + windowLengths[i] * 60000
+    );
+    await prisma.sleepWindow.create({
       data: {
-        windowId: 'testID_' + getRandomNumber(0, 10000).toString(),
-        eventId: eventId,
+        windowId: 'testID_' + generateUniqueID(),
+        eventId,
         startTime: currentStartTime,
         stopTime: currentEndTime,
-        isSleep: ((isSleep = !isSleep), !isSleep),
+        isSleep: i % 2 === 0,
         note: 'note'
       }
     });
-    windows.push(window);
     currentStartTime = new Date(currentEndTime);
   }
-  return windows;
 }
 
 async function createNightSleepEvent(
@@ -294,13 +301,13 @@ async function createNightSleepEvent(
 ): Promise<Event> {
   const event = await prisma.event.create({
     data: {
-      eventId: eventId,
+      eventId,
       ownerId: MY_OWNER_ID,
-      startTime: startTime,
-      endTime: endTime,
+      startTime,
+      endTime,
       type: 'night_sleep',
-      cribStartTime: cribStartTime,
-      cribStopTime: cribStopTime
+      cribStartTime,
+      cribStopTime
     }
   });
   return event;
@@ -315,13 +322,13 @@ async function createNapEvent(
 ): Promise<Event> {
   const event = await prisma.event.create({
     data: {
-      eventId: eventId,
+      eventId,
       ownerId: MY_OWNER_ID,
-      startTime: startTime,
-      endTime: endTime,
+      startTime,
+      endTime,
       type: 'nap',
-      cribStartTime: cribStartTime,
-      cribStopTime: cribStopTime
+      cribStartTime,
+      cribStopTime
     }
   });
   return event;
@@ -330,9 +337,9 @@ async function createNapEvent(
 async function createFeedEvent(startTime): Promise<Event> {
   return await prisma.event.create({
     data: {
-      eventId: 'testID_' + getRandomNumber(0, 10000).toString(),
+      eventId: 'testID_' + generateUniqueID(),
       ownerId: MY_OWNER_ID,
-      startTime: startTime,
+      startTime,
       type: 'feed',
       amount: getRandomFloat(1, 10),
       foodType: getRandomElement([
@@ -352,9 +359,9 @@ async function createFeedEvent(startTime): Promise<Event> {
 async function createMedicineEvent(startTime): Promise<Event> {
   return await prisma.event.create({
     data: {
-      eventId: 'testID_' + getRandomNumber(0, 10000).toString(),
+      eventId: 'testID_' + generateUniqueID(),
       ownerId: MY_OWNER_ID,
-      startTime: startTime,
+      startTime,
       type: 'medicine',
       amount: getRandomFloat(1, 5),
       medicineType: getRandomElement(['Advil', 'NyQuil', 'DayQuil']),
@@ -378,6 +385,12 @@ function getRandomNumber(minValue: number, maxValue: number): number {
   return Math.floor(minValue + Math.random() * difference);
 }
 
+function generateUniqueID(): string {
+  const timestamp = Date.now();
+  const random = Math.random().toString(36).substring(2, 8);
+  return `${timestamp}-${random}`;
+}
+
 function getRandomOddNumber(minValue: number, maxValue: number): number {
   let num;
   do {
@@ -395,7 +408,7 @@ function getRandomFloat(minValue: number, maxValue: number): number {
 async function createOwnerData(): Promise<User> {
   return await prisma.user.create({
     data: {
-      userId: 'testID_' + getRandomNumber(0, 10000).toString(),
+      userId: 'testID_' + generateUniqueID(),
       email: 'owner@test.com',
       first_name: 'Owner',
       last_name: 'Test',
@@ -406,7 +419,7 @@ async function createOwnerData(): Promise<User> {
 async function createCoachData(): Promise<User> {
   return await prisma.user.create({
     data: {
-      userId: 'testID_' + getRandomNumber(0, 10000).toString(),
+      userId: 'testID_' + generateUniqueID(),
       email: 'coach' + getRandomNumber(0, 10000000) + '@test.com',
       first_name: getRandomElement(possibleNames),
       last_name: 'Test',
@@ -417,7 +430,7 @@ async function createCoachData(): Promise<User> {
 async function createClientData(coachObjects: User[]): Promise<User> {
   return await prisma.user.create({
     data: {
-      userId: 'testID_' + getRandomNumber(10001, 20000).toString(),
+      userId: 'testID_' + generateUniqueID(),
       email: 'client' + getRandomNumber(0, TOTAL_CLIENTS * 10000) + '@test.com',
       first_name: getRandomElement(possibleNames),
       last_name: 'Test',
@@ -429,7 +442,7 @@ async function createClientData(coachObjects: User[]): Promise<User> {
 async function createBabyData(clientObjects: User[]): Promise<Baby> {
   return await prisma.baby.create({
     data: {
-      babyId: 'testID_' + getRandomNumber(0, 10000).toString(),
+      babyId: 'testID_' + generateUniqueID(),
       name: getRandomElement(possibleNames),
       dob: new Date(
         getRandomNumber(2022, 2024), // year
@@ -511,9 +524,9 @@ async function main(): Promise<void> {
 
   // Create events
   const startDate = new Date();
-  startDate.setDate(startDate.getDate() - 7);
+  startDate.setDate(startDate.getDate() - TOTAL_DAYS);
   const events: Event[] = [];
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < TOTAL_DAYS; i++) {
     // create feed events
     const numFeedEvents = getRandomNumber(2, 6);
     for (let j = 0; j < numFeedEvents; j++) {
@@ -536,15 +549,22 @@ async function main(): Promise<void> {
     try {
       const numNapEvents = getRandomNumber(2, 5);
       let prevEndTime = new Date(startDate);
+      prevEndTime.setHours(9); // Start at 9am
       for (let j = 0; j < numNapEvents; j++) {
-        const eventId =
-          'testID_' + getRandomNumber(0, 10000).toString() + '_' + j;
-        const startTime = new Date(prevEndTime);
-        startTime.setHours(getRandomNumber(9, 17));
-        startTime.setMinutes(getRandomNumber(0, 59));
-        const endTime = new Date(startTime);
-        endTime.setHours(getRandomNumber(startTime.getHours(), 18));
-        endTime.setMinutes(getRandomNumber(startTime.getMinutes(), 59));
+        const eventId = 'testID_' + generateUniqueID();
+        const startTime = new Date(
+          prevEndTime.getTime() + getRandomNumber(1, 3) * 60 * 60 * 1000
+        );
+        // startTime.setHours(getRandomNumber(9, 17));
+        // startTime.setMinutes(getRandomNumber(0, 59));
+        const endTime = new Date(
+          startTime.getTime() + getRandomNumber(1, 2) * 60 * 60 * 1000
+        );
+        if (endTime.getHours() > 19) {
+          break;
+        }
+        // endTime.setHours(getRandomNumber(startTime.getHours(), 18));
+        // endTime.setMinutes(getRandomNumber(startTime.getMinutes(), 59));
         const cribStartTime = new Date(startTime);
         cribStartTime.setMinutes(
           cribStartTime.getMinutes() - getRandomNumber(5, 40)
@@ -577,8 +597,7 @@ async function main(): Promise<void> {
     // create night sleep event
     // start between 6-9pm to 5-9am next day
     try {
-      const eventId =
-        'testID_' + getRandomNumber(0, 10000).toString() + '_' + i;
+      const eventId = 'testID_' + generateUniqueID();
       const startTime = new Date(startDate);
       startTime.setHours(getRandomNumber(18, 20));
       startTime.setMinutes(getRandomNumber(0, 59));
