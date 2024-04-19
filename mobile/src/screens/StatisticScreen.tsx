@@ -4,7 +4,13 @@ import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 import { Card, SegmentedButtons } from 'react-native-paper';
 import { colors } from '../../assets/colors';
 import type { RemoteEvent } from '../utils/interfaces';
-import { BarChart, Grid, XAxis, YAxis } from 'react-native-svg-charts';
+import {
+  BarChart,
+  // StackedBarChart,
+  Grid,
+  XAxis,
+  YAxis
+} from 'react-native-svg-charts';
 import { format, startOfDay, subWeeks, addDays } from 'date-fns';
 
 interface StatisticScreenProps {
@@ -105,18 +111,17 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
   const data = values.map((value, index) => ({
     value,
     svg: {
-      fill: colors.crimsonRed,
-      onPress: () => {}
+      fill: colors.crimsonRed
     }
   }));
   if (data.length === 1) {
     data.unshift({
       value: 0,
-      svg: { fill: 'transparent', onPress: () => {} }
+      svg: { fill: 'transparent' }
     });
     data.push({
       value: data[0].value * 2,
-      svg: { fill: 'transparent', onPress: () => {} }
+      svg: { fill: 'transparent' }
     });
     labels.unshift('');
     labels.push('');
@@ -170,6 +175,34 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
   );
 };
 
+// type customStackedBarChartProp = {
+//   labels: string[];
+//   values1: number[];
+//   values2: number[];
+//   maxVal: number;
+// };
+
+// const CustomStackedBarChart: React.FC<customStackedBarChartProp> = ({
+//   labels,
+//   values1,
+//   values2,
+//   maxVal
+// }) => {
+//   const data = values1.map((value, index) => ({
+//     value1: value,
+//     value2: values2[index]
+//   }));
+
+//   return (
+//     <StackedBarChart
+//       style={{ height: 200 }}
+//       data={data}
+//       keys={['value1', 'value2']}
+//       colors={[colors.crimsonRed, colors.lightTan]}
+//     />
+//   );
+// };
+
 type StatisticCardProps = {
   statistics: Record<string, string | number>;
   style?: {
@@ -213,7 +246,7 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ events }) => {
       </View>
     );
   }
-  // Calculation for Bar Chart
+  // Calculation for Bar Chart / Stacked Bar Chart
   const today = new Date();
   const oneWeekAgo = startOfDay(subWeeks(today, 1));
   const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -221,6 +254,10 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ events }) => {
   const awakeWindowValues: number[] = [];
   const napPerDayLabels: string[] = [];
   const napPerDayValues: number[] = [];
+  const nightSleepValues: number[] = [];
+  const nightSleepLabels: string[] = [];
+  const nightAwakeValues: number[] = [];
+  const nightAwakeLabels: string[] = [];
 
   function initializeLabelsAndValues(label: string[], value: number[]) {
     if (interval === 'week') {
@@ -250,7 +287,10 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ events }) => {
 
   initializeLabelsAndValues(awakeWindowLabels, awakeWindowValues);
   initializeLabelsAndValues(napPerDayLabels, napPerDayValues);
+  initializeLabelsAndValues(nightSleepLabels, nightSleepValues);
+  initializeLabelsAndValues(nightAwakeLabels, nightAwakeValues);
 
+  // Night Sleep Stats
   events.forEach((event) => {
     if (event.sleepWindows) {
       event.sleepWindows.forEach((window) => {
@@ -323,7 +363,6 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ events }) => {
             napPerDayValues[index]++;
           }
         }
-        console.log('hi', napPerDayValues);
         break;
       case 'month':
         if (eventDate >= startOfMonth && eventDate <= today) {
