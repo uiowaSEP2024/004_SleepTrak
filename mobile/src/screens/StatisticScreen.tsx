@@ -5,7 +5,7 @@ import { Card, SegmentedButtons } from 'react-native-paper';
 import { colors } from '../../assets/colors';
 import type { RemoteEvent } from '../utils/interfaces';
 import { BarChart, Grid, XAxis, YAxis } from 'react-native-svg-charts';
-import { format } from 'date-fns';
+import { format, startOfDay, subWeeks, addDays } from 'date-fns';
 
 interface StatisticScreenProps {
   events: RemoteEvent[];
@@ -94,9 +94,14 @@ const IntervalSegment: React.FC<IntervalSegmentProps> = ({
 type CustomBarChartProps = {
   labels: string[];
   values: number[];
+  maxVal: number;
 };
 
-const CustomBarChart: React.FC<CustomBarChartProps> = ({ labels, values }) => {
+const CustomBarChart: React.FC<CustomBarChartProps> = ({
+  labels,
+  values,
+  maxVal
+}) => {
   const data = values.map((value, index) => ({
     value,
     svg: {
@@ -129,7 +134,7 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({ labels, values }) => {
         yAccessor={({ item }) => item.value}
         contentInset={{ top: 10, bottom: 10 }}
         svg={{ fontSize: 10, fill: 'grey' }}
-        numberOfTicks={5}
+        numberOfTicks={maxVal}
       />
       <View
         style={{
@@ -210,11 +215,7 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ events }) => {
   }
   // Calculation for Bar Chart
   const today = new Date();
-  const oneWeekAgo = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate() - 7
-  );
+  const oneWeekAgo = startOfDay(subWeeks(today, 1));
   const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
   const awakeWindowLabels: string[] = [];
   const awakeWindowValues: number[] = [];
@@ -274,7 +275,7 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ events }) => {
               }
               break;
             case 'week':
-              if (windowDate >= oneWeekAgo && windowDate <= today) {
+              if (windowDate >= addDays(oneWeekAgo, 1) && windowDate <= today) {
                 const weekday = format(windowDate, 'eee');
                 const index = awakeWindowLabels.indexOf(weekday);
                 if (index !== -1) {
@@ -296,6 +297,7 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ events }) => {
       });
     }
   });
+
   // Naps per Day
   events.forEach((event) => {
     const eventDate = new Date(event.startTime);
@@ -313,13 +315,15 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ events }) => {
         }
         break;
       case 'week':
-        if (eventDate >= oneWeekAgo && eventDate <= today) {
+        // Check if the event is within the last week
+        if (eventDate > addDays(oneWeekAgo, 1) && eventDate <= today) {
           const weekday = format(eventDate, 'eee');
-          const index = napPerDayLabels.indexOf(weekday);
+          index = napPerDayLabels.indexOf(weekday);
           if (index !== -1) {
             napPerDayValues[index]++;
           }
         }
+        console.log('hi', napPerDayValues);
         break;
       case 'month':
         if (eventDate >= startOfMonth && eventDate <= today) {
@@ -464,6 +468,7 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ events }) => {
             <CustomBarChart
               values={awakeWindowValues}
               labels={awakeWindowLabels}
+              maxVal={Math.max(...awakeWindowValues)}
             />
           )}
           <StatisticCard
@@ -484,6 +489,7 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ events }) => {
             <CustomBarChart
               values={napPerDayValues}
               labels={napPerDayLabels}
+              maxVal={Math.max(...napPerDayValues)}
             />
           )}
           <StatisticCard
