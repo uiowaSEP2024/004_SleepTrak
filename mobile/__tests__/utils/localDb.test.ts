@@ -212,12 +212,19 @@ describe('localDb methods', () => {
   });
 
   describe('deleteEvent', () => {
+    afterEach(() => {
+      mockTx.executeSql.mockReset();
+    });
     it('should delete an event from the Event table', async () => {
       const eventId = '1';
       await deleteEvent(eventId);
-      expect(mockTx.executeSql).toHaveBeenCalledTimes(1);
+      expect(mockTx.executeSql).toHaveBeenCalledTimes(2);
       expect(mockTx.executeSql).toHaveBeenCalledWith(
         'DELETE FROM Event WHERE eventId = ?',
+        [eventId]
+      );
+      expect(mockTx.executeSql).toHaveBeenCalledWith(
+        'DELETE FROM SleepWindow WHERE eventId = ?',
         [eventId]
       );
     });
