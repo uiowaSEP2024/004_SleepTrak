@@ -1,5 +1,28 @@
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { testRoute } from './common.js';
+const mockAnswers = [
+  {
+    answerId: '1',
+    answer_text: 'test answer',
+    questionId: '1',
+    userId: '1',
+    babyId: '1'
+  },
+  {
+    answerId: '2',
+    answer_text: 'test answer',
+    questionId: '2',
+    userId: '1',
+    babyId: '1'
+  },
+  {
+    answerId: '3',
+    answer_text: 'test answer 2',
+    questionId: '2',
+    userId: '2',
+    babyId: '2'
+  }
+];
 
 const answer = {
   answerId: '1',
@@ -60,6 +83,26 @@ testRoute({
   route: 'update'
 });
 
+// /answers/search
+testRoute({
+  description: 'returns events matching search by type',
+  reqData: {
+    userId: '1'
+  },
+  mockData: mockAnswers.filter((answer) => answer.userId === '1'),
+  expectData: {
+    status: 200,
+    body: mockAnswers.filter((answer) => answer.userId === '1'),
+    calledWith: {
+      where: {
+        userId: '1'
+      }
+    }
+  },
+  model: 'answer',
+  route: 'search'
+});
+
 // Sad Path Tests
 // ============================================================================
 
@@ -103,6 +146,26 @@ testRoute({
   model: 'answer',
   id: '1',
   route: 'update'
+});
+
+// /events/search
+testRoute({
+  description: 'returns nothing if no events match searched role',
+  reqData: {
+    userId: '100'
+  },
+  mockData: {},
+  expectData: {
+    status: 200,
+    body: {},
+    calledWith: {
+      where: {
+        userId: '100'
+      }
+    }
+  },
+  model: 'answer',
+  route: 'search'
 });
 
 // Error Path Tests
@@ -164,4 +227,24 @@ testRoute({
   model: 'answer',
   id: '1',
   route: 'update'
+});
+
+// /events/search
+testRoute({
+  description: 'returns HTTP 500 if Prisma throws error',
+  reqData: {},
+  mockData: prismaError,
+  expectData: {
+    status: 500,
+    body: {
+      name: prismaError.name,
+      code: prismaError.code,
+      clientVersion: prismaError.clientVersion
+    },
+    calledWith: {
+      where: {}
+    }
+  },
+  model: 'answer',
+  route: 'search'
 });
