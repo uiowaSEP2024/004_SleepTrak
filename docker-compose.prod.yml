@@ -1,0 +1,28 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    ports:
+      - '3000:3000'
+      - '5555:5555'
+    env_file:
+      - ./backend/.env
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile.prod
+    ports:
+      - '5173:5173'
+    env_file:
+      - ./web/.env
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./web:/app
+      - /app/node_modules
