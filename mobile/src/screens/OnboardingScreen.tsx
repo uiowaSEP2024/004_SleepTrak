@@ -343,7 +343,7 @@ const OnboardingScreen: React.FC = () => {
       void onboardingWrapUp().then(() => {
         setTimeout(() => {
           navigation.navigate('BottomTabs');
-        }, 2000); // Delay for 2 seconds to allow database to update
+        }, 1000); // Delay for 2 seconds to allow database to update
       });
     }
     void onboardingScreenFetcher();
