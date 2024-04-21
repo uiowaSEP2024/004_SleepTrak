@@ -390,8 +390,15 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ events }) => {
     nightSleepAverageStartTime =
       events.reduce((acc, event) => {
         const startTime = new Date(event.startTime);
-        return acc + startTime.getUTCHours() * 60 + startTime.getUTCMinutes();
+        let hours = startTime.getUTCHours();
+        if (hours < 12) {
+          hours += 24;
+        }
+        return acc + hours * 60 + startTime.getUTCMinutes();
       }, 0) / events.length;
+    if (nightSleepAverageStartTime >= 24 * 60) {
+      nightSleepAverageStartTime -= 24 * 60;
+    }
     nightSleepAverageEndTime =
       events.reduce((acc, event) => {
         if (event.endTime) {
@@ -474,7 +481,7 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ events }) => {
     const eventsByNight = events.reduce<Record<string, RemoteEvent[]>>(
       (acc, event: RemoteEvent) => {
         const eventDate = new Date(event.startTime);
-        const hour = eventDate.getHours();
+        const hour = eventDate.getUTCHours();
         // Only consider events that occurred between 7 PM and 7 AM
         if (hour >= 19 || hour < 7) {
           const dateKey = eventDate.toDateString();
@@ -490,9 +497,14 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ events }) => {
     const numberOfNightFeeds = Object.values(eventsByNight).map(
       (events) => events.length
     );
-    averageNightFeed =
-      numberOfNightFeeds.reduce((acc, num) => acc + num, 0) /
-      numberOfNightFeeds.length;
+    const totalDaysWithFeeds = Object.keys(eventsByDay).length;
+    if (numberOfNightFeeds.length === 0) {
+      averageNightFeed = 0;
+    } else {
+      averageNightFeed =
+        numberOfNightFeeds.reduce((acc, num) => acc + num, 0) /
+        totalDaysWithFeeds;
+    }
   }
 
   return (
@@ -513,7 +525,7 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ events }) => {
           <StatisticCard
             statistics={{
               'Bed Time': formatTime(nightSleepAverageStartTime),
-              'Wake up Time': formatTime(nightSleepAverageEndTime),
+              'Wake Up Time': formatTime(nightSleepAverageEndTime),
               'Wakings per Night': Math.round(averageNumberOfWakings * 10) / 10
             }}
           />
@@ -543,8 +555,8 @@ const StatisticScreen: React.FC<StatisticScreenProps> = ({ events }) => {
         <View style={styles.container}>
           <StatisticCard
             statistics={{
-              'Number of Feed per Day': Math.round(averageFeedNumber),
-              'Number of Feed at Night': Math.round(averageNightFeed)
+              'Number of Feed per Day': Math.round(averageFeedNumber * 10) / 10,
+              'Number of Feed at Night': Math.round(averageNightFeed * 10) / 10
             }}
           />
         </View>
