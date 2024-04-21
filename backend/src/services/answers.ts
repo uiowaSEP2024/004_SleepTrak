@@ -33,7 +33,22 @@ const update = async (
   }
 };
 
+const search = async (
+  searchParams: any
+): Promise<OnboardingAnswer[] | Error> => {
+  try {
+    const result = await prisma.onboardingAnswer.findMany({
+      where: searchParams
+    });
+
+    return result;
+  } catch (err) {
+    throw ensureError(err);
+  }
+};
+
 export const service = {
   create,
-  update
+  update,
+  search
 };

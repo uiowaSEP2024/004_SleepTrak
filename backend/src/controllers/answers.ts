@@ -36,7 +36,18 @@ const update = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+const search = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const searchParams = req.body;
+    const events = await service.search(searchParams);
+    res.json(events);
+  } catch (err) {
+    res.status(500).send(ensureError(err));
+  }
+};
+
 export const controller = {
   create,
-  update
+  update,
+  search
 };
