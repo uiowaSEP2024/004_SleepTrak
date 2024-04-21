@@ -10,5 +10,6 @@ router.use(auth.requireAuth);
 
 // Routes
 router.post('/create', asyncHandler(controller.create));
+router.put('/:id/update', asyncHandler(controller.update));
 
 export default router;

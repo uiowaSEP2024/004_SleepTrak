@@ -2,7 +2,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { testRoute } from './common.js';
 
 const answer = {
-  answerId: 'testID_1234',
+  answerId: '1',
   answer_text: 'test answer',
   questionId: '1',
   userId: '3',
@@ -36,6 +36,30 @@ testRoute({
   route: 'create'
 });
 
+// /answers/update
+testRoute({
+  description: 'returns updated event',
+  reqData: {
+    ...answer
+  },
+  mockData: answer,
+  expectData: {
+    status: 200,
+    body: answer,
+    calledWith: {
+      data: {
+        ...answer
+      },
+      where: {
+        answerId: ':id'
+      }
+    }
+  },
+  model: 'answer',
+  id: '1',
+  route: 'update'
+});
+
 // Sad Path Tests
 // ============================================================================
 
@@ -59,6 +83,26 @@ testRoute({
   },
   model: 'answer',
   route: 'create'
+});
+
+// /answers/update
+testRoute({
+  description: 'returns unupdated event if no data passed',
+  reqData: {},
+  mockData: answer,
+  expectData: {
+    status: 200,
+    body: answer,
+    calledWith: {
+      data: {},
+      where: {
+        answerId: ':id'
+      }
+    }
+  },
+  model: 'answer',
+  id: '1',
+  route: 'update'
 });
 
 // Error Path Tests
@@ -96,4 +140,28 @@ testRoute({
   },
   model: 'answer',
   route: 'create'
+});
+
+// /answers/update
+testRoute({
+  description: 'returns HTTP 500 if Prisma throws error',
+  reqData: {},
+  mockData: prismaError,
+  expectData: {
+    status: 500,
+    body: {
+      name: prismaError.name,
+      code: prismaError.code,
+      clientVersion: prismaError.clientVersion
+    },
+    calledWith: {
+      data: {},
+      where: {
+        answerId: ':id'
+      }
+    }
+  },
+  model: 'answer',
+  id: '1',
+  route: 'update'
 });

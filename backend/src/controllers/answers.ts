@@ -24,6 +24,19 @@ const create = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+const update = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const updateParams = req.body;
+
+    const event = await service.update(id, updateParams);
+    res.json(event);
+  } catch (err) {
+    res.status(500).send(ensureError(err));
+  }
+};
+
 export const controller = {
-  create
+  create,
+  update
 };

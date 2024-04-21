@@ -15,6 +15,25 @@ const create = async (answerData: any): Promise<OnboardingAnswer | Error> => {
   }
 };
 
+const update = async (
+  answerId: string,
+  valuesToUpdate: any
+): Promise<OnboardingAnswer | Error> => {
+  try {
+    const result = await prisma.onboardingAnswer.update({
+      where: {
+        answerId
+      },
+      data: valuesToUpdate
+    });
+
+    return result;
+  } catch (err) {
+    throw ensureError(err);
+  }
+};
+
 export const service = {
-  create
+  create,
+  update
 };
