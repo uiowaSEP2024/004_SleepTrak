@@ -1,4 +1,5 @@
-FROM node:lts-alpine as build
+FROM node:lts-alpine
+ENV PORT=$port
 
 WORKDIR /app
 
@@ -7,29 +8,7 @@ COPY package*.json ./
 RUN yarn install
 
 COPY . ./
-RUN yarn vite build
 
-FROM node:alpine
+EXPOSE $port
 
-WORKDIR /app
-
-COPY --from=build /app/dist ./dist
-
-RUN npm install -g http-server
-
-EXPOSE 5173
-
-# Start http-server to serve the built files
-CMD ["http-server", "-p", "5173", "./dist"]
-
-# We need to change to nginx later
-# # Use a smaller image for serving the built application
-# FROM nginx:alpine
-
-# # Copy the built application from the build stage to the nginx serving directory
-# COPY --from=build /app/dist /usr/share/nginx/html
-
-# EXPOSE 80
-
-# # Start nginx
-# CMD ["nginx", "-g", "daemon off;"]
+CMD yarn vite --port $PORT
