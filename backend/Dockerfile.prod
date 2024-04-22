@@ -1,11 +1,17 @@
-FROM node:lts-alpine
+FROM node:lts-slim AS build
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package*.json yarn.lock ./
 RUN yarn install
 
 COPY . ./
-EXPOSE 3000
+RUN yarn pg
+RUN yarn build
 
-CMD yarn pg && yarn build && yarn start-js
+ENV PORT=$port
+EXPOSE $port
+
+RUN apt-get update -y && apt-get install -y openssl build-essential libpq-dev
+
+CMD yarn pg && yarn start-js-prod
