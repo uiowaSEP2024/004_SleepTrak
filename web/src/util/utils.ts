@@ -57,10 +57,11 @@ export function getAgeInMonth(dob: string): string {
   return ageYears * 12 + ageMonths + 'M';
 }
 
-export function formatDateTo12HourFormat(date: Date | null) {
-  if (date === null) {
+export function formatDateTo12HourFormat(dateArg: Date | null) {
+  if (dateArg === null) {
     return '';
   }
+  const date = new Date(dateArg);
 
   const hours = date.getHours();
   const minutes = date.getMinutes();
