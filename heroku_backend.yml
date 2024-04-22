@@ -3,4 +3,4 @@ setup:
     env_file: backend/.env
 build:
   docker:
-    backend: backend/Dockerfile.prod
+    web: backend/Dockerfile.prod

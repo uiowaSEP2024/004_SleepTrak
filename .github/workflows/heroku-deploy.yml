@@ -1,0 +1,39 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - heroku
+
+jobs:
+  backend-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Rename the heroku_backend.yml
+        run: |
+          ls -a
+          mv heroku_backend.yml heroku.yml
+          ls -a
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: 'camila-sleep-backend'
+          heroku_email: 'mingilee98@gmail.com'
+
+  web-build:
+    needs: backend-build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Rename the heroku_web.yml
+        run: |
+          ls -a
+          mv heroku_web.yml heroku.yml
+          ls -a
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: 'camila-sleep-web'
+          heroku_email: 'mingilee98@gmail.com'
