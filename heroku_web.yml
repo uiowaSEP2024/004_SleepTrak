@@ -1,0 +1,6 @@
+setup:
+  config:
+    env_file: web/.env
+build:
+  docker:
+    web: web/Dockerfile.prod
