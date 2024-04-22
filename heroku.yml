@@ -1,6 +1,6 @@
 setup:
   config:
-    env_file: web/.env
+    env_file: backend/.env
 build:
   docker:
-    web: web/Dockerfile.prod
+    backend: backend/Dockerfile.prod

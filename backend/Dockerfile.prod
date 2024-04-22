@@ -4,9 +4,8 @@ WORKDIR /app
 
 COPY package*.json ./
 RUN yarn install
-RUN apk add --no-cache bash
 
 COPY . ./
 EXPOSE 3000
 
-CMD bash -c 'yarn prisma-setup' && yarn start
+CMD yarn pg && yarn build && yarn start-js
