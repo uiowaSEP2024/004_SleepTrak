@@ -18,7 +18,7 @@ export default function RecommendedSchedules() {
       clientId: userId
     };
 
-    const response = await fetch(`http://${API_URL}/plans/search`, {
+    const response = await fetch(`${API_URL}/plans/search`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

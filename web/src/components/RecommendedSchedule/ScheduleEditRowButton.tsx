@@ -71,7 +71,7 @@ export default function ScheduleEditRowButton(
               const token = await getAccessTokenSilently();
 
               await fetch(
-                `http://${API_URL}/reminders/${reminder.reminderId}/update`,
+                `${API_URL}/reminders/${reminder.reminderId}/update`,
                 {
                   method: 'PUT',
                   headers: {

@@ -20,14 +20,11 @@ export default function AssignPage() {
     const fetchData = async () => {
       const token = await getAccessTokenSilently();
 
-      const clientResponse = await fetch(
-        `http://${API_URL}/users/${clientId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+      const clientResponse = await fetch(`${API_URL}/users/${clientId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
         }
-      );
+      });
       const clientDataJson = await clientResponse.json();
       setClientData(clientDataJson);
     };
@@ -41,7 +38,7 @@ export default function AssignPage() {
     const fetchData = async () => {
       const token = await getAccessTokenSilently();
 
-      const response = await fetch(`http://${API_URL}/users/all`, {
+      const response = await fetch(`${API_URL}/users/all`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -60,19 +57,16 @@ export default function AssignPage() {
     const assignCoach = async (coachId: string | null) => {
       const token = await getAccessTokenSilently();
 
-      const response = await fetch(
-        `http://${API_URL}/users/${clientId}/update`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`
-          },
-          body: JSON.stringify({
-            coachId
-          })
-        }
-      );
+      const response = await fetch(`${API_URL}/users/${clientId}/update`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          coachId
+        })
+      });
 
       const data = await response.json();
       console.log(data);

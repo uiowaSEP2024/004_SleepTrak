@@ -92,7 +92,7 @@ export default function ScheduleCreateButton(props: ScheduleCreateButtonProps) {
       const token = await getAccessTokenSilently();
 
       const clientResponse = await fetch(
-        `http://${API_URL}/recommended_plans/${babyId}`,
+        `${API_URL}/recommended_plans/${babyId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -135,7 +135,7 @@ export default function ScheduleCreateButton(props: ScheduleCreateButtonProps) {
             const postSleepPlan = async () => {
               const token = await getAccessTokenSilently();
 
-              await fetch(`http://${API_URL}/plans/create`, {
+              await fetch(`${API_URL}/plans/create`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
