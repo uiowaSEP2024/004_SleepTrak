@@ -33,6 +33,76 @@ export const fetchUserData = async () => {
 };
 
 /**
+ * Fetches onboarding answers for a specific baby.
+ * @param babyId - The ID of the baby to fetch answers for.
+ * @returns An array of onboarding answers for the specified baby.
+ */
+
+export const fetchOnboardingAnswers = async (babyId: string) => {
+  try {
+    const user = await getAuth0User();
+    const userCredentials = await getUserCredentials();
+    if (user && userCredentials) {
+      const accessToken = userCredentials.accessToken;
+
+      if (accessToken) {
+        const apiResponse = await fetch(
+          process.env.EXPO_PUBLIC_API_URL + '/answers/search',
+          {
+            method: 'PUT',
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({
+              userId: (user as { sub: string }).sub,
+              babyId
+            })
+          }
+        );
+        const answers = await apiResponse.json();
+        return answers;
+      }
+    }
+    return false;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
+export const updateOnboardingAnswer = async (
+  answerText: string,
+  answerId: string
+) => {
+  try {
+    const user = await getAuth0User();
+    const userCredentials = await getUserCredentials();
+    if (user && userCredentials) {
+      const accessToken = userCredentials.accessToken;
+
+      if (accessToken) {
+        const apiResponse = await fetch(
+          process.env.EXPO_PUBLIC_API_URL + '/answers/' + answerId + '/update',
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({
+              answer_text: answerText
+            })
+          }
+        );
+        return apiResponse;
+      }
+    }
+    return false;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
+/**
  * Fetches onboarding questions from the API.
  * @returns {Promise<Array<Object>>} - The array of onboarding questions.
  */
