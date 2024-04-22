@@ -52,7 +52,7 @@ export default function ScheduleDeleteButton(
             const deleteSchedule = async () => {
               const token = await getAccessTokenSilently();
 
-              await fetch(`http://${API_URL}/plans/${schedule.planId}/delete`, {
+              await fetch(`${API_URL}/plans/${schedule.planId}/delete`, {
                 method: 'Delete',
                 headers: {
                   Authorization: `Bearer ${token}`

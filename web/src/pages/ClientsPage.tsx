@@ -14,7 +14,7 @@ function ClientsPage() {
     const fetchClientsData = async () => {
       const token = await getAccessTokenSilently();
 
-      const response = await fetch(`http://${API_URL}/users/all`, {
+      const response = await fetch(`${API_URL}/users/all`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

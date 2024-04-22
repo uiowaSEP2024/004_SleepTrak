@@ -51,7 +51,7 @@ export default function ScheduleDeleteRowButton(
               const token = await getAccessTokenSilently();
 
               await fetch(
-                `http://${API_URL}/reminders/${reminder.reminderId}/delete`,
+                `${API_URL}/reminders/${reminder.reminderId}/delete`,
                 {
                   method: 'Delete',
                   headers: {

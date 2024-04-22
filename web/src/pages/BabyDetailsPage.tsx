@@ -17,7 +17,7 @@ export default function BabyDetailsPage() {
     const fetchUserData = async () => {
       const token = await getAccessTokenSilently();
 
-      const clientResponse = await fetch(`http://${API_URL}/users/${userId}`, {
+      const clientResponse = await fetch(`${API_URL}/users/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

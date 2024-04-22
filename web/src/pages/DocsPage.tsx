@@ -17,7 +17,7 @@ function DocsPage() {
       babyId
     };
 
-    const response = await fetch(`http://${API_URL}/files/search`, {
+    const response = await fetch(`${API_URL}/files/search`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

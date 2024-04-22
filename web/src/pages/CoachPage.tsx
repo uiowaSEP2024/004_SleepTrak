@@ -19,7 +19,7 @@ function CoachPage() {
     const fetchCoachData = async () => {
       const token = await getAccessTokenSilently();
 
-      const coachResponse = await fetch(`http://${API_URL}/users/${coachId}`, {
+      const coachResponse = await fetch(`${API_URL}/users/${coachId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -32,7 +32,7 @@ function CoachPage() {
     const fetchUsersData = async () => {
       const token = await getAccessTokenSilently();
 
-      const response = await fetch(`http://${API_URL}/users/all`, {
+      const response = await fetch(`${API_URL}/users/all`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

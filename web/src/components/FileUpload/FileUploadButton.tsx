@@ -51,7 +51,7 @@ export default function FileUploadButton(props: FileUploadButtonProps) {
         formData.append('babyId', babyId);
       }
       try {
-        await fetch(`http://${API_URL}/files/create`, {
+        await fetch(`${API_URL}/files/create`, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`

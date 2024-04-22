@@ -42,7 +42,7 @@ export default function FileDeleteButton(props: FileDeleteButtonProps) {
             const deleteReminder = async () => {
               const token = await getAccessTokenSilently();
 
-              await fetch(`http://${API_URL}/files/${fileId}/delete`, {
+              await fetch(`${API_URL}/files/${fileId}/delete`, {
                 method: 'Delete',
                 headers: {
                   Authorization: `Bearer ${token}`
