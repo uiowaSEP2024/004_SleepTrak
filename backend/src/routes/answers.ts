@@ -11,6 +11,6 @@ router.use(auth.requireAuth);
 // Routes
 router.post('/create', asyncHandler(controller.create));
 router.put('/:id/update', asyncHandler(controller.update));
-router.get('/search', asyncHandler(controller.search));
+router.put('/search', asyncHandler(controller.search));
 
 export default router;

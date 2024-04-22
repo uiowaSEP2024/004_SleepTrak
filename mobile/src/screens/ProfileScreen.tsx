@@ -1,26 +1,63 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { Text } from 'react-native-paper';
-import { Divider } from '../components/misc/Divider';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  TextInput
+} from 'react-native';
+import { Divider, Text } from 'react-native-paper';
 import { colors } from '../../assets/colors';
 import { useFocusEffect } from '@react-navigation/native';
-import { fetchUserData } from '../utils/db';
+import {
+  fetchUserData,
+  fetchOnboardingAnswers,
+  fetchOnboardingQuestions,
+  updateOnboardingAnswer
+} from '../utils/db';
+import RNPickerSelect from 'react-native-picker-select';
 
-const columnNames = {
-  first_name: 'First Name',
-  last_name: 'Last Name',
-  email: 'Email',
-  role: 'Role'
+const ANSWERS: Record<string, string> = {};
+const HIDDEN_QUESTIONS = ['4', '9', '12', '1', '2', '3'];
+
+const capitalize = (s: string) => {
+  return s.charAt(0).toLocaleUpperCase() + s.slice(1).toLocaleLowerCase();
 };
 
-const Item = ({ title, value }: { title: string; value: string }) => {
+const Item = ({
+  title,
+  value,
+  answerId
+}: {
+  title: string;
+  value: string;
+  answerId: string;
+}) => {
+  const [text, setText] = React.useState(value);
+
+  const onChangeText = (text: string) => {
+    setText(text);
+    ANSWERS[answerId] = text;
+  };
+
   return (
     <View>
       <View style={styles.itemContainer}>
-        <Text style={styles.itemTitle}>{title}:</Text>
-        <Text style={styles.itemValue}>{value}</Text>
+        <Text style={styles.itemTitle}>{title}</Text>
+        <TextInput
+          value={text}
+          onChangeText={onChangeText}
+          style={styles.itemValue}
+        />
+        <Text
+          style={{
+            fontSize: 12,
+            color: colors.textGray,
+            alignSelf: 'flex-end'
+          }}>
+          Tap to edit
+        </Text>
       </View>
-      <Divider />
     </View>
   );
 };
@@ -37,48 +74,111 @@ const ProfileScreen: React.FC = () => {
     events: any;
     medicines: any | undefined;
   }>();
+  const [onboardingAnswers, setOnboardingAnswers] = React.useState<any>();
+  const [onboardingQuestions, setOnboardingQuestions] = React.useState<any>();
+  const [currentBaby, setCurrentBaby] = React.useState<any>(null);
+
   useFocusEffect(
     React.useCallback(() => {
       const fetchUser = async () => {
         const userData = await fetchUserData();
+        setCurrentBaby(userData.babies[0].babyId);
         setUser(userData);
       };
+      const fetchQuestions = async () => {
+        const onboardingQuestions = await fetchOnboardingQuestions();
+        setOnboardingQuestions(onboardingQuestions);
+      };
+
       void fetchUser();
+      void fetchQuestions();
     }, [])
   );
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchAnswers = async () => {
+        if (!currentBaby) return;
+
+        let onboardingAnswers = await fetchOnboardingAnswers(currentBaby);
+        onboardingAnswers = onboardingAnswers.filter(
+          (answer: any) => !HIDDEN_QUESTIONS.includes(answer.questionId)
+        );
+        setOnboardingAnswers(
+          onboardingAnswers.sort(
+            (a: any, b: any) => parseInt(a.questionId) - parseInt(b.questionId)
+          )
+        );
+      };
+
+      void fetchAnswers();
+    }, [currentBaby])
+  );
+
+  const onSave = () => {
+    const updateAnswers = async () => {
+      const tempAnswers = ANSWERS;
+      console.log(tempAnswers);
+      for (const [answerId, answer] of Object.entries(tempAnswers)) {
+        console.log(answerId, answer);
+        await updateOnboardingAnswer(answer, answerId);
+        delete ANSWERS.answerId;
+      }
+    };
+    void updateAnswers();
+  };
+
   return user ? (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Profile</Text>
-      {Object.keys(user).map((key) => {
-        if (
-          user[key as keyof typeof user] === null ||
-          key === 'userId' ||
-          key === 'coachId' ||
-          key === 'medicines' ||
-          key === 'events' ||
-          key === 'babies'
-        ) {
-          return <></>;
-        } else if (key === 'first_name' || key === 'last_name') {
-          return (
-            <Item
-              key={key}
-              title={columnNames[key]}
-              value={user[key][0].toUpperCase() + user[key].slice(1)}
-            />
-          );
-        } else {
-          return (
-            <Item
-              key={key}
-              title={columnNames[key as keyof typeof columnNames]}
-              value={user[key as keyof typeof user]}
-            />
-          );
-        }
-      })}
-      <TouchableOpacity style={styles.editButton}>
-        <Text style={styles.editButtonText}>Edit</Text>
+      <Text style={styles.title}>
+        {' '}
+        {capitalize(user.first_name)} {capitalize(user.last_name)}
+      </Text>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Text
+          style={{ ...pickerSelectStyles.inputIOS, color: colors.textGray }}>
+          Current Baby:
+        </Text>
+        <RNPickerSelect
+          value={currentBaby}
+          onValueChange={(value) => {
+            setCurrentBaby(value);
+          }}
+          items={user.babies.map((baby: any) => {
+            return {
+              label: baby.name,
+              value: baby.babyId
+            };
+          })}
+          style={pickerSelectStyles}
+        />
+      </View>
+      <Divider style={{ marginVertical: 8 }} />
+      <Text style={styles.sectionTitle}>Onboarding Questions</Text>
+      <ScrollView contentInset={{ top: 0, bottom: 250, left: 0, right: 0 }}>
+        {onboardingAnswers
+          ? onboardingAnswers.map((answer: any) => {
+              return (
+                <Item
+                  key={answer.questionId}
+                  answerId={answer.answerId}
+                  title={
+                    onboardingQuestions.find(
+                      (question: any) =>
+                        question.questionId === answer.questionId
+                    )?.description || ''
+                  }
+                  value={answer.answer_text}
+                />
+              );
+            })
+          : null}
+      </ScrollView>
+
+      <TouchableOpacity
+        onPress={onSave}
+        style={styles.editButton}>
+        <Text style={styles.editButtonText}>Save</Text>
       </TouchableOpacity>
     </ScrollView>
   ) : (
@@ -100,21 +200,34 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     fontSize: 32,
     letterSpacing: 2,
-    marginBottom: '10%'
+    marginBottom: '2%'
+    // marginTop: '5%'
+  },
+  sectionTitle: {
+    color: colors.textGray,
+    alignSelf: 'flex-start',
+    fontSize: 24,
+    letterSpacing: 2,
+    marginBottom: '5%'
   },
   itemContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-between',
     width: '100%',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    marginVertical: 8
   },
   itemTitle: {
-    fontSize: 20,
+    fontSize: 18,
     color: colors.crimsonRed
   },
   itemValue: {
     fontSize: 20,
-    color: colors.textGray
+    color: colors.textGray,
+    backgroundColor: colors.veryLightPurple,
+    borderRadius: 8,
+    padding: 12,
+    marginVertical: 4
   },
   editButton: {
     position: 'absolute',
@@ -136,4 +249,23 @@ const styles = StyleSheet.create({
   }
 });
 
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 18,
+    paddingTop: 12,
+    paddingBottom: 12,
+    paddingLeft: 10,
+    paddingRight: 10,
+    color: colors.crimsonRed,
+    fontWeight: '500'
+  },
+  inputAndroid: {
+    fontSize: 18,
+    paddingLeft: 10,
+    paddingTop: 12,
+    paddingBottom: 12,
+    color: colors.crimsonRed,
+    fontWeight: '500'
+  }
+});
 export default ProfileScreen;
