@@ -53,7 +53,7 @@ const RadioButtonOption: React.FC<{
         onValueChange(value);
       }}
       style={{
-        ...styles.inputContainer,
+        ...styles.answerInput,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
@@ -124,7 +124,7 @@ const DateQuestion: React.FC<{
 
   return (
     <TouchableOpacity
-      style={{ ...styles.inputContainer, flexDirection: 'row' }}
+      style={{ ...styles.answerInput, flexDirection: 'row' }}
       onPress={showDatePicker}>
       <Text style={{ color: colors.crimsonRed }}>
         {date ? date.toDateString() : 'Press to select date'}
@@ -149,7 +149,7 @@ const TextInputQuestion: React.FC<{
 
   return (
     <TextInput
-      style={styles.inputContainer}
+      style={styles.answerInput}
       placeholder={placeholder}
       keyboardType={keyboardType}
       onChangeText={handleChange}
@@ -168,7 +168,7 @@ const LargeTextInputQuestion: React.FC<{
 
   return (
     <TextInput
-      style={styles.inputContainer}
+      style={styles.answerInput}
       placeholder={placeholder}
       keyboardType={keyboardType}
       onChangeText={handleChange}
@@ -212,7 +212,12 @@ const questionFactory = (
         </Text>
         <Text style={styles.questionText}>{description}</Text>
       </View>
-      <QuestionComponent {...questionProps} />
+      <View style={styles.inputContainer}>
+        {questionId >= 1 && questionId <= 4 && (
+          <Text style={styles.requiredText}> *This field is required</Text>
+        )}
+        <QuestionComponent {...questionProps} />
+      </View>
     </View>
   );
 };
@@ -386,11 +391,19 @@ const styles = StyleSheet.create({
     marginBottom: 6
   },
   inputContainer: {
-    marginTop: '10%',
-    width: '80%',
     alignSelf: 'center',
     alignItems: 'flex-start',
     justifyContent: 'center',
+    marginTop: '10%',
+    width: '80%'
+  },
+  requiredText: {
+    color: 'red',
+    marginBottom: 5,
+    marginLeft: 16
+  },
+  answerInput: {
+    width: '100%',
     backgroundColor: 'white',
     borderRadius: 32,
     padding: 24,
