@@ -4,7 +4,8 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from 'react-native';
 import {
   createBaby,
@@ -54,6 +55,7 @@ const RadioButtonOption: React.FC<{
       }}
       style={{
         ...styles.answerInput,
+        marginBottom: 20,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
@@ -82,7 +84,7 @@ const YesNoQuestion: React.FC<{
   };
 
   return (
-    <View>
+    <View style={{ width: '100%' }}>
       <RadioButton.Group
         onValueChange={handleChange}
         value={value}>
@@ -168,7 +170,7 @@ const LargeTextInputQuestion: React.FC<{
 
   return (
     <TextInput
-      style={styles.answerInput}
+      style={{ ...styles.answerInput, height: 80 }}
       placeholder={placeholder}
       keyboardType={keyboardType}
       onChangeText={handleChange}
@@ -271,7 +273,23 @@ const PageButtons: React.FC<{ screenNumber: number; setScreenNumber: any }> = ({
           testID="next-button"
           disabled={screenNumber === TOTAL_SCREENS}
           onPress={() => {
-            setScreenNumber(screenNumber + 1);
+            const answer = questionAnswers[screenNumber.toString()];
+            if (
+              screenNumber >= 1 &&
+              screenNumber <= 4 &&
+              typeof answer === 'undefined'
+            ) {
+              Alert.alert('', 'This field is required');
+            } else if (
+              screenNumber === 9 &&
+              answer &&
+              answer.trim() !== '' &&
+              !/^\d+$/.test(answer)
+            ) {
+              Alert.alert('', 'Enter a number');
+            } else {
+              setScreenNumber(screenNumber + 1);
+            }
           }}>
           <Ionicons
             name="chevron-forward"
