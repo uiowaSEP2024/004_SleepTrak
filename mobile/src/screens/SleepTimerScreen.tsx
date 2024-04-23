@@ -10,7 +10,8 @@ import {
   StyleSheet,
   ScrollView,
   FlatList,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -140,6 +141,17 @@ const SleepTimer: React.FC = () => {
   };
 
   const saveSleepSession = async () => {
+    if (isRunning) {
+      Alert.alert('', 'Please stop the timer before saving the log');
+      return;
+    }
+    const sleepDuration =
+      (sleepData.endTime.getTime() - sleepData.startTime.getTime()) /
+      (1000 * 60);
+    if (sleepDuration < 1) {
+      Alert.alert('', 'Please log at least 1 minute of sleep');
+      return;
+    }
     const newSleepData = {
       ...sleepData,
       startTime: windows[0].startTime,
