@@ -61,7 +61,8 @@ const EditTimePicker: React.FC<EditTimePickerProps> = ({
       </TouchableOpacity>
       <DateTimePickerModal
         isVisible={isPickerVisible}
-        mode="time"
+        mode="datetime"
+        date={selectedTime}
         onConfirm={handleConfirm}
         onCancel={hidePicker}
       />
