@@ -5,6 +5,7 @@
     "dev": "vite --port 5173",
     "build": "tsc && vite build",
     "test": "jest",
+    "test-nc": "jest --coverage=false",
     "coverage": "jest --coverage --silent --ci --testLocationInResults --json --outputFile=\"report.json\"",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
