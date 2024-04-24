@@ -183,6 +183,49 @@ function getRandomFloat(minValue: number, maxValue: number): number {
   return minValue + Math.random() * difference;
 }
 
+async function createDevUsersData(): Promise<User[]> {
+  const devData = [
+    {
+      userId: 'google-oauth2|104742692006885207251',
+      email: 'dtlaurianti@gmail.com',
+      first_name: 'Dylan',
+      last_name: 'Dev',
+      role: 'owner'
+    },
+    {
+      userId: 'devID_smartelo',
+      email: 'sergiomarteloe@gmail.com',
+      first_name: 'Sergio',
+      last_name: 'Dev',
+      role: 'owner'
+    },
+    {
+      userId: 'devID_hokada',
+      email: 'haruko.flipsy.krb@gmail.com',
+      first_name: 'Haruko',
+      last_name: 'Dev',
+      role: 'owner'
+    },
+    {
+      userId: 'devID_mlee',
+      email: 'mingilee98@gmail.com',
+      first_name: 'Mingi',
+      last_name: 'Dev',
+      role: 'owner'
+    },
+    {
+      userId: 'google-oauth2|104215211064090676511',
+      email: 'dev.camilasleep@gmail.com',
+      first_name: 'Camila',
+      last_name: 'Dev',
+      role: 'owner'
+    }
+  ];
+  const promises = devData.map(
+    async (dev) => await prisma.user.create({ data: dev })
+  );
+  return await Promise.all(promises);
+}
 async function createOwnerData(): Promise<User> {
   return await prisma.user.create({
     data: {
@@ -267,6 +310,9 @@ async function main(): Promise<void> {
   const coachObjects: User[] = await Promise.all(
     Array.from({ length: TOTAL_COACHES }, createCoachData)
   );
+  // @ts-expect-error we may want to use the devObjects to seed further in the future
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  const devObjects: User[] = await createDevUsersData();
   console.log('Seeding: Finished seeding coaches!');
 
   // Create users
