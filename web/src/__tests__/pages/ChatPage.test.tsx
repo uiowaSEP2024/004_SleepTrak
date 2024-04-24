@@ -33,8 +33,22 @@ jest.mock('@auth0/auth0-react', () => ({
     }
   })
 }));
+import { useAuth0 } from '@auth0/auth0-react';
 
 describe('ChatPage Component', () => {
+  it('fetchs a auth0 access token', async () => {
+    const { getAccessTokenSilently } = useAuth0();
+    act(() => {
+      render(
+        <BrowserRouter>
+          <ChatPage />
+        </BrowserRouter>
+      );
+    });
+    await waitFor(() => {
+      expect(getAccessTokenSilently).toHaveBeenCalled();
+    });
+  });
   it('fetchs a twilio access token', async () => {
     act(() => {
       render(
