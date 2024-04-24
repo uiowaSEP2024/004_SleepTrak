@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import type { RouteProp } from '@react-navigation/native';
 import EditTimePicker from '../components/inputs/EditTimePicker';
 import NotesTextInput from '../components/inputs/NotesTextInput';
@@ -42,6 +42,16 @@ const EditWindowScreen: React.FC<Props> = ({ route }) => {
   const [newStopTime, setStopTime] = useState(stopTime);
 
   const handleSave = () => {
+    if (newStartTime >= newStopTime) {
+      Alert.alert('', 'Start time must be before stop time');
+      return;
+    }
+    const duration =
+      (newStopTime.getTime() - newStartTime.getTime()) / (1000 * 60);
+    if (duration < 0.59) {
+      Alert.alert('', 'Please log at least 1 minute of sleep');
+      return;
+    }
     onWindowEdit({
       id,
       startTime: newStartTime,
