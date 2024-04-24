@@ -68,4 +68,20 @@ describe('ChatPage Component', () => {
       );
     });
   });
+  it('fetches the users', async () => {
+    act(() => {
+      render(
+        <BrowserRouter>
+          <ChatPage />
+        </BrowserRouter>
+      );
+    });
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledWith(`http://${API_URL}/users/all`, {
+        headers: {
+          Authorization: 'Bearer mocked-access-token'
+        }
+      });
+    });
+  });
 });
