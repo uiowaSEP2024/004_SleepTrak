@@ -155,6 +155,7 @@ const TextInputQuestion: React.FC<{
       placeholder={placeholder}
       keyboardType={keyboardType}
       onChangeText={handleChange}
+      testID="question-input"
     />
   );
 };
@@ -175,6 +176,7 @@ const LargeTextInputQuestion: React.FC<{
       keyboardType={keyboardType}
       onChangeText={handleChange}
       multiline={true}
+      testID="question-input"
     />
   );
 };
@@ -228,7 +230,7 @@ const onboardingScreenFactory = async (screenNumber: number) => {
   const screenQuestions = await fetchOnboardingQuestionsForScreen(screenNumber);
 
   const questionComponents = await Promise.all(
-    screenQuestions.map(({ description, type, questionId }: Question) =>
+    (screenQuestions || []).map(({ description, type, questionId }: Question) =>
       questionFactory(description, type, questionId)
     )
   );
