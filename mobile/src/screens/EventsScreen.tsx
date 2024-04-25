@@ -1,9 +1,9 @@
 import { ScrollView, View, Text, StyleSheet } from 'react-native';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Card } from 'react-native-paper';
 import { colors } from '../../assets/colors';
 import { fetchUserData } from '../utils/db';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { TransitionHeader } from '../components/misc/TransitionHeader';
 
 const DateHeader: React.FC<{ date: Date; setDate: any }> = ({
@@ -117,7 +117,7 @@ const EventsScreen: React.FC<{ date?: Date }> = ({ date }) => {
     setEvents(eventsFilter(user.events, currentDate));
   };
 
-  useEffect(() => {
+  useFocusEffect(() => {
     void fetchEvents();
   }, [currentDate]);
 

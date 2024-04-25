@@ -313,6 +313,36 @@ export const createEvent = async (eventData: object) => {
   }
 };
 
+export const updateEvent = async (eventId: string, valuesToUpdate: object) => {
+  try {
+    const user = await getAuth0User();
+    const userCredentials = await getUserCredentials();
+    if (user && userCredentials) {
+      const accessToken = userCredentials.accessToken;
+
+      if (accessToken) {
+        const apiResponse = await fetch(
+          process.env.EXPO_PUBLIC_API_URL + '/events/' + eventId + '/update',
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({
+              ...valuesToUpdate
+            })
+          }
+        );
+        return apiResponse;
+      }
+    }
+    return false;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
 /**
  * Creates a medicine by sending a POST request to the server.
  * @param medicineId - The ID of the medicine.
