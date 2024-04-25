@@ -28,6 +28,10 @@ describe('OnboardingScreen', () => {
     useNavigation.mockReturnValue({ navigate: jest.fn() });
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('renders correctly', async () => {
     fetchOnboardingQuestionsForScreen.mockResolvedValueOnce([
       { description: 'Test question 1', type: 'yes-no', questionId: 1 }
@@ -42,11 +46,19 @@ describe('OnboardingScreen', () => {
       switch (input) {
         case 1:
           return [
-            { description: 'Test question 1', type: 'yes-no', questionId: 1 }
+            {
+              description: 'Test question 1',
+              type: 'small-text',
+              questionId: 1
+            }
           ];
         case 2:
           return [
-            { description: 'Test question 2', type: 'yes-no', questionId: 1 }
+            {
+              description: 'Test question 2',
+              type: 'small-text',
+              questionId: 1
+            }
           ];
         default:
           return [];
@@ -55,10 +67,25 @@ describe('OnboardingScreen', () => {
 
     const { findByTestId, findByText } = render(<OnboardingScreen />);
     const nextButton = await findByTestId('next-button');
+    const questionInput = await findByTestId('question-input');
+
+    await findByText('Test question 1');
+    fireEvent.changeText(questionInput, '123');
+    fireEvent.press(nextButton);
+    await findByText('Test question 2');
+  });
+
+  it('shows that the text input is required if it is', async () => {
+    fetchOnboardingQuestionsForScreen.mockResolvedValueOnce([
+      { description: 'Test question 1', type: 'small-text', questionId: 1 }
+    ]);
+
+    const { findByTestId, findByText } = render(<OnboardingScreen />);
+    const nextButton = await findByTestId('next-button');
 
     await findByText('Test question 1');
     fireEvent.press(nextButton);
-    await findByText('Test question 2');
+    await findByText('*This field is required');
   });
 
   it('renders the correct question component based on the question type', async () => {
@@ -82,9 +109,19 @@ describe('OnboardingScreen', () => {
   });
 
   it('updates the progress bar as the user progresses through the screens', async () => {
-    fetchOnboardingQuestionsForScreen.mockResolvedValueOnce([
-      { description: 'Test question 1', type: 'yes-no', questionId: 1 }
-    ]);
+    fetchOnboardingQuestionsForScreen
+      .mockResolvedValueOnce([
+        { description: 'Test question 1', type: 'small-text', questionId: 1 }
+      ])
+      .mockResolvedValueOnce([
+        { description: 'Test question 2', type: 'small-text', questionId: 2 }
+      ])
+      .mockResolvedValueOnce([
+        { description: 'Test question 3', type: 'small-text', questionId: 3 }
+      ])
+      .mockResolvedValueOnce([
+        { description: 'Test question 4', type: 'small-text', questionId: 4 }
+      ]);
 
     const { queryByTestId, findByTestId } = render(<OnboardingScreen />);
 
@@ -93,8 +130,14 @@ describe('OnboardingScreen', () => {
 
     let nextButton = queryByTestId('next-button');
     let submitButton = queryByTestId('submit-button');
-
     while (!submitButton && nextButton) {
+      await waitFor(() => {
+        return queryByTestId('question-input');
+      });
+      const questionInput = queryByTestId('question-input');
+      if (questionInput) {
+        fireEvent.changeText(questionInput, '123');
+      }
       fireEvent.press(nextButton);
       nextButton = queryByTestId('next-button');
       submitButton = queryByTestId('submit-button');
