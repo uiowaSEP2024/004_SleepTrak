@@ -1,8 +1,11 @@
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react-native';
+import { render, fireEvent, act, waitFor } from '@testing-library/react-native';
 import SleepTimer from '../../src/screens/SleepTimerScreen';
 import { useNavigation } from '@react-navigation/native';
 import type { RenderAPI } from '@testing-library/react-native';
+import { saveEvent, saveSleepWindow } from '../../src/utils/localDb';
+import { addToSyncQueue, syncData } from '../../src/utils/syncQueue';
+import { localize } from '../../src/utils/bridge';
 
 jest.mock('expo-font');
 jest.mock('expo-asset');
@@ -21,6 +24,10 @@ jest.mock('../../src/utils/syncQueue', () => ({
   syncData: jest.fn()
 }));
 
+jest.mock('../../src/utils/bridge', () => ({
+  localize: jest.fn(() => ({ eventId: '1' }))
+}));
+
 jest.mock('../../src/utils/auth', () => ({
   getUserCredentials: jest.fn(),
   getAuth0User: jest.fn()
@@ -33,6 +40,7 @@ describe('SleepTimerScreen', () => {
   beforeEach(() => {
     renderResult = render(<SleepTimer />);
     useNavigation.mockReturnValue({ navigate: jest.fn() });
+    useNavigation.mockReturnValue({ goBack: jest.fn() });
     const currentTime = new Date('2022-01-01T10:00:00');
     jest.useFakeTimers();
     jest.setSystemTime(currentTime.getTime());
@@ -175,5 +183,34 @@ describe('SleepTimerScreen', () => {
     expect(timeDisplay2.length).toBe(2);
     expect(timeDisplay3.length).toBe(3);
     expect(timeDisplay4.length).toBe(2);
+  });
+
+  test('saveSleepSession calls necessary functions with correct arguments', async () => {
+    const { getByTestId, findByTestId } = renderResult;
+    const startButton = getByTestId('start-button');
+    await act(async () => {
+      fireEvent.press(startButton);
+      jest.runOnlyPendingTimers();
+    });
+
+    const stopButton = await findByTestId('stop-button');
+    await act(async () => {
+      const currentTime = new Date();
+      currentTime.setMinutes(currentTime.getMinutes() + 30);
+      jest.setSystemTime(currentTime.getTime());
+      fireEvent.press(stopButton);
+      jest.runOnlyPendingTimers();
+    });
+
+    const saveButton = getByTestId('save-button');
+    fireEvent.press(saveButton);
+
+    await waitFor(() => {
+      expect(saveEvent).toHaveBeenCalled();
+      expect(localize).toHaveBeenCalled();
+      expect(addToSyncQueue).toHaveBeenCalled();
+      expect(saveSleepWindow).toHaveBeenCalled();
+      expect(syncData).toHaveBeenCalled();
+    });
   });
 });

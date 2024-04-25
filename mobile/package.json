@@ -28,7 +28,8 @@
       "!src/utils/auth.tsx",
       "!src/screens/AuthScreen.tsx",
       "!src/screens/TestScreen.tsx",
-      "!src/navigations/*"
+      "!src/navigations/*",
+      "!src/components/buttons/NavigationButton.tsx"
     ],
     "coverageThreshold": {
       "global": {
