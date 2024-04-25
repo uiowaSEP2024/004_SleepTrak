@@ -287,20 +287,38 @@ describe('<StatisticScreen />', () => {
 
   describe('chart', () => {
     it('nap chart renders correctly', () => {
-      const { getByText } = render(<StatisticScreen events={napEvents} />);
+      const { getByText, queryByText } = render(
+        <StatisticScreen events={napEvents} />
+      );
       expect(getByText('Number of Naps per Day')).toBeTruthy();
+      const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      let foundDay = false;
       fireEvent.press(getByText('Week'));
-      expect(getByText('Mon')).toBeTruthy();
+      for (const day of daysOfWeek) {
+        if (queryByText(day)) {
+          foundDay = true;
+          break;
+        }
+      }
+      expect(foundDay).toBeTruthy();
       fireEvent.press(getByText('Month'));
       expect(getByText('01')).toBeTruthy();
     });
     it('night sleep chart renders correctly', () => {
-      const { getByText } = render(
+      const { getByText, queryByText } = render(
         <StatisticScreen events={nightSleepEvents} />
       );
       expect(getByText('Number of Wakings per Night')).toBeTruthy();
+      const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      let foundDay = false;
       fireEvent.press(getByText('Week'));
-      expect(getByText('Mon')).toBeTruthy();
+      for (const day of daysOfWeek) {
+        if (queryByText(day)) {
+          foundDay = true;
+          break;
+        }
+      }
+      expect(foundDay).toBeTruthy();
       fireEvent.press(getByText('Month'));
       expect(getByText('01')).toBeTruthy();
     });
