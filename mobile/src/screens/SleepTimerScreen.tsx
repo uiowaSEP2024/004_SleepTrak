@@ -146,7 +146,8 @@ const SleepTimer: React.FC = () => {
       return;
     }
     const sleepDuration =
-      (sleepData.endTime.getTime() - sleepData.startTime.getTime()) /
+      (windows[windows.length - 1].stopTime.getTime() -
+        windows[0].startTime.getTime()) /
       (1000 * 60);
     if (sleepDuration < 1) {
       Alert.alert('', 'Please log at least 1 minute of sleep');
@@ -251,6 +252,7 @@ const SleepTimer: React.FC = () => {
           style={{ marginTop: 0, marginBottom: 10, marginLeft: '60%' }}
         />
         <Button
+          testID="save-button"
           mode="contained"
           onPress={() => {
             void saveSleepSession();
