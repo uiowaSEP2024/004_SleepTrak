@@ -9,11 +9,19 @@ import {
 import SleepTypeSelector from '../components/selectors/SleepTypeSelector';
 import EditTimePicker from '../components/inputs/EditTimePicker';
 import WindowCell from '../components/views/WindowCell';
+import type { RootStackParamList } from '../navigations/HomeStack';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { colors } from '../../assets/colors';
 import { Button } from 'react-native-paper';
 import { saveEvent, saveSleepWindow } from '../utils/localDb';
 import { addToSyncQueue, syncData } from '../utils/syncQueue';
 import { localize } from '../utils/bridge';
+
+type NavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'ManualSleepTrackingScreen'
+>;
 
 const ManualSleepTrackingScreen = () => {
   const [sleepData, setSleepData] = useState({
@@ -47,6 +55,30 @@ const ManualSleepTrackingScreen = () => {
 
   const handleSleepStopTimeChange = (selectedTime: Date) => {
     setSleepStopTime(selectedTime);
+  };
+
+  const navigation = useNavigation<NavigationProp>();
+
+  const handleWindowEdit = (editedWindow: {
+    id: string;
+    startTime: Date;
+    stopTime: Date;
+    isSleep: boolean;
+    note: string;
+  }) => {
+    const windowIndex = windows.findIndex(
+      (window) => window.id === editedWindow.id
+    );
+
+    if (windowIndex !== -1) {
+      const newWindows = [...windows];
+      newWindows[windowIndex] = editedWindow;
+      setWindows(newWindows);
+    }
+  };
+
+  const handleWindowDelete = (windowId: string) => {
+    setWindows(windows.filter((window) => window.id !== windowId));
   };
 
   const updateWindows = () => {
@@ -88,6 +120,10 @@ const ManualSleepTrackingScreen = () => {
   };
 
   const handleSave = async () => {
+    if (windows.length === 0) {
+      Alert.alert('', 'Please log at least one sleep window');
+      return;
+    }
     const newSleepData = {
       ...sleepData,
       startTime: windows[0].startTime,
@@ -136,7 +172,7 @@ const ManualSleepTrackingScreen = () => {
       console.error('Error in saveEvent:', error);
     } finally {
       setWindows([]);
-      // navigation.goBack();
+      navigation.goBack();
     }
   };
 
@@ -175,14 +211,14 @@ const ManualSleepTrackingScreen = () => {
         renderItem={({ item: { id, startTime, stopTime, isSleep } }) => (
           <TouchableOpacity
             onPress={() => {
-              // navigation.navigate('EditWindowScreen', {
-              //   id,
-              //   startTime,
-              //   stopTime,
-              //   isSleep,
-              //   onWindowEdit: handleWindowEdit,
-              //   onWindowDelete: handleWindowDelete
-              // });
+              navigation.navigate('EditWindowScreen', {
+                id,
+                startTime,
+                stopTime,
+                isSleep,
+                onWindowEdit: handleWindowEdit,
+                onWindowDelete: handleWindowDelete
+              });
             }}>
             <WindowCell
               startTime={startTime.toLocaleTimeString(undefined, options)}
