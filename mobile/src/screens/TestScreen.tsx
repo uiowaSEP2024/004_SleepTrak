@@ -30,6 +30,10 @@ function TestScreen({ navigation }: { navigation: any }) {
         title="Home screen"
       />
       <NavigationButton
+        onPress={() => navigation.navigate('ManualSleepTracking')}
+        title="Manual Sleep Track"
+      />
+      <NavigationButton
         onPress={() => navigation.navigate('StatisticsScreen')}
         title="Statistics Screen"
       />
