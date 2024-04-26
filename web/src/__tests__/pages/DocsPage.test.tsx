@@ -99,17 +99,14 @@ describe('DocsPage', () => {
     });
 
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledWith(
-        `http://${API_URL}/files/search`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer mocked-access-token'
-          },
-          body: JSON.stringify(useParamsMock())
-        }
-      );
+      expect(global.fetch).toHaveBeenCalledWith(`${API_URL}/files/search`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer mocked-access-token'
+        },
+        body: JSON.stringify(useParamsMock())
+      });
     });
   });
 });

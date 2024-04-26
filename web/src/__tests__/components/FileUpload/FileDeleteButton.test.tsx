@@ -2,6 +2,7 @@ import '@testing-library/jest-dom';
 import '../../../util/setupDomTests';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import FileDeleteButton from '../../../components/FileUpload/FileDeleteButton';
+import { API_URL } from '../../../util/environment';
 
 // Mock auth0
 jest.mock('@auth0/auth0-react', () => ({
@@ -57,7 +58,7 @@ describe('FileDeleteButton', () => {
     fireEvent.click(getByText('Yes'));
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith(
-        `http://localhost:3000/files/${mockFilesListProps.fileId}/delete`,
+        `${API_URL}/files/${mockFilesListProps.fileId}/delete`,
         {
           method: 'Delete',
           headers: {

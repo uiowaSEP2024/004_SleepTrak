@@ -6,6 +6,7 @@ import ScheduleCreateButton, {
 } from '../../../components/RecommendedSchedule/ScheduleCreateButton';
 import dayjs from 'dayjs';
 import { createSleepPlan } from '../../../util/utils';
+import { API_URL } from '../../../util/environment';
 
 // Mock the TimePickerField component
 jest.mock('../../../components/TimePickerField', () => () => (
@@ -68,7 +69,7 @@ describe('ScheduleCreateButton', () => {
     fireEvent.click(getByText('Add Schedule'));
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith(
-        `http://localhost:3000/recommended_plans/1`,
+        `${API_URL}/recommended_plans/1`,
         {
           headers: {
             Authorization: `Bearer mocked-access-token`
@@ -114,17 +115,14 @@ describe('ScheduleCreateButton', () => {
     await fireEvent.click(getByText('Create'));
 
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledWith(
-        `http://localhost:3000/plans/create`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer mocked-access-token`
-          },
-          body: JSON.stringify(mockPlan)
-        }
-      );
+      expect(global.fetch).toHaveBeenCalledWith(`${API_URL}/plans/create`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer mocked-access-token`
+        },
+        body: JSON.stringify(mockPlan)
+      });
     });
 
     spyCreateSleepPlan.mockRestore();

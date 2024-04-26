@@ -3,6 +3,7 @@ import '../../../util/setupDomTests';
 import FileUploadButton from '../../../components/FileUpload/FileUploadButton';
 import { render, waitFor } from '@testing-library/react';
 import user from '@testing-library/user-event';
+import { API_URL } from '../../../util/environment';
 
 // Mock auth0
 jest.mock('@auth0/auth0-react', () => ({
@@ -54,7 +55,7 @@ describe('FileUploadButton', () => {
 
     // Wait for file upload process to complete
     await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith(`http://localhost:3000/files/create`, {
+      expect(fetch).toHaveBeenCalledWith(`${API_URL}/files/create`, {
         method: 'POST',
         headers: {
           Authorization: 'Bearer mocked-access-token'

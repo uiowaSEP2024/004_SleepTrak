@@ -68,7 +68,7 @@ describe('ChatPage Component', () => {
     });
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith(
-        encodeURI(`http://${API_URL}/twilio/token?identity=${mockUser.sub}`),
+        encodeURI(`${API_URL}/twilio/token?identity=${mockUser.sub}`),
         {
           headers: {
             Authorization: 'Bearer mocked-access-token'
@@ -86,7 +86,7 @@ describe('ChatPage Component', () => {
       );
     });
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledWith(`http://${API_URL}/users/all`, {
+      expect(global.fetch).toHaveBeenCalledWith(`${API_URL}/users/all`, {
         headers: {
           Authorization: 'Bearer mocked-access-token'
         }

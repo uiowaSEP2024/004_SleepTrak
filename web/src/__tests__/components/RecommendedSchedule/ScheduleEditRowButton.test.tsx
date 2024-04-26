@@ -2,6 +2,7 @@ import '@testing-library/jest-dom';
 import '../../../util/setupDomTests';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import ScheduleEditRowButton from '../../../components/RecommendedSchedule/ScheduleEditRowButton';
+import { API_URL } from '../../../util/environment';
 
 // Mock the TimePickerField component
 jest.mock('../../../components/TimePickerField', () => () => (
@@ -120,7 +121,7 @@ describe('ScheduleEditButton component', () => {
     fireEvent.click(submitButton);
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith(
-        `http://localhost:3000/reminders/${mockReminder.reminderId}/update`,
+        `${API_URL}/reminders/${mockReminder.reminderId}/update`,
         {
           method: 'PUT',
           headers: {
