@@ -225,14 +225,14 @@ const EventScreen: React.FC = ({ route, _navigation }) => {
   const { event } = route.params;
   const navigation = useNavigation();
   const [eventData, setEventData] = useState({ ...event });
-
+  console.log(event);
   const onSave = useCallback(() => {
     const updateEventInDB = async () => {
       await updateEvent(event.eventId, eventData);
       navigation.goBack();
     };
     void updateEventInDB();
-  }, [event.eventId, navigation, eventData]);
+  }, [navigation, eventData]);
 
   return event ? (
     <View style={styles.container}>
