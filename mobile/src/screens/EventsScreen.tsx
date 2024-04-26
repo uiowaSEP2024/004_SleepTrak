@@ -117,9 +117,11 @@ const EventsScreen: React.FC<{ date?: Date }> = ({ date }) => {
     setEvents(eventsFilter(user.events, currentDate));
   };
 
-  useFocusEffect(() => {
-    void fetchEvents();
-  }, [currentDate]);
+  useFocusEffect(
+    React.useCallback(() => {
+      void fetchEvents();
+    }, [currentDate])
+  );
 
   return (
     <View>
