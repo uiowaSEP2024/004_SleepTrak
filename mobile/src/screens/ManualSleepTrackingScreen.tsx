@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  View,
   StyleSheet,
   TouchableOpacity,
   FlatList,
@@ -133,14 +132,19 @@ const ManualSleepTrackingScreen = () => {
     <ScrollView
       contentContainerStyle={{
         flexGrow: 1,
+        alignItems: 'center',
         backgroundColor: 'white',
         paddingHorizontal: '7%'
       }}>
-      <SleepTypeSelector onValueChange={handleSleepTypeChange} />
+      <SleepTypeSelector
+        onValueChange={handleSleepTypeChange}
+        style={{ marginTop: 20, marginBottom: 10 }}
+      />
       <EditTimePicker
         title="Start Time"
         placeholderTime={sleepStartTime}
         onTimeChange={handleSleepStartTimeChange}
+        style={{ marginTop: 30 }}
       />
       <EditTimePicker
         title="Stop Time"
@@ -154,31 +158,29 @@ const ManualSleepTrackingScreen = () => {
         labelStyle={styles.saveButtonLabel}>
         Add Window
       </Button>
-      <View>
-        <FlatList
-          data={windows}
-          renderItem={({ item: { id, startTime, stopTime, isSleep } }) => (
-            <TouchableOpacity
-              onPress={() => {
-                // navigation.navigate('EditWindowScreen', {
-                //   id,
-                //   startTime,
-                //   stopTime,
-                //   isSleep,
-                //   onWindowEdit: handleWindowEdit,
-                //   onWindowDelete: handleWindowDelete
-                // });
-              }}>
-              <WindowCell
-                startTime={startTime.toLocaleTimeString(undefined, options)}
-                endTime={stopTime.toLocaleTimeString(undefined, options)}
-                isSleep={isSleep}
-              />
-            </TouchableOpacity>
-          )}
-          keyExtractor={(window) => window.id}
-        />
-      </View>
+      <FlatList
+        data={windows}
+        renderItem={({ item: { id, startTime, stopTime, isSleep } }) => (
+          <TouchableOpacity
+            onPress={() => {
+              // navigation.navigate('EditWindowScreen', {
+              //   id,
+              //   startTime,
+              //   stopTime,
+              //   isSleep,
+              //   onWindowEdit: handleWindowEdit,
+              //   onWindowDelete: handleWindowDelete
+              // });
+            }}>
+            <WindowCell
+              startTime={startTime.toLocaleTimeString(undefined, options)}
+              endTime={stopTime.toLocaleTimeString(undefined, options)}
+              isSleep={isSleep}
+            />
+          </TouchableOpacity>
+        )}
+        keyExtractor={(window) => window.id}
+      />
       <Button
         mode="contained"
         onPress={() => {
@@ -198,22 +200,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 20
   },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20
-  },
   label: {
     marginRight: 10,
     fontSize: 16
   },
   saveButtonContainer: {
     width: '100%',
-    height: '7%',
+    height: 50,
     borderRadius: 25,
     justifyContent: 'center',
     backgroundColor: colors.crimsonRed,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    marginBottom: 20,
+    marginTop: 10
   },
   saveButtonLabel: {
     color: 'white',
