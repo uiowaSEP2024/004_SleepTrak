@@ -40,6 +40,7 @@ const UserSearch: React.FC<UserSearchProps> = ({ onChange }) => {
       placeholder="Search Users"
       getOptionLabel={(user) => getName(user) + ' ' + user.email}
       options={usersData}
+      data-testid="UserSearch"
     />
   );
 };

@@ -286,7 +286,9 @@ export default function ChatPage() {
               borderColor: colors.silverGrey,
               margin: 'auto'
             }}>
-            <List sx={{ overflow: 'auto', marginTop: 1, marginBottom: 1 }}>
+            <List
+              sx={{ overflow: 'auto', marginTop: 1, marginBottom: 1 }}
+              data-testid="ContactsList">
               {contacts.map((contact) => (
                 <ListItem key={contact.userId}>
                   <Button
@@ -328,7 +330,9 @@ export default function ChatPage() {
                       getName(selectedUser)
                     : getName(selectedUser)}
               </Typography>
-              <List sx={{ overflow: 'auto' }}>
+              <List
+                sx={{ overflow: 'auto' }}
+                data-testid="MessagesList">
                 {conversationContent?.items.map((message) => (
                   <ListItem
                     key={message.index}
@@ -371,7 +375,9 @@ export default function ChatPage() {
                   marginBottom: 1,
                   width: '100%'
                 }}>
-                <form onSubmit={handleSubmitMessage}>
+                <form
+                  onSubmit={handleSubmitMessage}
+                  data-testid="MessageForm">
                   <Input
                     sx={{
                       width: '100%'
@@ -395,5 +401,7 @@ export default function ChatPage() {
         </Stack>
       </>
     );
+  } else {
+    return <h1>Twilio Conversations client failed to initialize!</h1>;
   }
 }

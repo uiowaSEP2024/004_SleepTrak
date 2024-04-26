@@ -33,7 +33,9 @@ const ConversationAdder: React.FC<ConversationAdderProps> = ({
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={handleSubmit}
+        data-testid="ConversationAdderForm">
         <Box
           display="flex"
           alignItems="center">
