@@ -69,7 +69,10 @@ const ProfileScreen: React.FC = () => {
     useCallback(() => {
       const fetchUser = async () => {
         const userData = await fetchUserData();
-        setCurrentBaby(userData.babies[0].babyId);
+
+        if (userData.babies.length > 0) {
+          setCurrentBaby(userData.babies[0].babyId);
+        }
         setUser(userData);
       };
       const fetchQuestions = async () => {
