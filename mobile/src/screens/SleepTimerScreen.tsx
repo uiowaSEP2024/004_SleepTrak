@@ -216,9 +216,15 @@ const SleepTimer: React.FC = () => {
         paddingHorizontal: '7%'
       }}>
       <View style={styles.timerContainer}>
+        <Button
+          onPress={() => {
+            navigation.navigate('ManualSleepTracking');
+          }}>
+          Switch to Manual Sleep Tracking
+        </Button>
         <SleepTypeSelector
           onValueChange={handleSleepTypeChange}
-          style={{ marginTop: 20, marginBottom: 10 }}
+          style={{ marginTop: 4, marginBottom: 10 }}
         />
         <View style={styles.timerGroup}>
           <TimerDisplay
