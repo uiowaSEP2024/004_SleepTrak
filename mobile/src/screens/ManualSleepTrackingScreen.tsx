@@ -3,7 +3,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
-  ScrollView
+  ScrollView,
+  Alert
 } from 'react-native';
 import SleepTypeSelector from '../components/selectors/SleepTypeSelector';
 import EditTimePicker from '../components/inputs/EditTimePicker';
@@ -49,6 +50,17 @@ const ManualSleepTrackingScreen = () => {
   };
 
   const updateWindows = () => {
+    if (sleepStartTime > sleepStopTime) {
+      Alert.alert('', 'Start time must be before stop time');
+      return;
+    }
+    if (
+      windows.length > 0 &&
+      sleepStartTime < windows[windows.length - 1].stopTime
+    ) {
+      Alert.alert('', 'Sleep windows must be in chronological order');
+      return;
+    }
     setWindows((prevWindows) => {
       let updatedWindows = [...prevWindows];
       if (updatedWindows.length > 0) {
