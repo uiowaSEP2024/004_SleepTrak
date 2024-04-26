@@ -33,6 +33,15 @@ jest.mock('@auth0/auth0-react', () => ({
     }
   })
 }));
+
+// Mock Twilio
+jest.mock('@twilio/conversations', () => ({
+  ...jest.requireActual('@twilio/conversations'),
+  Client: jest.fn().mockImplementation(() => ({
+    getSubscribedConversations: jest.fn(),
+    on: jest.fn()
+  }))
+}));
 import { useAuth0 } from '@auth0/auth0-react';
 
 describe('ChatPage Component', () => {
