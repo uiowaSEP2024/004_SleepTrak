@@ -104,7 +104,7 @@ describe('BabyDetailsPage', () => {
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith(
-        `http://${API_URL}/users/${mockClientData.userId}`,
+        `${API_URL}/users/${mockClientData.userId}`,
         {
           headers: {
             Authorization: 'Bearer mocked-access-token'

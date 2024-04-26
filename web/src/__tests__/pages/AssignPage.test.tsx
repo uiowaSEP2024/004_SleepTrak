@@ -108,14 +108,14 @@ describe('AssignPage Component', () => {
     );
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith(
-        `http://${API_URL}/users/${clientId}`,
+        `${API_URL}/users/${clientId}`,
         {
           headers: {
             Authorization: 'Bearer mocked-access-token'
           }
         }
       );
-      expect(global.fetch).toHaveBeenCalledWith(`http://${API_URL}/users/all`, {
+      expect(global.fetch).toHaveBeenCalledWith(`${API_URL}/users/all`, {
         headers: {
           Authorization: 'Bearer mocked-access-token'
         }

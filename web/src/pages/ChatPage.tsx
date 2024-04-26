@@ -62,14 +62,11 @@ export default function ChatPage() {
   useEffect(() => {
     if (!authToken) return;
     const getCurrUser = async () => {
-      const response = await fetch(
-        `http://${API_URL}/users/${state.identity}`,
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`
-          }
+      const response = await fetch(`${API_URL}/users/${state.identity}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`
         }
-      );
+      });
       const data = await response.json();
       setCurrUser(data);
     };
@@ -80,7 +77,7 @@ export default function ChatPage() {
     if (!authToken) return;
     const getToken = async () => {
       const response = await fetch(
-        encodeURI(`http://${API_URL}/twilio/token?identity=${state.identity}`),
+        encodeURI(`${API_URL}/twilio/token?identity=${state.identity}`),
         {
           headers: {
             Authorization: `Bearer ${authToken}`
@@ -181,7 +178,7 @@ export default function ChatPage() {
   useEffect(() => {
     if (!currUser || !authToken) return;
     const fetchContactsData = async () => {
-      const response = await fetch(`http://${API_URL}/users/all`, {
+      const response = await fetch(`${API_URL}/users/all`, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }
@@ -230,7 +227,7 @@ export default function ChatPage() {
     ).then((conversations) =>
       setSelectedConversation(conversations.filter(Boolean)[0])
     );
-    const response = await fetch(`http://${API_URL}/users/${uid}`, {
+    const response = await fetch(`${API_URL}/users/${uid}`, {
       headers: {
         Authorization: `Bearer ${authToken}`
       }

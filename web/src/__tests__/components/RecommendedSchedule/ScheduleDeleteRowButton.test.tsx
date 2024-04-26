@@ -2,6 +2,7 @@ import '@testing-library/jest-dom';
 import '../../../util/setupDomTests';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import ScheduleDeleteRowButton from '../../../components/RecommendedSchedule/ScheduleDeleteRowButton';
+import { API_URL } from '../../../util/environment';
 
 const mockReminder = {
   reminderId: '1',
@@ -88,7 +89,7 @@ describe('ScheduleDeleteButton component', () => {
     fireEvent.click(getByText('Yes'));
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith(
-        `http://localhost:3000/reminders/${mockReminder.reminderId}/delete`,
+        `${API_URL}/reminders/${mockReminder.reminderId}/delete`,
         {
           method: 'Delete',
           headers: {
