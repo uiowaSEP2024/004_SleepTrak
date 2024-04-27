@@ -1,6 +1,10 @@
 import React from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import EventsScreen from '../../src/screens/EventsScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
 
 const MOCK_CURRENT_DATE_IN_MS = 1466424490000; // This is a specific date (June 20, 2016)
 const ONE_DAY_IN_MS = 86400000;
@@ -74,7 +78,16 @@ jest.mock('@react-navigation/native', () => {
 
 describe('Events Screen', () => {
   it('renders correctly', async () => {
-    const { findByTestId } = render(<EventsScreen />);
+    const { findByTestId } = render(
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Event"
+            component={() => <EventsScreen />}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
     await waitFor(() => {
       expect(findByTestId('date-header')).toBeDefined();
     });
@@ -83,7 +96,16 @@ describe('Events Screen', () => {
   it('should render the correct date', async () => {
     const mockDate = new Date(MOCK_CURRENT_DATE_IN_MS);
 
-    const { findByText } = render(<EventsScreen date={mockDate} />);
+    const { findByText } = render(
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Event"
+            component={() => <EventsScreen date={mockDate} />}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
 
     // Check that the date is displayed correctly
     await waitFor(() => {
@@ -94,7 +116,16 @@ describe('Events Screen', () => {
   it('should change the date when the back button is pressed', async () => {
     const mockDate = new Date(MOCK_CURRENT_DATE_IN_MS);
 
-    const { getByTestId } = render(<EventsScreen date={mockDate} />);
+    const { getByTestId } = render(
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Event"
+            component={() => <EventsScreen date={mockDate} />}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
     const dateBackButton = getByTestId('date-back-button');
 
     // Simulate a press on the back button
@@ -112,7 +143,16 @@ describe('Events Screen', () => {
     const mockDate = new Date(MOCK_CURRENT_DATE_IN_MS);
     const nextDate = new Date(MOCK_CURRENT_DATE_IN_MS + ONE_DAY_IN_MS); // This is the day after the specific date
 
-    const { getByTestId } = render(<EventsScreen date={mockDate} />);
+    const { getByTestId } = render(
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Event"
+            component={() => <EventsScreen date={mockDate} />}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
     const dateForwardButton = getByTestId('date-forward-button');
 
     // Simulate a press on the forward button
@@ -135,7 +175,16 @@ describe('Events Screen', () => {
     // Mock the Date object to return a specific date
     const mockDate = new Date(MOCK_CURRENT_DATE_IN_MS);
 
-    const { getByTestId } = render(<EventsScreen date={mockDate} />);
+    const { getByTestId } = render(
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Event"
+            component={() => <EventsScreen date={mockDate} />}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
     const dateBackButton = getByTestId('date-back-button');
 
     // Simulate a press on the back button
