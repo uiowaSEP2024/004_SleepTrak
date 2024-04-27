@@ -11,7 +11,8 @@ import {
   ScrollView,
   FlatList,
   TouchableOpacity,
-  Alert
+  Alert,
+  Text
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -216,12 +217,15 @@ const SleepTimer: React.FC = () => {
         paddingHorizontal: '7%'
       }}>
       <View style={styles.timerContainer}>
-        <Button
+        <TouchableOpacity
+          style={styles.manualNavButton}
           onPress={() => {
             navigation.navigate('ManualSleepTracking');
           }}>
-          Switch to Manual Sleep Tracking
-        </Button>
+          <Text style={styles.manualNavLabel}>
+            Switch to Manual Sleep Tracking
+          </Text>
+        </TouchableOpacity>
         <SleepTypeSelector
           onValueChange={handleSleepTypeChange}
           style={{ marginTop: 4, marginBottom: 10 }}
@@ -250,7 +254,7 @@ const SleepTimer: React.FC = () => {
         <TimerButton
           onStart={handleStart}
           onStop={handleStop}
-          style={{ marginTop: '15%' }}
+          style={{ marginTop: '14%' }}
         />
         <CribButton
           onStart={handleCribStart}
@@ -310,7 +314,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    marginTop: 20
+    marginTop: 16
   },
   logContainer: {
     alignItems: 'center',
@@ -327,6 +331,15 @@ const styles = StyleSheet.create({
   saveButtonLabel: {
     color: 'white',
     fontSize: 20
+  },
+  manualNavButton: {
+    marginTop: 10,
+    marginBottom: 10
+  },
+  manualNavLabel: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: colors.deepBlue
   }
 });
 
