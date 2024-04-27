@@ -56,7 +56,6 @@ describe('EditWindowScreen', () => {
 
     const saveButton = getByText('Save');
     fireEvent.press(saveButton);
-    // Write logic to test the onPress function once database is set
   });
 
   test('should call the onPress function when the Delete button is pressed', () => {
@@ -64,6 +63,5 @@ describe('EditWindowScreen', () => {
 
     const deleteButton = getByText('Delete');
     fireEvent.press(deleteButton);
-    // Write logic to test the onPress function once database is set
   });
 });
