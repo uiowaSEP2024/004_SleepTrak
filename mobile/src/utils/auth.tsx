@@ -1,4 +1,3 @@
-import { fetchUserData } from './db';
 import jwtDecode from 'jwt-decode';
 import Auth0 from 'react-native-auth0';
 
@@ -30,22 +29,6 @@ export const getUserCredentials = async () => {
     if (credentials) {
       return credentials;
     }
-  } catch (error) {
-    console.error('Error:', error);
-  }
-};
-
-/**
- * Checks if the user has completed the onboarding process.
- * @returns A promise that resolves to a boolean indicating whether the user has completed onboarding.
- */
-export const hasOnboarded = async () => {
-  try {
-    const userData = await fetchUserData();
-    if (userData) {
-      return true;
-    }
-    return false;
   } catch (error) {
     console.error('Error:', error);
   }
