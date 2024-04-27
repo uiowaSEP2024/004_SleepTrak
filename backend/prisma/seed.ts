@@ -192,13 +192,14 @@ async function createDevUsersData(): Promise<User[]> {
       last_name: 'Dev',
       role: 'owner'
     },
-    {
-      userId: 'devID_smartelo',
-      email: 'sergiomarteloe@gmail.com',
-      first_name: 'Sergio',
-      last_name: 'Dev',
-      role: 'owner'
-    },
+    // This breaks your ability to do the onboarding flow as a new user
+    // {
+    //   userId: 'devID_smartelo',
+    //   email: 'sergiomarteloe@gmail.com',
+    //   first_name: 'Sergio',
+    //   last_name: 'Dev',
+    //   role: 'owner'
+    // },
     {
       userId: 'devID_hokada',
       email: 'haruko.flipsy.krb@gmail.com',
