@@ -41,7 +41,7 @@ export const generatePlanNotifications = async (user: any) => {
   }
 
   let notification;
-  if (naps.length === 0) {
+  if (naps.length === 0 && user.events.length > 0) {
     const sleeps = user.events.filter(
       (event: any) => event.type === 'night_sleep'
     );
