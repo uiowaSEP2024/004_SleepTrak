@@ -2,7 +2,8 @@ import React from 'react';
 import { render, act } from '@testing-library/react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth0 } from 'react-native-auth0';
-import { hasOnboarded, hasValidCredentials } from '../../src/utils/auth';
+import { hasValidCredentials } from '../../src/utils/auth';
+import { hasOnboarded } from '../../src/utils/db';
 import WelcomeScreen from '../../src/screens/WelcomeScreen';
 
 jest.mock('@react-navigation/native', () => ({
@@ -14,8 +15,11 @@ jest.mock('react-native-auth0', () => ({
 }));
 
 jest.mock('../../src/utils/auth', () => ({
-  hasOnboarded: jest.fn(),
   hasValidCredentials: jest.fn()
+}));
+
+jest.mock('../../src/utils/db', () => ({
+  hasOnboarded: jest.fn()
 }));
 
 describe('WelcomeScreen', () => {
