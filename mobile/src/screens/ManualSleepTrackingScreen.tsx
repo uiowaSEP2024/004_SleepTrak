@@ -172,7 +172,7 @@ const ManualSleepTrackingScreen = () => {
       console.error('Error in saveEvent:', error);
     } finally {
       setWindows([]);
-      navigation.goBack();
+      navigation.navigate('Home');
     }
   };
 

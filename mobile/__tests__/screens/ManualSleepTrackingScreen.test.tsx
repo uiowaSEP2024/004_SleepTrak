@@ -95,7 +95,9 @@ describe('ManualSleepTrackingScreen', () => {
     expect(getByText('AWAKE')).toBeTruthy();
   });
 
-  it('saveSleepSession calls necessary functions with correct arguments', async () => {
+  it('handleSave calls necessary functions with correct arguments', async () => {
+    const navigate = jest.fn();
+    (useNavigation as jest.Mock).mockReturnValue({ navigate });
     const { getByText } = render(<ManualSleepTrackingScreen />);
     const saveButton = getByText('Save Sleep');
     await act(async () => {
@@ -108,6 +110,7 @@ describe('ManualSleepTrackingScreen', () => {
       expect(addToSyncQueue).toHaveBeenCalled();
       expect(saveSleepWindow).toHaveBeenCalled();
       expect(syncData).toHaveBeenCalled();
+      expect(navigate).toHaveBeenCalledWith('Home');
     });
   });
 
