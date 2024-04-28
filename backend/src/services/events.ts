@@ -27,7 +27,10 @@ const get = async (eventId: string): Promise<Event | null | Error> => {
 const search = async (searchParams: any): Promise<Event[] | Error> => {
   try {
     const result = await prisma.event.findMany({
-      where: searchParams
+      where: searchParams,
+      orderBy: {
+        startTime: 'desc'
+      }
     });
 
     return result;
