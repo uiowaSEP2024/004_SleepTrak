@@ -9,7 +9,6 @@ import ListItemButton, { listItemButtonClasses } from '@mui/joy/ListItemButton';
 import ListItemContent from '@mui/joy/ListItemContent';
 import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
-import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import QuestionAnswerRoundedIcon from '@mui/icons-material/QuestionAnswerRounded';
 import SupervisorIcon from '@mui/icons-material/SupervisorAccount';
 import PersonIcon from '@mui/icons-material/Person';
@@ -104,18 +103,6 @@ export default function Sidebar() {
               '--List-nestedInsetStart': '30px',
               '--ListItem-radius': (theme) => theme.vars.radius.sm
             }}>
-            <ListItem>
-              <ListItemButton
-                role="menuitem"
-                component={Link}
-                to="/dashboard">
-                <DashboardRoundedIcon />
-                <ListItemContent>
-                  <Typography level="title-sm">Dashboard</Typography>
-                </ListItemContent>
-              </ListItemButton>
-            </ListItem>
-
             <ListItem>
               <ListItemButton
                 role="menuitem"
