@@ -8,82 +8,121 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { Typography } from '@mui/joy';
+import { useAuth0 } from '@auth0/auth0-react';
+import { useParams } from 'react-router-dom';
+import API_URL from '../util/apiURL';
+import { useEffect, useState } from 'react';
+import { Event } from '@prisma/client';
+import { formatDateTo12HourFormat } from '../util/utils';
 
 interface Column {
-  id: 'name' | 'code' | 'population' | 'size' | 'density';
+  id: 'type' | 'date' | 'time' | 'detail' | 'note';
   label: string;
   minWidth?: number;
   align?: 'right';
-  format?: (value: number) => string;
 }
 
 const columns: readonly Column[] = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
+  { id: 'type', label: 'Type', minWidth: 100 },
+  { id: 'date', label: 'Date', minWidth: 100 },
   {
-    id: 'population',
-    label: 'Population',
+    id: 'time',
+    label: 'Time',
     minWidth: 170,
-    align: 'right',
-    format: (value: number) => value.toLocaleString('en-US')
+    align: 'right'
   },
   {
-    id: 'size',
-    label: 'Size\u00a0(km\u00b2)',
-    minWidth: 170,
-    align: 'right',
-    format: (value: number) => value.toLocaleString('en-US')
+    id: 'detail',
+    label: 'Detail',
+    minWidth: 200,
+    align: 'right'
   },
   {
-    id: 'density',
-    label: 'Density',
-    minWidth: 170,
-    align: 'right',
-    format: (value: number) => value.toFixed(2)
+    id: 'note',
+    label: 'Note',
+    minWidth: 200,
+    align: 'right'
   }
 ];
 
-interface Data {
-  name: string;
-  code: string;
-  population: number;
-  size: number;
-  density: number;
+interface Row {
+  type: string;
+  date: string;
+  time: string;
+  detail: string;
+  note: string;
 }
 
-function createData(
-  name: string,
-  code: string,
-  population: number,
-  size: number
-): Data {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
+function convertEventsToRows(events: Event[]) {
+  function startEndTimeToString(startTime: Date, endTime: Date | null) {
+    return formatDateTo12HourFormat(endTime) === ''
+      ? formatDateTo12HourFormat(startTime)
+      : formatDateTo12HourFormat(startTime) +
+          ' - ' +
+          formatDateTo12HourFormat(endTime);
+  }
 
-const rows = [
-  createData('India', 'IN', 1324171354, 3287263),
-  createData('China', 'CN', 1403500365, 9596961),
-  createData('Italy', 'IT', 60483973, 301340),
-  createData('United States', 'US', 327167434, 9833520),
-  createData('Canada', 'CA', 37602103, 9984670),
-  createData('Australia', 'AU', 25475400, 7692024),
-  createData('Germany', 'DE', 83019200, 357578),
-  createData('Ireland', 'IE', 4857000, 70273),
-  createData('Mexico', 'MX', 126577691, 1972550),
-  createData('Japan', 'JP', 126317000, 377973),
-  createData('France', 'FR', 67022000, 640679),
-  createData('United Kingdom', 'GB', 67545757, 242495),
-  createData('Russia', 'RU', 146793744, 17098246),
-  createData('Nigeria', 'NG', 200962417, 923768),
-  createData('Brazil', 'BR', 210147125, 8515767)
-];
+  function detailToString(event: Event) {
+    const foodType = event.foodType ?? '';
+    const medicineType = event.medicineType ?? '';
+    const amount = event.amount ? parseFloat(event.amount.toFixed(1)) : '';
+    const unit = event.unit ?? '';
+
+    if (event.type === 'nap' && event.cribStartTime && event.cribStopTime) {
+      return (
+        'Crib: ' + startEndTimeToString(event.cribStartTime, event.cribStopTime)
+      );
+    } else if (event.type === 'feed' && event.foodType) {
+      return foodType + ': ' + amount + ' ' + unit;
+    } else if (event.type === 'medicine' && event.medicineType) {
+      return medicineType + ': ' + amount + ' ' + unit;
+    }
+
+    return '';
+  }
+
+  return events.map((event) => ({
+    type: event.type.toUpperCase(),
+    date: new Date(event.startTime).toLocaleDateString('en-US'),
+    time: startEndTimeToString(event.startTime, event.endTime),
+    detail: detailToString(event),
+    note: event.note ?? ''
+  }));
+}
 
 export default function EventLogs() {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rows, setRows] = useState<Row[]>([]);
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const { getAccessTokenSilently } = useAuth0();
+  const { userId } = useParams();
+
+  const fetchEventsData = async () => {
+    const token = await getAccessTokenSilently();
+
+    const searchParams = {
+      ownerId: userId
+    };
+
+    const response = await fetch(`${API_URL}/events/search`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(searchParams)
+    });
+
+    const data = await response.json();
+    setRows(convertEventsToRows(data));
+  };
+
+  useEffect(() => {
+    fetchEventsData();
+  }, [getAccessTokenSilently]);
+
+  const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
@@ -101,7 +140,7 @@ export default function EventLogs() {
         component="div">
         Event Logs
       </Typography>
-      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+      <Paper sx={{ width: '75%', overflow: 'hidden' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table
             stickyHeader
@@ -121,22 +160,19 @@ export default function EventLogs() {
             <TableBody>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
+                .map((row: Row) => {
                   return (
                     <TableRow
                       hover
                       role="checkbox"
-                      tabIndex={-1}
-                      key={row.code}>
+                      tabIndex={-1}>
                       {columns.map((column) => {
                         const value = row[column.id];
                         return (
                           <TableCell
                             key={column.id}
                             align={column.align}>
-                            {column.format && typeof value === 'number'
-                              ? column.format(value)
-                              : value}
+                            {value}
                           </TableCell>
                         );
                       })}
