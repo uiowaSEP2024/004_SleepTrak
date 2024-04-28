@@ -25,7 +25,7 @@ const possibleNames: string[] = [
 ];
 
 // Events
-const MY_OWNER_ID = 'auth0|65f9e9bb0ad102735d5131b3'; // Haruko's test account
+const MY_OWNER_ID = 'auth0|662ebf83679968521daa3256'; // Haruko's test account
 
 // Generates sleep windows
 async function createWindows(
@@ -192,14 +192,13 @@ async function createDevUsersData(): Promise<User[]> {
       last_name: 'Dev',
       role: 'owner'
     },
-    // This breaks your ability to do the onboarding flow as a new user
-    // {
-    //   userId: 'devID_smartelo',
-    //   email: 'sergiomarteloe@gmail.com',
-    //   first_name: 'Sergio',
-    //   last_name: 'Dev',
-    //   role: 'owner'
-    // },
+    {
+      userId: 'auth0|662ebe60cbb3d6a14019ef65',
+      email: 'sergiomarteloe@gmail.com',
+      first_name: 'Sergio',
+      last_name: 'Dev',
+      role: 'owner'
+    },
     {
       userId: 'devID_hokada',
       email: 'haruko.flipsy.krb@gmail.com',
@@ -208,7 +207,7 @@ async function createDevUsersData(): Promise<User[]> {
       role: 'owner'
     },
     {
-      userId: 'devID_mlee',
+      userId: 'google-oauth2|115368332249197395249',
       email: 'mingilee98@gmail.com',
       first_name: 'Mingi',
       last_name: 'Dev',
