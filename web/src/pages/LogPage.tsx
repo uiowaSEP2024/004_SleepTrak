@@ -1,5 +1,7 @@
+import EventLogs from '../components/EventLogs';
+
 function LogPage() {
-  return <h2 data-testid="log-page">TODO: Log Page</h2>;
+  return <EventLogs />;
 }
 
 export default LogPage;
