@@ -1,7 +1,11 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate
+} from 'react-router-dom';
 import ErrorPage from './pages/ErrorPage';
-import DashboardPage from './pages/DashboardPage';
 import Root from './components/Root';
 import ClientsPage from './pages/ClientsPage';
 import ChatPage from './pages/ChatPage';
@@ -38,8 +42,8 @@ function App() {
               path="/"
               element={<ProtectedRoute component={Root} />}>
               <Route
-                path="dashboard"
-                element={<DashboardPage />}
+                path="/"
+                element={<Navigate to="/clients" />}
               />
               <Route
                 path="clients"
