@@ -678,3 +678,38 @@ export const hasOnboarded = async () => {
     console.error('Error:', error);
   }
 };
+/**
+ * Fetches files for a specific baby.
+ * @param babyId - The ID of the baby to fetch answers for.
+ * @returns An array of file objects for the specified baby.
+ */
+
+export const fetchFiles = async (babyId: string) => {
+  try {
+    const user = await getAuth0User();
+    const userCredentials = await getUserCredentials();
+    if (user && userCredentials) {
+      const accessToken = userCredentials.accessToken;
+
+      if (accessToken) {
+        const apiResponse = await fetch(
+          process.env.EXPO_PUBLIC_API_URL + '/files/search',
+          {
+            method: 'PUT',
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({
+              babyId
+            })
+          }
+        );
+        const answers = await apiResponse.json();
+        return answers;
+      }
+    }
+    return false;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
