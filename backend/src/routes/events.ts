@@ -10,7 +10,7 @@ router.use(auth.requireAuth);
 
 // Routes
 router.get('/all', asyncHandler(controller.getAll));
-router.get('/search', asyncHandler(controller.search));
+router.post('/search', asyncHandler(controller.search));
 router.get('/:id', asyncHandler(controller.get));
 router.post('/create', asyncHandler(controller.create));
 router.put('/:id/update', asyncHandler(controller.update));
