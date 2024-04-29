@@ -33,6 +33,38 @@ export const fetchUserData = async () => {
 };
 
 /**
+ * Fetches coach data from the API.
+ * @returns {Promise<object | boolean>} The coach data if successful, otherwise false.
+ */
+export const fetchCoachData = async () => {
+  try {
+    const userData = await fetchUserData();
+    const userCredentials = await getUserCredentials();
+    if (userData && userCredentials) {
+      const accessToken = userCredentials.accessToken;
+
+      if (accessToken) {
+        const apiResponse = await fetch(
+          process.env.EXPO_PUBLIC_API_URL +
+            '/users/' +
+            (userData as { coachId: string }).coachId,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            }
+          }
+        );
+        const coachData = await apiResponse.json();
+        return coachData;
+      }
+    }
+    return false;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
+/**
  * Fetches onboarding answers for a specific baby.
  * @param babyId - The ID of the baby to fetch answers for.
  * @returns An array of onboarding answers for the specified baby.
@@ -591,7 +623,7 @@ export const fetchRecommendedPlan = async () => {
           }
         );
         return apiResponse;
-        }
+      }
     }
     return false;
   } catch (error) {

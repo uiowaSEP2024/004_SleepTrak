@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeStack from './HomeStack';
 import { colors } from '../../assets/colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import TestScreen from '../screens/TestScreen';
+import ChatScreen from '../screens/ChatScreen';
 import EventsScreen from '../screens/EventsScreen';
 import StatisticsScreen from '../screens/StatisticsScreen';
 
@@ -62,7 +62,7 @@ function BottomTabs() {
       />
       <Tab.Screen
         name="Chat"
-        component={TestScreen}
+        component={ChatScreen}
         options={{
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
