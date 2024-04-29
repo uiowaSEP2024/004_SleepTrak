@@ -86,7 +86,7 @@ export default function AssignPage() {
           spacing={3}
           sx={{ flexGrow: 1 }}>
           {usersData
-            .filter((object) => object.role == 'coach')
+            .filter((object) => ['coach', 'owner'].includes(object.role))
             .map((object, index) => (
               <Grid
                 xs="auto"
