@@ -49,9 +49,9 @@ describe('Sidebar Title and Night Mode Toggle Button', () => {
 });
 describe('Sidebar Navigation Links', () => {
   const links = [
-    ['Dashboard', '/dashboard'],
     ['Clients', '/clients'],
-    ['Messages', '/messages']
+    ['Messages', '/messages'],
+    ['Admin', '/admin']
   ];
 
   test.each(links)(
