@@ -3,16 +3,52 @@ import {
   Text,
   StyleSheet,
   View,
-  TouchableOpacity,
-  ScrollView
+  ScrollView,
+  TouchableHighlight
 } from 'react-native';
 import { colors } from '../../assets/colors';
 import { LogoutButton } from '../components/buttons/AuthButtons';
 import { useNavigation } from '@react-navigation/native';
 import { fetchUserData } from '../utils/db';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
+const OptionButton = ({
+  name,
+  screenName,
+  args,
+  iconName
+}: {
+  name: string;
+  screenName: string;
+  args: object | undefined;
+  iconName: string | undefined;
+}) => {
+  const navigation = useNavigation();
+
+  return (
+    <TouchableHighlight
+      underlayColor="#DDDDDD"
+      style={styles.optionContainer}
+      onPress={() => {
+        navigation.navigate(screenName, args);
+      }}>
+      <>
+        {iconName && (
+          <MaterialCommunityIcons
+            name={'file-document-outline'}
+            size={24}
+            color={colors.crimsonRed}
+            style={{ marginRight: 10 }}
+          />
+        )}
+
+        <Text style={styles.optionTitle}>{name}</Text>
+      </>
+    </TouchableHighlight>
+  );
+};
 
 function Setting() {
-  const navigation = useNavigation();
   const [baby, setBaby] = useState(null);
 
   useEffect(() => {
@@ -28,13 +64,11 @@ function Setting() {
       <Text style={styles.title}>Settings</Text>
       <ScrollView>
         {baby && (
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('FilesScreen', { babyId: baby.babyId });
-            }}
-            style={styles.optionContainer}>
-            <Text style={styles.optionTitle}>View Documents</Text>
-          </TouchableOpacity>
+          <OptionButton
+            name="View Documents"
+            screenName="FilesScreen"
+            args={{ babyId: baby.babyId }}
+            iconName="file-document-outline"></OptionButton>
         )}
       </ScrollView>
       <LogoutButton style={styles.logoutButton} />
@@ -71,21 +105,18 @@ const styles = StyleSheet.create({
     borderRadius: 32
   },
   optionContainer: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
     width: '100%',
     alignSelf: 'center',
-    marginVertical: 8,
-    paddingVertical: 8,
-    borderTopColor: colors.textGray,
-    borderTopWidth: 0.25,
-    borderBottomColor: colors.textGray,
-    borderBottomWidth: 0.25
+    marginVertical: 2,
+    padding: 8,
+    borderRadius: 8
   },
   optionTitle: {
-    marginLeft: 8,
-    fontSize: 18,
-    color: colors.textGray
+    fontSize: 20,
+    color: colors.crimsonRed
   }
 });
 

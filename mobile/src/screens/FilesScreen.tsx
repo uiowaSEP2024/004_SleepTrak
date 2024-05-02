@@ -3,24 +3,34 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  TouchableOpacity,
+  TouchableHighlight,
   Text
 } from 'react-native';
 import { colors } from '../../assets/colors';
 import { fetchFiles } from '../utils/db';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const FileButton = ({ name, fileUrl }: { name: string; fileUrl: string }) => {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity
+    <TouchableHighlight
+      underlayColor="#DDDDDD"
       style={styles.itemContainer}
       onPress={() => {
         navigation.navigate('FileScreen', { name, fileUrl });
       }}>
-      <Text style={styles.fileTitle}>{name}</Text>
-    </TouchableOpacity>
+      <>
+        <MaterialCommunityIcons
+          name={'file-document-outline'}
+          size={24}
+          color={colors.crimsonRed}
+          style={{ marginRight: 10 }}
+        />
+        <Text style={styles.fileTitle}>{name}</Text>
+      </>
+    </TouchableHighlight>
   );
 };
 
@@ -79,11 +89,14 @@ const styles = StyleSheet.create({
     marginBottom: '5%'
   },
   itemContainer: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
     width: '100%',
     alignSelf: 'center',
-    marginVertical: 8
+    marginVertical: 2,
+    padding: 8,
+    borderRadius: 8
   },
   fileTitle: {
     fontSize: 18,
