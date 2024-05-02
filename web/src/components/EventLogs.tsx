@@ -82,7 +82,7 @@ function convertEventsToRows(events: Event[]) {
   }
 
   return events.map((event) => ({
-    type: event.type.toUpperCase(),
+    type: event.type,
     date: new Date(event.startTime).toLocaleDateString('en-US'),
     time: startEndTimeToString(event.startTime, event.endTime),
     detail: detailToString(event),
