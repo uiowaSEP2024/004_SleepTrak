@@ -695,7 +695,7 @@ export const fetchFiles = async (babyId: string) => {
         const apiResponse = await fetch(
           process.env.EXPO_PUBLIC_API_URL + '/files/search',
           {
-            method: 'PUT',
+            method: 'POST',
             headers: {
               Authorization: `Bearer ${accessToken}`
             },

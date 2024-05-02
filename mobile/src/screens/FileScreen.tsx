@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, Dimensions } from 'react-native';
 import { colors } from '../../assets/colors';
 import Pdf from 'react-native-pdf';
 
-const FilesScreen: React.FC = ({ route, _navigation }) => {
+const FileScreen: React.FC = ({ route, _navigation }) => {
   const { name, fileUrl } = route.params;
   const source = { uri: fileUrl, cache: true };
 
@@ -95,4 +95,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default FilesScreen;
+export default FileScreen;
