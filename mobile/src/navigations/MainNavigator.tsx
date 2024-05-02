@@ -22,7 +22,7 @@ function BottomTabs() {
         }
       }}>
       <Tab.Screen
-        name="Home"
+        name="HomeStack"
         component={HomeStack}
         options={{
           tabBarIcon: ({ color }) => (
