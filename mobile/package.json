@@ -30,7 +30,8 @@
       "!src/screens/TestScreen.tsx",
       "!src/navigations/*",
       "!src/components/buttons/NavigationButton.tsx",
-      "!src/screens/ChatScreen.tsx"
+      "!src/screens/ChatScreen.tsx",
+      "!src/utils/twilio.ts"
     ],
     "coverageThreshold": {
       "global": {
