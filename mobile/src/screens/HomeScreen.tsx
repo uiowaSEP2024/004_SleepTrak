@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Card } from 'react-native-paper';
 import { fetchUserData } from '../utils/db';
@@ -224,17 +224,12 @@ const EventButtonCard: React.FC<{
   );
 };
 
-const EventButtons: React.FC = () => {
+const EventButtons: React.FC<{
+  user: object;
+}> = (user) => {
   const navigation = useNavigation();
-  const [baby, setBaby] = useState(null);
-
-  useEffect(() => {
-    const fetchBabyId = async () => {
-      const user = await fetchUserData();
-      setBaby(user.babies[0]);
-    };
-    void fetchBabyId();
-  }, []);
+  const baby =
+    user !== undefined ? (user as { babies?: any[] })?.babies?.[0] : null;
 
   return (
     <View style={styles.container}>
@@ -296,7 +291,7 @@ const HomeScreen = () => {
       <UserWelcomeSign user={user} />
       <HeroBox events={user.events ?? []} />
       <Notifications user={user} />
-      <EventButtons />
+      <EventButtons user={user} />
     </ScrollView>
   );
 };
