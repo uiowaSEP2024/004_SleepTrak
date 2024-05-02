@@ -192,20 +192,20 @@ async function createDevUsersData(): Promise<User[]> {
       last_name: 'Dev',
       role: 'owner'
     },
-    {
-      userId: 'auth0|662ebe60cbb3d6a14019ef65',
-      email: 'sergiomarteloe@gmail.com',
-      first_name: 'Sergio',
-      last_name: 'Dev',
-      role: 'owner'
-    },
-    {
-      userId: 'devID_hokada',
-      email: 'haruko.flipsy.krb@gmail.com',
-      first_name: 'Haruko',
-      last_name: 'Dev',
-      role: 'owner'
-    },
+    // {
+    //   userId: 'auth0|662ebe60cbb3d6a14019ef65',
+    //   email: 'sergiomarteloe@gmail.com',
+    //   first_name: 'Sergio',
+    //   last_name: 'Dev',
+    //   role: 'owner'
+    // },
+    // {
+    //   userId: 'devID_hokada',
+    //   email: 'haruko.flipsy.krb@gmail.com',
+    //   first_name: 'Haruko',
+    //   last_name: 'Dev',
+    //   role: 'owner'
+    // },
     {
       userId: 'google-oauth2|115368332249197395249',
       email: 'mingilee98@gmail.com',
@@ -322,7 +322,7 @@ async function main(): Promise<void> {
         return await prisma.user.create({
           data: {
             userId: MY_OWNER_ID,
-            email: 'harooks@gmail.com',
+            email: 'event_test@gmail.com',
             first_name: 'Haruko',
             last_name: 'Test',
             role: 'client'
