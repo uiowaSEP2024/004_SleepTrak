@@ -51,7 +51,6 @@ const ClientCard: React.FC<ClientCardProps> = ({
           <ButtonGroup
             variant="outlined"
             sx={{ bgcolor: 'background.surface' }}>
-            <Button>Message</Button>
             <Button
               component={Link}
               to={`/clients/${clientId}/babies/${babyId}`}>

@@ -23,7 +23,6 @@ describe('ClientCard component', () => {
     expect(screen.getByText('Client 1')).toBeInTheDocument();
     expect(screen.getByText('Baby 1')).toBeInTheDocument();
     expect(screen.getByTestId('avatar')).toBeInTheDocument();
-    expect(screen.getByText('Message')).toBeInTheDocument();
     expect(screen.getByText('More')).toBeInTheDocument();
   });
 
