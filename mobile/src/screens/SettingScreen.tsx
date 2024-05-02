@@ -4,7 +4,8 @@ import {
   StyleSheet,
   View,
   ScrollView,
-  TouchableHighlight
+  TouchableHighlight,
+  Linking
 } from 'react-native';
 import { colors } from '../../assets/colors';
 import { LogoutButton } from '../components/buttons/AuthButtons';
@@ -48,6 +49,31 @@ const OptionButton = ({
   );
 };
 
+const LinkButton = ({
+  name,
+  onPress
+}: {
+  name: string;
+  onPress: () => void;
+}) => {
+  return (
+    <TouchableHighlight
+      underlayColor="#DDDDDD"
+      style={styles.optionContainer}
+      onPress={onPress}>
+      <>
+        <MaterialCommunityIcons
+          name={'link'}
+          size={24}
+          color={colors.crimsonRed}
+          style={{ marginRight: 10 }}
+        />
+        <Text style={styles.optionTitle}>{name}</Text>
+      </>
+    </TouchableHighlight>
+  );
+};
+
 function Setting() {
   const [baby, setBaby] = useState(null);
 
@@ -58,6 +84,21 @@ function Setting() {
     };
     void fetchBabyId();
   }, []);
+
+  const handleOpenURL = async () => {
+    const url =
+      'https://team4wiki.notion.site/User-Manual-for-Mobile-434e715c87bb4194b10d0fd9d812a47d?pvs=74';
+    try {
+      const supported = await Linking.canOpenURL(url);
+      if (supported) {
+        await Linking.openURL(url);
+      } else {
+        console.log('Cannot open URL:', url);
+      }
+    } catch (error) {
+      console.error('Error opening URL:', error);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -70,6 +111,11 @@ function Setting() {
             args={{ babyId: baby.babyId }}
             iconName="file-document-outline"></OptionButton>
         )}
+        <LinkButton
+          name="User Manual"
+          onPress={() => {
+            void handleOpenURL();
+          }}></LinkButton>
       </ScrollView>
       <LogoutButton style={styles.logoutButton} />
     </View>
