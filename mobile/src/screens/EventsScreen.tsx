@@ -124,7 +124,7 @@ const EventsScreen: React.FC<{ date?: Date }> = ({ date }) => {
   );
 
   return (
-    <View>
+    <View style={styles.topContainer}>
       <DateHeader
         date={currentDate}
         setDate={setDate}

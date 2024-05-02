@@ -225,11 +225,11 @@ const EventButtonCard: React.FC<{
 };
 
 const EventButtons: React.FC<{
-  user: object;
+  user: { user?: object };
 }> = (user) => {
+  const userData = user.user as { babies?: any[] };
   const navigation = useNavigation();
-  const baby =
-    user !== undefined ? (user as { babies?: any[] })?.babies?.[0] : null;
+  const baby = userData !== undefined ? userData.babies?.[0] : null;
 
   return (
     <View style={styles.container}>
