@@ -8,23 +8,23 @@ import {
 } from 'react-native';
 import { colors } from '../../assets/colors';
 import { fetchFiles } from '../utils/db';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 const FileButton = ({ name, fileUrl }: { name: string; fileUrl: string }) => {
-  //   const navigation = useNavigation();
+  const navigation = useNavigation();
 
   return (
     <TouchableOpacity
       style={styles.itemContainer}
       onPress={() => {
-        // navigation.navigate('FileScreen', { name, fileUrl });
+        navigation.navigate('FileScreen', { name, fileUrl });
       }}>
       <Text style={styles.fileTitle}>{name}</Text>
     </TouchableOpacity>
   );
 };
 
-const FilesScreen: React.FC = ({ route, _navigation }) => {
+const FilesScreen: React.FC = ({ route }) => {
   const { babyId } = route.params;
   const [files, setFiles] = useState([]);
 
@@ -40,7 +40,7 @@ const FilesScreen: React.FC = ({ route, _navigation }) => {
     }, [])
   );
 
-  return babyId ? (
+  return babyId && files.length > 0 ? (
     <View style={styles.container}>
       <Text style={styles.title}>Files</Text>
       <ScrollView contentInset={{ top: 0, left: 0, bottom: 200, right: 0 }}>

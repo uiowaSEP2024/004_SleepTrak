@@ -14,6 +14,8 @@ import ProfileScreen from '../screens/ProfileScreen';
 import SleepPlanScreen from '../screens/SleepPlan';
 import StatisticsScreen from '../screens/StatisticsScreen';
 import ManualSleepTrackingScreen from '../screens/ManualSleepTrackingScreen';
+import FileScreen from '../screens/FileScreen';
+import FilesScreen from '../screens/FilesScreen';
 
 export interface RootStackParamList {
   Home: undefined;
@@ -115,6 +117,14 @@ const HomeStack = () => {
       <Stack.Screen
         name="StatisticsScreen"
         component={StatisticsScreen}
+      />
+      <Stack.Screen
+        name="FilesScreen"
+        component={FilesScreen}
+      />
+      <Stack.Screen
+        name="FileScreen"
+        component={FileScreen}
       />
     </Stack.Navigator>
   );
