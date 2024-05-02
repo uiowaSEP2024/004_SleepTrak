@@ -5,7 +5,9 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Alert
+  Alert,
+  TouchableWithoutFeedback,
+  Keyboard
 } from 'react-native';
 import {
   createBaby,
@@ -150,13 +152,15 @@ const TextInputQuestion: React.FC<{
   };
 
   return (
-    <TextInput
-      style={styles.answerInput}
-      placeholder={placeholder}
-      keyboardType={keyboardType}
-      onChangeText={handleChange}
-      testID="question-input"
-    />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <TextInput
+        style={styles.answerInput}
+        placeholder={placeholder}
+        keyboardType={keyboardType}
+        onChangeText={handleChange}
+        testID="question-input"
+      />
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -170,14 +174,16 @@ const LargeTextInputQuestion: React.FC<{
   };
 
   return (
-    <TextInput
-      style={{ ...styles.answerInput, height: 80 }}
-      placeholder={placeholder}
-      keyboardType={keyboardType}
-      onChangeText={handleChange}
-      multiline={true}
-      testID="question-input"
-    />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <TextInput
+        style={{ ...styles.answerInput, height: 80 }}
+        placeholder={placeholder}
+        keyboardType={keyboardType}
+        onChangeText={handleChange}
+        multiline={true}
+        testID="question-input"
+      />
+    </TouchableWithoutFeedback>
   );
 };
 

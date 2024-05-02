@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  TouchableOpacity,
-  FlatList,
-  ScrollView,
-  Alert
-} from 'react-native';
+import { StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import SleepTypeSelector from '../components/selectors/SleepTypeSelector';
 import EditTimePicker from '../components/inputs/EditTimePicker';
 import WindowCell from '../components/views/WindowCell';
@@ -206,29 +200,26 @@ const ManualSleepTrackingScreen = () => {
         labelStyle={styles.saveButtonLabel}>
         Add Window
       </Button>
-      <FlatList
-        data={windows}
-        renderItem={({ item: { id, startTime, stopTime, isSleep } }) => (
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('EditWindowScreen', {
-                id,
-                startTime,
-                stopTime,
-                isSleep,
-                onWindowEdit: handleWindowEdit,
-                onWindowDelete: handleWindowDelete
-              });
-            }}>
-            <WindowCell
-              startTime={startTime.toLocaleTimeString(undefined, options)}
-              endTime={stopTime.toLocaleTimeString(undefined, options)}
-              isSleep={isSleep}
-            />
-          </TouchableOpacity>
-        )}
-        keyExtractor={(window) => window.id}
-      />
+      {windows.map(({ id, startTime, stopTime, isSleep }) => (
+        <TouchableOpacity
+          key={id + '_' + Math.random().toString()}
+          onPress={() => {
+            navigation.navigate('EditWindowScreen', {
+              id,
+              startTime,
+              stopTime,
+              isSleep,
+              onWindowEdit: handleWindowEdit,
+              onWindowDelete: handleWindowDelete
+            });
+          }}>
+          <WindowCell
+            startTime={startTime.toLocaleTimeString(undefined, options)}
+            endTime={stopTime.toLocaleTimeString(undefined, options)}
+            isSleep={isSleep}
+          />
+        </TouchableOpacity>
+      ))}
       <Button
         mode="contained"
         onPress={() => {
