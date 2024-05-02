@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Card } from 'react-native-paper';
 import { fetchUserData } from '../utils/db';
@@ -226,6 +226,15 @@ const EventButtonCard: React.FC<{
 
 const EventButtons: React.FC = () => {
   const navigation = useNavigation();
+  const [baby, setBaby] = useState(null);
+
+  useEffect(() => {
+    const fetchBabyId = async () => {
+      const user = await fetchUserData();
+      setBaby(user.babies[0]);
+    };
+    void fetchBabyId();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -251,6 +260,14 @@ const EventButtons: React.FC = () => {
           onPress={() => {
             navigation.navigate('MedicineTrackingScreen');
           }}></EventButtonCard>
+        {baby && (
+          <EventButtonCard
+            title="Files"
+            icon="file-document"
+            onPress={() => {
+              navigation.navigate('FilesScreen', { babyId: baby.babyId });
+            }}></EventButtonCard>
+        )}
       </View>
     </View>
   );
