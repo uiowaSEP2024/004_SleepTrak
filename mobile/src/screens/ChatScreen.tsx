@@ -4,9 +4,10 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  Dimensions,
+  TextInput
 } from 'react-native';
-import { TextInput } from 'react-native-paper';
 import { type User } from 'react-native-auth0';
 import { fetchUserData, fetchCoachData } from '../utils/db';
 import {
@@ -21,6 +22,7 @@ import {
   Client as ConversationsClient
 } from '@twilio/conversations';
 import { getAuth0User } from '../utils/auth';
+import { Ionicons } from '@expo/vector-icons';
 
 interface ConversationsState {
   identity: string;
@@ -251,7 +253,9 @@ function ChatScreen() {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.title}>Chat</Text>
+          <Text style={styles.title}>
+            {contact ? 'Coach' : 'No coach assigned'}
+          </Text>
         </View>
         <View style={styles.chatContainer}>
           {conversationContent && scrollViewRef ? (
@@ -296,7 +300,11 @@ function ChatScreen() {
           <TouchableOpacity
             onPress={onSubmitInput}
             style={styles.submitButton}>
-            <Text style={styles.submitButtonText}>Submit</Text>
+            <Ionicons
+              name="send"
+              size={24}
+              color="white"
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -314,7 +322,9 @@ const styles = StyleSheet.create({
   header: {
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#ddd'
+    borderBottomColor: '#ddd',
+    alignContent: 'center',
+    justifyContent: 'center'
   },
   title: {
     fontSize: 24,
@@ -340,21 +350,27 @@ const styles = StyleSheet.create({
     padding: 16,
     borderTopWidth: 1,
     borderTopColor: '#ddd',
-    backgroundColor: '#f9f9f9'
+    backgroundColor: '#f9f9f9',
+    alignItems: 'center'
   },
   textInput: {
     flex: 1,
     marginRight: 16,
-    borderRadius: 8,
-    padding: 12,
+    borderRadius: 48,
+    padding: 16,
     backgroundColor: '#fff',
     borderColor: '#ddd',
     borderWidth: 1
   },
   submitButton: {
     padding: 12,
-    borderRadius: 8,
-    backgroundColor: 'blue'
+    borderRadius: 40,
+    height: Dimensions.get('window').width / 8,
+    width: Dimensions.get('window').width / 8,
+    backgroundColor: 'blue',
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   submitButtonText: {
     color: 'white',
