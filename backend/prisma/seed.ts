@@ -5,7 +5,6 @@ import recommendedPlansData from './recommendedPlansData.js';
 
 const prisma = new PrismaClient();
 const TOTAL_CLIENTS: number = 30;
-const TOTAL_BABIES: number = 40;
 const TOTAL_COACHES: number = 5;
 const TOTAL_DAYS: number = 20;
 const possibleNames: string[] = [
@@ -260,7 +259,7 @@ async function createClientData(coachObjects: User[]): Promise<User> {
     }
   });
 }
-async function createBabyData(clientObjects: User[]): Promise<Baby> {
+async function createBabyData(client): Promise<Baby> {
   return await prisma.baby.create({
     data: {
       babyId: 'testID_' + generateUniqueID(),
@@ -272,7 +271,7 @@ async function createBabyData(clientObjects: User[]): Promise<Baby> {
       ),
       weight: getRandomNumber(1, 10),
       medicine: getRandomElement(['Advil', 'NyQuil', 'DayQuil']),
-      parent: { connect: { userId: getRandomElement(clientObjects).userId } }
+      parent: { connect: { userId: client.userId } }
     }
   });
 }
@@ -335,14 +334,10 @@ async function main(): Promise<void> {
   );
   console.log('Seeding: Finished seeding clients!');
 
-  // Create babies
-  // @ts-expect-error we may want to use the babyObjects to seed further in the future
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-  const babyObjects: Baby[] = await Promise.all(
-    Array.from(
-      { length: TOTAL_BABIES },
-      async () => await createBabyData(clientObjects)
-    )
+  await Promise.all(
+    clientObjects.map(async (client) => {
+      await createBabyData(client);
+    })
   );
   console.log('Seeding: Finished seeding babies!');
 
