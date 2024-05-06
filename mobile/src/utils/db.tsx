@@ -608,7 +608,7 @@ export const fetchPlan = async () => {
     // const baby = user.babies[0];
     const userCredentials = await getUserCredentials();
 
-    if (userCredentials) {
+    if (userCredentials && user.user_plans.length > 0) {
       const accessToken = userCredentials.accessToken;
 
       if (accessToken) {
