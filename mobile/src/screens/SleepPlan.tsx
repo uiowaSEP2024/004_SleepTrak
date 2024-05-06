@@ -12,12 +12,15 @@ function getTimeStringFromDate(date: Date) {
 }
 
 function SleepPlanScreen() {
-  const [planObject, setPlanObject] = useState(null);
+  const [reminders, setReminders] = useState([]);
 
   useEffect(() => {
     const fetchPlanObject = async () => {
       const plan = await fetchPlan();
-      setPlanObject(plan);
+
+      if (plan) {
+        setReminders(plan.reminders);
+      }
     };
 
     void fetchPlanObject();
@@ -31,8 +34,8 @@ function SleepPlanScreen() {
         This is your current sleep plan:{' '}
       </Text>
       <ScrollView>
-        {planObject ? (
-          planObject.reminders.map((reminder: object) => {
+        {reminders && reminders.length > 0 ? (
+          reminders.map((reminder: object) => {
             return (
               <View
                 key={reminder.reminderId}
