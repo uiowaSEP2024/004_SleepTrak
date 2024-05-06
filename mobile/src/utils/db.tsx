@@ -602,10 +602,10 @@ export const createSleepEvent = async (
   }
 };
 
-export const fetchRecommendedPlan = async () => {
+export const fetchPlan = async () => {
   try {
     const user = await fetchUserData();
-    const baby = user.babies[0];
+    // const baby = user.babies[0];
     const userCredentials = await getUserCredentials();
 
     if (userCredentials) {
@@ -613,19 +613,26 @@ export const fetchRecommendedPlan = async () => {
 
       if (accessToken) {
         const apiResponse = await fetch(
-          process.env.EXPO_PUBLIC_API_URL + '/recommended_plans/' + baby.babyId,
+          process.env.EXPO_PUBLIC_API_URL +
+            '/plans/' +
+            user.user_plans[0].planId,
           {
-            method: 'POST',
+            method: 'GET',
             headers: {
               'Content-Type': 'application/json',
               Authorization: `Bearer ${accessToken}`
             }
           }
         );
-        return apiResponse;
+        if (apiResponse.status === 200) {
+          const json = await apiResponse.json();
+          console.log('json', json);
+          return json;
+        }
+        return null;
       }
     }
-    return false;
+    return null;
   } catch (error) {
     console.error('Error:', error);
     throw error;
