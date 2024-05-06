@@ -39,6 +39,7 @@ type QuestionProps = {
   placeholder?: string;
   keyboardType?: string;
   onValueChange: (input: string) => void;
+  initialValue?: string;
 };
 
 const RadioButtonOption: React.FC<{
@@ -142,25 +143,34 @@ const DateQuestion: React.FC<{
     </TouchableOpacity>
   );
 };
+
 const TextInputQuestion: React.FC<{
   onValueChange: (newValue: string) => void;
   placeholder: string;
   keyboardType?: 'default' | 'numeric' | undefined;
-}> = ({ onValueChange, placeholder, keyboardType = 'default' }) => {
+  initialValue?: string;
+}> = ({
+  onValueChange,
+  placeholder,
+  keyboardType = 'default',
+  initialValue = ''
+}) => {
+  const [value, setValue] = useState(initialValue);
+
   const handleChange = (newValue: string) => {
+    setValue(newValue);
     onValueChange(newValue);
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <TextInput
-        style={styles.answerInput}
-        placeholder={placeholder}
-        keyboardType={keyboardType}
-        onChangeText={handleChange}
-        testID="question-input"
-      />
-    </TouchableWithoutFeedback>
+    <TextInput
+      value={value}
+      style={styles.answerInput}
+      placeholder={placeholder}
+      keyboardType={keyboardType}
+      onChangeText={handleChange}
+      testID="question-input"
+    />
   );
 };
 
@@ -168,22 +178,30 @@ const LargeTextInputQuestion: React.FC<{
   onValueChange: (newValue: string) => void;
   placeholder: string;
   keyboardType?: 'default' | 'numeric' | undefined;
-}> = ({ onValueChange, placeholder, keyboardType = 'default' }) => {
+  initialValue?: string;
+}> = ({
+  onValueChange,
+  placeholder,
+  keyboardType = 'default',
+  initialValue = ''
+}) => {
+  const [value, setValue] = useState(initialValue);
+
   const handleChange = (newValue: string) => {
+    setValue(newValue);
     onValueChange(newValue);
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <TextInput
-        style={{ ...styles.answerInput, height: 80 }}
-        placeholder={placeholder}
-        keyboardType={keyboardType}
-        onChangeText={handleChange}
-        multiline={true}
-        testID="question-input"
-      />
-    </TouchableWithoutFeedback>
+    <TextInput
+      value={value}
+      style={{ ...styles.answerInput, height: 80 }}
+      placeholder={placeholder}
+      keyboardType={keyboardType}
+      onChangeText={handleChange}
+      multiline={true}
+      testID="question-input"
+    />
   );
 };
 
@@ -209,7 +227,8 @@ const questionFactory = (
   const questionProps: QuestionProps = {
     onValueChange: onChangeInput,
     placeholder: type === 'number' ? 'Enter number' : 'Enter text',
-    keyboardType: type === 'number' ? 'numeric' : undefined
+    keyboardType: type === 'number' ? 'numeric' : undefined,
+    initialValue: questionAnswers[questionId.toString()]
   };
 
   return (
@@ -356,35 +375,37 @@ const OnboardingScreen: React.FC = () => {
   }, [screenNumber, onboardingWrapUp, onboardingScreenFetcher, navigation]);
 
   return (
-    <View style={styles.topContainer}>
-      <ProgressBar
-        progress={(screenNumber - 1) / TOTAL_SCREENS}
-        color={colors.crimsonRed}
-        style={styles.progressBar}
-        testID="progress-bar"
-      />
-      <SvgUri
-        style={styles.logo}
-        uri={
-          'https://camilasleep.com/wp-content/uploads/2021/05/Logo-Camila.svg'
-        }
-      />
-      {onboardingScreen}
-      {screenNumber === TOTAL_SCREENS && (
-        <Button
-          testID="submit-button"
-          onPress={() => {
-            setScreenNumber(screenNumber + 1);
-          }}
-          style={styles.submitButton}>
-          <Text style={{ color: 'white', fontSize: 20 }}> Submit </Text>
-        </Button>
-      )}
-      <PageButtons
-        screenNumber={screenNumber}
-        setScreenNumber={setScreenNumber}
-      />
-    </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.topContainer}>
+        <ProgressBar
+          progress={(screenNumber - 1) / TOTAL_SCREENS}
+          color={colors.crimsonRed}
+          style={styles.progressBar}
+          testID="progress-bar"
+        />
+        <SvgUri
+          style={styles.logo}
+          uri={
+            'https://camilasleep.com/wp-content/uploads/2021/05/Logo-Camila.svg'
+          }
+        />
+        {onboardingScreen}
+        {screenNumber === TOTAL_SCREENS && (
+          <Button
+            testID="submit-button"
+            onPress={() => {
+              setScreenNumber(screenNumber + 1);
+            }}
+            style={styles.submitButton}>
+            <Text style={{ color: 'white', fontSize: 20 }}> Submit </Text>
+          </Button>
+        )}
+        <PageButtons
+          screenNumber={screenNumber}
+          setScreenNumber={setScreenNumber}
+        />
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
