@@ -24,6 +24,13 @@ const get = async (planId: string): Promise<Plan | null | Error> => {
     const result = await prisma.plan.findUnique({
       where: {
         planId
+      },
+      include: {
+        reminders: {
+          orderBy: {
+            startTime: 'asc'
+          }
+        }
       }
     });
 
