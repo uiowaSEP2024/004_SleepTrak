@@ -107,7 +107,7 @@ export const generatePlanNotifications = async (user: any) => {
   // Filter out reminders that are before the current time in terms of hour of the day
   reminders = reminders.filter((reminder: any) => {
     const reminderTime = getTimeFromDate(new Date(reminder.startTime));
-    return reminderTime > currentTimeInSec;
+    return reminderTime >= currentTimeInSec;
   });
 
   // Sort the reminders by time of day in ascending order
@@ -131,6 +131,8 @@ export const generatePlanNotifications = async (user: any) => {
       }
     ];
   }
+
+  return [];
 };
 
 export const generateChatNotifications = async (user: any) => {

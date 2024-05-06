@@ -1,8 +1,8 @@
 import { generatePlanNotifications } from '../../src/utils/notifications';
-import { fetchRecommendedPlan } from '../../src/utils/db';
+import { fetchPlan } from '../../src/utils/db';
 
 jest.mock('../../src/utils/db', () => ({
-  fetchRecommendedPlan: jest.fn()
+  fetchPlan: jest.fn()
 }));
 
 describe('notifications', () => {
@@ -25,9 +25,8 @@ describe('notifications', () => {
 
   it('returns an empty array when there are no events', async () => {
     user.user.events = [];
-    (fetchRecommendedPlan as jest.Mock).mockResolvedValue({
-      numOfNaps: 1,
-      wakeWindow: 1
+    (fetchPlan as jest.Mock).mockResolvedValue({
+      reminders: []
     });
 
     const notifications = await generatePlanNotifications(user);
@@ -37,9 +36,8 @@ describe('notifications', () => {
 
   it('returns a nap notification when there are no naps', async () => {
     user.user.events = user.user.events.filter((event) => event.type !== 'nap');
-    (fetchRecommendedPlan as jest.Mock).mockResolvedValue({
-      numOfNaps: 1,
-      wakeWindow: 1
+    (fetchPlan as jest.Mock).mockResolvedValue({
+      reminders: [{ description: 'Nap', startTime: new Date().toISOString() }]
     });
 
     const notifications = await generatePlanNotifications(user);
@@ -49,9 +47,8 @@ describe('notifications', () => {
   });
 
   it('returns a nap notification when there are less naps than recommended', async () => {
-    (fetchRecommendedPlan as jest.Mock).mockResolvedValue({
-      numOfNaps: 2,
-      wakeWindow: 1
+    (fetchPlan as jest.Mock).mockResolvedValue({
+      reminders: [{ description: 'Nap', startTime: new Date().toISOString() }]
     });
 
     const notifications = await generatePlanNotifications(user);
@@ -61,9 +58,10 @@ describe('notifications', () => {
   });
 
   it('returns a bedtime notification when there are as many naps as recommended', async () => {
-    (fetchRecommendedPlan as jest.Mock).mockResolvedValue({
-      numOfNaps: 1,
-      wakeWindow: 1
+    (fetchPlan as jest.Mock).mockResolvedValue({
+      reminders: [
+        { description: 'Bedtime', startTime: new Date().toISOString() }
+      ]
     });
 
     const notifications = await generatePlanNotifications(user);
