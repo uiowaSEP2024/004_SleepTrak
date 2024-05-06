@@ -6,7 +6,10 @@ import {
   TouchableOpacity,
   ScrollView,
   Dimensions,
-  TextInput
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  Keyboard
 } from 'react-native';
 import { type User } from 'react-native-auth0';
 import { fetchUserData, fetchCoachData } from '../utils/db';
@@ -249,65 +252,94 @@ function ChatScreen() {
     scrollViewRef.current?.scrollToEnd({ animated: true });
   });
 
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  useEffect(() => {
+    // Add listeners for keyboard events
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      (e) => {
+        setKeyboardHeight(e.endCoordinates.height);
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardHeight(0);
+      }
+    );
+
+    // Clean up listeners on unmount
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
   if (conversationsClient) {
     return (
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.title}>
-            {contact ? 'Coach' : 'No coach assigned'}
-          </Text>
-        </View>
-        <View style={styles.chatContainer}>
-          {conversationContent && scrollViewRef ? (
-            <ScrollView
-              ref={scrollViewRef}
-              onContentSizeChange={() =>
-                scrollViewRef.current?.scrollToEnd({ animated: true })
-              }
-              style={styles.scrollView}>
-              {conversationContent.items.map((message, index) => (
-                <View
-                  key={index}
-                  style={[
-                    styles.message,
-                    {
-                      backgroundColor:
-                        message.author === state.identity
-                          ? 'lightblue'
-                          : 'lightgreen',
-                      alignSelf:
-                        message.author === state.identity
-                          ? 'flex-end'
-                          : 'flex-start'
-                    }
-                  ]}>
-                  <Text style={styles.messageText}>
-                    {message.body?.toString()}
-                  </Text>
-                </View>
-              ))}
-            </ScrollView>
-          ) : (
-            <Text>Loading…</Text>
-          )}
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            value={messageContent}
-            onChangeText={handleChangeMessageContent}
-            style={styles.textInput}
-          />
-          <TouchableOpacity
-            onPress={onSubmitInput}
-            style={styles.submitButton}>
-            <Ionicons
-              name="send"
-              size={24}
-              color="white"
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'height' : 'height'}
+        style={styles.container}>
+        {/* This is a bit of a janky fix but its ok for now. */}
+        <View style={{ paddingBottom: keyboardHeight > 0 ? 50 : 0, flex: 1 }}>
+          <View style={styles.header}>
+            <Text style={styles.title}>
+              {contact ? 'Coach' : 'No coach assigned'}
+            </Text>
+          </View>
+          <View style={styles.chatContainer}>
+            {conversationContent && scrollViewRef ? (
+              <ScrollView
+                ref={scrollViewRef}
+                onContentSizeChange={() =>
+                  scrollViewRef.current?.scrollToEnd({ animated: true })
+                }
+                style={styles.scrollView}>
+                {conversationContent.items.map((message, index) => (
+                  <View
+                    key={index}
+                    style={[
+                      styles.message,
+                      {
+                        backgroundColor:
+                          message.author === state.identity
+                            ? 'lightblue'
+                            : 'lightgreen',
+                        alignSelf:
+                          message.author === state.identity
+                            ? 'flex-end'
+                            : 'flex-start'
+                      }
+                    ]}>
+                    <Text style={styles.messageText}>
+                      {message.body?.toString()}
+                    </Text>
+                  </View>
+                ))}
+              </ScrollView>
+            ) : (
+              <Text>Loading…</Text>
+            )}
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              value={messageContent}
+              onChangeText={handleChangeMessageContent}
+              style={styles.textInput}
             />
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={onSubmitInput}
+              style={styles.submitButton}>
+              <Ionicons
+                name="send"
+                size={24}
+                color="white"
+              />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   } else {
     return <Text>Twilio Conversations client failed to initialize!</Text>;
